@@ -1,0 +1,317 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resourcesp.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 非特定语言(系统默认值) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
+#pragma code_page(936)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU_BUDDY MENU 
+BEGIN
+    POPUP "Menu"
+    BEGIN
+        MENUITEM "发送消息",                        ID_MENU_32773
+        MENUITEM "查看好友资料",                      ID_MENU_32774
+    END
+END
+
+#endif    // 非特定语言(系统默认值) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(中华人民共和国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAIN_MENU MENU 
+BEGIN
+    POPUP "left"
+    BEGIN
+        MENUITEM "退出",                          IDOK
+    END
+END
+
+IDR_MSG_MENU MENU 
+BEGIN
+    POPUP "left"
+    BEGIN
+        MENUITEM "发送",                          32780
+    END
+    POPUP "right"
+    BEGIN
+        MENUITEM "返回主界面",                       IDOK
+        MENUITEM "切换发送方式",                      IDM_MSG_CHANGE_METHOD
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_WMLF_DIALOG DIALOG  0, 0, 113, 116
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_APPWINDOW | 0x80000000L
+CAPTION "LibFetion"
+FONT 9, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_FETION_ID,14,22,83,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP
+    EDITTEXT        IDC_PWD,14,57,84,14,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "飞信号码:",IDC_STATIC_ID,14,11,52,8
+    LTEXT           "密码:",IDC_STATIC_PWD,14,45,42,8
+    LTEXT           "",IDC_LOGIN_STATE,11,90,91,8
+    CONTROL         "记住帐号",IDC_REMACC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,76,48,10
+END
+
+IDD_WMLF_MAIN DIALOG  0, 0, 113, 116
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_APPWINDOW | 0x80000000L
+CAPTION "LibFetion"
+FONT 9, "MS Shell Dlg"
+BEGIN
+    CONTROL         "",IDC_TREE_BUDDY,"SysTreeView32",WS_BORDER | WS_TABSTOP,2,0,109,114
+    LTEXT           "网络错误,正在重连服务器...",IDC_NET_STATE,2,2,111,8,NOT WS_VISIBLE
+END
+
+IDD_WMLF_MSG DIALOG  0, 0, 113, 116
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_APPWINDOW | 0x80000000L
+CAPTION "LibFetion"
+FONT 9, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_MSG_BROWSER,0,0,112,80,ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | NOT WS_TABSTOP,WS_EX_DLGMODALFRAME
+    EDITTEXT        IDC_SEND_MSG,0,81,113,33,ES_MULTILINE | WS_VSCROLL | WS_GROUP
+    LTEXT           "网络错误,正在重连服务器...",IDC_NET_STATE,3,3,108,8,NOT WS_VISIBLE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,2,0,1
+ PRODUCTVERSION 1,2,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080403a8"
+        BEGIN
+            VALUE "Comments", "2009.04.05 build"
+            VALUE "CompanyName", "LibFetion Develop Group"
+            VALUE "FileDescription", "DDD_LibFetion_For_WM_SP"
+            VALUE "FileVersion", "2009.04.05"
+            VALUE "InternalName", "LibFetion.exe"
+            VALUE "LegalCopyright", "DDD(dedodong@163.com) 保留所有权利。"
+            VALUE "OriginalFilename", "LibFetion.exe"
+            VALUE "ProductName", "DDD(dedodong@163.com) 保留所有权利。"
+            VALUE "ProductVersion", "0.9.3"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 936
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_WMLF_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 106
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 109
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_OK                  "确定"
+    IDS_CANCEL              "取消"
+    IDS_LOGIN               "登录"
+    IDS_MSG_SEND            "发送"
+    IDS_MSG_CLOSE           "关闭"
+    IDS_MSG_CHANGE          "切换发生模式"
+    IDS_SHOW_MENU           "菜单"
+END
+
+#endif    // 中文(中华人民共和国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// 英语(美国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_LOGIN_MENU MENU 
+BEGIN
+    POPUP "left"
+    BEGIN
+        MENUITEM "μ???",                        IDM_LOGIN
+    END
+    POPUP "right"
+    BEGIN
+        MENUITEM "è???",                        IDM_CANCEL
+    END
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resourcesp.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#include ""res\\WMLFsp.rc2""  // ??è? Microsoft Visual C++ ?¨¤?§?è?-|¨???¨￠?§o???\r\n"
+    "#include ""afxres.rc""     // ?¨¤?§o?¨￠??¨￠?§|?t\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\WMLF.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP_AWAY         BITMAP                  "res\\onlineSmall\\away.bmp"
+IDB_BITMAP_BLACK        BITMAP                  "res\\onlineSmall\\black.bmp"
+IDB_BITMAP_BUSY         BITMAP                  "res\\onlineSmall\\busy.bmp"
+IDB_BITMAP_DINNER       BITMAP                  "res\\onlineSmall\\dinner.bmp"
+IDB_BITMAP_EXAWAY       BITMAP                  "res\\onlineSmall\\extnded_away.bmp"
+IDB_BITMAP_FLICK        BITMAP                  "res\\misc\\online_flick.bmp"
+IDB_BITMAP_LOGO         BITMAP                  "res\\misc\\LibFetion.bmp"
+IDB_BITMAP_MEET         BITMAP                  "res\\onlineSmall\\meeting.bmp"
+IDB_BITMAP_MOBILE       BITMAP                  "res\\onlineSmall\\mobile.bmp"
+IDB_BITMAP_NUMP         BITMAP                  "res\\onlineSmall\\num_primitives.bmp"
+IDB_BITMAP_OFFLINE      BITMAP                  "res\\onlineSmall\\offline.bmp"
+IDB_BITMAP_ONLINE       BITMAP                  "res\\onlineSmall\\online.bmp"
+IDB_BITMAP_PHONE        BITMAP                  "res\\onlineSmall\\phone.bmp"
+IDB_BITMAP_QUN          BITMAP                  "res\\onlineSmall\\qun.bmp"
+IDB_BITMAP_REFUSE       BITMAP                  "res\\onlineSmall\\refuse.bmp"
+IDB_BITMAP_SEND         BITMAP                  "res\\misc\\send_button.bmp"
+IDB_BITMAP_WAIT         BITMAP                  "res\\onlineSmall\\waiting.bmp"
+IDB_CHANGE_SEND_MODE    BITMAP                  "res\\misc\\change_send_mode.bmp"
+#endif    // 英语(美国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE 4, 2
+#pragma code_page(936)
+#include "res\WMLFsp.rc2"  // ??è? Microsoft Visual C++ ?¨¤?§?è?-|¨???¨￠?§o???
+#include "afxres.rc"     // ?¨¤?§o?¨￠??¨￠?§|?t
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
