@@ -124,6 +124,7 @@ long Lib_ReadReg(CString Key, CString &Buf)
 #endif
 
 	OpenRegistry(_T("SOFTWARE\\HITECH\\Apps\\LibFetion"));
+	memset(buf, 0, REGMAXLEN);
 	ret = ReadRegistry((LPTSTR)(LPCTSTR)Key, buf, REGMAXLEN,REG_DWORD);
 #if 0
 	if (is_id)
