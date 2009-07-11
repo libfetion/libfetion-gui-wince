@@ -23,10 +23,10 @@ public:
 // 对话框数据
 	enum { IDD = IDD_WMLF_MSG };
 
-#ifdef WIN32_PLATFORM_WFSP
+//#ifdef WIN32_PLATFORM_WFSP
 protected:  // 控件条嵌入成员
 	CCommandBar m_dlgCommandBar;
-#endif // WIN32_PLATFORM_WFSP
+//#endif // WIN32_PLATFORM_WFSP
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
@@ -53,7 +53,7 @@ public:
 protected:
 	void printfOnlineInfo();
 public:
-#if defined(_DEVICE_RESOLUTION_AWARE) && !defined(WIN32_PLATFORM_WFSP)
+#if defined(_DEVICE_RESOLUTION_AWARE)// && !defined(WIN32_PLATFORM_WFSP)
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 #endif
 public:
@@ -77,4 +77,6 @@ public:
 
 protected:
 	virtual void OnCancel();
+public:
+    CString m_strInfo;
 };
