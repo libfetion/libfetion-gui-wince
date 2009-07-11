@@ -37,6 +37,8 @@
 #define IDB_BITMAP_USERHEAD             164
 #define IDD_WMLF_FINDBUDDY              165
 #define IDR_MENU_FINDBUDDY              166
+#define IDR_WAVE1                       167
+#define IDR_MSGSOUND                    167
 #define IDC_STATIC_1                    200
 #define IDC_FETION_ID                   1000
 #define IDC_PWD                         1001
@@ -134,7 +136,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        167
+#define _APS_NEXT_RESOURCE_VALUE        168
 #define _APS_NEXT_COMMAND_VALUE         32831
 #define _APS_NEXT_CONTROL_VALUE         1052
 #define _APS_NEXT_SYMED_VALUE           101
