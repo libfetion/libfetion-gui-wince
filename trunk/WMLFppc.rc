@@ -30,9 +30,59 @@ IDR_MENU_BUDDY MENU
 BEGIN
     POPUP "Menu"
     BEGIN
-        MENUITEM "·¢ËÍÏûÏ¢",                        ID_MENU_32773
-        MENUITEM "²é¿´ºÃÓÑ×ÊÁÏ",                      ID_MENU_32774
+        MENUITEM "·¢ËÍÏûÏ¢",                        IDM_BD_SENDMSG
+        MENUITEM "²é¿´ºÃÓÑ×ÊÁÏ",                      IDM_BD_VIEWINFO
     END
+END
+
+IDR_MAIN_MENU MENU 
+BEGIN
+    MENUITEM "·¢ËÍÏûÏ¢",                        IDM_MAIN_SENDMSG
+    POPUP "²Ëµ¥"
+    BEGIN
+        MENUITEM "Ìí¼ÓºÃÓÑ",                        IDM_MAIN_ADDBUDDY
+        POPUP "ÔÚÏß×´Ì¬"
+        BEGIN
+            MENUITEM "ÔÚÏß",                          IDM_MAIN_STATE_ONLINE
+            MENUITEM "ÒþÉí",                          IDM_MAIN_STATE_HIDE
+            MENUITEM "·±Ã¦",                          IDM_MAIN_STATE_BUSY
+            MENUITEM "Àë¿ª",                          IDM_MAIN_STATE_AWAY
+        END
+        POPUP "ÉèÖÃ"
+        BEGIN
+            MENUITEM "¾²Òô",                          IDM_MAIN_SET_SILENCE
+            MENUITEM "Õñ¶¯",                          IDM_MAIN_SET_VIBR
+        END
+        MENUITEM "×¢Ïú²¢ÍË³ö",                       IDM_MAIN_LOGOFF
+        MENUITEM "×îÐ¡»¯",                         IDM_MAIN_MINIMAL
+    END
+END
+
+IDR_MSG_MENU MENU 
+BEGIN
+    MENUITEM "·¢ËÍ",                          IDR_MSG_SEND
+    POPUP "Ñ¡Ïî"
+    BEGIN
+        MENUITEM "ÇÐ»»·¢ËÍ·½Ê½",                      IDM_MSG_CHANGE_METHOD
+        MENUITEM "·µ»ØÖ÷½çÃæ",                       IDOK
+    END
+END
+
+IDR_LOGIN_MENU MENU 
+BEGIN
+    MENUITEM "µÇÂ¼",                          IDM_LOGIN
+    POPUP "Ñ¡Ïî"
+    BEGIN
+        MENUITEM "¼Ç×¡ÃÜÂë",                        IDM_LOGIN_REMPASS
+        MENUITEM "×Ô¶¯²¦ºÅ",                        IDM_LGOIN_AUTODIAL
+        MENUITEM "ÍË³öµÇÂ¼",                        IDM_CANCEL
+    END
+END
+
+IDR_MENU_FINDBUDDY MENU 
+BEGIN
+    MENUITEM "Ìí¼Ó",                          IDM_FB_ADD
+    MENUITEM "È¡Ïû",                          IDCANCEL
 END
 
 #endif    // ·ÇÌØ¶¨ÓïÑÔ(ÏµÍ³Ä¬ÈÏÖµ) resources
@@ -59,13 +109,14 @@ EXSTYLE WS_EX_APPWINDOW | 0x80000000L
 CAPTION "LibFetion"
 FONT 9, "MS Shell Dlg"
 BEGIN
-    EDITTEXT        IDC_FETION_ID,15,29,123,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP
-    EDITTEXT        IDC_PWD,15,61,123,14,ES_PASSWORD | ES_AUTOHSCROLL
-    LTEXT           "·ÉÐÅºÅÂë:",IDC_STATIC_ID,14,15,83,8
-    LTEXT           "ÃÜÂë:",IDC_STATIC_PWD,15,48,54,8
-    LTEXT           "",IDC_LOGIN_STATE,15,84,120,8
-    CONTROL         "¼Ç×¡ÕÊºÅ",IDC_REMACC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,84,100,58,10
-    DEFPUSHBUTTON   "µÇÂ¼",IDC_LOGIN,15,98,50,14
+    EDITTEXT        IDC_FETION_ID,50,45,88,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP
+    EDITTEXT        IDC_PWD,51,64,87,14,ES_PASSWORD | ES_AUTOHSCROLL
+    CTEXT           "·ÉÐÅºÅÂë:",IDC_STATIC_ID,14,47,35,8
+    CTEXT           "µÇÂ¼ÃÜÂë:",IDC_STATIC_PWD,15,66,33,8
+    LTEXT           "",IDC_LOGIN_STATE,15,87,120,8
+    CONTROL         "¼Ç×¡ÕÊºÅ",IDC_REMACC,"Button",BS_AUTOCHECKBOX | BS_VCENTER | WS_TABSTOP,17,102,58,10
+    DEFPUSHBUTTON   "µÇÂ¼",IDC_LOGIN,87,100,50,14
+    CONTROL         162,IDC_LOGO,"Static",SS_BITMAP,47,18,69,17
 END
 
 IDD_WMLF_DIALOG_WIDE DIALOG  0, 0, 210, 129
@@ -84,14 +135,20 @@ BEGIN
     CONTROL         "¼Ç×¡ÕÊºÅ",IDC_REMACC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,84,100,46,10
 END
 
-IDD_WMLF_MAIN DIALOG  0, 0, 155, 129
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION
+IDD_WMLF_MAIN DIALOG  0, 0, 155, 159
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_VISIBLE | WS_CAPTION
 EXSTYLE WS_EX_APPWINDOW | 0x80000000L
 CAPTION "LibFetion"
 FONT 9, "MS Shell Dlg"
 BEGIN
-    CONTROL         "",IDC_TREE_BUDDY,"SysTreeView32",WS_BORDER | WS_TABSTOP,6,7,142,115
-    LTEXT           "ÍøÂç´íÎó,ÕýÔÚÖØÁ¬·þÎñÆ÷...",IDC_NET_STATE,6,7,142,8,NOT WS_VISIBLE
+    CONTROL         "",IDC_TREE_BUDDY,"SysTreeView32",WS_BORDER | WS_TABSTOP,6,50,142,102
+    LTEXT           "ÍøÂç´íÎó,ÕýÔÚÖØÁ¬·þÎñÆ÷...",IDC_NET_STATE,6,144,142,8,NOT WS_VISIBLE
+    EDITTEXT        IDC_EDIT_FIND,6,35,117,14,ES_AUTOHSCROLL
+    CONTROL         164,IDC_HEAD_PIC,"Static",SS_BITMAP,10,12,18,18
+    LTEXT           "¾²Ì¬",IDC_INFO_NAME,36,10,15,8,WS_BORDER
+    CONTROL         137,IDC_BTN_FIND,"Static",SS_BITMAP | SS_NOTIFY | WS_TABSTOP,128,36,9,9
+    CONTROL         145,IDC_BTN_ADD,"Static",SS_BITMAP | SS_NOTIFY | WS_TABSTOP,139,36,9,9
+    LTEXT           "¾²Ì¬",IDC_INFO_SIGN,36,22,15,8,WS_BORDER
 END
 
 IDD_WMLF_MAIN_WIDE DIALOG  0, 0, 211, 129
@@ -100,8 +157,14 @@ EXSTYLE WS_EX_APPWINDOW | 0x80000000L
 CAPTION "LibFetion"
 FONT 9, "MS Shell Dlg"
 BEGIN
-    CONTROL         "",IDC_TREE_BUDDY,"SysTreeView32",WS_BORDER | WS_TABSTOP,7,7,197,115
-    LTEXT           "ÍøÂç´íÎó,ÕýÔÚÖØÁ¬·þÎñÆ÷...",IDC_NET_STATE,7,7,142,8,NOT WS_VISIBLE
+    CONTROL         "",IDC_TREE_BUDDY,"SysTreeView32",WS_BORDER | WS_TABSTOP,7,33,197,89
+    LTEXT           "ÍøÂç´íÎó,ÕýÔÚÖØÁ¬·þÎñÆ÷...",IDC_NET_STATE,7,114,142,8,NOT WS_VISIBLE
+    EDITTEXT        IDC_EDIT_FIND,130,7,74,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "²é",IDC_BTN_FIND,159,21,22,10
+    PUSHBUTTON      "¼Ó",IDC_BTN_ADD,182,21,22,10
+    GROUPBOX        "",IDC_GRP_INFO,6,7,117,24
+    CONTROL         "",IDC_HEAD_PIC,"Static",SS_BITMAP,12,15,13,12
+    LTEXT           "¾²Ì¬",IDC_INFO_NAME,33,17,15,8
 END
 
 IDD_WMLF_MSG DIALOG  0, 0, 158, 129
@@ -110,11 +173,12 @@ EXSTYLE WS_EX_APPWINDOW | 0x80000000L
 CAPTION "LibFetion"
 FONT 9, "MS Shell Dlg"
 BEGIN
-    EDITTEXT        IDC_SEND_MSG,4,86,150,36,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | WS_GROUP
-    EDITTEXT        IDC_MSG_BROWSER,4,5,150,64,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | WS_VSCROLL | WS_HSCROLL | WS_GROUP,WS_EX_DLGMODALFRAME
+    EDITTEXT        IDC_SEND_MSG,4,86,150,36,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_GROUP
+    EDITTEXT        IDC_MSG_BROWSER,4,16,150,53,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL | WS_GROUP,WS_EX_DLGMODALFRAME
     CONTROL         152,IDC_CHANGE,"Static",SS_BITMAP | SS_NOTIFY,11,72,29,11
     CONTROL         153,IDC_SEND,"Static",SS_BITMAP | SS_NOTIFY,98,72,45,11
-    LTEXT           "ÍøÂç´íÎó,ÕýÔÚÖØÁ¬·þÎñÆ÷...",IDC_NET_STATE,6,7,108,8,NOT WS_VISIBLE
+    LTEXT           "ÍøÂç´íÎó,ÕýÔÚÖØÁ¬·þÎñÆ÷...",IDC_NET_STATE,4,11,108,8,NOT WS_VISIBLE
+    LTEXT           "ºÃÓÑ",IDC_MSG_INFO,4,5,132,19
 END
 
 IDD_WMLF_MSG_WIDE DIALOG  0, 0, 211, 129
@@ -128,6 +192,20 @@ BEGIN
     CONTROL         152,IDC_CHANGE,"Static",SS_BITMAP,18,70,29,11
     CONTROL         153,IDC_SEND,"Static",SS_BITMAP,125,70,45,11
     LTEXT           "ÍøÂç´íÎó,ÕýÔÚÖØÁ¬·þÎñÆ÷...",IDC_NET_STATE,6,4,108,8,NOT WS_VISIBLE
+END
+
+IDD_WMLF_FINDBUDDY DIALOG  0, 0, 163, 132
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ìí¼ÓºÃÓÑ"
+FONT 9, "MS Shell Dlg"
+BEGIN
+    CONTROL         "·ÉÐÅºÅ",IDC_FB_RD_FXNO,"Button",BS_AUTORADIOBUTTON,51,7,37,10
+    CONTROL         "ÊÖ»úºÅ",IDC_FB_RD_MOBILE,"Button",BS_AUTORADIOBUTTON,7,7,37,10
+    EDITTEXT        IDC_FB_EDIT_NO,7,22,130,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_FB_BTN_FIND,"Static",SS_BITMAP,143,23,13,11
+    LISTBOX         IDC_FB_LIST_INFO,7,36,149,40,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_FB_EDIT_NAME,7,93,70,14,ES_AUTOHSCROLL
+    LTEXT           "Ìí¼ÓÊ±Ïò¶Ô·½ÏÔÊ¾µÄÃû³Æ:",IDC_FB_STATIC_NAME,7,81,112,8
 END
 
 
@@ -200,7 +278,7 @@ BEGIN
         LEFTMARGIN, 6
         RIGHTMARGIN, 148
         TOPMARGIN, 7
-        BOTTOMMARGIN, 122
+        BOTTOMMARGIN, 152
     END
 
     IDD_WMLF_MAIN_WIDE, DIALOG
@@ -226,9 +304,24 @@ BEGIN
         TOPMARGIN, 4
         BOTTOMMARGIN, 122
     END
+
+    IDD_WMLF_FINDBUDDY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 156
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 125
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP_USERHEAD     BITMAP                  "res\\misc\\USERHEAD.bmp"
 #endif    // ÖÐÎÄ(ÖÐ»ªÈËÃñ¹²ºÍ¹ú) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -269,8 +362,8 @@ BEGIN
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
     "LANGUAGE 4, 2\r\n"
     "#pragma code_page(936)\r\n"
-    "#include ""res\\WMLFppc.rc2""  // ??¨¨? Microsoft Visual C++ ?¡§¡è?¡ì?¨¨?-|¡§???¡§¡é?¡ìo???\r\n"
-    "#include ""afxres.rc""     // ?¡§¡è?¡ìo?¡§¡é??¡§¡é?¡ì|?t\r\n"
+    "#include ""res\\WMLFppc.rc2""  // ??è? Microsoft Visual C++ ?¨¤?§?è?-|¨???¨??§o???\r\n"
+    "#include ""afxres.rc""     // ?¨¤?§o?¨???¨??§|?t\r\n"
     "#endif\r\n"
     "\0"
 END
@@ -310,6 +403,7 @@ IDB_CHANGE_SEND_MODE    BITMAP                  "res\\misc\\change_send_mode.bmp
 IDB_BITMAP_SEND         BITMAP                  "res\\misc\\send_button.bmp"
 IDB_BITMAP_LOGO         BITMAP                  "res\\misc\\LibFetion.bmp"
 IDB_BITMAP_FLICK        BITMAP                  "res\\misc\\online_flick.bmp"
+IDB_BITMAP_BIGLOGO      BITMAP                  "res\\misc\\LibFetion_Big.bmp"
 #endif    // Ó¢Óï(ÃÀ¹ú) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -328,8 +422,8 @@ IDB_BITMAP_FLICK        BITMAP                  "res\\misc\\online_flick.bmp"
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE 4, 2
 #pragma code_page(936)
-#include "res\WMLFppc.rc2"  // ??¨¨? Microsoft Visual C++ ?¡§¡è?¡ì?¨¨?-|¡§???¡§¡é?¡ìo???
-#include "afxres.rc"     // ?¡§¡è?¡ìo?¡§¡é??¡§¡é?¡ì|?t
+#include "res\WMLFppc.rc2"  // ??¡§¡§? Microsoft Visual C++ ??¡ì?¨¨??¨¬?¡§¡§?-|?¡ì????¡ì?¨¦??¨¬o???
+#include "afxres.rc"     // ??¡ì?¨¨??¨¬o??¡ì?¨¦???¡ì?¨¦??¨¬|?t
 #endif
 
 /////////////////////////////////////////////////////////////////////////////

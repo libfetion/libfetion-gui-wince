@@ -22,10 +22,10 @@ public:
 // 对话框数据
 	enum { IDD = IDD_WMLF_DIALOG };
 
-#ifdef WIN32_PLATFORM_WFSP
+//#ifdef WIN32_PLATFORM_WFSP
 protected:  // 控件条嵌入成员
 	CCommandBar m_dlgCommandBar;
-#endif // WIN32_PLATFORM_WFSP
+//#endif // WIN32_PLATFORM_WFSP
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
@@ -36,7 +36,7 @@ protected:
 
 	// 生成的消息映射函数
 	virtual BOOL OnInitDialog();
-#if defined(_DEVICE_RESOLUTION_AWARE) && !defined(WIN32_PLATFORM_WFSP)
+#if defined(_DEVICE_RESOLUTION_AWARE)// && !defined(WIN32_PLATFORM_WFSP)
 	afx_msg void OnSize(UINT /*nType*/, int /*cx*/, int /*cy*/);
 #endif
 	DECLARE_MESSAGE_MAP()
@@ -64,6 +64,7 @@ public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 public:
 	afx_msg void OnBnClickedRemAccount();
+	afx_msg void OnRemPassUpdateUI(CCmdUI* cmdui);
 public:
 	CButton RemAccount;
 public:
@@ -72,4 +73,14 @@ public:
 	afx_msg void OnIDM_Cancel();
 protected:
 	virtual void OnCancel();
+public:
+    // 自动连接网络
+    BOOL EstablishConnection(void);
+protected:
+    void OnRemPassChanged();
+    // 是否记住密码
+    BOOL m_bRemPass;
+public:
+    // 是否已经开始登录
+    bool m_bIsLoging;
 };
