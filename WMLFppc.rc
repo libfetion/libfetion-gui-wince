@@ -31,7 +31,11 @@ BEGIN
     POPUP "Menu"
     BEGIN
         MENUITEM "·¢ËÍÏûÏ¢",                        IDM_BD_SENDMSG
-        MENUITEM "²é¿´ºÃÓÑ×ÊÁÏ",                      IDM_BD_VIEWINFO
+        MENUITEM "²é¿´×ÊÁÏ",                        IDM_BD_VIEWINFO
+        MENUITEM "É¾³ý",                          IDM_BD_DELETE
+        MENUITEM "Ìí¼Óµ½ºÚÃûµ¥",                      IDM_BD_ADDBLACKLIST
+        MENUITEM SEPARATOR
+        MENUITEM "ÒÆ¶¯µ½×é",                        IDM_BD_MOVEGROUP
     END
 END
 
@@ -40,7 +44,15 @@ BEGIN
     MENUITEM "·¢ËÍÏûÏ¢",                        IDM_MAIN_SENDMSG
     POPUP "²Ëµ¥"
     BEGIN
-        MENUITEM "Ìí¼ÓºÃÓÑ",                        IDM_MAIN_ADDBUDDY
+        POPUP "ÁªÏµÈË²Ù×÷"
+        BEGIN
+            MENUITEM "Ìí¼ÓºÃÓÑ",                        IDM_MAIN_ADDBUDDY
+            MENUITEM "²é¿´×ÊÁÏ",                        IDM_BD_VIEWINFO
+            MENUITEM "É¾³ý",                          IDM_BD_DELETE
+            MENUITEM "¼ÓÈëºÚÃûµ¥",                       IDM_BD_ADDBLACKLIST
+            MENUITEM SEPARATOR
+            MENUITEM "ÒÆ¶¯µ½×é",                        IDM_BD_MOVEGROUP
+        END
         POPUP "ÔÚÏß×´Ì¬"
         BEGIN
             MENUITEM "ÔÚÏß",                          IDM_MAIN_STATE_ONLINE
@@ -82,6 +94,12 @@ END
 IDR_MENU_FINDBUDDY MENU 
 BEGIN
     MENUITEM "Ìí¼Ó",                          IDM_FB_ADD
+    MENUITEM "È¡Ïû",                          IDCANCEL
+END
+
+IDR_MENU_BUDDYINFO MENU 
+BEGIN
+    MENUITEM "±£´æ",                          IDOK
     MENUITEM "È¡Ïû",                          IDCANCEL
 END
 
@@ -208,6 +226,33 @@ BEGIN
     LTEXT           "Ìí¼ÓÊ±Ïò¶Ô·½ÏÔÊ¾µÄÃû³Æ:",IDC_FB_STATIC_NAME,7,81,112,8
 END
 
+IDD_WMLF_BUDDYINFO DIALOG  0, 0, 187, 217
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_VSCROLL | WS_SYSMENU
+CAPTION "ºÃÓÑÐÅÏ¢"
+FONT 9, "MS Shell Dlg"
+BEGIN
+    LTEXT           "ÆÁÏÔÃû³Æ:",IDC_BI_LB_SHOWNAME,15,17,36,8
+    EDITTEXT        IDC_BI_EDT_SHOWNAME,55,15,106,14,ES_AUTOHSCROLL
+    LTEXT           "ËùÊôºÃÓÑ×é",IDC_BI_LB_GROUP,15,35,35,8
+    COMBOBOX        IDC_BI_CBO_GROUP,55,33,106,64,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "·ÉÐÅºÅÂë:",IDC_BI_LB_FETIONNO,17,70,31,8
+    LTEXT           "¾²Ì¬",IDC_BI_FETIONNO,54,70,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "êÇ³Æ:",IDC_BI_LB_NICKNAME,17,86,31,8
+    LTEXT           "¾²Ì¬",IDC_BI_NICKNAME,54,84,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "ÐÕÃû:",IDC_BI_LB_NAME,15,103,31,8
+    LTEXT           "¾²Ì¬",IDC_BI_NAME,54,100,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "ÐÔ±ð:",IDC_BI_LB_SEX,17,120,31,8
+    LTEXT           "¾²Ì¬",IDC_BI_SEX,54,118,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "Ê¡·Ý:",IDC_BI_LB_PROV,17,136,31,8
+    LTEXT           "¾²Ì¬",IDC_BI_PROV,54,133,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "³ÇÊÐ:",IDC_BI_LB_CITY,17,151,31,8
+    LTEXT           "¾²Ì¬",IDC_BI_CITY,54,149,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "ÐÄÇé¶ÌÓï:",IDC_BI_LB_SIGN,17,166,31,8
+    LTEXT           "¾²Ì¬",IDC_BI_SIGN,54,165,106,36,0,WS_EX_STATICEDGE
+    GROUPBOX        "ÉèÖÃ",IDC_BI_GRP_SET,7,7,163,44
+    GROUPBOX        "¸öÈËÐÅÏ¢",IDC_BI_GRP_INFO,7,55,163,155
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -312,6 +357,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 125
     END
+
+    IDD_WMLF_BUDDYINFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 170
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 210
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -394,8 +447,8 @@ BEGIN
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
     "LANGUAGE 4, 2\r\n"
     "#pragma code_page(936)\r\n"
-    "#include ""res\\WMLFppc.rc2""  // ??? Microsoft Visual C++ ?à???-|?????????\r\n"
-    "#include ""afxres.rc""     // ?à??????????t\r\n"
+    "#include ""res\\WMLFppc.rc2""  // ??? Microsoft Visual C++ ????-|?????????\r\n"
+    "#include ""afxres.rc""     // ???????????t\r\n"
     "#endif\r\n"
     "\0"
 END
@@ -429,8 +482,8 @@ IDR_MAINFRAME           ICON                    "res\\WMLF.ico"
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE 4, 2
 #pragma code_page(936)
-#include "res\WMLFppc.rc2"  // ??¨¨? Microsoft Visual C++ ?¡§¡è?¡ì?¨¨?-|¡§???¡§??¡ìo???
-#include "afxres.rc"     // ?¡§¡è?¡ìo?¡§???¡§??¡ì|?t
+#include "res\WMLFppc.rc2"  // ??? Microsoft Visual C++ ?¡§¡è???-|?????¡ìo???
+#include "afxres.rc"     // ?¡§¡è?¡ìo??????¡ì|?t
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
