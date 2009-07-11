@@ -8,7 +8,6 @@
 //#if (WIN32_PLATFORM_PSPC>300 || WIN32_PLATFORM_WFSP )
 #include <objbase.h>
 #include <initguid.h>
-#include <connmgr.h>
 
 typedef HRESULT (*CONNMGRCONNECTIONSTATUS)(HANDLE hConnection,DWORD *pdwStatus);
 typedef HRESULT (*CONNMGRRELEASECONNECTION)(HANDLE hConnection,LONG lCache );
@@ -119,6 +118,7 @@ tryagain:
 				// other applications
 				sConInfo.bExclusive=FALSE;
 				sConInfo.bDisabled=FALSE;
+                GUID IID_DestNetInternet = {0x436ef144, 0xb4fb, 0x4863, 0xa0, 0x41, 0x8f, 0x90, 0x5a, 0x62, 0xc5, 0x72};
 				sConInfo.guidDestNet=IID_DestNetInternet;  //连接Net网络
 				//sConInfo.guidDestNet=IID_DestNetWAP;  //连接Wap网络
 
