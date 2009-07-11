@@ -8,9 +8,11 @@ Global
 		Debug|Pocket PC 2003 (ARMV4) = Debug|Pocket PC 2003 (ARMV4)
 		Debug|Smartphone 2003 (ARMV4) = Debug|Smartphone 2003 (ARMV4)
 		Debug|Win32 = Debug|Win32
+		Debug|Windows Mobile 6 Professional SDK (ARMV4I) = Debug|Windows Mobile 6 Professional SDK (ARMV4I)
 		Release|Pocket PC 2003 (ARMV4) = Release|Pocket PC 2003 (ARMV4)
 		Release|Smartphone 2003 (ARMV4) = Release|Smartphone 2003 (ARMV4)
 		Release|Win32 = Release|Win32
+		Release|Windows Mobile 6 Professional SDK (ARMV4I) = Release|Windows Mobile 6 Professional SDK (ARMV4I)
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{672E76F4-17EE-4255-B265-4827B392CF67}.Debug|Pocket PC 2003 (ARMV4).ActiveCfg = Debug|Pocket PC 2003 (ARMV4)
@@ -21,6 +23,9 @@ Global
 		{672E76F4-17EE-4255-B265-4827B392CF67}.Debug|Smartphone 2003 (ARMV4).Deploy.0 = Debug|Smartphone 2003 (ARMV4)
 		{672E76F4-17EE-4255-B265-4827B392CF67}.Debug|Win32.ActiveCfg = Debug|Win32
 		{672E76F4-17EE-4255-B265-4827B392CF67}.Debug|Win32.Build.0 = Debug|Win32
+		{672E76F4-17EE-4255-B265-4827B392CF67}.Debug|Windows Mobile 6 Professional SDK (ARMV4I).ActiveCfg = Debug|Windows Mobile 6 Professional SDK (ARMV4I)
+		{672E76F4-17EE-4255-B265-4827B392CF67}.Debug|Windows Mobile 6 Professional SDK (ARMV4I).Build.0 = Debug|Windows Mobile 6 Professional SDK (ARMV4I)
+		{672E76F4-17EE-4255-B265-4827B392CF67}.Debug|Windows Mobile 6 Professional SDK (ARMV4I).Deploy.0 = Debug|Windows Mobile 6 Professional SDK (ARMV4I)
 		{672E76F4-17EE-4255-B265-4827B392CF67}.Release|Pocket PC 2003 (ARMV4).ActiveCfg = Release|Pocket PC 2003 (ARMV4)
 		{672E76F4-17EE-4255-B265-4827B392CF67}.Release|Pocket PC 2003 (ARMV4).Build.0 = Release|Pocket PC 2003 (ARMV4)
 		{672E76F4-17EE-4255-B265-4827B392CF67}.Release|Pocket PC 2003 (ARMV4).Deploy.0 = Release|Pocket PC 2003 (ARMV4)
@@ -29,6 +34,9 @@ Global
 		{672E76F4-17EE-4255-B265-4827B392CF67}.Release|Smartphone 2003 (ARMV4).Deploy.0 = Release|Smartphone 2003 (ARMV4)
 		{672E76F4-17EE-4255-B265-4827B392CF67}.Release|Win32.ActiveCfg = Release|Win32
 		{672E76F4-17EE-4255-B265-4827B392CF67}.Release|Win32.Build.0 = Release|Win32
+		{672E76F4-17EE-4255-B265-4827B392CF67}.Release|Windows Mobile 6 Professional SDK (ARMV4I).ActiveCfg = Release|Windows Mobile 6 Professional SDK (ARMV4I)
+		{672E76F4-17EE-4255-B265-4827B392CF67}.Release|Windows Mobile 6 Professional SDK (ARMV4I).Build.0 = Release|Windows Mobile 6 Professional SDK (ARMV4I)
+		{672E76F4-17EE-4255-B265-4827B392CF67}.Release|Windows Mobile 6 Professional SDK (ARMV4I).Deploy.0 = Release|Windows Mobile 6 Professional SDK (ARMV4I)
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

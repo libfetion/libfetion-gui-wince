@@ -7,6 +7,7 @@
 #pragma comment(linker, "/nodefaultlib:libc.lib")
 #pragma comment(linker, "/nodefaultlib:libcd.lib")
 #pragma comment(lib, "winsock.lib")
+#pragma comment(lib, "cellcore.lib")
 #pragma comment(lib, "./lib/LibFetion.lib") 
 
 
@@ -77,6 +78,8 @@
 #include "libfetion/libfetion.h"
 #include "convert_charset.h"
 #include "misc.h"
+
+#include "connmgr.h"
 
 typedef struct _Group_Info
 {
