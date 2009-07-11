@@ -322,6 +322,13 @@ END
 //
 
 IDB_BITMAP_USERHEAD     BITMAP                  "res\\misc\\USERHEAD.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// WAVE
+//
+
+IDR_MSGSOUND            WAVE                    "res\\msg.wav"
 #endif    // ÖÐÎÄ(ÖÐ»ªÈËÃñ¹²ºÍ¹ú) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -334,6 +341,31 @@ IDB_BITMAP_USERHEAD     BITMAP                  "res\\misc\\USERHEAD.bmp"
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
 #endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP_AWAY         BITMAP                  "res\\onlineSmall\\away.bmp"
+IDB_BITMAP_BLACK        BITMAP                  "res\\onlineSmall\\black.bmp"
+IDB_BITMAP_BUSY         BITMAP                  "res\\onlineSmall\\busy.bmp"
+IDB_BITMAP_DINNER       BITMAP                  "res\\onlineSmall\\dinner.bmp"
+IDB_BITMAP_EXAWAY       BITMAP                  "res\\onlineSmall\\extnded_away.bmp"
+IDB_BITMAP_MEET         BITMAP                  "res\\onlineSmall\\meeting.bmp"
+IDB_BITMAP_MOBILE       BITMAP                  "res\\onlineSmall\\mobile.bmp"
+IDB_BITMAP_NUMP         BITMAP                  "res\\onlineSmall\\num_primitives.bmp"
+IDB_BITMAP_OFFLINE      BITMAP                  "res\\onlineSmall\\offline.bmp"
+IDB_BITMAP_ONLINE       BITMAP                  "res\\onlineSmall\\online.bmp"
+IDB_BITMAP_PHONE        BITMAP                  "res\\onlineSmall\\phone.bmp"
+IDB_BITMAP_REFUSE       BITMAP                  "res\\onlineSmall\\refuse.bmp"
+IDB_BITMAP_WAIT         BITMAP                  "res\\onlineSmall\\waiting.bmp"
+IDB_BITMAP_QUN          BITMAP                  "res\\onlineSmall\\qun.bmp"
+IDB_CHANGE_SEND_MODE    BITMAP                  "res\\misc\\change_send_mode.bmp"
+IDB_BITMAP_SEND         BITMAP                  "res\\misc\\send_button.bmp"
+IDB_BITMAP_LOGO         BITMAP                  "res\\misc\\LibFetion.bmp"
+IDB_BITMAP_FLICK        BITMAP                  "res\\misc\\online_flick.bmp"
+IDB_BITMAP_BIGLOGO      BITMAP                  "res\\misc\\LibFetion_Big.bmp"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -362,8 +394,8 @@ BEGIN
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
     "LANGUAGE 4, 2\r\n"
     "#pragma code_page(936)\r\n"
-    "#include ""res\\WMLFppc.rc2""  // ??è? Microsoft Visual C++ ?¨¤?§?è?-|¨???¨??§o???\r\n"
-    "#include ""afxres.rc""     // ?¨¤?§o?¨???¨??§|?t\r\n"
+    "#include ""res\\WMLFppc.rc2""  // ??? Microsoft Visual C++ ?à???-|?????????\r\n"
+    "#include ""afxres.rc""     // ?à??????????t\r\n"
     "#endif\r\n"
     "\0"
 END
@@ -379,31 +411,6 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\WMLF.ico"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Bitmap
-//
-
-IDB_BITMAP_AWAY         BITMAP                  "res\\onlineSmall\\away.bmp"
-IDB_BITMAP_BLACK        BITMAP                  "res\\onlineSmall\\black.bmp"
-IDB_BITMAP_BUSY         BITMAP                  "res\\onlineSmall\\busy.bmp"
-IDB_BITMAP_DINNER       BITMAP                  "res\\onlineSmall\\dinner.bmp"
-IDB_BITMAP_EXAWAY       BITMAP                  "res\\onlineSmall\\extnded_away.bmp"
-IDB_BITMAP_MEET         BITMAP                  "res\\onlineSmall\\meeting.bmp"
-IDB_BITMAP_MOBILE       BITMAP                  "res\\onlineSmall\\mobile.bmp"
-IDB_BITMAP_NUMP         BITMAP                  "res\\onlineSmall\\num_primitives.bmp"
-IDB_BITMAP_OFFLINE      BITMAP                  "res\\onlineSmall\\offline.bmp"
-IDB_BITMAP_ONLINE       BITMAP                  "res\\onlineSmall\\online.bmp"
-IDB_BITMAP_PHONE        BITMAP                  "res\\onlineSmall\\phone.bmp"
-IDB_BITMAP_REFUSE       BITMAP                  "res\\onlineSmall\\refuse.bmp"
-IDB_BITMAP_WAIT         BITMAP                  "res\\onlineSmall\\waiting.bmp"
-IDB_BITMAP_QUN          BITMAP                  "res\\onlineSmall\\qun.bmp"
-IDB_CHANGE_SEND_MODE    BITMAP                  "res\\misc\\change_send_mode.bmp"
-IDB_BITMAP_SEND         BITMAP                  "res\\misc\\send_button.bmp"
-IDB_BITMAP_LOGO         BITMAP                  "res\\misc\\LibFetion.bmp"
-IDB_BITMAP_FLICK        BITMAP                  "res\\misc\\online_flick.bmp"
-IDB_BITMAP_BIGLOGO      BITMAP                  "res\\misc\\LibFetion_Big.bmp"
 #endif    // Ó¢Óï(ÃÀ¹ú) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -422,8 +429,8 @@ IDB_BITMAP_BIGLOGO      BITMAP                  "res\\misc\\LibFetion_Big.bmp"
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE 4, 2
 #pragma code_page(936)
-#include "res\WMLFppc.rc2"  // ??¡§¡§? Microsoft Visual C++ ??¡ì?¨¨??¨¬?¡§¡§?-|?¡ì????¡ì?¨¦??¨¬o???
-#include "afxres.rc"     // ??¡ì?¨¨??¨¬o??¡ì?¨¦???¡ì?¨¦??¨¬|?t
+#include "res\WMLFppc.rc2"  // ??¨¨? Microsoft Visual C++ ?¡§¡è?¡ì?¨¨?-|¡§???¡§??¡ìo???
+#include "afxres.rc"     // ?¡§¡è?¡ìo?¡§???¡§??¡ì|?t
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
