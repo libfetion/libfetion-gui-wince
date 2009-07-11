@@ -44,6 +44,8 @@
 #define IDB_BITMAP_REFUSE               144
 #define IDB_BITMAP_WAIT                 145
 #define IDB_BITMAP_QUN                  149
+#define IDR_WAVE1                       149
+#define IDR_MSGSOUND                    149
 #define IDB_CHANGE_SEND_MODE            152
 #define IDB_BITMAP_SEND                 153
 #define IDB_BITMAP_LOGO                 155
@@ -162,7 +164,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        148
+#define _APS_NEXT_RESOURCE_VALUE        150
 #define _APS_NEXT_COMMAND_VALUE         32802
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           101
