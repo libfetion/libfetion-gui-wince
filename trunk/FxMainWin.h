@@ -63,6 +63,8 @@ public:
     BOOL FxMainWin::showMsgDlg();
 	BOOL showMsgDlg(CPoint point);
 	BOOL showMsgDlg(HTREEITEM hItem);
+    
+	BOOL showBuddyInfo(HTREEITEM hItem);
 public:
 	CList<HTREEITEM> filker;
 	CList<int> timeOutMsgVector;
@@ -113,4 +115,5 @@ public:
     CString GetStartupPath(void);
     // 当前登录用户的ID
     long m_lAccountID;
+    afx_msg void OnBdViewinfo();
 };

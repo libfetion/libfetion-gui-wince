@@ -37,9 +37,12 @@
 #define IDB_BITMAP_USERHEAD             164
 #define IDD_WMLF_FINDBUDDY              165
 #define IDR_MENU_FINDBUDDY              166
-#define IDR_WAVE1                       167
-#define IDR_MSGSOUND                    167
+#define IDD_WMLF_BUDDYINFO              167
+#define IDR_MSGSOUND                    168
+#define IDR_MENU1                       169
+#define IDR_MENU_BUDDYINFO              169
 #define IDC_STATIC_1                    200
+#define IDC_BI_CITY                     200
 #define IDC_FETION_ID                   1000
 #define IDC_PWD                         1001
 #define IDC_LOGIN                       1002
@@ -70,6 +73,25 @@
 #define IDC_FB_BTN_FIND                 1049
 #define IDC_FB_STATIC_NAME              1050
 #define IDC_MSG_INFO                    1051
+#define IDC_BI_LB_NICKNAME              1054
+#define IDC_BI_LB_SHOWNAME              1055
+#define IDC_BI_EDT_SHOWNAME             1056
+#define IDC_BI_GRP_INFO                 1057
+#define IDC_BI_LB_NAME                  1058
+#define IDC_BI_FETIONNO                 1059
+#define IDC_BI_NICKNAME                 1060
+#define IDC_BI_NAME                     1061
+#define IDC_BI_LB_FETIONNO              1062
+#define IDC_BI_LB_SEX                   1063
+#define IDC_BI_SEX                      1064
+#define IDC_BI_CBO_GROUP                1065
+#define IDC_BI_PROV                     1066
+#define IDC_BI_LB_PROV                  1067
+#define IDC_BI_LB_CITY                  1068
+#define IDC_BI_SIGN                     1069
+#define IDC_BI_LB_SIGN                  1070
+#define IDC_BI_LB_GROUP                 1071
+#define IDC_BI_GRP_SET                  1072
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_MENU_32773                   32773
@@ -131,14 +153,27 @@
 #define IDM_MAIN_SENDMSG                32828
 #define IDM_BD_VIEWINFO                 32829
 #define IDM_BD_SENDMSG                  32830
+#define ID_32831                        32831
+#define ID_32832                        32832
+#define ID_32833                        32833
+#define ID_32834                        32834
+#define IDM_BD_DELETE                   32835
+#define IDM_BD_ADDBLACKLIST             32836
+#define ID_32837                        32837
+#define IDM_BD_MOVEGROUP                32838
+#define ID_MENU_32839                   32839
+#define ID_MENU_32840                   32840
+#define ID_MENU_32841                   32841
+#define ID_32842                        32842
+#define ID_32843                        32843
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        168
-#define _APS_NEXT_COMMAND_VALUE         32831
-#define _APS_NEXT_CONTROL_VALUE         1052
+#define _APS_NEXT_RESOURCE_VALUE        170
+#define _APS_NEXT_COMMAND_VALUE         32844
+#define _APS_NEXT_CONTROL_VALUE         1077
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -51,12 +51,26 @@ BEGIN
     END
 END
 
+IDR_MENU_BUDDYINFO MENU 
+BEGIN
+    MENUITEM "±£´æ",                          IDOK
+    MENUITEM "È¡Ïû",                          IDCANCEL
+END
+
 IDR_MAIN_MENU MENU 
 BEGIN
     MENUITEM "·¢ËÍÏûÏ¢",                        IDM_MAIN_SENDMSG
     POPUP "²Ëµ¥"
     BEGIN
-        MENUITEM "Ìí¼ÓºÃÓÑ",                        IDM_MAIN_ADDBUDDY
+        POPUP "ÁªÏµÈË²Ù×÷"
+        BEGIN
+            MENUITEM "Ìí¼ÓºÃÓÑ",                        IDM_MAIN_ADDBUDDY
+            MENUITEM "²é¿´×ÊÁÏ",                        IDM_BD_VIEWINFO
+            MENUITEM "É¾³ý",                          IDM_BD_DELETE
+            MENUITEM "¼ÓÈëºÚÃûµ¥",                       IDM_BD_ADDBLACKLIST
+            MENUITEM SEPARATOR
+            MENUITEM "ÒÆ¶¯µ½×é",                        IDM_BD_MOVEGROUP
+        END
         POPUP "ÔÚÏß×´Ì¬"
         BEGIN
             MENUITEM "ÔÚÏß",                          IDM_MAIN_STATE_ONLINE
@@ -164,11 +178,38 @@ CAPTION "LibFetion"
 FONT 9, "MS Shell Dlg"
 BEGIN
     EDITTEXT        IDC_SEND_MSG,4,86,150,36,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_GROUP
-    EDITTEXT        IDC_MSG_BROWSER,4,5,150,64,ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL | WS_GROUP,WS_EX_DLGMODALFRAME
+    EDITTEXT        IDC_MSG_BROWSER,4,5,150,64,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL | WS_GROUP,WS_EX_DLGMODALFRAME
     CONTROL         152,IDC_CHANGE,"Static",SS_BITMAP | SS_NOTIFY,11,72,29,11
     CONTROL         153,IDC_SEND,"Static",SS_BITMAP | SS_NOTIFY,98,72,45,11
     LTEXT           "ÍøÂç´íÎó,ÕýÔÚÖØÁ¬·þÎñÆ÷...",IDC_NET_STATE,6,7,108,8,NOT WS_VISIBLE
     LTEXT           "ºÃÓÑ",IDC_MSG_INFO,4,5,132,8
+END
+
+IDD_WMLF_BUDDYINFO DIALOG  0, 0, 187, 217
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_VSCROLL | WS_SYSMENU
+CAPTION "ºÃÓÑÐÅÏ¢"
+FONT 9, "MS Shell Dlg"
+BEGIN
+    LTEXT           "ÆÁÏÔÃû³Æ:",IDC_BI_LB_SHOWNAME,15,17,36,8
+    EDITTEXT        IDC_BI_EDT_SHOWNAME,55,15,106,14,ES_AUTOHSCROLL
+    LTEXT           "ËùÊôºÃÓÑ×é",IDC_BI_LB_GROUP,15,35,35,8
+    COMBOBOX        IDC_BI_CBO_GROUP,55,33,106,64,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "·ÉÐÅºÅÂë:",IDC_BI_LB_FETIONNO,17,70,31,8
+    LTEXT           "¾²Ì¬",IDC_BI_FETIONNO,54,70,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "êÇ³Æ:",IDC_BI_LB_NICKNAME,17,86,31,8
+    LTEXT           "¾²Ì¬",IDC_BI_NICKNAME,54,84,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "ÐÕÃû:",IDC_BI_LB_NAME,15,103,31,8
+    LTEXT           "¾²Ì¬",IDC_BI_NAME,54,100,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "ÐÔ±ð:",IDC_BI_LB_SEX,17,120,31,8
+    LTEXT           "¾²Ì¬",IDC_BI_SEX,54,118,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "Ê¡·Ý:",IDC_BI_LB_PROV,17,136,31,8
+    LTEXT           "¾²Ì¬",IDC_BI_PROV,54,133,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "³ÇÊÐ:",IDC_BI_LB_CITY,17,151,31,8
+    LTEXT           "¾²Ì¬",IDC_BI_CITY,54,149,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "ÐÄÇé¶ÌÓï:",IDC_BI_LB_SIGN,17,166,31,8
+    LTEXT           "¾²Ì¬",IDC_BI_SIGN,54,165,106,36,0,WS_EX_STATICEDGE
+    GROUPBOX        "ÉèÖÃ",IDC_BI_GRP_SET,7,7,163,44
+    GROUPBOX        "¸öÈËÐÅÏ¢",IDC_BI_GRP_INFO,7,55,163,155
 END
 
 
@@ -251,6 +292,14 @@ BEGIN
         TOPMARGIN, 5
         BOTTOMMARGIN, 122
     END
+
+    IDD_WMLF_BUDDYINFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 170
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 210
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -321,31 +370,6 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
 #endif //_WIN32
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Bitmap
-//
-
-IDB_BITMAP_AWAY         BITMAP                  "res\\onlineSmall\\away.bmp"
-IDB_BITMAP_BLACK        BITMAP                  "res\\onlineSmall\\black.bmp"
-IDB_BITMAP_BUSY         BITMAP                  "res\\onlineSmall\\busy.bmp"
-IDB_BITMAP_DINNER       BITMAP                  "res\\onlineSmall\\dinner.bmp"
-IDB_BITMAP_EXAWAY       BITMAP                  "res\\onlineSmall\\extnded_away.bmp"
-IDB_BITMAP_FLICK        BITMAP                  "res\\misc\\online_flick.bmp"
-IDB_BITMAP_LOGO         BITMAP                  "res\\misc\\LibFetion.bmp"
-IDB_BITMAP_MEET         BITMAP                  "res\\onlineSmall\\meeting.bmp"
-IDB_BITMAP_MOBILE       BITMAP                  "res\\onlineSmall\\mobile.bmp"
-IDB_BITMAP_NUMP         BITMAP                  "res\\onlineSmall\\num_primitives.bmp"
-IDB_BITMAP_OFFLINE      BITMAP                  "res\\onlineSmall\\offline.bmp"
-IDB_BITMAP_ONLINE       BITMAP                  "res\\onlineSmall\\online.bmp"
-IDB_BITMAP_PHONE        BITMAP                  "res\\onlineSmall\\phone.bmp"
-IDB_BITMAP_QUN          BITMAP                  "res\\onlineSmall\\qun.bmp"
-IDB_BITMAP_REFUSE       BITMAP                  "res\\onlineSmall\\refuse.bmp"
-IDB_BITMAP_SEND         BITMAP                  "res\\misc\\send_button.bmp"
-IDB_BITMAP_WAIT         BITMAP                  "res\\onlineSmall\\waiting.bmp"
-IDB_CHANGE_SEND_MODE    BITMAP                  "res\\misc\\change_send_mode.bmp"
-IDB_BITMAP_BIGLOGO      BITMAP                  "res\\misc\\LibFetion_Big.bmp"
-
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -373,8 +397,8 @@ BEGIN
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
     "LANGUAGE 4, 2\r\n"
     "#pragma code_page(936)\r\n"
-    "#include ""res\\WMLFsp.rc2""  // ??? Microsoft Visual C++ ?à???-|?????????\r\n"
-    "#include ""afxres.rc""     // ?à??????????t\r\n"
+    "#include ""res\\WMLFsp.rc2""  // ??è? Microsoft Visual C++ ?¨¤?§?è?-|¨???¨??§o???\r\n"
+    "#include ""afxres.rc""     // ?¨¤?§o?¨???¨??§|?t\r\n"
     "#endif\r\n"
     "\0"
 END
@@ -390,6 +414,31 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\WMLF.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP_AWAY         BITMAP                  "res\\onlineSmall\\away.bmp"
+IDB_BITMAP_BLACK        BITMAP                  "res\\onlineSmall\\black.bmp"
+IDB_BITMAP_BUSY         BITMAP                  "res\\onlineSmall\\busy.bmp"
+IDB_BITMAP_DINNER       BITMAP                  "res\\onlineSmall\\dinner.bmp"
+IDB_BITMAP_EXAWAY       BITMAP                  "res\\onlineSmall\\extnded_away.bmp"
+IDB_BITMAP_FLICK        BITMAP                  "res\\misc\\online_flick.bmp"
+IDB_BITMAP_LOGO         BITMAP                  "res\\misc\\LibFetion.bmp"
+IDB_BITMAP_MEET         BITMAP                  "res\\onlineSmall\\meeting.bmp"
+IDB_BITMAP_MOBILE       BITMAP                  "res\\onlineSmall\\mobile.bmp"
+IDB_BITMAP_NUMP         BITMAP                  "res\\onlineSmall\\num_primitives.bmp"
+IDB_BITMAP_OFFLINE      BITMAP                  "res\\onlineSmall\\offline.bmp"
+IDB_BITMAP_ONLINE       BITMAP                  "res\\onlineSmall\\online.bmp"
+IDB_BITMAP_PHONE        BITMAP                  "res\\onlineSmall\\phone.bmp"
+IDB_BITMAP_QUN          BITMAP                  "res\\onlineSmall\\qun.bmp"
+IDB_BITMAP_REFUSE       BITMAP                  "res\\onlineSmall\\refuse.bmp"
+IDB_BITMAP_SEND         BITMAP                  "res\\misc\\send_button.bmp"
+IDB_BITMAP_WAIT         BITMAP                  "res\\onlineSmall\\waiting.bmp"
+IDB_CHANGE_SEND_MODE    BITMAP                  "res\\misc\\change_send_mode.bmp"
+IDB_BITMAP_BIGLOGO      BITMAP                  "res\\misc\\LibFetion_Big.bmp"
 #endif    // Ó¢Óï(ÃÀ¹ú) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -408,8 +457,8 @@ IDR_MAINFRAME           ICON                    "res\\WMLF.ico"
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE 4, 2
 #pragma code_page(936)
-#include "res\WMLFsp.rc2"  // ??¨¨? Microsoft Visual C++ ?¡§¡è?¡ì?¨¨?-|¡§???¡§??¡ìo???
-#include "afxres.rc"     // ?¡§¡è?¡ìo?¡§???¡§??¡ì|?t
+#include "res\WMLFsp.rc2"  // ??¡§¡§? Microsoft Visual C++ ??¡ì?¨¨??¨¬?¡§¡§?-|?¡ì????¡ì?¨¦??¨¬o???
+#include "afxres.rc"     // ??¡ì?¨¨??¨¬o??¡ì?¨¦???¡ì?¨¦??¨¬|?t
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
