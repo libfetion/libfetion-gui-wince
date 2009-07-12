@@ -120,4 +120,11 @@ public:
 private:
     // 处理移动组成功的消息
     void handle_MoveGroupOk(long account_id, int group_id);
+public:
+    afx_msg void OnAbout();
+    afx_msg void OnBdDelete();
+    afx_msg void OnBdAddblacklist();
+    afx_msg void OnBdRmblacklist();
+    afx_msg void OnMainSetNosound();
+    bool m_bNoSound;
 };

@@ -34,6 +34,7 @@ BEGIN
         MENUITEM "查看资料",                        IDM_BD_VIEWINFO
         MENUITEM "删除",                          IDM_BD_DELETE
         MENUITEM "添加到黑名单",                      IDM_BD_ADDBLACKLIST
+        MENUITEM "移出黑名单",                       IDM_BD_RMBLACKLIST
         MENUITEM SEPARATOR
         MENUITEM "移动到组",                        IDM_BD_MOVEGROUP
     END
@@ -50,6 +51,7 @@ BEGIN
             MENUITEM "查看资料",                        IDM_BD_VIEWINFO
             MENUITEM "删除",                          IDM_BD_DELETE
             MENUITEM "加入黑名单",                       IDM_BD_ADDBLACKLIST
+            MENUITEM "移出黑名单",                       IDM_BD_RMBLACKLIST
             MENUITEM SEPARATOR
             MENUITEM "移动到组",                        IDM_BD_MOVEGROUP
         END
@@ -62,10 +64,12 @@ BEGIN
         END
         POPUP "设置"
         BEGIN
-            MENUITEM "静音",                          IDM_MAIN_SET_SILENCE
             MENUITEM "振动",                          IDM_MAIN_SET_VIBR
+            MENUITEM "无声",                          IDM_MAIN_SET_NOSOUND
+            MENUITEM "无提示",                         IDM_MAIN_SET_SILENCE
         END
         MENUITEM "注销并退出",                       IDM_MAIN_LOGOFF
+        MENUITEM "关于",                          IDM_ABOUT
         MENUITEM "最小化",                         IDM_MAIN_MINIMAL
     END
 END
@@ -228,13 +232,15 @@ BEGIN
     CONTROL         "飞信号",IDC_FB_RD_FXNO,"Button",BS_AUTORADIOBUTTON,51,7,37,10
     CONTROL         "手机号",IDC_FB_RD_MOBILE,"Button",BS_AUTORADIOBUTTON,7,7,37,10
     EDITTEXT        IDC_FB_EDIT_NO,7,22,130,14,ES_AUTOHSCROLL
-    CONTROL         "",IDC_FB_BTN_FIND,"Static",SS_BITMAP,142,23,13,12
-    LISTBOX         IDC_FB_LIST_INFO,7,55,148,40,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_FB_EDIT_NAME,7,117,70,14,ES_AUTOHSCROLL
-    LTEXT           "添加时向对方显示的名称:",IDC_FB_STATIC_NAME,7,105,112,8
-    LTEXT           "添加到组",IDC_FB_STATIC_GROUP,7,138,85,8
-    COMBOBOX        IDC_FB_CBO_GROUP,7,149,141,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         170,IDC_FB_BTN_FIND,"Static",SS_BITMAP,142,23,11,11
+    LISTBOX         IDC_FB_LIST_INFO,7,55,148,20,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_FB_EDIT_NAME,7,90,148,14,ES_AUTOHSCROLL
+    LTEXT           "发送请求时向对方显示的名称:",IDC_FB_STATIC_NAME,7,79,112,8
+    LTEXT           "添加到组",IDC_FB_STATIC_GROUP,7,107,85,8
+    COMBOBOX        IDC_FB_CBO_GROUP,7,117,148,90,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "静态",IDC_FB_STATIC_INFO,7,41,15,8
+    EDITTEXT        IDC_FB_EDIT_NAME2,7,145,148,14,ES_AUTOHSCROLL
+    LTEXT           "对方的昵称:",IDC_FB_STATIC_NAME2,7,133,148,8
 END
 
 IDD_WMLF_BUDDYINFO DIALOG  0, 0, 187, 217
@@ -262,6 +268,14 @@ BEGIN
     LTEXT           "静态",IDC_BI_SIGN,54,165,106,36,0,WS_EX_STATICEDGE
     GROUPBOX        "设置",IDC_BI_GRP_SET,7,7,163,44
     GROUPBOX        "个人信息",IDC_BI_GRP_INFO,7,55,163,155
+END
+
+IDD_WMLF_ABOUT DIALOG  0, 0, 186, 150
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 9, "MS Shell Dlg"
+BEGIN
+    LTEXT           "关于LibFetion WM版\r\n\r\n当前版本号:20090712alpha\r\n\r\n本程序基于LibFetion库编写，了解更多请访问\r\nwww.libfetion.cn.\r\nCopyright @ 2009 DDD(dedodong@163.com) \r\nAll Rights Reserved.\r\n\r\nWindows Mobile 版本由以下人员开发:\r\nDDD\r\ndaviyang35\r\nEric\r\nBabylon\r\n如有问题欢迎到论坛反馈。",IDC_STATIC,7,7,172,135
 END
 
 
@@ -375,6 +389,14 @@ BEGIN
         RIGHTMARGIN, 170
         TOPMARGIN, 7
         BOTTOMMARGIN, 210
+    END
+
+    IDD_WMLF_ABOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 142
     END
 END
 #endif    // APSTUDIO_INVOKED
