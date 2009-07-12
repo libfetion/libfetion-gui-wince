@@ -127,4 +127,5 @@ public:
     afx_msg void OnBdRmblacklist();
     afx_msg void OnMainSetNosound();
     bool m_bNoSound;
+    
 };

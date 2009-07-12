@@ -61,6 +61,7 @@
 #define IDB_BITMAP2                     170
 #define IDB_BITMAP_FIND                 170
 #define IDD_WMLF_ABOUT                  171
+#define IDR_MENU_ABOUT                  172
 #define IDC_BI_CITY                     200
 #define IDC_FETION_ID                   1000
 #define IDC_PWD                         1001
@@ -188,6 +189,7 @@
 #define ID_32855                        32855
 #define IDM_MAIN_NOSOUND                32856
 #define IDM_MAIN_SET_NOSOUND            32857
+#define ID_32858                        32858
 
 // Next default values for new objects
 // 

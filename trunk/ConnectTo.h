@@ -1,6 +1,8 @@
 // ConnectTo.h : Á¬½ÓÍøÂç¿â
 //
 
+#ifndef M8
+#include "connmgr.h"
 #include "stdafx.h"
 #pragma comment(lib, "Ws2.lib")
 #include "winsock2.h"
@@ -164,3 +166,5 @@ void CloseConnection()
 		(*g_hConnMgrReleaseConnection)(g_phWebConnection,   1);   
 	}
 }
+
+#endif

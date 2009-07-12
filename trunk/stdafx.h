@@ -46,7 +46,7 @@
 
 
 
-#if defined(WIN32_PLATFORM_PSPC) || defined(WIN32_PLATFORM_WFSP)
+#if defined(WIN32_PLATFORM_PSPC) || defined(WIN32_PLATFORM_WFSP) || defined(M8)
 #ifndef _DEVICE_RESOLUTION_AWARE
 #define _DEVICE_RESOLUTION_AWARE
 #endif
@@ -56,7 +56,7 @@
 #include "DeviceResolutionAware.h"
 #endif
 
-#ifdef SHELL_AYGSHELL
+#if defined(SHELL_AYGSHELL) || defined(M8)
 #include <aygshell.h>
 #pragma comment(lib, "aygshell.lib") 
 #endif // SHELL_AYGSHELL
@@ -78,8 +78,6 @@
 #include "libfetion/libfetion.h"
 #include "convert_charset.h"
 #include "misc.h"
-
-#include "connmgr.h"
 
 typedef struct _Group_Info
 {

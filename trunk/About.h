@@ -15,7 +15,10 @@ public:
 	enum { IDD = IDD_WMLF_ABOUT };
 
 protected:
+	CCommandBar m_dlgCommandBar;
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
 
 	DECLARE_MESSAGE_MAP()
+public:
+    virtual BOOL OnInitDialog();
 };

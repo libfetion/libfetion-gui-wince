@@ -6,6 +6,9 @@
 #include "BuddyInfoDlg.h"
 
 
+#ifdef M8
+#include "M8Misc.h"
+#endif
 // CBuddyInfoDlg 对话框
 
 IMPLEMENT_DYNAMIC(CBuddyInfoDlg, CDialog)
@@ -55,13 +58,17 @@ END_MESSAGE_MAP()
 BOOL CBuddyInfoDlg::OnInitDialog()
 {
     CDialog::OnInitDialog();
-    
+#ifdef M8
+    AddMenuBarForM8(this->GetSafeHwnd(), IDR_MENU_BUDDYINFO);
+    FullScreen(this->GetSafeHwnd());
+#else
 	if (!m_dlgCommandBar.Create(this) ||
 		!m_dlgCommandBar.InsertMenuBar(IDR_MENU_BUDDYINFO))
 	{
 		TRACE0("未能创建 CommandBar\n");
 		return FALSE;      // 未能创建
 	}
+#endif
 
     InitGroupItem();
     fx_update_account_info_by_id (m_lAccountID);
@@ -122,6 +129,9 @@ void CBuddyInfoDlg::OnSize(UINT nType, int cx, int cy)
 
     RECT rcCtl;
     ::GetClientRect(this->m_hWnd, &rcCtl);
+#ifdef M8
+    rcCtl.top += 40;
+#endif
 
     iHeight = rcCtl.bottom - rcCtl.top; //窗体高度
     iWidth = rcCtl.right - rcCtl.left;  //窗体宽度

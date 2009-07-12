@@ -36,7 +36,7 @@ void CALLBACK StopVib(
 
 #ifdef WIN32_PLATFORM_PSPC
 //PPCÕñ¶¯º¯Êý
-int m_LedNum = 0;
+int m_LedNum = 1;
 bool m_bLedInited = false;
 
 void StartVirbate( )
@@ -95,7 +95,7 @@ void CNotify::Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, bool bNoSound, boo
     SetTimer(hwnd, TIMER_STOPVIBRATE, iPeriod, StopVib);
 #endif
     }
-    if(bNoSound)
+    if(!bNoSound)
     {
         //²¥·ÅÉùÒô
         PlaySound (strPath, AfxGetApp()->m_hInstance, Styles | SND_ASYNC);
