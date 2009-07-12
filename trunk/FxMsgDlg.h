@@ -79,4 +79,10 @@ protected:
 	virtual void OnCancel();
 public:
     CString m_strInfo;
+private:
+    // 将聊天记录滚动到最下面
+    void ScrollToLast(void);
+public:
+    afx_msg void OnBdViewinfo();
+    afx_msg void OnTimer(UINT_PTR nIDEvent);
 };

@@ -58,6 +58,8 @@
 #define IDR_MENU_FINDBUDDY              166
 #define IDD_WMLF_BUDDYINFO              167
 #define IDR_MENU_BUDDYINFO              169
+#define IDB_BITMAP2                     170
+#define IDB_BITMAP_FIND                 170
 #define IDC_BI_CITY                     200
 #define IDC_FETION_ID                   1000
 #define IDC_PWD                         1001
@@ -163,6 +165,8 @@
 #define IDM_BD_MOVEGROUP                32838
 #define ID_32842                        32842
 #define ID_32843                        32843
+#define ID_32844                        32844
+#define IDM_MSG_VIEWINFO                32845
 
 // Next default values for new objects
 // 

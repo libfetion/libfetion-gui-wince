@@ -1,4 +1,5 @@
 #pragma once
+#include "afxwin.h"
 
 
 // CFindBuddyDlg 对话框
@@ -23,4 +24,16 @@ protected:
 public:
     afx_msg void OnSize(UINT nType, int cx, int cy);
     virtual BOOL OnInitDialog();
+    void InitGroupItem(void);
+    // 好友ID或电话号码
+    CString m_strBuddyID;
+    afx_msg void OnFbSetMobile();
+    afx_msg void OnFbSetFxno();
+    afx_msg void OnFbAdd();
+    CComboBox m_cboGroup;
+    CString m_strUserName;
+    // 将组ID保存到变量中与combobox中的每一个Index相对应
+    int m_iGroupIDs[25];
+    // 提示出错的信息
+    CString m_strInfo;
 };

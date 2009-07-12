@@ -39,8 +39,9 @@
 #define IDR_MENU_FINDBUDDY              166
 #define IDD_WMLF_BUDDYINFO              167
 #define IDR_MSGSOUND                    168
-#define IDR_MENU1                       169
 #define IDR_MENU_BUDDYINFO              169
+#define IDB_BITMAP2                     170
+#define IDB_BITMAP_FIND                 170
 #define IDC_STATIC_1                    200
 #define IDC_BI_CITY                     200
 #define IDC_FETION_ID                   1000
@@ -92,6 +93,10 @@
 #define IDC_BI_LB_SIGN                  1070
 #define IDC_BI_LB_GROUP                 1071
 #define IDC_BI_GRP_SET                  1072
+#define IDC_FB_STA_GROUP                1078
+#define IDC_FB_STATIC_GROUP             1079
+#define IDC_FB_CBO_GROUP                1080
+#define IDC_FB_STATIC_INFO              1081
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_MENU_32773                   32773
@@ -166,14 +171,20 @@
 #define ID_MENU_32841                   32841
 #define ID_32842                        32842
 #define ID_32843                        32843
+#define ID_32844                        32844
+#define IDM_MSG_VIEWINFO                32845
+#define ID_32846                        32846
+#define ID_32847                        32847
+#define IDM_FB_SET_MOBILE               32848
+#define IDM_FB_SET_FXNO                 32849
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        170
-#define _APS_NEXT_COMMAND_VALUE         32844
-#define _APS_NEXT_CONTROL_VALUE         1077
+#define _APS_NEXT_RESOURCE_VALUE        171
+#define _APS_NEXT_COMMAND_VALUE         32850
+#define _APS_NEXT_CONTROL_VALUE         1082
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -75,6 +75,8 @@ BEGIN
     MENUITEM "发送",                          IDR_MSG_SEND
     POPUP "选项"
     BEGIN
+        MENUITEM "查看资料",                        IDM_BD_VIEWINFO
+        MENUITEM SEPARATOR
         MENUITEM "切换发送方式",                      IDM_MSG_CHANGE_METHOD
         MENUITEM "返回主界面",                       IDOK
     END
@@ -94,7 +96,13 @@ END
 IDR_MENU_FINDBUDDY MENU 
 BEGIN
     MENUITEM "添加",                          IDM_FB_ADD
-    MENUITEM "取消",                          IDCANCEL
+    POPUP "选项"
+    BEGIN
+        MENUITEM "使用手机号",                       IDM_FB_SET_MOBILE
+        MENUITEM "使用飞信号",                       IDM_FB_SET_FXNO
+        MENUITEM SEPARATOR
+        MENUITEM "取消",                          IDCANCEL
+    END
 END
 
 IDR_MENU_BUDDYINFO MENU 
@@ -212,7 +220,7 @@ BEGIN
     LTEXT           "网络错误,正在重连服务器...",IDC_NET_STATE,6,4,108,8,NOT WS_VISIBLE
 END
 
-IDD_WMLF_FINDBUDDY DIALOG  0, 0, 163, 132
+IDD_WMLF_FINDBUDDY DIALOG  0, 0, 163, 176
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "添加好友"
 FONT 9, "MS Shell Dlg"
@@ -220,10 +228,13 @@ BEGIN
     CONTROL         "飞信号",IDC_FB_RD_FXNO,"Button",BS_AUTORADIOBUTTON,51,7,37,10
     CONTROL         "手机号",IDC_FB_RD_MOBILE,"Button",BS_AUTORADIOBUTTON,7,7,37,10
     EDITTEXT        IDC_FB_EDIT_NO,7,22,130,14,ES_AUTOHSCROLL
-    CONTROL         "",IDC_FB_BTN_FIND,"Static",SS_BITMAP,143,23,13,11
-    LISTBOX         IDC_FB_LIST_INFO,7,36,149,40,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_FB_EDIT_NAME,7,93,70,14,ES_AUTOHSCROLL
-    LTEXT           "添加时向对方显示的名称:",IDC_FB_STATIC_NAME,7,81,112,8
+    CONTROL         "",IDC_FB_BTN_FIND,"Static",SS_BITMAP,142,23,13,12
+    LISTBOX         IDC_FB_LIST_INFO,7,55,148,40,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_FB_EDIT_NAME,7,117,70,14,ES_AUTOHSCROLL
+    LTEXT           "添加时向对方显示的名称:",IDC_FB_STATIC_NAME,7,105,112,8
+    LTEXT           "添加到组",IDC_FB_STATIC_GROUP,7,138,85,8
+    COMBOBOX        IDC_FB_CBO_GROUP,7,149,141,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "静态",IDC_FB_STATIC_INFO,7,41,15,8
 END
 
 IDD_WMLF_BUDDYINFO DIALOG  0, 0, 187, 217
@@ -234,7 +245,7 @@ BEGIN
     LTEXT           "屏显名称:",IDC_BI_LB_SHOWNAME,15,17,36,8
     EDITTEXT        IDC_BI_EDT_SHOWNAME,55,15,106,14,ES_AUTOHSCROLL
     LTEXT           "所属好友组",IDC_BI_LB_GROUP,15,35,35,8
-    COMBOBOX        IDC_BI_CBO_GROUP,55,33,106,64,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_BI_CBO_GROUP,55,33,106,64,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "飞信号码:",IDC_BI_LB_FETIONNO,17,70,31,8
     LTEXT           "静态",IDC_BI_FETIONNO,54,70,106,11,0,WS_EX_STATICEDGE
     LTEXT           "昵称:",IDC_BI_LB_NICKNAME,17,86,31,8
@@ -353,9 +364,9 @@ BEGIN
     IDD_WMLF_FINDBUDDY, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 156
+        RIGHTMARGIN, 155
         TOPMARGIN, 7
-        BOTTOMMARGIN, 125
+        BOTTOMMARGIN, 169
     END
 
     IDD_WMLF_BUDDYINFO, DIALOG
@@ -419,6 +430,7 @@ IDB_BITMAP_SEND         BITMAP                  "res\\misc\\send_button.bmp"
 IDB_BITMAP_LOGO         BITMAP                  "res\\misc\\LibFetion.bmp"
 IDB_BITMAP_FLICK        BITMAP                  "res\\misc\\online_flick.bmp"
 IDB_BITMAP_BIGLOGO      BITMAP                  "res\\misc\\LibFetion_Big.bmp"
+IDB_BITMAP_FIND         BITMAP                  "res\\misc\\find.bmp"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -482,8 +494,8 @@ IDR_MAINFRAME           ICON                    "res\\WMLF.ico"
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE 4, 2
 #pragma code_page(936)
-#include "res\WMLFppc.rc2"  // ??? Microsoft Visual C++ ?¨¤???-|?????§o???
-#include "afxres.rc"     // ?¨¤?§o??????§|?t
+#include "res\WMLFppc.rc2"  // ??? Microsoft Visual C++ ?à???-|?????????
+#include "afxres.rc"     // ?à??????????t
 #endif
 
 /////////////////////////////////////////////////////////////////////////////

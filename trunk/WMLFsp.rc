@@ -88,6 +88,18 @@ BEGIN
     END
 END
 
+IDR_MSG_MENU MENU 
+BEGIN
+    MENUITEM "∑¢ÀÕ",                          32812
+    POPUP "—°œÓ"
+    BEGIN
+        MENUITEM "≤Èø¥◊ ¡œ",                        IDM_BD_VIEWINFO
+        MENUITEM SEPARATOR
+        MENUITEM "«–ªª∑¢ÀÕ∑Ω Ω",                      IDM_MSG_CHANGE_METHOD
+        MENUITEM "∑µªÿ÷˜ΩÁ√Ê",                       IDOK
+    END
+END
+
 #endif    // ∑«Ãÿ∂®”Ô—‘(œµÕ≥ƒ¨»œ÷µ) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -100,25 +112,6 @@ END
 LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
 #pragma code_page(936)
 #endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-IDR_MSG_MENU MENU 
-BEGIN
-    POPUP "left"
-    BEGIN
-        MENUITEM "∑¢ÀÕ",                          32780
-    END
-    POPUP "right"
-    BEGIN
-        MENUITEM "∑µªÿ÷˜ΩÁ√Ê",                       IDOK
-        MENUITEM "«–ªª∑¢ÀÕ∑Ω Ω",                      IDM_MSG_CHANGE_METHOD
-    END
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -193,7 +186,7 @@ BEGIN
     LTEXT           "∆¡œ‘√˚≥∆:",IDC_BI_LB_SHOWNAME,15,17,36,8
     EDITTEXT        IDC_BI_EDT_SHOWNAME,55,15,106,14,ES_AUTOHSCROLL
     LTEXT           "À˘ Ù∫√”—◊È",IDC_BI_LB_GROUP,15,35,35,8
-    COMBOBOX        IDC_BI_CBO_GROUP,55,33,106,64,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_BI_CBO_GROUP,55,33,106,64,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "∑…–≈∫≈¬Î:",IDC_BI_LB_FETIONNO,17,70,31,8
     LTEXT           "æ≤Ã¨",IDC_BI_FETIONNO,54,70,106,11,0,WS_EX_STATICEDGE
     LTEXT           "Í«≥∆:",IDC_BI_LB_NICKNAME,17,86,31,8
@@ -370,6 +363,32 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
 #endif //_WIN32
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP_AWAY         BITMAP                  "res\\onlineSmall\\away.bmp"
+IDB_BITMAP_BLACK        BITMAP                  "res\\onlineSmall\\black.bmp"
+IDB_BITMAP_BUSY         BITMAP                  "res\\onlineSmall\\busy.bmp"
+IDB_BITMAP_DINNER       BITMAP                  "res\\onlineSmall\\dinner.bmp"
+IDB_BITMAP_EXAWAY       BITMAP                  "res\\onlineSmall\\extnded_away.bmp"
+IDB_BITMAP_FLICK        BITMAP                  "res\\misc\\online_flick.bmp"
+IDB_BITMAP_LOGO         BITMAP                  "res\\misc\\LibFetion.bmp"
+IDB_BITMAP_MEET         BITMAP                  "res\\onlineSmall\\meeting.bmp"
+IDB_BITMAP_MOBILE       BITMAP                  "res\\onlineSmall\\mobile.bmp"
+IDB_BITMAP_NUMP         BITMAP                  "res\\onlineSmall\\num_primitives.bmp"
+IDB_BITMAP_OFFLINE      BITMAP                  "res\\onlineSmall\\offline.bmp"
+IDB_BITMAP_ONLINE       BITMAP                  "res\\onlineSmall\\online.bmp"
+IDB_BITMAP_PHONE        BITMAP                  "res\\onlineSmall\\phone.bmp"
+IDB_BITMAP_QUN          BITMAP                  "res\\onlineSmall\\qun.bmp"
+IDB_BITMAP_REFUSE       BITMAP                  "res\\onlineSmall\\refuse.bmp"
+IDB_BITMAP_SEND         BITMAP                  "res\\misc\\send_button.bmp"
+IDB_BITMAP_WAIT         BITMAP                  "res\\onlineSmall\\waiting.bmp"
+IDB_CHANGE_SEND_MODE    BITMAP                  "res\\misc\\change_send_mode.bmp"
+IDB_BITMAP_BIGLOGO      BITMAP                  "res\\misc\\LibFetion_Big.bmp"
+IDB_BITMAP_FIND         BITMAP                  "res\\misc\\find.bmp"
+
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -397,8 +416,8 @@ BEGIN
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
     "LANGUAGE 4, 2\r\n"
     "#pragma code_page(936)\r\n"
-    "#include ""res\\WMLFsp.rc2""  // ??Ë? Microsoft Visual C++ ?®§?ß?Ë?-|®???®??ßo???\r\n"
-    "#include ""afxres.rc""     // ?®§?ßo?®???®??ß|?t\r\n"
+    "#include ""res\\WMLFsp.rc2""  // ??? Microsoft Visual C++ ?‡???-|?????????\r\n"
+    "#include ""afxres.rc""     // ?‡??????????t\r\n"
     "#endif\r\n"
     "\0"
 END
@@ -414,31 +433,6 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\WMLF.ico"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Bitmap
-//
-
-IDB_BITMAP_AWAY         BITMAP                  "res\\onlineSmall\\away.bmp"
-IDB_BITMAP_BLACK        BITMAP                  "res\\onlineSmall\\black.bmp"
-IDB_BITMAP_BUSY         BITMAP                  "res\\onlineSmall\\busy.bmp"
-IDB_BITMAP_DINNER       BITMAP                  "res\\onlineSmall\\dinner.bmp"
-IDB_BITMAP_EXAWAY       BITMAP                  "res\\onlineSmall\\extnded_away.bmp"
-IDB_BITMAP_FLICK        BITMAP                  "res\\misc\\online_flick.bmp"
-IDB_BITMAP_LOGO         BITMAP                  "res\\misc\\LibFetion.bmp"
-IDB_BITMAP_MEET         BITMAP                  "res\\onlineSmall\\meeting.bmp"
-IDB_BITMAP_MOBILE       BITMAP                  "res\\onlineSmall\\mobile.bmp"
-IDB_BITMAP_NUMP         BITMAP                  "res\\onlineSmall\\num_primitives.bmp"
-IDB_BITMAP_OFFLINE      BITMAP                  "res\\onlineSmall\\offline.bmp"
-IDB_BITMAP_ONLINE       BITMAP                  "res\\onlineSmall\\online.bmp"
-IDB_BITMAP_PHONE        BITMAP                  "res\\onlineSmall\\phone.bmp"
-IDB_BITMAP_QUN          BITMAP                  "res\\onlineSmall\\qun.bmp"
-IDB_BITMAP_REFUSE       BITMAP                  "res\\onlineSmall\\refuse.bmp"
-IDB_BITMAP_SEND         BITMAP                  "res\\misc\\send_button.bmp"
-IDB_BITMAP_WAIT         BITMAP                  "res\\onlineSmall\\waiting.bmp"
-IDB_CHANGE_SEND_MODE    BITMAP                  "res\\misc\\change_send_mode.bmp"
-IDB_BITMAP_BIGLOGO      BITMAP                  "res\\misc\\LibFetion_Big.bmp"
 #endif    // ”¢”Ô(√¿π˙) resources
 /////////////////////////////////////////////////////////////////////////////
 

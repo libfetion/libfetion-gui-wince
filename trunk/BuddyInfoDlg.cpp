@@ -22,7 +22,6 @@ CBuddyInfoDlg::CBuddyInfoDlg(long lAccountID, CWnd* pParent /*=NULL*/)
     , m_strCity(_T(""))
     , m_strSign(_T(""))
 {
-
 }
 
 CBuddyInfoDlg::~CBuddyInfoDlg()
@@ -47,6 +46,7 @@ void CBuddyInfoDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CBuddyInfoDlg, CDialog)
     ON_WM_SIZE()
     ON_WM_VSCROLL()
+    ON_COMMAND(IDOK, &CBuddyInfoDlg::OnOk)
 END_MESSAGE_MAP()
 
 
@@ -77,10 +77,9 @@ BOOL CBuddyInfoDlg::OnInitDialog()
     m_strCity = _T("");//ConvertUtf8ToUtf16(m_account->personal->city);
     m_strSign = ConvertUtf8ToUtf16(m_account->personal->impresa);
 
-    for(int i = 0; i < m_cboGroup.GetCount(); i++)
+    for(int i = 0; i < m_cboGroup.GetCount() && i < 25; i++)
     {
-        int iTmp = (int )m_cboGroup.GetItemData(i);
-        if(m_iGroupID == iTmp)
+        if(m_iGroupID == m_iGroupIDs[i])
         {
             m_cboGroup.SetCurSel(i);
             break;
@@ -256,7 +255,8 @@ void CBuddyInfoDlg::InitGroupItem(void)
 		group = (Fetion_Group *) tmp_group->data;
 		if(group) {
 			m_cboGroup.AddString(ConvertUtf8ToUtf16(group->name));
-            m_cboGroup.SetItemData(i, (DWORD)(group->id));
+            if(i<25)
+                m_iGroupIDs[i] = group->id;
             i++;
 		}
 		tmp_group = d_list_next(tmp_group);
@@ -320,4 +320,19 @@ void CBuddyInfoDlg::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
     }
 
     CDialog::OnVScroll(nSBCode, nPos, pScrollBar);
+}
+
+void CBuddyInfoDlg::OnOk()
+{
+    UpdateData();
+    int iNewGroupID = m_iGroupIDs[m_cboGroup.GetCurSel()];
+    if(m_iGroupID != iNewGroupID)
+    {
+        fx_move_group_buddy_by_id(m_lAccountID, iNewGroupID, NULL, NULL);
+    }
+    if(m_strShowName != ConvertUtf8ToUtf16(m_account->local_name))
+    {
+        fx_set_buddyinfo(m_lAccountID, ConvertUtf16ToUtf8(m_strShowName), NULL, NULL); 
+    }
+    CDialog::OnOK();
 }
