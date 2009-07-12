@@ -116,4 +116,8 @@ public:
     // 当前登录用户的ID
     long m_lAccountID;
     afx_msg void OnBdViewinfo();
+    afx_msg void OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu);
+private:
+    // 处理移动组成功的消息
+    void handle_MoveGroupOk(long account_id, int group_id);
 };

@@ -18,6 +18,7 @@ extern "C"
 
 #define TIMER_STOPVIBRATE 30
 
+
 #ifdef WIN32_PLATFORM_WFSP
 //SP用于停止振动
 void CALLBACK StopVib(
@@ -35,20 +36,24 @@ void CALLBACK StopVib(
 
 #ifdef WIN32_PLATFORM_PSPC
 //PPC振动函数
+int m_LedNum = 0;
+bool m_bLedInited = false;
+
 void StartVirbate( )
 {
 	NLED_SETTINGS_INFO settings ; 
 
 	memset(&settings,0,sizeof(NLED_SETTINGS_INFO));
     NLED_COUNT_INFO nci;
-    int nIndex = 0;
 
-    //if(NLedGetDeviceInfo(NLED_COUNT_INFO_ID, (PVOID) &nci))
-    //{
-    //        nIndex = (int)nci.cLeds - 1;
-    //}
-
-    settings.LedNum = nIndex;
+    if(!m_bLedInited)
+    {
+        if(NLedGetDeviceInfo(NLED_COUNT_INFO_ID, (PVOID) &nci))
+        {
+            m_LedNum = (int)nci.cLeds - 1;
+        }
+    }
+    settings.LedNum = m_LedNum;
 	settings.OffOnBlink= 1;
 	NLedSetDevice(NLED_SETTINGS_INFO_ID, &settings);
 }
@@ -58,10 +63,10 @@ void StopVirbate(HWND hwnd, UINT idEvent, UINT_PTR, DWORD )
 	NLED_SETTINGS_INFO settings; 
 
 	memset(&settings,0,sizeof(NLED_SETTINGS_INFO));
-	settings.LedNum= 0; 
+	settings.LedNum= m_LedNum; 
 	settings.OffOnBlink= 0;
 	NLedSetDevice(NLED_SETTINGS_INFO_ID, &settings);
-    KillTimer(hwnd, idEvent);
+    KillTimer(hwnd, TIMER_STOPVIBRATE);
 }
 #endif
 
@@ -84,8 +89,8 @@ void CNotify::Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, bool bVibr, UINT S
         SetTimer(hwnd, TIMER_STOPVIBRATE, iPeriod, StopVirbate);
 #endif
 #ifdef WIN32_PLATFORM_WFSP
-    Vibrate (0, NULL, FALSE, DWORD(iPeriod));
-    //SetTimer(hwnd, TIMER_STOPVIBRATE, iPeriod, StopVib);
+    Vibrate (0, NULL, FALSE, INFINITE);
+    SetTimer(hwnd, TIMER_STOPVIBRATE, iPeriod, StopVib);
 #endif
     }
     //播放声音

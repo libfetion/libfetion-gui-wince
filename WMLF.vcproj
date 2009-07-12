@@ -894,6 +894,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\misc\find.bmp"
+				>
+			</File>
+			<File
 				RelativePath=".\res\misc\LibFetion.bmp"
 				>
 			</File>
