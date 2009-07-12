@@ -5,6 +5,9 @@
 #include "WMLF.h"
 #include "FindBuddyDlg.h"
 
+#ifdef M8
+#include "M8Misc.h"
+#endif
 // CFindBuddyDlg 对话框
 
 IMPLEMENT_DYNAMIC(CFindBuddyDlg, CDialog)
@@ -55,7 +58,9 @@ void CFindBuddyDlg::OnSize(UINT nType, int cx, int cy)
     HWND hwndDlg = this->m_hWnd;
     RECT rcDlg;
     ::GetClientRect(hwndDlg, &rcDlg);
-
+#ifdef M8
+    rcDlg.top += 40;
+#endif
 	HWND hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_RD_MOBILE);
 
     iX = rcDlg.left + iMargin;
@@ -124,14 +129,19 @@ BOOL CFindBuddyDlg::OnInitDialog()
 {
     CDialog::OnInitDialog();
 
+#ifdef M8
+    AddMenuBarForM8(this->GetSafeHwnd(), IDR_MENU_BUDDYINFO);
+    FullScreen(this->GetSafeHwnd());
+#else
 	if (!m_dlgCommandBar.Create(this) ||
 		!m_dlgCommandBar.InsertMenuBar(IDR_MENU_FINDBUDDY))
 	{
 		TRACE0("未能创建 CommandBar\n");
 		return FALSE;      // 未能创建
 	}
-
+#endif
     InitGroupItem();
+
     return TRUE;  // return TRUE unless you set the focus to a control
     // 异常: OCX 属性页应返回 FALSE
 }

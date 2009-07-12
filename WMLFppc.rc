@@ -115,6 +115,11 @@ BEGIN
     MENUITEM "取消",                          IDCANCEL
 END
 
+IDR_MENU_ABOUT MENU 
+BEGIN
+    MENUITEM "确定   ",                       IDOK
+END
+
 #endif    // 非特定语言(系统默认值) resources
 /////////////////////////////////////////////////////////////////////////////
 
