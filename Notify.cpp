@@ -48,13 +48,15 @@ void StartVirbate( )
 
     if(!m_bLedInited)
     {
-        if(NLedGetDeviceInfo(NLED_COUNT_INFO_ID, (PVOID) &nci))
-        {
-            m_LedNum = (int)nci.cLeds - 1;
-        }
+        // FIXME 这里获取振动LED的代码应该没有问题,但是如果ledNum不为0,就不能振动,
+        //if(NLedGetDeviceInfo(NLED_COUNT_INFO_ID, (PVOID) &nci))
+        //{
+        //    m_LedNum = (int)nci.cLeds - 1;
+        //}
+        m_bLedInited = true;
     }
     settings.LedNum = m_LedNum;
-	settings.OffOnBlink= 1;
+	settings.OffOnBlink = 1;
 	NLedSetDevice(NLED_SETTINGS_INFO_ID, &settings);
 }
 
@@ -80,7 +82,7 @@ CNotify::~CNotify(void)
 
 // 播放指定的声音或振动
 // 如果strPath不为空, 则播放声音
-void CNotify::Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, bool bVibr, UINT Styles)
+void CNotify::Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, bool bNoSound, bool bVibr, UINT Styles)
 {
     if(bVibr)
     {
@@ -93,8 +95,11 @@ void CNotify::Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, bool bVibr, UINT S
     SetTimer(hwnd, TIMER_STOPVIBRATE, iPeriod, StopVib);
 #endif
     }
-    //播放声音
-    PlaySound (strPath, AfxGetApp()->m_hInstance, Styles | SND_ASYNC);
+    if(bNoSound)
+    {
+        //播放声音
+        PlaySound (strPath, AfxGetApp()->m_hInstance, Styles | SND_ASYNC);
+    }
 
 }
 

@@ -14,6 +14,7 @@ CFindBuddyDlg::CFindBuddyDlg(CWnd* pParent /*=NULL*/)
     , m_strBuddyID(_T(""))
     , m_strUserName(_T(""))
     , m_strInfo(_T(""))
+    , m_strLocalName(_T(""))
 {
 
 }
@@ -29,6 +30,7 @@ void CFindBuddyDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_FB_CBO_GROUP, m_cboGroup);
     DDX_Text(pDX, IDC_FB_EDIT_NAME, m_strUserName);
     DDX_Text(pDX, IDC_FB_STATIC_INFO, m_strInfo);
+    DDX_Text(pDX, IDC_FB_EDIT_NAME2, m_strLocalName);
 }
 
 
@@ -37,6 +39,7 @@ BEGIN_MESSAGE_MAP(CFindBuddyDlg, CDialog)
     ON_COMMAND(IDM_FB_SET_MOBILE, &CFindBuddyDlg::OnFbSetMobile)
     ON_COMMAND(IDM_FB_SET_FXNO, &CFindBuddyDlg::OnFbSetFxno)
     ON_COMMAND(IDM_FB_ADD, &CFindBuddyDlg::OnFbAdd)
+    ON_STN_CLICKED(IDC_FB_BTN_FIND, &CFindBuddyDlg::OnStnClickedFbBtnFind)
 END_MESSAGE_MAP()
 
 
@@ -45,73 +48,73 @@ END_MESSAGE_MAP()
 void CFindBuddyDlg::OnSize(UINT nType, int cx, int cy)
 {
     CDialog::OnSize(nType, cx, cy);
+
     int iMargin = DRA::SCALEX(5);
     int iX, iY, iW, iH;
-    int iInfoX, iInfoY, iInfoW, iInfoH; //显示用户信息的这个LIST因为要独自撑满,所以单独用变量保存,最后再移
 
     HWND hwndDlg = this->m_hWnd;
     RECT rcDlg;
     ::GetClientRect(hwndDlg, &rcDlg);
 
 	HWND hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_RD_MOBILE);
-	ASSERT(hwndCtl != NULL);
-	RECT rcCtl;
-	::GetWindowRect(hwndCtl, &rcCtl);
+
     iX = rcDlg.left + iMargin;
     iY = rcDlg.top + iMargin;
-    iW = rcCtl.right - rcCtl.left;
-    iH = rcCtl.bottom - rcCtl.top;
+    iW = DRA::SCALEX(70);;
+    iH = DRA::SCALEY(20);
+
     ::MoveWindow(hwndCtl, iX, iY, iW, iH, false);
     
-    iInfoX = iX;
-    iInfoW = rcDlg.right - rcDlg.left - 2 * iMargin;
-
     hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_RD_FXNO);
     ::MoveWindow(hwndCtl, iX + iW + iMargin, iY, iW, iH, false);
 
-    hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_EDIT_NO);
-	::GetWindowRect(hwndCtl, &rcCtl);
     iY = iY + iH + iMargin;
+    iW = rcDlg.right - rcDlg.left - 2 * iMargin;
 
+    hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_EDIT_NO);
+    ::MoveWindow(hwndCtl, iX, iY, 
 #if !defined(WIN32_PLATFORM_WFSP)
-    iW = rcDlg.right - rcDlg.left - 20 - iMargin * 2;
+        iW - DRA::SCALEX(20),
 #else
-    iW = rcDlg.right - rcDlg.left - iMargin * 2;
+        iW,
 #endif
-    iH = rcCtl.bottom - rcCtl.top;
-    ::MoveWindow(hwndCtl, iX, iY, iW, iH, false);
-
-    iInfoY = iY + iH + iMargin; //保存出Info的Y坐标,因为iH会变,这里提前先加好放着
+        iH, false);
 
     hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_BTN_FIND);
-    iX = rcDlg.left + iW + iMargin;
-    
+    ::MoveWindow(hwndCtl, iX + iW - DRA::SCALEX(20) + iMargin, iY, 
 #if !defined(WIN32_PLATFORM_WFSP)
-    iW = 20;
+    20,
 #else
-    iW = 0;
+    0,
 #endif
-
-    iH = 20;
+    iH, false);
+    
+    hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_STATIC_INFO);
     ::MoveWindow(hwndCtl, iX, iY, iW, iH, false);
 
-    hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_EDIT_NAME);
-
-    ::GetWindowRect(hwndCtl, &rcCtl);
-    iX = rcDlg.left + iMargin;
-    iY = rcDlg.bottom - (rcCtl.bottom - rcCtl.top) - iMargin;
-    iH = rcCtl.bottom - rcCtl.top;
-    iW = rcDlg.right - rcDlg.left - 2 * iMargin;
-    ::MoveWindow(hwndCtl, iX, iY, iW, iH , false);
-
+    iY = iY + iH + iMargin;
     hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_STATIC_NAME);
-    ::GetWindowRect(hwndCtl, &rcCtl);
-    iW = rcCtl.right - rcCtl.left;
-    iH = rcCtl.bottom - rcCtl.top;
-    iY = iY - iMargin - iH;
+    ::MoveWindow(hwndCtl, iX, iY, iW, iH, false);
+    
+    iY = iY + iH + iMargin;
+    hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_EDIT_NAME);
     ::MoveWindow(hwndCtl, iX, iY, iW, iH, false);
 
-    iInfoH = iY - iMargin - iInfoY;
+    iY = iY + iH + iMargin;
+    hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_STATIC_GROUP);
+    ::MoveWindow(hwndCtl, iX, iY, iW, iH, false);
+    
+    iY = iY + iH + iMargin;
+    hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_CBO_GROUP);
+    ::MoveWindow(hwndCtl, iX, iY, iW, iH, false);
+
+    iY = iY + iH + iMargin;
+    hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_STATIC_NAME2);
+    ::MoveWindow(hwndCtl, iX, iY, iW, iH, false);
+    
+    iY = iY + iH + iMargin;
+    hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_EDIT_NAME2);
+    ::MoveWindow(hwndCtl, iX, iY, iW, iH, false);
 
     hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_LIST_INFO);
     ::MoveWindow(hwndCtl, 0, 0, 0, 0, true);
@@ -178,15 +181,20 @@ void CFindBuddyDlg::OnFbAdd()
 
 	if (bMobileNo)
 		fx_add_buddy_by_mobile(ConvertUtf16ToUtf8(m_strBuddyID), 
-				ConvertUtf16ToUtf8(_T("")),
+				ConvertUtf16ToUtf8(m_strLocalName),
 				iNewGroupID, 
 				ConvertUtf16ToUtf8(m_strUserName),
 				NULL, NULL);
 	else
 		fx_add_buddy_by_uid(ConvertUtf16ToUtf8(m_strBuddyID), 
-				ConvertUtf16ToUtf8(_T("")),
+				ConvertUtf16ToUtf8(m_strLocalName),
 				iNewGroupID, 
 				ConvertUtf16ToUtf8(m_strUserName),
 				NULL, NULL);
     CDialog::OnOK();
+}
+
+void CFindBuddyDlg::OnStnClickedFbBtnFind()
+{
+
 }

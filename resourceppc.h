@@ -42,6 +42,7 @@
 #define IDR_MENU_BUDDYINFO              169
 #define IDB_BITMAP2                     170
 #define IDB_BITMAP_FIND                 170
+#define IDD_WMLF_ABOUT                  171
 #define IDC_STATIC_1                    200
 #define IDC_BI_CITY                     200
 #define IDC_FETION_ID                   1000
@@ -74,6 +75,8 @@
 #define IDC_FB_BTN_FIND                 1049
 #define IDC_FB_STATIC_NAME              1050
 #define IDC_MSG_INFO                    1051
+#define IDC_FB_EDIT_NAME2               1051
+#define IDC_FB_STATIC_NAME2             1052
 #define IDC_BI_LB_NICKNAME              1054
 #define IDC_BI_LB_SHOWNAME              1055
 #define IDC_BI_EDT_SHOWNAME             1056
@@ -177,13 +180,21 @@
 #define ID_32847                        32847
 #define IDM_FB_SET_MOBILE               32848
 #define IDM_FB_SET_FXNO                 32849
+#define ID_32850                        32850
+#define IDM_ABOUT                       32851
+#define ID_32852                        32852
+#define IDM_BD_REMOVEBLACK              32853
+#define IDM_BD_RMBLACKLIST              32854
+#define ID_32855                        32855
+#define IDM_MAIN_NOSOUND                32856
+#define IDM_MAIN_SET_NOSOUND            32857
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        171
-#define _APS_NEXT_COMMAND_VALUE         32850
+#define _APS_NEXT_RESOURCE_VALUE        172
+#define _APS_NEXT_COMMAND_VALUE         32858
 #define _APS_NEXT_CONTROL_VALUE         1082
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

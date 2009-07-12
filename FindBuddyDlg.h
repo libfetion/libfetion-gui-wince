@@ -36,4 +36,7 @@ public:
     int m_iGroupIDs[25];
     // 提示出错的信息
     CString m_strInfo;
+    // 对方的屏显名称
+    CString m_strLocalName;
+    afx_msg void OnStnClickedFbBtnFind();
 };
