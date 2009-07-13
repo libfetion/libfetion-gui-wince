@@ -1,5 +1,6 @@
-#include "StdAfx.h"
+ï»¿#include "StdAfx.h"
 #include "Notify.h"
+#include "resourceppc.h"
 
 #ifdef WIN32_PLATFORM_WFSP
 #include "vibrate.h"
@@ -14,13 +15,85 @@ extern "C"
 	BOOL NLedSetDevice(INT nID, PVOID pOutput);
 }
 #endif
+SHNOTIFICATIONDATA2* pNotification;
+int iMsgCount;
 #endif
+
+static const GUID guidNotifyApp = 
+{ 0x569440f0, 0xc5b4, 0x4ac2, { 0xa9, 0xab, 0xc6, 0x16, 0xd1, 0x9c, 0x1, 0x2f } };
+
+
+
+
+void CNotify::CreateAndAddNotification(HWND hwnd, WCHAR* szTitle, CString szNotify)
+{
+#ifdef WIN32_PLATFORM_PSPC
+    if(pNotification == NULL)
+    {
+        iMsgCount ++;
+        //HICON hIcon =(HICON)LoadImage(AfxGetApp()->m_hInstance, MAKEINTRESOURCE(IDI_ICON_NOTIFY),
+        //    IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
+        TCHAR szMsgTitle[128];
+        TCHAR szMsgBody[1024];
+        wsprintf(szMsgTitle, TEXT("æ”¶åˆ°æ¥è‡ª %s çš„é£ä¿¡æ¶ˆæ¯"), szTitle);
+        wsprintf(szMsgBody, TEXT("<html><body><form method=\"POST\" action=>%s <input type=button name='cmd:%u' value='æŸ¥çœ‹'>&nbsp;<input type=button name='cmd:%u' value='å–æ¶ˆ'></body></html>"), szNotify, IDM_MAIN_SHOWNEWMSG2, IDM_MAIN_DIMISS);
+        
+	    pNotification =(SHNOTIFICATIONDATA2*)malloc( sizeof(SHNOTIFICATIONDATA));
+        ZeroMemory(pNotification, sizeof(SHNOTIFICATIONDATA));
+	    pNotification->dwID = ID_NOTIFY;
+	    pNotification->clsid = guidNotifyApp;
+	    pNotification->npPriority = SHNP_INFORM;
+	    pNotification->csDuration = 20;
+	    pNotification->hwndSink = hwnd;
+	    pNotification->pszHTML = szMsgBody;
+	    pNotification->hicon = LoadIcon(AfxGetApp()->m_hInstance, MAKEINTRESOURCE(IDI_ICON_NOTIFY));
+	    pNotification->cbStruct = sizeof(SHNOTIFICATIONDATA);
+	    pNotification->pszTitle = szMsgTitle;
+        pNotification->grfFlags = SHNF_ALERTONUPDATE | SHNF_WANTVKTTALK | SHNF_DISPLAYON;
+        pNotification->rgskn[0].pszTitle = TEXT("æŸ¥çœ‹");
+        pNotification->rgskn[0].skc.wpCmd = IDM_MAIN_SHOWNEWMSG2;
+        pNotification->rgskn[0].skc.grfFlags = NOTIF_SOFTKEY_FLAGS_DISMISS;
+        pNotification->rgskn[1].pszTitle = TEXT("å¿½ç•¥");
+        pNotification->rgskn[1].skc.wpCmd = IDM_MAIN_DIMISS;
+        pNotification->rgskn[1].skc.grfFlags = NOTIF_SOFTKEY_FLAGS_DISMISS;
+	    LRESULT ret = SHNotificationAdd(pNotification);
+
+    } else {
+        iMsgCount ++;
+        TCHAR szMsgBody[1024];
+        wsprintf(szMsgBody, TEXT("æ”¶åˆ° %d æ¡æ¶ˆæ¯!"), iMsgCount);
+        
+		pNotification->pszTitle = TEXT("LibFetionæé†’");
+        pNotification->pszHTML = szMsgBody;
+		SHNotificationUpdate(SHNUM_TITLE | SHNUM_HTML, pNotification);
+    }
+#endif
+	return;	
+}
+
+// function removed all nodes in the list
+// called when the programme exits
+void CNotify::RemoveNotification()
+{
+#ifdef WIN32_PLATFORM_PSPC
+    if(pNotification != NULL)
+    {
+	    SHNotificationRemove(&guidNotifyApp, pNotification->dwID);
+        //FreeNotificationData(pNotification);
+	    free(pNotification);
+        iMsgCount = 0;
+        pNotification = NULL;
+    }
+#endif
+}
+
+
 
 #define TIMER_STOPVIBRATE 30
 
 
 #ifdef WIN32_PLATFORM_WFSP
-//SPÓÃÓÚÍ£Ö¹Õñ¶¯
+//SPç”¨äºåœæ­¢æŒ¯åŠ¨
 void CALLBACK StopVib(
 					  HWND hwnd, 
 					  UINT uMsg, 
@@ -28,15 +101,15 @@ void CALLBACK StopVib(
 					  DWORD dwTime 
 					  )
 {
-	//Í£Ö¹Õñ¶¯
+	//åœæ­¢æŒ¯åŠ¨
 	VibrateStop();
 }
 #endif
 
 
 #ifdef WIN32_PLATFORM_PSPC
-//PPCÕñ¶¯º¯Êı
-int m_LedNum = 1;
+//PPCæŒ¯åŠ¨å‡½æ•°
+int m_LedNum = 0;
 bool m_bLedInited = false;
 
 void StartVirbate( )
@@ -48,7 +121,7 @@ void StartVirbate( )
 
     if(!m_bLedInited)
     {
-        // FIXME ÕâÀï»ñÈ¡Õñ¶¯LEDµÄ´úÂëÓ¦¸ÃÃ»ÓĞÎÊÌâ,µ«ÊÇÈç¹ûledNum²»Îª0,¾Í²»ÄÜÕñ¶¯,
+        // FIXME è¿™é‡Œè·å–æŒ¯åŠ¨LEDçš„ä»£ç åº”è¯¥æ²¡æœ‰é—®é¢˜,ä½†æ˜¯å¦‚æœledNumä¸ä¸º0,å°±ä¸èƒ½æŒ¯åŠ¨,
         //if(NLedGetDeviceInfo(NLED_COUNT_INFO_ID, (PVOID) &nci))
         //{
         //    m_LedNum = (int)nci.cLeds - 1;
@@ -80,8 +153,8 @@ CNotify::~CNotify(void)
 {
 }
 
-// ²¥·ÅÖ¸¶¨µÄÉùÒô»òÕñ¶¯
-// Èç¹ûstrPath²»Îª¿Õ, Ôò²¥·ÅÉùÒô
+// æ’­æ”¾æŒ‡å®šçš„å£°éŸ³æˆ–æŒ¯åŠ¨
+// å¦‚æœstrPathä¸ä¸ºç©º, åˆ™æ’­æ”¾å£°éŸ³
 void CNotify::Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, bool bNoSound, bool bVibr, UINT Styles)
 {
     if(bVibr)
@@ -97,7 +170,7 @@ void CNotify::Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, bool bNoSound, boo
     }
     if(!bNoSound)
     {
-        //²¥·ÅÉùÒô
+        //æ’­æ”¾å£°éŸ³
         PlaySound (strPath, AfxGetApp()->m_hInstance, Styles | SND_ASYNC);
     }
 
@@ -107,7 +180,7 @@ void CNotify::StartViberate(bool bVibe)
 {
     if(!bVibe)
         return;
-    // TODO ¿ªÊ¼Õñ¶¯
+    // TODO å¼€å§‹æŒ¯åŠ¨
 }
 
 void CNotify::StopViberate(bool bVibe)
@@ -115,5 +188,5 @@ void CNotify::StopViberate(bool bVibe)
     if(!bVibe)
         return;
 
-    // TODO Í£Ö¹Õñ¶¯
+    // TODO åœæ­¢æŒ¯åŠ¨
 }

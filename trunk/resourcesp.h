@@ -139,9 +139,10 @@
 #define ID_32799                        32799
 #define ID_32800                        32800
 #define ID_32802                        32801
-#define IDM_MAIN_STATE_ONLINE           32802
 #define IDFINDCANCEL                    32802
+#define IDM_MAIN_STATE_ONLINE           32802
 #define IDM_MAIN_STATE_HIDE             32803
+#define IDM_MAIN_SENDMSG                32803
 #define IDM_MAIN_STATE_BUSY             32804
 #define IDM_MAIN_STATE_AWAY             32805
 #define IDM_MAIN_SET_SILENCE            32807
@@ -162,7 +163,6 @@
 #define IDM_FB_ADD                      32824
 #define ID_32825                        32825
 #define IDM_MAIN_ADDBUDDY               32827
-#define IDM_MAIN_SENDMSG                32828
 #define IDM_BD_VIEWINFO                 32829
 #define IDM_BD_SENDMSG                  32830
 #define ID_32831                        32831
@@ -193,13 +193,16 @@
 #define IDM_MAIN_NOSOUND                32856
 #define IDM_MAIN_SET_NOSOUND            32857
 #define ID_32858                        32858
+#define IDM_MAIN_SHOWNEWMSG             32860
+#define IDM_MAIN_DIMISS                 32861
+#define IDM_MAIN_SHOWNEWMSG2            32862
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        151
-#define _APS_NEXT_COMMAND_VALUE         32803
+#define _APS_NEXT_COMMAND_VALUE         32805
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

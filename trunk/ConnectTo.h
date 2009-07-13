@@ -1,4 +1,4 @@
-// ConnectTo.h : Á¬½ÓÍøÂç¿â
+ï»¿// ConnectTo.h : è¿æ¥ç½‘ç»œåº“
 //
 
 #ifndef M8
@@ -19,10 +19,10 @@ typedef HRESULT (*CONNMGRESTABLISHCONNECTION)(CONNMGR_CONNECTIONINFO *pConnInfo,
 HANDLE g_phWebConnection;
 
 //////////////////////////////////////////////////////////////////////////
-//º¯Êı£ºEstablishDatacall
-//×÷ÓÃ£ºÁ¬½ÓÍøÂç£¬·µ»ØÊÇ·ñ³É¹¦
-//²ÎÊı£ºIPout£¬Á¬½ÓµÃµ½µÄIPµØÖ·
-//·µ»ØÖµ£ºTRUE³É¹¦£¬FALSEÊ§°Ü
+//å‡½æ•°ï¼šEstablishDatacall
+//ä½œç”¨ï¼šè¿æ¥ç½‘ç»œï¼Œè¿”å›æ˜¯å¦æˆåŠŸ
+//å‚æ•°ï¼šIPoutï¼Œè¿æ¥å¾—åˆ°çš„IPåœ°å€
+//è¿”å›å€¼ï¼šTRUEæˆåŠŸï¼ŒFALSEå¤±è´¥
 //////////////////////////////////////////////////////////////////////////
 BOOL EstablishConnection(TCHAR *IPout)
 {
@@ -121,8 +121,8 @@ tryagain:
 				sConInfo.bExclusive=FALSE;
 				sConInfo.bDisabled=FALSE;
                 GUID IID_DestNetInternet = {0x436ef144, 0xb4fb, 0x4863, 0xa0, 0x41, 0x8f, 0x90, 0x5a, 0x62, 0xc5, 0x72};
-				sConInfo.guidDestNet=IID_DestNetInternet;  //Á¬½ÓNetÍøÂç
-				//sConInfo.guidDestNet=IID_DestNetWAP;  //Á¬½ÓWapÍøÂç
+				sConInfo.guidDestNet=IID_DestNetInternet;  //è¿æ¥Netç½‘ç»œ
+				//sConInfo.guidDestNet=IID_DestNetWAP;  //è¿æ¥Wapç½‘ç»œ
 
 				// We want to wait until the connection was
 				// established successful but not longer then
@@ -149,12 +149,12 @@ tryagain:
 }
 
 //////////////////////////////////////////////////////////////////////////
-//º¯Êı£ºCloseConnection
-//×÷ÓÃ£ºÊÍ·ÅÍøÂçÁ¬½Ó
+//å‡½æ•°ï¼šCloseConnection
+//ä½œç”¨ï¼šé‡Šæ”¾ç½‘ç»œè¿æ¥
 //////////////////////////////////////////////////////////////////////////
 void CloseConnection()
 {
-	// ÊÍ·ÅÍøÂçÁ¬½Ó
+	// é‡Šæ”¾ç½‘ç»œè¿æ¥
 	//close   connect   
 	CONNMGRRELEASECONNECTION   g_hConnMgrReleaseConnection=NULL;   
 	HINSTANCE   hcellDll   =   LoadLibrary(TEXT("cellcore.dll"));   

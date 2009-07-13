@@ -1,4 +1,4 @@
-
+ï»¿
 /***************************************************************************
  *   Copyright (C) 2008 by DDD                                          *
  *   dedodong@163.com                                                     *
@@ -8,28 +8,28 @@
 #include "afxwin.h"
 
 
-// FxMsgDlg ¶Ô»°¿ò
+// FxMsgDlg å¯¹è¯æ¡†
 
 class FxMsgDlg : public CDialog
 {
 	DECLARE_DYNAMIC(FxMsgDlg)
 
 public:
-	FxMsgDlg(long ac_id, CWnd* pParent = NULL, BOOL isSendSMS = FALSE);   // ±ê×¼¹¹Ôìº¯Êı
+	FxMsgDlg(long ac_id, CWnd* pParent = NULL, BOOL isSendSMS = FALSE);   // æ ‡å‡†æ„é€ å‡½æ•°
 	virtual ~FxMsgDlg();
 
 	virtual void OnFinalRelease();
 
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 	enum { IDD = IDD_WMLF_MSG };
 
 //#ifdef WIN32_PLATFORM_WFSP
-protected:  // ¿Ø¼şÌõÇ¶Èë³ÉÔ±
+protected:  // æ§ä»¶æ¡åµŒå…¥æˆå‘˜
 	CCommandBar m_dlgCommandBar;
 //#endif // WIN32_PLATFORM_WFSP
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
 
 	DECLARE_MESSAGE_MAP()
 	DECLARE_DISPATCH_MAP()
@@ -80,7 +80,7 @@ protected:
 public:
     CString m_strInfo;
 private:
-    // ½«ÁÄÌì¼ÇÂ¼¹ö¶¯µ½×îÏÂÃæ
+    // å°†èŠå¤©è®°å½•æ»šåŠ¨åˆ°æœ€ä¸‹é¢
     void ScrollToLast(void);
 public:
     afx_msg void OnBdViewinfo();

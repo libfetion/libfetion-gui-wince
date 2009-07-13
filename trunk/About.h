@@ -1,22 +1,22 @@
-#pragma once
+ï»¿#pragma once
 
 
-// CAbout ¶Ô»°¿ò
+// CAbout å¯¹è¯æ¡†
 
 class CAbout : public CDialog
 {
 	DECLARE_DYNAMIC(CAbout)
 
 public:
-	CAbout(CWnd* pParent = NULL);   // ±ê×¼¹¹Ôìº¯Êı
+	CAbout(CWnd* pParent = NULL);   // æ ‡å‡†æ„é€ å‡½æ•°
 	virtual ~CAbout();
 
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 	enum { IDD = IDD_WMLF_ABOUT };
 
 protected:
 	CCommandBar m_dlgCommandBar;
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
 
 	DECLARE_MESSAGE_MAP()
 public:

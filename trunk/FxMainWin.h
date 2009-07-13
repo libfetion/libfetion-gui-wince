@@ -1,4 +1,4 @@
-
+ï»¿
 /***************************************************************************
  *   Copyright (C) 2008 by DDD                                          *
  *   dedodong@163.com                                                     *
@@ -12,26 +12,26 @@ class CLoginDlg;
 class BuddyOpt;
 class FxMsgDlg;
 
-// FxMainWin ¶Ô»°¿ò
+// FxMainWin å¯¹è¯æ¡†
 class FxMainWin : public CDialog
 {
 	DECLARE_DYNAMIC(FxMainWin)
 
 public:
-	FxMainWin(CWnd* pParent = NULL);   // ±ê×¼¹¹Ôìº¯Êı
+	FxMainWin(CWnd* pParent = NULL);   // æ ‡å‡†æ„é€ å‡½æ•°
 	virtual ~FxMainWin();
 
 //#ifdef WIN32_PLATFORM_WFSP
-protected:  // ¿Ø¼şÌõÇ¶Èë³ÉÔ±
+protected:  // æ§ä»¶æ¡åµŒå…¥æˆå‘˜
 	CCommandBar m_dlgCommandBar;
 //#endif // WIN32_PLATFORM_WFSP
 
 	void do_login();
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 	enum { IDD = IDD_WMLF_MAIN };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
 #if defined(_DEVICE_RESOLUTION_AWARE)// && !defined(WIN32_PLATFORM_WFSP)
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 #endif
@@ -70,9 +70,9 @@ public:
 	CList<int> timeOutMsgVector;
 	CList<TMPMSG_Info*> tmpMsg;
 public:
-	//µ±Ç°ÁÄÌì¶Ô»°¿ò
+	//å½“å‰èŠå¤©å¯¹è¯æ¡†
 	FxMsgDlg* m_currentMsgDlg;
-	//µ±Ç°ÁÄÌìItem
+	//å½“å‰èŠå¤©Item
 	HTREEITEM m_currentItem;
 public:
 	void relogin_fetion();
@@ -91,34 +91,34 @@ public:
     BOOL SetUserOnlineState(int iState);
 public:
 	BOOL m_isLoginOK;
-    // ÓÃ»§êÇ³Æ
+    // ç”¨æˆ·æ˜µç§°
     CString m_strNickName;
-    // ÓÃ»§Ç©Ãû
+    // ç”¨æˆ·ç­¾å
     CString m_strSign;
     afx_msg void OnStnClickedBtnAdd();
-    // ÁÄÌì¼ÇÂ¼´¦Àí
+    // èŠå¤©è®°å½•å¤„ç†
     CMessageLog m_MessageLog;
-    // ÏûÏ¢ÌáÊ¾
-    void NotifyUser(int EventType);
-    // ÊÇ·ñÔÚÊÕµ½ÏûÏ¢Ê±Õñ¶¯ÌáĞÑ
+    // æ¶ˆæ¯æç¤º
+    void NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName);
+    // æ˜¯å¦åœ¨æ”¶åˆ°æ¶ˆæ¯æ—¶æŒ¯åŠ¨æé†’
     bool m_bVibrate;
 
-    // ÊÇ·ñÔÚÊÕµ½ÏûÏ¢Ê±¾²Òô
+    // æ˜¯å¦åœ¨æ”¶åˆ°æ¶ˆæ¯æ—¶é™éŸ³
     bool m_bSilence;
     afx_msg void OnMainSetVibr();
     afx_msg void OnMainSetSilence();
     afx_msg void OnUpdateMainSetSilence(CCmdUI *pCmdUI);
     afx_msg void OnUpdateMainSetVibr(CCmdUI *pCmdUI);
-    // ³ÌĞòÆô¶¯Â·¾¶
+    // ç¨‹åºå¯åŠ¨è·¯å¾„
     CString m_strStartupPath;
-    // »ñÈ¡Æô¶¯Â·¾¶
+    // è·å–å¯åŠ¨è·¯å¾„
     CString GetStartupPath(void);
-    // µ±Ç°µÇÂ¼ÓÃ»§µÄID
+    // å½“å‰ç™»å½•ç”¨æˆ·çš„ID
     long m_lAccountID;
     afx_msg void OnBdViewinfo();
     afx_msg void OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu);
 private:
-    // ´¦ÀíÒÆ¶¯×é³É¹¦µÄÏûÏ¢
+    // å¤„ç†ç§»åŠ¨ç»„æˆåŠŸçš„æ¶ˆæ¯
     void handle_MoveGroupOk(long account_id, int group_id);
 public:
     afx_msg void OnAbout();
@@ -128,4 +128,18 @@ public:
     afx_msg void OnMainSetNosound();
     bool m_bNoSound;
     
+protected:
+    virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+public:
+    afx_msg void OnMainShownewmsg();
+private:
+    BOOL showMsgDlg(long lAccountID);
+public:
+    afx_msg void OnBdSendmsg();
+    afx_msg void OnMainAddbuddy();
+protected:
+    virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+public:
+    void OnMainShownewmsg2(void);
+    void OnMainDimiss(void);
 };

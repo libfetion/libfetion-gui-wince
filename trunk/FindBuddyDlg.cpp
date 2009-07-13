@@ -1,4 +1,4 @@
-// FindBuddyDlg.cpp : ÊµÏÖÎÄ¼ş
+ï»¿// FindBuddyDlg.cpp : å®ç°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -12,7 +12,7 @@
 #ifdef WIN32_PLATFORM_WFSP
 #include <tpcshell.h>
 #endif
-// CFindBuddyDlg ¶Ô»°¿ò
+// CFindBuddyDlg å¯¹è¯æ¡†
 
 IMPLEMENT_DYNAMIC(CFindBuddyDlg, CDialog)
 
@@ -51,10 +51,10 @@ BEGIN_MESSAGE_MAP(CFindBuddyDlg, CDialog)
 END_MESSAGE_MAP()
 
 
-// CFindBuddyDlg ÏûÏ¢´¦Àí³ÌĞò
+// CFindBuddyDlg æ¶ˆæ¯å¤„ç†ç¨‹åº
 
-// ĞŞ¸ÄÕßÎñ±Ø×¢Òâ:ÕâÀïÒòÎªÃ¿¸ö¿Ø¼şµÄÎ»ÖÃ¶¼ÊÇÓĞÏà¹ØĞÔµÄ,ËùÒÔ´úÂëµÄÇ°ºóÎ»ÖÃÒ»¶¨²»ÒªËæÒâ¸ü¸Ä
-// ³ı·ÇÄã·Ç³£Çå³ş×Ô¼ºµÄĞŞ¸Ä»áÔì³ÉÊ²Ã´ºó¹û.
+// ä¿®æ”¹è€…åŠ¡å¿…æ³¨æ„:è¿™é‡Œå› ä¸ºæ¯ä¸ªæ§ä»¶çš„ä½ç½®éƒ½æ˜¯æœ‰ç›¸å…³æ€§çš„,æ‰€ä»¥ä»£ç çš„å‰åä½ç½®ä¸€å®šä¸è¦éšæ„æ›´æ”¹
+// é™¤éä½ éå¸¸æ¸…æ¥šè‡ªå·±çš„ä¿®æ”¹ä¼šé€ æˆä»€ä¹ˆåæœ.
 // hiizsk   2009.07.11
 void CFindBuddyDlg::OnSize(UINT nType, int cx, int cy)
 {
@@ -143,7 +143,7 @@ BOOL CFindBuddyDlg::OnInitDialog()
     CDialog::OnInitDialog();
 
 #ifdef WIN32_PLATFORM_WFSP
-	//SP 2003SDK²»Ö§³ÖRadio Button£¬Òş²Øµô£¬¸ÄÓÃCombo Box
+	//SP 2003SDKä¸æ”¯æŒRadio Buttonï¼Œéšè—æ‰ï¼Œæ”¹ç”¨Combo Box
 	((CComboBox*)GetDlgItem(IDC_FB_CBO_NUMTYPE))->SetCurSel(0);
 #endif
 
@@ -154,14 +154,14 @@ BOOL CFindBuddyDlg::OnInitDialog()
 	if (!m_dlgCommandBar.Create(this) ||
 		!m_dlgCommandBar.InsertMenuBar(IDR_MENU_FINDBUDDY))
 	{
-		TRACE0("Î´ÄÜ´´½¨ CommandBar\n");
-		return FALSE;      // Î´ÄÜ´´½¨
+		TRACE0("æœªèƒ½åˆ›å»º CommandBar\n");
+		return FALSE;      // æœªèƒ½åˆ›å»º
 	}
 #endif
     InitGroupItem();
 
     return TRUE;  // return TRUE unless you set the focus to a control
-    // Òì³£: OCX ÊôĞÔÒ³Ó¦·µ»Ø FALSE
+    // å¼‚å¸¸: OCX å±æ€§é¡µåº”è¿”å› FALSE
 }
 
 void CFindBuddyDlg::InitGroupItem(void)
@@ -211,11 +211,11 @@ void CFindBuddyDlg::OnFbAdd()
     bool bMobileNo = ((CButton*)GetDlgItem(IDC_FB_RD_MOBILE))->GetCheck() == BST_CHECKED;
 #endif
 #ifdef WIN32_PLATFORM_WFSP
-	bool bMobileNo = ((CComboBox*)GetDlgItem(IDC_FB_CBO_NUMTYPE))->GetCurSel() == 0;  //Ñ¡ÔñÊÖ»úºÅ
+	bool bMobileNo = ((CComboBox*)GetDlgItem(IDC_FB_CBO_NUMTYPE))->GetCurSel() == 0;  //é€‰æ‹©æ‰‹æœºå·
 #endif
     if((bMobileNo && m_strBuddyID.GetLength() != 11) || (!bMobileNo && m_strBuddyID.GetLength() != 9))
     {
-        m_strInfo = _T("ÇëÊäÈëÕıÈ·µÄºÅÂë£¡ÊÖ»ú11Î»£¬·ÉĞÅºÅ9Î»¡£");
+        m_strInfo = _T("è¯·è¾“å…¥æ­£ç¡®çš„å·ç ï¼æ‰‹æœº11ä½ï¼Œé£ä¿¡å·9ä½ã€‚");
         UpdateData(FALSE);
         return;
     }
@@ -245,7 +245,7 @@ void CFindBuddyDlg::OnStnClickedFbBtnFind()
 void CFindBuddyDlg::OnCancel()
 {
 #ifdef WIN32_PLATFORM_WFSP
-	// ÔÚÕâÀïĞŞ¸ÄºóÍË¼üµÄĞĞÎªÎªÉ¾³ıEditBoxÖĞµÄÄÚÈİ£¬¶ø²»ÊÇÍË³öÄ£Ì¬¶Ô»°¿ò
+	// åœ¨è¿™é‡Œä¿®æ”¹åé€€é”®çš„è¡Œä¸ºä¸ºåˆ é™¤EditBoxä¸­çš„å†…å®¹ï¼Œè€Œä¸æ˜¯é€€å‡ºæ¨¡æ€å¯¹è¯æ¡†
 	SHSendBackToFocusWindow(WM_HOTKEY, 2, MAKELPARAM(MOD_KEYUP, VK_TBACK));
 #else
 	CDialog::OnCancel();

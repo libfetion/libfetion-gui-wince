@@ -68,9 +68,26 @@ BEGIN
     END
 END
 
+IDR_MENU_FINDBUDDY MENU 
+BEGIN
+    MENUITEM "添加",                          IDM_FB_ADD
+    POPUP "选项"
+    BEGIN
+        MENUITEM "使用手机号",                       IDM_FB_SET_MOBILE
+        MENUITEM "使用飞信号",                       IDM_FB_SET_FXNO
+        MENUITEM SEPARATOR
+        MENUITEM "取消",                          IDFINDCANCEL
+    END
+END
+
+IDR_MENU_ABOUT MENU 
+BEGIN
+    MENUITEM "确定   ",                       IDOK
+END
+
 IDR_MAIN_MENU MENU 
 BEGIN
-    MENUITEM "发送消息",                        IDM_MAIN_SENDMSG
+    MENUITEM "查看消息",                        IDM_MAIN_SHOWNEWMSG
     POPUP "菜单"
     BEGIN
         POPUP "联系人操作"
@@ -95,28 +112,11 @@ BEGIN
             MENUITEM "振动",                          IDM_MAIN_SET_VIBR
             MENUITEM "无声",                          IDM_MAIN_SET_NOSOUND
             MENUITEM "无提示",                         IDM_MAIN_SET_SILENCE
+            MENUITEM "关于",                          IDM_ABOUT
         END
         MENUITEM "注销并退出",                       IDM_MAIN_LOGOFF
-        MENUITEM "关于",                          IDM_ABOUT
         MENUITEM "最小化",                         IDM_MAIN_MINIMAL
     END
-END
-
-IDR_MENU_FINDBUDDY MENU 
-BEGIN
-    MENUITEM "添加",                          IDM_FB_ADD
-    POPUP "选项"
-    BEGIN
-        MENUITEM "使用手机号",                       IDM_FB_SET_MOBILE
-        MENUITEM "使用飞信号",                       IDM_FB_SET_FXNO
-        MENUITEM SEPARATOR
-        MENUITEM "取消",                          IDFINDCANCEL
-    END
-END
-
-IDR_MENU_ABOUT MENU 
-BEGIN
-    MENUITEM "确定   ",                       IDOK
 END
 
 #endif    // 非特定语言(系统默认值) resources

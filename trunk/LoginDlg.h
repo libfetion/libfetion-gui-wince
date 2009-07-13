@@ -1,10 +1,10 @@
-
+ï»¿
 /***************************************************************************
  *   Copyright (C) 2008 by DDD                                          *
  *   dedodong@163.com                                                     *
  *                                                                         *
  ***************************************************************************/
-// WMLFDlg.h : Í·ÎÄ¼ş
+// WMLFDlg.h : å¤´æ–‡ä»¶
 //
 
 #pragma once
@@ -12,39 +12,39 @@
 
 #define FX_LOGINSTATE_MSG WM_USER+1 
 
-// CLoginDlg ¶Ô»°¿ò
+// CLoginDlg å¯¹è¯æ¡†
 class CLoginDlg : public CDialog
 {
-// ¹¹Ôì
+// æ„é€ 
 public:
-	CLoginDlg(CWnd* pParent = NULL);	// ±ê×¼¹¹Ôìº¯Êı
+	CLoginDlg(CWnd* pParent = NULL);	// æ ‡å‡†æ„é€ å‡½æ•°
 
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 	enum { IDD = IDD_WMLF_DIALOG };
 
 //#ifdef WIN32_PLATFORM_WFSP
-protected:  // ¿Ø¼şÌõÇ¶Èë³ÉÔ±
+protected:  // æ§ä»¶æ¡åµŒå…¥æˆå‘˜
 	CCommandBar m_dlgCommandBar;
 //#endif // WIN32_PLATFORM_WFSP
 
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV æ”¯æŒ
 
-// ÊµÏÖ
+// å®ç°
 protected:
 	HICON m_hIcon;
 
-	// Éú³ÉµÄÏûÏ¢Ó³Éäº¯Êı
+	// ç”Ÿæˆçš„æ¶ˆæ¯æ˜ å°„å‡½æ•°
 	virtual BOOL OnInitDialog();
 #if defined(_DEVICE_RESOLUTION_AWARE)// && !defined(WIN32_PLATFORM_WFSP)
 	afx_msg void OnSize(UINT /*nType*/, int /*cx*/, int /*cy*/);
 #endif
 	DECLARE_MESSAGE_MAP()
 public:
-	// ·ÉĞÅID
+	// é£ä¿¡ID
 	CString m_fetion_id;
 public:
-	// ·ÉĞÅµÇÂ¼ÃÜÂë
+	// é£ä¿¡ç™»å½•å¯†ç 
 	CString m_passwd;
 
 	//save fetion server address
@@ -53,10 +53,10 @@ public:
 public:
 	afx_msg void OnBnClickedLogin();
 public:
-	// ·ÉĞÅµÇÂ¼×´Ì¬
+	// é£ä¿¡ç™»å½•çŠ¶æ€
 	CString m_login_state;
 public:
-	// ·ÉĞÅµÇÂ¼±êÖ¾
+	// é£ä¿¡ç™»å½•æ ‡å¿—
 	BOOL m_LoginFlag;
 protected:
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
@@ -74,13 +74,14 @@ public:
 protected:
 	virtual void OnCancel();
 public:
-    // ×Ô¶¯Á¬½ÓÍøÂç
+    // è‡ªåŠ¨è¿æ¥ç½‘ç»œ
     BOOL EstablishConnection(void);
 protected:
     void OnRemPassChanged();
-    // ÊÇ·ñ¼Ç×¡ÃÜÂë
+    // æ˜¯å¦è®°ä½å¯†ç 
     BOOL m_bRemPass;
 public:
-    // ÊÇ·ñÒÑ¾­¿ªÊ¼µÇÂ¼
+    // æ˜¯å¦å·²ç»å¼€å§‹ç™»å½•
     bool m_bIsLoging;
+    afx_msg void OnUpdateLogin(CCmdUI *pCmdUI);
 };
