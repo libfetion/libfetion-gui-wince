@@ -64,6 +64,7 @@
 #define IDR_MENU_ABOUT                  172
 #define IDC_BI_CITY                     200
 #define IDC_FETION_ID                   1000
+#define IDC_STATIC_ABOUT                1000
 #define IDC_PWD                         1001
 #define IDC_LOGIN                       1002
 #define IDC_STATIC_PWD                  1003
@@ -199,7 +200,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        151
 #define _APS_NEXT_COMMAND_VALUE         32803
-#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

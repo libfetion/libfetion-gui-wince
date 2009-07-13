@@ -43,7 +43,6 @@
 #define IDB_BITMAP2                     170
 #define IDB_BITMAP_FIND                 170
 #define IDD_WMLF_ABOUT                  171
-#define IDR_MENU1                       172
 #define IDR_MENU_ABOUT                  172
 #define IDC_STATIC_1                    200
 #define IDC_BI_CITY                     200
@@ -102,6 +101,7 @@
 #define IDC_FB_STATIC_GROUP             1079
 #define IDC_FB_CBO_GROUP                1080
 #define IDC_FB_STATIC_INFO              1081
+#define IDC_STATIC_ABOUT                1082
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_MENU_32773                   32773
@@ -191,14 +191,15 @@
 #define IDM_MAIN_NOSOUND                32856
 #define IDM_MAIN_SET_NOSOUND            32857
 #define ID_32858                        32858
+#define IDFINDCANCEL                    32859
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        173
-#define _APS_NEXT_COMMAND_VALUE         32859
-#define _APS_NEXT_CONTROL_VALUE         1082
+#define _APS_NEXT_COMMAND_VALUE         32860
+#define _APS_NEXT_CONTROL_VALUE         1083
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
