@@ -50,4 +50,10 @@ public:
     // 将组ID保存到变量中与combobox中的每一个Index相对应
     int m_iGroupIDs[25];
     afx_msg void OnOk();
+protected:
+//	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+public:
+//	virtual BOOL PreTranslateMessage(MSG* pMsg);
+protected:
+	virtual void OnCancel();
 };

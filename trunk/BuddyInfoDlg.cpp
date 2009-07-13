@@ -9,6 +9,10 @@
 #ifdef M8
 #include "M8Misc.h"
 #endif
+
+#ifdef WIN32_PLATFORM_WFSP
+#include <tpcshell.h>
+#endif
 // CBuddyInfoDlg 对话框
 
 IMPLEMENT_DYNAMIC(CBuddyInfoDlg, CDialog)
@@ -345,4 +349,14 @@ void CBuddyInfoDlg::OnOk()
         fx_set_buddyinfo(m_lAccountID, ConvertUtf16ToUtf8(m_strShowName), NULL, NULL); 
     }
     CDialog::OnOK();
+}
+
+void CBuddyInfoDlg::OnCancel()
+{
+#ifdef WIN32_PLATFORM_WFSP
+	// 在这里修改后退键的行为为删除EditBox中的内容，而不是退出模态对话框
+	SHSendBackToFocusWindow(WM_HOTKEY, 2, MAKELPARAM(MOD_KEYUP, VK_TBACK));
+#else
+	CDialog::OnCancel();
+#endif // WIN32_PLATFORM_W
 }

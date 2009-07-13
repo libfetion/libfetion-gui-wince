@@ -8,6 +8,10 @@
 #ifdef M8
 #include "M8Misc.h"
 #endif
+
+#ifdef WIN32_PLATFORM_WFSP
+#include <tpcshell.h>
+#endif
 // CFindBuddyDlg 对话框
 
 IMPLEMENT_DYNAMIC(CFindBuddyDlg, CDialog)
@@ -43,6 +47,7 @@ BEGIN_MESSAGE_MAP(CFindBuddyDlg, CDialog)
     ON_COMMAND(IDM_FB_SET_FXNO, &CFindBuddyDlg::OnFbSetFxno)
     ON_COMMAND(IDM_FB_ADD, &CFindBuddyDlg::OnFbAdd)
     ON_STN_CLICKED(IDC_FB_BTN_FIND, &CFindBuddyDlg::OnStnClickedFbBtnFind)
+	ON_COMMAND(IDFINDCANCEL, &CFindBuddyDlg::OnFindcancel)
 END_MESSAGE_MAP()
 
 
@@ -129,6 +134,11 @@ BOOL CFindBuddyDlg::OnInitDialog()
 {
     CDialog::OnInitDialog();
 
+#ifdef WIN32_PLATFORM_WFSP
+	//SP 2003SDK不支持Radio Button，隐藏掉，改用Combo Box
+	((CComboBox*)GetDlgItem(IDC_FB_CBO_NUMTYPE))->SetCurSel(0);
+#endif
+
 #ifdef M8
     AddMenuBarForM8(this->GetSafeHwnd(), IDR_MENU_BUDDYINFO);
     FullScreen(this->GetSafeHwnd());
@@ -166,20 +176,35 @@ void CFindBuddyDlg::InitGroupItem(void)
 }
 void CFindBuddyDlg::OnFbSetMobile()
 {
+#ifdef WIN32_PLATFORM_PSPC
     ((CButton*)GetDlgItem(IDC_FB_RD_MOBILE))->SetCheck(BST_CHECKED);
     ((CButton*)GetDlgItem(IDC_FB_RD_FXNO))->SetCheck(BST_UNCHECKED);
+#endif
+#ifdef WIN32_PLATFORM_WFSP
+	((CComboBox*)GetDlgItem(IDC_FB_CBO_NUMTYPE))->SetCurSel(0);
+#endif
 }
 
 void CFindBuddyDlg::OnFbSetFxno()
 {
+#ifdef WIN32_PLATFORM_PSPC
     ((CButton*)GetDlgItem(IDC_FB_RD_MOBILE))->SetCheck(BST_UNCHECKED);
     ((CButton*)GetDlgItem(IDC_FB_RD_FXNO))->SetCheck(BST_CHECKED);
+#endif
+#ifdef WIN32_PLATFORM_WFSP
+	((CComboBox*)GetDlgItem(IDC_FB_CBO_NUMTYPE))->SetCurSel(1);
+#endif
 }
 
 void CFindBuddyDlg::OnFbAdd()
 {
     UpdateData();
+#ifdef WIN32_PLATFORM_PSPC
     bool bMobileNo = ((CButton*)GetDlgItem(IDC_FB_RD_MOBILE))->GetCheck() == BST_CHECKED;
+#endif
+#ifdef WIN32_PLATFORM_WFSP
+	bool bMobileNo = ((CComboBox*)GetDlgItem(IDC_FB_CBO_NUMTYPE))->GetCurSel() == 0;  //选择手机号
+#endif
     if((bMobileNo && m_strBuddyID.GetLength() != 11) || (!bMobileNo && m_strBuddyID.GetLength() != 9))
     {
         m_strInfo = _T("请输入正确的号码！手机11位，飞信号9位。");
@@ -207,4 +232,19 @@ void CFindBuddyDlg::OnFbAdd()
 void CFindBuddyDlg::OnStnClickedFbBtnFind()
 {
 
+}
+
+void CFindBuddyDlg::OnCancel()
+{
+#ifdef WIN32_PLATFORM_WFSP
+	// 在这里修改后退键的行为为删除EditBox中的内容，而不是退出模态对话框
+	SHSendBackToFocusWindow(WM_HOTKEY, 2, MAKELPARAM(MOD_KEYUP, VK_TBACK));
+#else
+	CDialog::OnCancel();
+#endif // WIN32_PLATFORM_W
+}
+
+void CFindBuddyDlg::OnFindcancel()
+{
+	CDialog::OnCancel();
 }

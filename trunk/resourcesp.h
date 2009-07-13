@@ -115,6 +115,7 @@
 #define IDC_FB_STATIC_GROUP             1079
 #define IDC_FB_CBO_GROUP                1080
 #define IDC_FB_STATIC_INFO              1081
+#define IDC_FB_CBO_NUMTYPE              1083
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_MENU_32773                   32773
@@ -138,6 +139,7 @@
 #define ID_32800                        32800
 #define ID_32802                        32801
 #define IDM_MAIN_STATE_ONLINE           32802
+#define IDFINDCANCEL                    32802
 #define IDM_MAIN_STATE_HIDE             32803
 #define IDM_MAIN_STATE_BUSY             32804
 #define IDM_MAIN_STATE_AWAY             32805
@@ -195,8 +197,8 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        149
-#define _APS_NEXT_COMMAND_VALUE         32802
+#define _APS_NEXT_RESOURCE_VALUE        151
+#define _APS_NEXT_COMMAND_VALUE         32803
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

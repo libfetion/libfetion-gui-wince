@@ -110,7 +110,7 @@ BEGIN
         MENUITEM " π”√ ÷ª˙∫≈",                       IDM_FB_SET_MOBILE
         MENUITEM " π”√∑…–≈∫≈",                       IDM_FB_SET_FXNO
         MENUITEM SEPARATOR
-        MENUITEM "»°œ˚",                          IDCANCEL
+        MENUITEM "»°œ˚",                          IDFINDCANCEL
     END
 END
 
@@ -211,30 +211,30 @@ BEGIN
 END
 
 IDD_WMLF_FINDBUDDY DIALOG  0, 0, 163, 176
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_VSCROLL | WS_SYSMENU
 CAPTION "ÃÌº”∫√”—"
 FONT 9, "MS Shell Dlg"
 BEGIN
-    CONTROL         "∑…–≈∫≈",IDC_FB_RD_FXNO,"Button",BS_AUTORADIOBUTTON,51,7,37,10
-    CONTROL         " ÷ª˙∫≈",IDC_FB_RD_MOBILE,"Button",BS_AUTORADIOBUTTON,7,7,37,10
-    EDITTEXT        IDC_FB_EDIT_NO,7,22,130,14,ES_AUTOHSCROLL
-    CONTROL         170,IDC_FB_BTN_FIND,"Static",SS_BITMAP,142,23,11,11
-    LISTBOX         IDC_FB_LIST_INFO,7,55,148,20,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_MULTICOLUMN | WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_FB_EDIT_NAME,7,90,148,14,ES_AUTOHSCROLL
+    COMBOBOX        IDC_FB_CBO_NUMTYPE,7,7,138,90,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_FB_EDIT_NO,7,23,130,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_FB_EDIT_NAME,7,90,138,14,ES_AUTOHSCROLL
+    COMBOBOX        IDC_FB_CBO_GROUP,7,117,138,90,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_FB_EDIT_NAME2,7,145,138,14,ES_AUTOHSCROLL
+    CONTROL         "∑…–≈∫≈",IDC_FB_RD_FXNO,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE,86,159,37,10
+    CONTROL         " ÷ª˙∫≈",IDC_FB_RD_MOBILE,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE,42,159,37,10
+    LISTBOX         IDC_FB_LIST_INFO,7,55,138,20,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_MULTICOLUMN | WS_VSCROLL
     LTEXT           "∑¢ÀÕ«Î«Û ±œÚ∂‘∑Ωœ‘ æµƒ√˚≥∆:",IDC_FB_STATIC_NAME,7,79,112,8
     LTEXT           "ÃÌº”µΩ◊È",IDC_FB_STATIC_GROUP,7,107,85,8
-    COMBOBOX        IDC_FB_CBO_GROUP,7,117,148,90,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "æ≤Ã¨",IDC_FB_STATIC_INFO,7,41,15,8
-    EDITTEXT        IDC_FB_EDIT_NAME2,7,145,148,14,ES_AUTOHSCROLL
-    LTEXT           "∂‘∑ΩµƒÍ«≥∆:",IDC_FB_STATIC_NAME2,7,133,148,8
+    LTEXT           "∂‘∑ΩµƒÍ«≥∆:",IDC_FB_STATIC_NAME2,7,133,138,8
 END
 
 IDD_WMLF_ABOUT DIALOG  0, 0, 186, 150
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_VSCROLL | WS_SYSMENU
 CAPTION "Dialog"
 FONT 9, "MS Shell Dlg"
 BEGIN
-    LTEXT           "πÿ”⁄LibFetion WM∞Ê\r\n\r\nµ±«∞∞Ê±æ∫≈:20090712alpha\r\n\r\n±æ≥Ã–Úª˘”⁄LibFetionø‚±‡–¥£¨¡ÀΩ‚∏¸∂‡«Î∑√Œ \r\nwww.libfetion.cn.\r\nCopyright @ 2009 DDD(dedodong@163.com) \r\nAll Rights Reserved.\r\n\r\nWindows Mobile ∞Ê±æ”…“‘œ¬»À‘±ø™∑¢:\r\nDDD\r\ndaviyang35\r\nEric\r\nBabylon\r\n»Á”–Œ Ã‚ª∂”≠µΩ¬€Ã≥∑¥¿°°£",IDC_STATIC,7,7,172,135
+    LTEXT           "πÿ”⁄LibFetion WM∞Ê\r\n\r\nµ±«∞∞Ê±æ∫≈:20090712alpha\r\n\r\n±æ≥Ã–Úª˘”⁄LibFetionø‚±‡–¥£¨¡ÀΩ‚∏¸∂‡«Î∑√Œ \r\nwww.libfetion.cn.\r\nCopyright @ 2009 DDD(dedodong@163.com) \r\nAll Rights Reserved.\r\n\r\nWindows Mobile ∞Ê±æ”…“‘œ¬»À‘±ø™∑¢:\r\nDDD\r\ndaviyang35\r\nEric\r\nBabylon\r\n»Á”–Œ Ã‚ª∂”≠µΩ¬€Ã≥∑¥¿°°£",IDC_STATIC,7,7,163,135
 END
 
 
@@ -321,7 +321,7 @@ BEGIN
     IDD_WMLF_FINDBUDDY, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 155
+        RIGHTMARGIN, 145
         TOPMARGIN, 7
         BOTTOMMARGIN, 169
     END
@@ -329,7 +329,7 @@ BEGIN
     IDD_WMLF_ABOUT, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 179
+        RIGHTMARGIN, 170
         TOPMARGIN, 7
         BOTTOMMARGIN, 142
     END
@@ -350,6 +350,21 @@ IDB_BITMAP_USERHEAD     BITMAP                  "res\\misc\\USERHEAD.bmp"
 //
 
 IDR_MSGSOUND            WAVE                    "res\\msg.wav"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_WMLF_FINDBUDDY DLGINIT
+BEGIN
+    IDC_FB_CBO_NUMTYPE, 0x403, 7, 0
+0xd6ca, 0xfabb, 0xc5ba, "\000" 
+    IDC_FB_CBO_NUMTYPE, 0x403, 7, 0
+0xc9b7, 0xc5d0, 0xc5ba, "\000" 
+    0
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -456,8 +471,8 @@ BEGIN
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
     "LANGUAGE 4, 2\r\n"
     "#pragma code_page(936)\r\n"
-    "#include ""res\\WMLFsp.rc2""  // ??? Microsoft Visual C++ ?‡???-|?????????\r\n"
-    "#include ""afxres.rc""     // ?‡??????????t\r\n"
+    "#include ""res\\WMLFsp.rc2""  // ??? Microsoft Visual C++ ????-|?????????\r\n"
+    "#include ""afxres.rc""     // ???????????t\r\n"
     "#endif\r\n"
     "\0"
 END
@@ -491,8 +506,8 @@ IDR_MAINFRAME           ICON                    "res\\WMLF.ico"
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE 4, 2
 #pragma code_page(936)
-#include "res\WMLFsp.rc2"  // ??? Microsoft Visual C++ ?°ß°Ë???-|?????°Ïo???
-#include "afxres.rc"     // ?°ß°Ë?°Ïo??????°Ï|?t
+#include "res\WMLFsp.rc2"  // ??? Microsoft Visual C++ ?®§???-|?????????
+#include "afxres.rc"     // ?®§??????????t
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
