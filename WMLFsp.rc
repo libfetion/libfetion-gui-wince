@@ -234,7 +234,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_VSCROLL | WS_SYSMENU
 CAPTION "Dialog"
 FONT 9, "MS Shell Dlg"
 BEGIN
-    LTEXT           "关于LibFetion WM版(20090712alpha)\r\n\r\n本程序基于LibFetion库编写，了解更多请访问\r\nwww.libfetion.cn.\r\nCopyright @ 2009 DDD(dedodong@163.com) \r\nAll Rights Reserved.\r\n\r\nWindows Mobile 版本由以下人员开发:\r\nDDD\r\ndaviyang35\r\nEric\r\nBabylon\r\n如有问题欢迎到论坛反馈。",IDC_STATIC,7,7,138,136
+    LTEXT           "关于LibFetion WM版(20090712alpha)\r\n\r\n本程序基于LibFetion库编写，了解更多请访问\r\nwww.libfetion.cn.\r\nCopyright @ 2009 DDD(dedodong@163.com) \r\nAll Rights Reserved.\r\n\r\nWindows Mobile 版本由以下人员开发:\r\nDDD\r\ndaviyang35\r\nEric\r\nBabylon\r\n如有问题欢迎到论坛反馈。",IDC_STATIC_ABOUT,7,7,138,136
 END
 
 
