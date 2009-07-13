@@ -1,4 +1,4 @@
-// About.cpp : ÊµÏÖÎÄ¼þ
+ï»¿// About.cpp : å®žçŽ°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -6,7 +6,7 @@
 #include "About.h"
 
 
-// CAbout ¶Ô»°¿ò
+// CAbout å¯¹è¯æ¡†
 
 IMPLEMENT_DYNAMIC(CAbout, CDialog)
 
@@ -31,7 +31,7 @@ BEGIN_MESSAGE_MAP(CAbout, CDialog)
 END_MESSAGE_MAP()
 
 
-// CAbout ÏûÏ¢´¦Àí³ÌÐò
+// CAbout æ¶ˆæ¯å¤„ç†ç¨‹åº
 
 BOOL CAbout::OnInitDialog()
 {
@@ -40,25 +40,25 @@ BOOL CAbout::OnInitDialog()
 	if (!m_dlgCommandBar.Create(this) ||
 		!m_dlgCommandBar.InsertMenuBar(IDR_MENU_ABOUT))
 	{
-		TRACE0("Î´ÄÜ´´½¨ CommandBar\n");
-		return FALSE;      // Î´ÄÜ´´½¨
+		TRACE0("æœªèƒ½åˆ›å»º CommandBar\n");
+		return FALSE;      // æœªèƒ½åˆ›å»º
 	}
 
     CString strAboutMsg = 
-_T("¹ØÓÚLibFetion WM°æ(20090713alpha)\r\n\r\n\
-±¾³ÌÐò»ùÓÚLibFetion¿â±àÐ´£¬ÁË½â¸ü¶àÇë·ÃÎÊ\r\n\
+_T("å…³äºŽLibFetion WMç‰ˆ(20090713alpha)\r\n\r\n\
+æœ¬ç¨‹åºåŸºäºŽLibFetionåº“ç¼–å†™ï¼Œäº†è§£æ›´å¤šè¯·è®¿é—®\r\n\
 www.libfetion.cn.\r\n\
 Copyright @ 2009 DDD(dedodong@163.com) \r\n\
 All Rights Reserved.\r\n\r\n\
-Windows Mobile °æ±¾ÓÉÒÔÏÂÈËÔ±¿ª·¢:\r\n\
-ºËÐÄ:\t\tDDD\r\n\
-¿ª·¢&&Ð­µ÷:\tdaviyang35\r\n\
-¿ª·¢&&UI:\tBabylon\r\n\
-¿ª·¢&&SP°æUI:\tEric\r\n\
-ÈçÓÐÎÊÌâ»¶Ó­µ½ÂÛÌ³·´À¡¡£");
+Windows Mobile ç‰ˆæœ¬ç”±ä»¥ä¸‹äººå‘˜å¼€å‘:\r\n\
+æ ¸å¿ƒ:\t\tDDD\r\n\
+å¼€å‘&&åè°ƒ:\tdaviyang35\r\n\
+å¼€å‘&&UI:\tBabylon\r\n\
+å¼€å‘&&SPç‰ˆUI:\tEric\r\n\
+å¦‚æœ‰é—®é¢˜æ¬¢è¿Žåˆ°è®ºå›åé¦ˆã€‚");
     
     ((CStatic*)this->GetDlgItem(IDC_STATIC_ABOUT))->SetWindowTextW(strAboutMsg);
     return TRUE;  // return TRUE unless you set the focus to a control
-    // Òì³£: OCX ÊôÐÔÒ³Ó¦·µ»Ø FALSE
+    // å¼‚å¸¸: OCX å±žæ€§é¡µåº”è¿”å›ž FALSE
 }
 

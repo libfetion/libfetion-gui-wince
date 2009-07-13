@@ -1,22 +1,22 @@
-#pragma once
+ï»¿#pragma once
 #include "afxwin.h"
 
 
-// CFindBuddyDlg ¶Ô»°¿ò
+// CFindBuddyDlg å¯¹è¯æ¡†
 
 class CFindBuddyDlg : public CDialog
 {
 	DECLARE_DYNAMIC(CFindBuddyDlg)
 
 public:
-	CFindBuddyDlg(CWnd* pParent = NULL);   // ±ê×¼¹¹Ôìº¯Êı
+	CFindBuddyDlg(CWnd* pParent = NULL);   // æ ‡å‡†æ„é€ å‡½æ•°
 	virtual ~CFindBuddyDlg();
 
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 	enum { IDD = IDD_WMLF_FINDBUDDY };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
 
 	CCommandBar m_dlgCommandBar;
 
@@ -25,18 +25,18 @@ public:
     afx_msg void OnSize(UINT nType, int cx, int cy);
     virtual BOOL OnInitDialog();
     void InitGroupItem(void);
-    // ºÃÓÑID»òµç»°ºÅÂë
+    // å¥½å‹IDæˆ–ç”µè¯å·ç 
     CString m_strBuddyID;
     afx_msg void OnFbSetMobile();
     afx_msg void OnFbSetFxno();
     afx_msg void OnFbAdd();
     CComboBox m_cboGroup;
     CString m_strUserName;
-    // ½«×éID±£´æµ½±äÁ¿ÖĞÓëcomboboxÖĞµÄÃ¿Ò»¸öIndexÏà¶ÔÓ¦
+    // å°†ç»„IDä¿å­˜åˆ°å˜é‡ä¸­ä¸comboboxä¸­çš„æ¯ä¸€ä¸ªIndexç›¸å¯¹åº”
     int m_iGroupIDs[25];
-    // ÌáÊ¾³ö´íµÄĞÅÏ¢
+    // æç¤ºå‡ºé”™çš„ä¿¡æ¯
     CString m_strInfo;
-    // ¶Ô·½µÄÆÁÏÔÃû³Æ
+    // å¯¹æ–¹çš„å±æ˜¾åç§°
     CString m_strLocalName;
     afx_msg void OnStnClickedFbBtnFind();
 protected:

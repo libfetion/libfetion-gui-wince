@@ -1,4 +1,4 @@
-
+﻿
 
 #ifndef M8Misc
 #define M8Misc

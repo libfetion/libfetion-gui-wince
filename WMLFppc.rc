@@ -42,7 +42,7 @@ END
 
 IDR_MAIN_MENU MENU 
 BEGIN
-    MENUITEM "发送消息",                        IDM_MAIN_SENDMSG
+    MENUITEM "查看消息",                        IDM_MAIN_SHOWNEWMSG
     POPUP "菜单"
     BEGIN
         POPUP "联系人操作"
@@ -67,9 +67,9 @@ BEGIN
             MENUITEM "振动",                          IDM_MAIN_SET_VIBR
             MENUITEM "无声",                          IDM_MAIN_SET_NOSOUND
             MENUITEM "无提示",                         IDM_MAIN_SET_SILENCE
+            MENUITEM "关于",                          IDM_ABOUT
         END
         MENUITEM "注销并退出",                       IDM_MAIN_LOGOFF
-        MENUITEM "关于",                          IDM_ABOUT
         MENUITEM "最小化",                         IDM_MAIN_MINIMAL
     END
 END
@@ -176,7 +176,7 @@ EXSTYLE WS_EX_APPWINDOW | 0x80000000L
 CAPTION "LibFetion"
 FONT 9, "MS Shell Dlg"
 BEGIN
-    CONTROL         "",IDC_TREE_BUDDY,"SysTreeView32",WS_BORDER | WS_TABSTOP,6,50,142,102
+    CONTROL         "",IDC_TREE_BUDDY,"SysTreeView32",TVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,6,50,142,102
     LTEXT           "网络错误,正在重连服务器...",IDC_NET_STATE,6,144,142,8,NOT WS_VISIBLE
     EDITTEXT        IDC_EDIT_FIND,6,35,117,14,ES_AUTOHSCROLL
     CONTROL         164,IDC_HEAD_PIC,"Static",SS_BITMAP,10,12,18,18
@@ -420,6 +420,15 @@ IDB_BITMAP_USERHEAD     BITMAP                  "res\\misc\\USERHEAD.bmp"
 //
 
 IDR_MSGSOUND            WAVE                    "res\\msg.wav"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON_NOTIFY         ICON                    "res\\icon1.ico"
 #endif    // 中文(中华人民共和国) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -459,6 +468,15 @@ IDB_BITMAP_FLICK        BITMAP                  "res\\misc\\online_flick.bmp"
 IDB_BITMAP_BIGLOGO      BITMAP                  "res\\misc\\LibFetion_Big.bmp"
 IDB_BITMAP_FIND         BITMAP                  "res\\misc\\find.bmp"
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\WMLF.ico"
+
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -494,15 +512,6 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDR_MAINFRAME           ICON                    "res\\WMLF.ico"
 #endif    // 英语(美国) resources
 /////////////////////////////////////////////////////////////////////////////
 

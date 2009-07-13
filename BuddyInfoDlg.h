@@ -1,23 +1,23 @@
-#pragma once
+ï»¿#pragma once
 #include "afxwin.h"
 
 
-// CBuddyInfoDlg ¶Ô»°¿ò
+// CBuddyInfoDlg å¯¹è¯æ¡†
 
 class CBuddyInfoDlg : public CDialog
 {
 	DECLARE_DYNAMIC(CBuddyInfoDlg)
 
 public:
-	CBuddyInfoDlg(long lAccountID = 0, CWnd* pParent = NULL);   // ±ê×¼¹¹Ôìº¯Êı
+	CBuddyInfoDlg(long lAccountID = 0, CWnd* pParent = NULL);   // æ ‡å‡†æ„é€ å‡½æ•°
 	
 	virtual ~CBuddyInfoDlg();
 
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 	enum { IDD = IDD_WMLF_BUDDYINFO };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
 
 	CCommandBar m_dlgCommandBar;
 
@@ -30,24 +30,24 @@ public:
     void CBuddyInfoDlg::InitScrollInfo();
 
 	const Fetion_Account *m_account;
-    // ÆÁÏÔÃû³Æ
+    // å±æ˜¾åç§°
     CString m_strShowName;
-    // ËùÊô×é
+    // æ‰€å±ç»„
     int m_iGroupID;
-    // ·ÉĞÅºÅÂë
+    // é£ä¿¡å·ç 
     long m_lAccountID;
-    // êÇ³Æ
+    // æ˜µç§°
     CString m_strNickName;
     CString m_strName;
     CString m_strSex;
     CString m_strProv;
     CString m_strCity;
-    // Ç©Ãû
+    // ç­¾å
     CString m_strSign;
     void InitGroupItem(void);
     CComboBox m_cboGroup;
     afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-    // ½«×éID±£´æµ½±äÁ¿ÖĞÓëcomboboxÖĞµÄÃ¿Ò»¸öIndexÏà¶ÔÓ¦
+    // å°†ç»„IDä¿å­˜åˆ°å˜é‡ä¸­ä¸comboboxä¸­çš„æ¯ä¸€ä¸ªIndexç›¸å¯¹åº”
     int m_iGroupIDs[25];
     afx_msg void OnOk();
 protected:

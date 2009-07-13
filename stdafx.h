@@ -1,6 +1,6 @@
-// stdafx.h : ��׼ϵͳ�����ļ��İ����ļ���
-// ���Ǿ���ʹ�õ��������ĵ�
-//  �ض�����Ŀ�İ����ļ�
+﻿// stdafx.h : 标准系统包含文件的包含文件，
+// 或是经常使用但不常更改的
+//  特定于项目的包含文件
 
 #pragma once
 
@@ -11,19 +11,19 @@
 #pragma comment(lib, "./lib/LibFetion.lib") 
 
 
-// ע�� - ���ֵ����ΪĿ��� Windows CE OS �汾�Ĺ����Բ���ǿ
+// 注意 - 这个值与作为目标的 Windows CE OS 版本的关联性并不强
 #define WINVER _WIN32_WCE
 
 #ifndef VC_EXTRALEAN
-#define VC_EXTRALEAN		// �� Windows ͷ���ų�����ʹ�õ�����
+#define VC_EXTRALEAN		// 从 Windows 头中排除极少使用的资料
 #endif
 
-#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// ĳЩ CString ���캯��������ʽ��
+#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// 某些 CString 构造函数将是显式的
 #ifdef _CE_DCOM
 #define _ATL_APARTMENT_THREADED
 #endif
 
-// �ر� MFC ��ĳЩ�����������ɷ��ĺ��Եľ�����Ϣ������
+// 关闭 MFC 对某些常见但经常可放心忽略的警告消息的隐藏
 #define _AFX_ALL_WARNINGS
 
 #include <ceconfig.h>
@@ -31,17 +31,17 @@
 #define SHELL_AYGSHELL
 #endif
 
-#include <afxwin.h>         // MFC ��������ͱ�׼���
-#include <afxext.h>         // MFC ��չ
+#include <afxwin.h>         // MFC 核心组件和标准组件
+#include <afxext.h>         // MFC 扩展
 
 #ifndef _AFX_NO_OLE_SUPPORT
-#include <afxdtctl.h>		// MFC �� Internet Explorer 4 �����ؼ���֧��
+#include <afxdtctl.h>		// MFC 对 Internet Explorer 4 公共控件的支持
 #endif
 
 
 
 #ifndef _AFX_NO_AFXCMN_SUPPORT
-#include <afxcmn.h>			// MFC �� Windows �����ؼ���֧��
+#include <afxcmn.h>			// MFC 对 Windows 公共控件的支持
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
 

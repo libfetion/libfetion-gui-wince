@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 #include "MessageLog.h"
 
 CMessageLog::CMessageLog(void)

@@ -1,4 +1,4 @@
-/***************************************************************************
+ï»¿/***************************************************************************
  *   Copyright (C) 2008 by DDD                                          *
  *   dedodong@163.com                                                     *
  *                                                                         *
@@ -134,7 +134,7 @@ void BuddyOpt::addQunToTree()
 		if(qun) {
 			if (!QunItem) {					
 				//notify: set the qun icon
-				QunItem = treeWidget->InsertItem(_T("·ÉÐÅÈº"), I_QUN, I_QUN);
+				QunItem = treeWidget->InsertItem(_T("é£žä¿¡ç¾¤"), I_QUN, I_QUN);
 			}
 
 			qun_info = new Qun_Info;
@@ -252,7 +252,7 @@ void BuddyOpt::addGroup(const char* groupname, long id)
 	groupinfo->online_no = 0;
 
 	//notify: set the group icon
-	HTREEITEM item = treeWidget->InsertItem(groupinfo->groupName + _T("(0ÔÚÏß)"), I_QUN, I_QUN);
+	HTREEITEM item = treeWidget->InsertItem(groupinfo->groupName + _T("(0åœ¨çº¿)"), I_QUN, I_QUN);
 	treeWidget->SetItemData(item,(DWORD)groupinfo); 
 }
 
@@ -280,7 +280,7 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account)
 		group_no = 0;
 		if( !have_zero_group)
 		{
-			CString str = _T("Î´·Ö×é");
+			CString str = _T("æœªåˆ†ç»„");
 			Group_Info *groupinfo = new Group_Info;
 			groupinfo->groupName = str;
 			groupinfo->groupID = group_no;
@@ -338,7 +338,7 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account, CString & name, 
 
 	CString online;
 	online.Format(_T("(%d"),group_info->online_no);
-	CString groupShowName = group_info->groupName + online + _T("ÔÚÏß)");
+	CString groupShowName = group_info->groupName + online + _T("åœ¨çº¿)");
 
 	treeWidget->SetItemText(groupItem, groupShowName);
 	treeWidget->Expand(groupItem, TVE_EXPAND);
@@ -492,7 +492,7 @@ void BuddyOpt::updateAccountInfo(long account_id)
 
 			CString online;
 			online.Format(_T("(%d"),group_info->online_no);
-			CString groupShowName = group_info->groupName + online + _T("ÔÚÏß)");	
+			CString groupShowName = group_info->groupName + online + _T("åœ¨çº¿)");	
 			treeWidget->SetItemText(groupItem, groupShowName);
 		}
 	}
@@ -575,7 +575,7 @@ void BuddyOpt::delAccount(HTREEITEM accountItem)
 
 		CString online;
 		online.Format(_T("(%d"),group_info->online_no);
-		CString groupShowName = group_info->groupName + online + _T("ÔÚÏß)");		
+		CString groupShowName = group_info->groupName + online + _T("åœ¨çº¿)");		
 		groupItem->setText(0, groupShowName);
 	}
 

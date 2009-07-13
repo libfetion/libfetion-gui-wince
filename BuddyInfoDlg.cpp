@@ -1,4 +1,4 @@
-// BuddyInfoDlg.cpp : ÊµÏÖÎÄ¼ş
+ï»¿// BuddyInfoDlg.cpp : å®ç°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -13,7 +13,7 @@
 #ifdef WIN32_PLATFORM_WFSP
 #include <tpcshell.h>
 #endif
-// CBuddyInfoDlg ¶Ô»°¿ò
+// CBuddyInfoDlg å¯¹è¯æ¡†
 
 IMPLEMENT_DYNAMIC(CBuddyInfoDlg, CDialog)
 
@@ -57,7 +57,7 @@ BEGIN_MESSAGE_MAP(CBuddyInfoDlg, CDialog)
 END_MESSAGE_MAP()
 
 
-// CBuddyInfoDlg ÏûÏ¢´¦Àí³ÌĞò
+// CBuddyInfoDlg æ¶ˆæ¯å¤„ç†ç¨‹åº
 
 BOOL CBuddyInfoDlg::OnInitDialog()
 {
@@ -69,8 +69,8 @@ BOOL CBuddyInfoDlg::OnInitDialog()
 	if (!m_dlgCommandBar.Create(this) ||
 		!m_dlgCommandBar.InsertMenuBar(IDR_MENU_BUDDYINFO))
 	{
-		TRACE0("Î´ÄÜ´´½¨ CommandBar\n");
-		return FALSE;      // Î´ÄÜ´´½¨
+		TRACE0("æœªèƒ½åˆ›å»º CommandBar\n");
+		return FALSE;      // æœªèƒ½åˆ›å»º
 	}
 #endif
 
@@ -83,7 +83,7 @@ BOOL CBuddyInfoDlg::OnInitDialog()
     m_strShowName =  ConvertUtf8ToUtf16(m_account->local_name);
     m_iGroupID = fx_get_account_group_id(m_account);
     m_strNickName = ConvertUtf8ToUtf16(m_account->personal->nickname);
-    m_strSex = m_account->personal->gender == 1? _T("Ë§¸ç") : _T("ÃÀÅ®");
+    m_strSex = m_account->personal->gender == 1? _T("å¸…å“¥") : _T("ç¾å¥³");
     m_strProv = ConvertUtf8ToUtf16(m_account->personal->province);
     m_strCity = _T("");//ConvertUtf8ToUtf16(m_account->personal->city);
     m_strSign = ConvertUtf8ToUtf16(m_account->personal->impresa);
@@ -100,7 +100,7 @@ BOOL CBuddyInfoDlg::OnInitDialog()
     UpdateData(FALSE);
     InitScrollInfo();
     return TRUE;  // return TRUE unless you set the focus to a control
-    // Òì³£: OCX ÊôĞÔÒ³Ó¦·µ»Ø FALSE
+    // å¼‚å¸¸: OCX å±æ€§é¡µåº”è¿”å› FALSE
 }
 
 void CBuddyInfoDlg::InitScrollInfo()   
@@ -137,14 +137,14 @@ void CBuddyInfoDlg::OnSize(UINT nType, int cx, int cy)
     rcCtl.top += 40;
 #endif
 
-    iHeight = rcCtl.bottom - rcCtl.top; //´°Ìå¸ß¶È
-    iWidth = rcCtl.right - rcCtl.left;  //´°Ìå¿í¶È
+    iHeight = rcCtl.bottom - rcCtl.top; //çª—ä½“é«˜åº¦
+    iWidth = rcCtl.right - rcCtl.left;  //çª—ä½“å®½åº¦
 
     int iX, iY, iW, iH;
     int iWLabel, iHLabel;
     int iXValue, iWValue, iHValue;
     
-    int iXGroup2, iYGroup2, iWGroup2, iHGroup2; //µÚ¶ş¸öGROUPBOX¸ù¾İÄÚÈİµ÷Õû´óĞ¡,±äÁ¿µ¥¶À´æ·Å
+    int iXGroup2, iYGroup2, iWGroup2, iHGroup2; //ç¬¬äºŒä¸ªGROUPBOXæ ¹æ®å†…å®¹è°ƒæ•´å¤§å°,å˜é‡å•ç‹¬å­˜æ”¾
 
     iWLabel = DRA::SCALEX(70);
     iHLabel = DRA::SCALEX(18);
@@ -158,7 +158,7 @@ void CBuddyInfoDlg::OnSize(UINT nType, int cx, int cy)
     iW = iWidth - 2*iMargin;
     iH = 2 * DRA::SCALEY(20) + 3 * iMargin + DRA::SCALEY(14);
 
-    //ÕâÁ½¸öÊÇGROUP
+    //è¿™ä¸¤ä¸ªæ˜¯GROUP
 
     HWND hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_GRP_SET);
     ::MoveWindow(hwndctl,  iX, iY, iW, iH, SWP_NOZORDER | SWP_NOREDRAW);
@@ -167,12 +167,12 @@ void CBuddyInfoDlg::OnSize(UINT nType, int cx, int cy)
     iWGroup2 = iW;
 
 
-    //ÏÂÃæÊÇËùÓĞµÄÄÚ²¿¿Ø¼ş
+    //ä¸‹é¢æ˜¯æ‰€æœ‰çš„å†…éƒ¨æ§ä»¶
     iX += iMargin;
     iXValue = iX + iMargin + iWLabel;
     iY = rcCtl.top + iMargin + iHValue;
     
-    //¿ªÊ¼Ò»ĞĞ
+    //å¼€å§‹ä¸€è¡Œ
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_LB_SHOWNAME);
     ::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
 
@@ -180,16 +180,16 @@ void CBuddyInfoDlg::OnSize(UINT nType, int cx, int cy)
     ::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue, FALSE);
 
     iY = iY + iHValue + iMargin ;
-    //½áÊøµ÷ÕûÒ»ĞĞ
-    //ÏÂÒ»ĞĞ,ÀàÍÆ
+    //ç»“æŸè°ƒæ•´ä¸€è¡Œ
+    //ä¸‹ä¸€è¡Œ,ç±»æ¨
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_LB_GROUP);
     ::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
 
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_CBO_GROUP);
     ::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue, FALSE);
-    //»»Ò»ĞĞ
+    //æ¢ä¸€è¡Œ
 
-    iY = iY + iHValue + 2 * iMargin + iHValue; //µ½ÏÂÃæµÄGroupÀïÃæ,¶à¼ÓÒ»¸öiMargin
+    iY = iY + iHValue + 2 * iMargin + iHValue; //åˆ°ä¸‹é¢çš„Groupé‡Œé¢,å¤šåŠ ä¸€ä¸ªiMargin
 
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_LB_FETIONNO);
     ::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
@@ -354,7 +354,7 @@ void CBuddyInfoDlg::OnOk()
 void CBuddyInfoDlg::OnCancel()
 {
 #ifdef WIN32_PLATFORM_WFSP
-	// ÔÚÕâÀïĞŞ¸ÄºóÍË¼üµÄĞĞÎªÎªÉ¾³ıEditBoxÖĞµÄÄÚÈİ£¬¶ø²»ÊÇÍË³öÄ£Ì¬¶Ô»°¿ò
+	// åœ¨è¿™é‡Œä¿®æ”¹åé€€é”®çš„è¡Œä¸ºä¸ºåˆ é™¤EditBoxä¸­çš„å†…å®¹ï¼Œè€Œä¸æ˜¯é€€å‡ºæ¨¡æ€å¯¹è¯æ¡†
 	SHSendBackToFocusWindow(WM_HOTKEY, 2, MAKELPARAM(MOD_KEYUP, VK_TBACK));
 #else
 	CDialog::OnCancel();
