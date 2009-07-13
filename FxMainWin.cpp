@@ -467,6 +467,19 @@ BOOL FxMainWin::PreTranslateMessage(MSG* pMsg)
     /*
     将大部分原先在这里处理的消息移到DefWndProc中处理,以解决显示出菜单时无法收到消息的问题
     */
+	if (pMsg->message == WM_KEYDOWN) 
+	{
+		switch(pMsg->wParam)
+		{
+		case VK_RETURN: 
+		    showMsgDlg(view.GetSelectedItem());
+		case VK_ESCAPE: 
+			return TRUE;
+		default:
+			break;
+
+		}
+	} 
 	if (pMsg->hwnd == view.m_hWnd)
 	{
 		if (pMsg->message == WM_LBUTTONDOWN)
@@ -1158,19 +1171,6 @@ void FxMainWin::OnMainAddbuddy()
 LRESULT FxMainWin::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
 	#if 1
-	if (message == WM_KEYDOWN) 
-	{
-		switch(wParam)
-		{
-		case VK_RETURN: 
-		    showMsgDlg(view.GetSelectedItem());
-		case VK_ESCAPE: 
-			return TRUE;
-		default:
-			break;
-
-		}
-	} 
 
     if (message == WM_COMMAND)
     {

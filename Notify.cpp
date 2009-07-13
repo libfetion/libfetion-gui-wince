@@ -61,8 +61,7 @@ void CNotify::CreateAndAddNotification(HWND hwnd, WCHAR* szTitle, CString szNoti
     } else {
         iMsgCount ++;
         TCHAR szMsgBody[1024];
-        wsprintf(szMsgBody, TEXT("收到 %d 条消息!"), iMsgCount);
-        
+        wsprintf(szMsgBody, TEXT("<html><body><form method=\"POST\" action=>收到 %d 条消息!<input type=button name='cmd:%u' value='查看'>&nbsp;<input type=button name='cmd:%u' value='取消'></body></html>"), iMsgCount, IDM_MAIN_SHOWNEWMSG2, IDM_MAIN_DIMISS);
 		pNotification->pszTitle = TEXT("LibFetion提醒");
         pNotification->pszHTML = szMsgBody;
 		SHNotificationUpdate(SHNUM_TITLE | SHNUM_HTML, pNotification);
