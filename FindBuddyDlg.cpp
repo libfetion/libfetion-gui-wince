@@ -53,6 +53,9 @@ END_MESSAGE_MAP()
 
 // CFindBuddyDlg 消息处理程序
 
+// 修改者务必注意:这里因为每个控件的位置都是有相关性的,所以代码的前后位置一定不要随意更改
+// 除非你非常清楚自己的修改会造成什么后果.
+// hiizsk   2009.07.11
 void CFindBuddyDlg::OnSize(UINT nType, int cx, int cy)
 {
     CDialog::OnSize(nType, cx, cy);
@@ -78,9 +81,14 @@ void CFindBuddyDlg::OnSize(UINT nType, int cx, int cy)
     hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_RD_FXNO);
     ::MoveWindow(hwndCtl, iX + iW + iMargin, iY, iW, iH, false);
 
-    iY = iY + iH + iMargin;
     iW = rcDlg.right - rcDlg.left - 2 * iMargin;
 
+#ifdef WIN32_PLATFORM_WFSP
+    hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_CBO_NUMTYPE);
+    ::MoveWindow(hwndCtl, iX, iY, iW, iH, false);
+#endif
+
+    iY = iY + iH + iMargin;
     hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_EDIT_NO);
     ::MoveWindow(hwndCtl, iX, iY, 
 #if !defined(WIN32_PLATFORM_WFSP)

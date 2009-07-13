@@ -176,7 +176,7 @@ CAPTION "LibFetion"
 FONT 9, "MS Shell Dlg"
 BEGIN
     EDITTEXT        IDC_SEND_MSG,4,86,150,36,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_GROUP
-    EDITTEXT        IDC_MSG_BROWSER,4,5,150,64,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL | WS_GROUP,WS_EX_DLGMODALFRAME
+    EDITTEXT        IDC_MSG_BROWSER,4,5,150,64,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_GROUP,WS_EX_DLGMODALFRAME
     CONTROL         152,IDC_CHANGE,"Static",SS_BITMAP | SS_NOTIFY,11,72,29,11
     CONTROL         153,IDC_SEND,"Static",SS_BITMAP | SS_NOTIFY,98,72,45,11
     LTEXT           "网络错误,正在重连服务器...",IDC_NET_STATE,6,7,108,8,NOT WS_VISIBLE
@@ -229,12 +229,12 @@ BEGIN
     LTEXT           "对方的昵称:",IDC_FB_STATIC_NAME2,7,133,138,8
 END
 
-IDD_WMLF_ABOUT DIALOG  0, 0, 186, 150
+IDD_WMLF_ABOUT DIALOG  0, 0, 162, 151
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_VSCROLL | WS_SYSMENU
 CAPTION "Dialog"
 FONT 9, "MS Shell Dlg"
 BEGIN
-    LTEXT           "关于LibFetion WM版\r\n\r\n当前版本号:20090712alpha\r\n\r\n本程序基于LibFetion库编写，了解更多请访问\r\nwww.libfetion.cn.\r\nCopyright @ 2009 DDD(dedodong@163.com) \r\nAll Rights Reserved.\r\n\r\nWindows Mobile 版本由以下人员开发:\r\nDDD\r\ndaviyang35\r\nEric\r\nBabylon\r\n如有问题欢迎到论坛反馈。",IDC_STATIC,7,7,163,135
+    LTEXT           "关于LibFetion WM版(20090712alpha)\r\n\r\n本程序基于LibFetion库编写，了解更多请访问\r\nwww.libfetion.cn.\r\nCopyright @ 2009 DDD(dedodong@163.com) \r\nAll Rights Reserved.\r\n\r\nWindows Mobile 版本由以下人员开发:\r\nDDD\r\ndaviyang35\r\nEric\r\nBabylon\r\n如有问题欢迎到论坛反馈。",IDC_STATIC,7,7,138,136
 END
 
 
@@ -329,9 +329,9 @@ BEGIN
     IDD_WMLF_ABOUT, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 170
+        RIGHTMARGIN, 145
         TOPMARGIN, 7
-        BOTTOMMARGIN, 142
+        BOTTOMMARGIN, 143
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -506,8 +506,8 @@ IDR_MAINFRAME           ICON                    "res\\WMLF.ico"
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE 4, 2
 #pragma code_page(936)
-#include "res\WMLFsp.rc2"  // ??? Microsoft Visual C++ ?à???-|?????????
-#include "afxres.rc"     // ?à??????????t
+#include "res\WMLFsp.rc2"  // ??? Microsoft Visual C++ ????-|?????????
+#include "afxres.rc"     // ???????????t
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
