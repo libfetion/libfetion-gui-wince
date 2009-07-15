@@ -51,10 +51,10 @@ www.libfetion.cn.\r\n\
 Copyright @ 2009 DDD(dedodong@163.com) \r\n\
 All Rights Reserved.\r\n\r\n\
 Windows Mobile 版本由以下人员开发:\r\n\
-核心:\t\tDDD\r\n\
+核心开发&&UI:\tBabylon\r\n\
 开发&&协调:\tdaviyang35\r\n\
-开发&&UI:\tBabylon\r\n\
 开发&&SP版UI:\tEric\r\n\
+LibFetion库:\t\tDDD\r\n\
 如有问题欢迎到论坛反馈。");
     
     ((CStatic*)this->GetDlgItem(IDC_STATIC_ABOUT))->SetWindowTextW(strAboutMsg);
