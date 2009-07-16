@@ -65,6 +65,7 @@ public:
 	void getMsg(CString &msg);
 public:
 	CEdit m_browser;
+	CEdit m_send;
 public:
 	BOOL m_isLoginOK;
 public:
@@ -85,4 +86,8 @@ private:
 public:
     afx_msg void OnBdViewinfo();
     afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
+	afx_msg void OnBrowserCopy();
+	afx_msg void OnSendCopy();
+	afx_msg void OnSendPaste();
 };

@@ -56,6 +56,7 @@ void FxMsgDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_MSG_BROWSER, m_msgBrowser);
     DDX_Text(pDX, IDC_SEND_MSG, m_msgSend);
     DDX_Control(pDX, IDC_MSG_BROWSER, m_browser);
+    DDX_Control(pDX, IDC_SEND_MSG, m_send);
     DDX_Text(pDX, IDC_MSG_INFO, m_strInfo);
 }
 
@@ -74,6 +75,10 @@ BEGIN_MESSAGE_MAP(FxMsgDlg, CDialog)
 //    ON_WM_ACTIVATE()
     ON_COMMAND(IDM_BD_VIEWINFO, &FxMsgDlg::OnBdViewinfo)
     ON_WM_TIMER()
+	ON_WM_CONTEXTMENU()
+	ON_COMMAND(IDM_COPY1, &FxMsgDlg::OnBrowserCopy)
+	ON_COMMAND(IDM_COPY2, &FxMsgDlg::OnSendCopy)
+	ON_COMMAND(IDM_PASTE, &FxMsgDlg::OnSendPaste)
 END_MESSAGE_MAP()
 
 BEGIN_DISPATCH_MAP(FxMsgDlg, CDialog)
@@ -314,9 +319,9 @@ void FxMsgDlg::OnStnClickedSend()
 
 	CString head;
 	if(sendFlag) 
-		head = _T("我:\r\n");
+		head = _T("我:");
 	else 
-		head = _T("发送失败:\r\n");
+		head = _T("发送失败:");
 
 	m_msgSend.Replace(_T("&lt;"), _T("<"));
 	m_msgSend.Replace(_T("&gt;"), _T(">"));
@@ -355,7 +360,7 @@ void FxMsgDlg::getMsg(CString &msg)
 	while (fxMsg = fx_get_msg(this->m_account->id))
 	{
 		char * msg_contain = fx_msg_no_format(fxMsg->message);
-		msg +=  this->account_name + _T(":\r\n");
+		msg +=  this->account_name + _T(":");
 		msg += ConvertUtf8ToUtf16(msg_contain) + CString(_T("\r\n"));
 		if (msg_contain)
 			free(msg_contain);
@@ -453,4 +458,51 @@ void FxMsgDlg::OnTimer(UINT_PTR nIDEvent)
         break;
     }
     CDialog::OnTimer(nIDEvent);
+}
+
+void FxMsgDlg::OnContextMenu(CWnd* pWnd, CPoint point)
+{
+	// TODO: 在此处添加消息处理程序代码
+	int iID;
+	iID = pWnd->GetDlgCtrlID();
+	if(iID == m_browser.GetDlgCtrlID())
+	{
+			CMenu *pMenu;
+
+            pMenu=new CMenu;
+            
+            pMenu->LoadMenu( IDR_MSG_POP_MENU );  //加载菜单资源
+            CMenu *pMenuPop=pMenu->GetSubMenu(0); //资源菜单的第一项
+			pMenuPop->TrackPopupMenu( TPM_LEFTALIGN, point.x, point.y, this);
+            delete pMenu;
+	}
+	if(iID == m_send.GetDlgCtrlID())
+	{
+			CMenu *pMenu;
+
+            pMenu=new CMenu;
+            
+            pMenu->LoadMenu( IDR_MSG_POP_MENU );  //加载菜单资源
+            CMenu *pMenuPop=pMenu->GetSubMenu(1); //资源菜单的第二项
+			pMenuPop->TrackPopupMenu( TPM_LEFTALIGN, point.x, point.y, this);
+            delete pMenu;
+	}
+}
+
+void FxMsgDlg::OnBrowserCopy()
+{
+	// TODO: 在此添加命令处理程序代码
+	m_browser.Copy();
+}
+
+void FxMsgDlg::OnSendCopy()
+{
+	// TODO: 在此添加命令处理程序代码
+	m_send.Copy();
+}
+
+void FxMsgDlg::OnSendPaste()
+{
+	// TODO: 在此添加命令处理程序代码
+	m_send.Paste();
 }

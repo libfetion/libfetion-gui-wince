@@ -120,6 +120,19 @@ BEGIN
     MENUITEM "确定   ",                       IDOK
 END
 
+IDR_MSG_POP_MENU MENU 
+BEGIN
+    POPUP "编辑"
+    BEGIN
+        MENUITEM "复制",                          IDM_COPY1
+    END
+    POPUP "编辑"
+    BEGIN
+        MENUITEM "复制",                          IDM_COPY2
+        MENUITEM "粘贴",                          IDM_PASTE
+    END
+END
+
 #endif    // 非特定语言(系统默认值) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -530,8 +543,8 @@ END
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE 4, 2
 #pragma code_page(936)
-#include "res\WMLFppc.rc2"  // ??? Microsoft Visual C++ ?à???-|?????????
-#include "afxres.rc"     // ?à??????????t
+#include "res\WMLFppc.rc2"  // ??? Microsoft Visual C++ ????-|?????????
+#include "afxres.rc"     // ???????????t
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
