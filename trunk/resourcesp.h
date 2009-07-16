@@ -62,6 +62,7 @@
 #define IDB_BITMAP_FIND                 170
 #define IDD_WMLF_ABOUT                  171
 #define IDR_MENU_ABOUT                  172
+#define IDR_MSG_POP_MENU                174
 #define IDC_BI_CITY                     200
 #define IDC_FETION_ID                   1000
 #define IDC_STATIC_ABOUT                1000
@@ -196,13 +197,16 @@
 #define IDM_MAIN_SHOWNEWMSG             32860
 #define IDM_MAIN_DIMISS                 32861
 #define IDM_MAIN_SHOWNEWMSG2            32862
+#define IDM_COPY1                       32863
+#define IDM_COPY2                       32864
+#define IDM_PASTE                       32865
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        151
-#define _APS_NEXT_COMMAND_VALUE         32805
+#define _APS_NEXT_RESOURCE_VALUE        175
+#define _APS_NEXT_COMMAND_VALUE         32866
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
