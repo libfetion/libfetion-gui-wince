@@ -119,6 +119,19 @@ BEGIN
     END
 END
 
+IDR_MSG_POP_MENU MENU 
+BEGIN
+    POPUP "编辑"
+    BEGIN
+        MENUITEM "复制",                          IDM_COPY1
+    END
+    POPUP "编辑"
+    BEGIN
+        MENUITEM "复制",                          IDM_COPY2
+        MENUITEM "粘贴",                          IDM_PASTE
+    END
+END
+
 #endif    // 非特定语言(系统默认值) resources
 /////////////////////////////////////////////////////////////////////////////
 
