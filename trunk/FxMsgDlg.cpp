@@ -319,9 +319,9 @@ void FxMsgDlg::OnStnClickedSend()
 
 	CString head;
 	if(sendFlag) 
-		head = _T("我:");
+		head = _T("我(") + GetCurrentTimeString() + _T("):");
 	else 
-		head = _T("发送失败:");
+		head = _T("发送失败(") + GetCurrentTimeString() + _T("):");
 
 	m_msgSend.Replace(_T("&lt;"), _T("<"));
 	m_msgSend.Replace(_T("&gt;"), _T(">"));
@@ -360,7 +360,7 @@ void FxMsgDlg::getMsg(CString &msg)
 	while (fxMsg = fx_get_msg(this->m_account->id))
 	{
 		char * msg_contain = fx_msg_no_format(fxMsg->message);
-		msg +=  this->account_name + _T(":");
+		msg +=  this->account_name + _T("(") + GetMsgTimeString(fxMsg->msgtime) + _T("):");
 		msg += ConvertUtf8ToUtf16(msg_contain) + CString(_T("\r\n"));
 		if (msg_contain)
 			free(msg_contain);
@@ -505,4 +505,44 @@ void FxMsgDlg::OnSendPaste()
 {
 	// TODO: 在此添加命令处理程序代码
 	m_send.Paste();
+}
+
+CString FxMsgDlg::GetCurrentTimeString()
+{
+	CString sShortTime;
+	SYSTEMTIME LocalTime;
+	GetLocalTime(&LocalTime);
+	sShortTime.Format(_T("%02d:%02d:%02d"), LocalTime.wHour, LocalTime.wMinute, LocalTime.wSecond);
+	return sShortTime;
+}
+
+CString FxMsgDlg::GetMsgTimeString(char *msgtime)
+{
+	CString sShortTime;
+	char DayOfWeek[10] = {0};
+	char Month[10] = {0};
+	char GMT[10] = {0};
+	int Day, Year, Hour, Minute, Second;
+	TIME_ZONE_INFORMATION TimeZoneInformation;
+	int MinuteWithBias;
+
+	sscanf(msgtime, "%s %d %s %d %d:%d:%d %s", DayOfWeek, &Day, Month, &Year, &Hour, &Minute, &Second, GMT);
+	MinuteWithBias = Hour * 60 + Minute;
+
+	GetTimeZoneInformation(&TimeZoneInformation);
+	MinuteWithBias -= TimeZoneInformation.Bias;
+	if(MinuteWithBias < 0)
+	{
+		MinuteWithBias += 24 * 60;
+	}
+	if(MinuteWithBias > 24 * 60)
+	{
+		MinuteWithBias -= 24 * 60;
+	}
+	Hour = MinuteWithBias / 60;
+	Minute = MinuteWithBias - Hour * 60;
+
+	sShortTime.Format(_T("%02d:%02d:%02d"), Hour, Minute, Second);
+
+	return sShortTime;
 }
