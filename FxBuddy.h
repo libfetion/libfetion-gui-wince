@@ -65,7 +65,8 @@ class BuddyOpt
 		void expandTree();
 		void m_itemChanged();
 		void updateStyles(HTREEITEM  *item, int column);
-  
+		int GetChildCount(HTREEITEM groupItem);
+
 private:
 		BOOL isOnlineStateChanged(int old_state, int new_state, int* state);
 		int init_icon(void);
