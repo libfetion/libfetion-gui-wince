@@ -439,10 +439,10 @@ void FxMainWin::OnSize(UINT /*nType*/, int /*cx*/, int /*cy*/)
         ::MoveWindow(hwndctl, xtxtFind, ytxtFind, wtxtFind, htxtFind, false);
 
         hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BTN_FIND);
-        ::MoveWindow(hwndctl, xbtnFind, ybtnFind, 16, htxtFind, false);
+        ::MoveWindow(hwndctl, xbtnFind, ybtnFind, 16, hbtnFind, false);
 
         hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BTN_ADD);
-        ::MoveWindow(hwndctl, xbtnAdd, ybtnAdd, 16, htxtFind, false);
+        ::MoveWindow(hwndctl, xbtnAdd, ybtnAdd, 16, hbtnAdd, false);
 
         hwndctl = ::GetDlgItem(this->m_hWnd, IDC_TREE_BUDDY);
         ::MoveWindow(hwndctl, xtvBuddy, ytvBuddy, wtvBuddy, htvBuddy, false);
