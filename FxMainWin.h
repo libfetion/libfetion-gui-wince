@@ -142,4 +142,5 @@ protected:
 public:
     void OnMainShownewmsg2(void);
     void OnMainDimiss(void);
+	afx_msg void OnNMClickTreeBuddy(NMHDR *pNMHDR, LRESULT *pResult);
 };

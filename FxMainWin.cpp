@@ -235,6 +235,7 @@ ON_COMMAND(IDM_MAIN_SET_NOSOUND, &FxMainWin::OnMainSetNosound)
 ON_COMMAND(IDM_MAIN_SHOWNEWMSG, &FxMainWin::OnMainShownewmsg)
 ON_COMMAND(IDM_BD_SENDMSG, &FxMainWin::OnBdSendmsg)
 ON_COMMAND(IDM_MAIN_ADDBUDDY, &FxMainWin::OnMainAddbuddy)
+ON_NOTIFY(NM_CLICK, IDC_TREE_BUDDY, &FxMainWin::OnNMClickTreeBuddy)
 END_MESSAGE_MAP()
 
 #ifdef WIN32_PLATFORM_WFSP
@@ -1245,4 +1246,18 @@ void FxMainWin::OnMainShownewmsg2(void)
 void FxMainWin::OnMainDimiss(void)
 {
     CNotify::RemoveNotification();
+}
+
+void FxMainWin::OnNMClickTreeBuddy(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	// TODO: 在此添加控件通知处理程序代码
+	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
+	LV_HITTESTINFO* pHitTestInfo = (LV_HITTESTINFO*)pNMHDR;   
+
+	HTREEITEM hItem = (HTREEITEM)pHitTestInfo->iItem;
+	if((NULL != hItem) && view.ItemHasChildren(hItem))
+	{
+		view.Expand(hItem,TVE_TOGGLE);
+	}
+	*pResult = 0;
 }
