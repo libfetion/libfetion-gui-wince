@@ -113,6 +113,7 @@ Account_Info *BuddyOpt::fetchNoUpdateAccount()
 		}
 		groupItem = treeWidget->GetNextSiblingItem(groupItem);
 	}
+	return NULL;
 }
 
 void BuddyOpt::setHaveUpdateAccount(Account_Info *ac_info)
@@ -252,7 +253,7 @@ void BuddyOpt::addGroup(const char* groupname, long id)
 	groupinfo->online_no = 0;
 
 	//notify: set the group icon
-	HTREEITEM item = treeWidget->InsertItem(groupinfo->groupName + _T("(0在线)"), I_QUN, I_QUN);
+	HTREEITEM item = treeWidget->InsertItem(groupinfo->groupName + _T("(0/0)"), I_QUN, I_QUN);
 	treeWidget->SetItemData(item,(DWORD)groupinfo); 
 }
 
@@ -338,10 +339,12 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account, CString & name, 
 
 	CString online;
 	online.Format(_T("(%d"),group_info->online_no);
-	CString groupShowName = group_info->groupName + online + _T("在线)");
+	CString BuddyCount;
+	BuddyCount.Format(_T("/%d)"), GetChildCount(groupItem));
+	CString groupShowName = group_info->groupName + online + BuddyCount;
 
 	treeWidget->SetItemText(groupItem, groupShowName);
-	treeWidget->Expand(groupItem, TVE_EXPAND);
+	//treeWidget->Expand(groupItem, TVE_EXPAND);
 }
 
 HTREEITEM BuddyOpt::findGroupItemByID(int group_id)
@@ -492,7 +495,9 @@ void BuddyOpt::updateAccountInfo(long account_id)
 
 			CString online;
 			online.Format(_T("(%d"),group_info->online_no);
-			CString groupShowName = group_info->groupName + online + _T("在线)");	
+			CString BuddyCount;
+			BuddyCount.Format(_T("/%d)"), GetChildCount(groupItem));
+			CString groupShowName = group_info->groupName + online + BuddyCount;
 			treeWidget->SetItemText(groupItem, groupShowName);
 		}
 	}
@@ -825,3 +830,21 @@ void BuddyOpt::expandTree()
 		this->treeWidget->expandItem (RootItem->child(i));
 }
 #endif
+
+int BuddyOpt::GetChildCount(HTREEITEM groupItem)
+{
+	int count = 0;
+	if (treeWidget->ItemHasChildren(groupItem))
+	{
+		HTREEITEM hNextItem;
+		HTREEITEM hChildItem = treeWidget->GetChildItem(groupItem);
+
+		while (hChildItem != NULL)
+		{
+			count ++;
+			hNextItem = treeWidget->GetNextItem(hChildItem, TVGN_NEXT);
+			hChildItem = hNextItem;
+		}
+	}
+	return count;
+}
