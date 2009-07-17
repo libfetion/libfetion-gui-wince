@@ -276,6 +276,11 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account)
 		return;
 
 	int	group_no = fx_get_account_group_id(account) ;
+	HTREEITEM groupItem = findGroupItemByID(group_no);
+	if(!groupItem)
+	{
+		group_no = 0;
+	}
 	if(group_no <= 0)
 	{
 		group_no = 0;
