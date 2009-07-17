@@ -117,15 +117,21 @@ BOOL FxMsgDlg::OnInitDialog()
 
 #if DEBUG_GUI
 #else
-	m_account = fx_get_account_by_id(account_id);
+	m_account = fx_get_account_by_id(this->account_id);
 	//begin a dialog init, if the account is mobile, this function will do nothing...
 	if (!m_isSendSMS)
-		fx_begin_dialog (account_id, NULL, NULL); 
+		fx_begin_dialog (this->account_id, NULL, NULL); 
 
-	char * showname = fx_get_account_show_name(m_account, FALSE);
-	account_name = ConvertUtf8ToUtf16(showname);
-	if(showname)
-		free(showname);
+	//如果得不到m_account 则说明是陌生人..就是那些老发垃圾广告的混蛋!!!
+	if (m_account)
+	{
+		char * showname = fx_get_account_show_name(m_account, FALSE);
+		account_name = ConvertUtf8ToUtf16(showname);
+		if(showname)
+			free(showname);
+	} else {
+		account_name.Format(_T("%d"), this->account_id);
+	}
 #endif
 	//this->m_msgBrowser += _T("你正在与朋友聊天:") + account_name + _T("\r\n") ;
 	this->UpdateData(FALSE);
@@ -158,15 +164,17 @@ void FxMsgDlg::printfOnlineInfo()
 	this->UpdateData();
 
 	CString status;
-	if (account_id == SYSTEM_ID)
+	if (this->account_id == SYSTEM_ID)
 	{
 		this->m_msgBrowser += CString(_T("系统消息")) + CString(_T("\r\n"));
 		return ;
 	}
 
 #if !DEBUG_GUI
-	if(!m_account)
-		return;
+	if(!m_account) {
+		m_strInfo.Format(_T("与 %s 陌生人聊天中"), account_name);
+		goto out;
+	}
 #endif
 
 	if (!fx_is_pc_user_by_account (m_account)) {
@@ -337,9 +345,6 @@ void FxMsgDlg::OnStnClickedSend()
 
 void FxMsgDlg::addNewMsg(CString msg /*= ""*/)
 {
-	if (!m_account)
-			return;
-
 	if (msg.IsEmpty())
 		getMsg(msg);
 
@@ -357,7 +362,7 @@ void FxMsgDlg::getMsg(CString &msg)
 	//get fetion msg
 	Fetion_MSG * fxMsg = NULL;
 
-	while (fxMsg = fx_get_msg(this->m_account->id))
+	while (fxMsg = fx_get_msg(this->account_id))
 	{
 		char * msg_contain = fx_msg_no_format(fxMsg->message);
 		msg +=  this->account_name + _T("(") + GetMsgTimeString(fxMsg->msgtime) + _T("):");
@@ -380,7 +385,7 @@ void FxMsgDlg::getMsg(CString &msg)
 	{
 		POSITION tmp = pos;
 		msg_info = (TMPMSG_Info*)parent->tmpMsg.GetPrev(pos);
-		if (msg_info->accountID == m_account->id)
+		if (msg_info->accountID == this->account_id)
 		{
 			msg += msg_info->msg;
 			parent->tmpMsg.RemoveAt(tmp);
