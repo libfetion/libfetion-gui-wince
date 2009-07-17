@@ -15,16 +15,23 @@ bool CMessageLog::StoreMsgLog(long accountID, CString Message)
 {
     MSGLOG* curMsgLog;
 
-    do{
-        curMsgLog = this->m_MsgLogs;
-        if(NULL != curMsgLog && curMsgLog->AccountID == accountID)
+    curMsgLog = this->m_MsgLogs;
+    while(NULL != curMsgLog)
+	{
+		if(curMsgLog->AccountID == accountID)
         {
             curMsgLog->Message = Message;
             return true;
-        } else {
-            break;
+        } 
+		else
+		{
+			if(NULL == curMsgLog->Next)
+			{
+				break;
+			}
+			curMsgLog = curMsgLog->Next;
         }
-    } while(true);
+    } 
 
     MSGLOG* newMsgLog = new MSGLOG();
     newMsgLog->AccountID = accountID;
