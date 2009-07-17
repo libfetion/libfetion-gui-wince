@@ -528,6 +528,8 @@ BOOL CLoginDlg::EstablishConnection(void)
 {
     HANDLE* hConnect = new HANDLE();
 	this->m_login_state=_T("连接网络...");
+	this->UpdateData(FALSE);
+	this->UpdateWindow();
 
     CONNMGR_CONNECTIONINFO ConnInfo = { 0 };
     ConnInfo.cbSize      = sizeof(ConnInfo);
