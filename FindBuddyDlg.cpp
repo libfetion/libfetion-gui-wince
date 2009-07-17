@@ -167,20 +167,21 @@ BOOL CFindBuddyDlg::OnInitDialog()
 void CFindBuddyDlg::InitGroupItem(void)
 {	
     Fetion_Group *group = NULL;
+	int nIndex = 0;
 
 	DList *tmp_group = (DList *)fx_get_group();
-    int i = 0;
 	while(tmp_group)
 	{
 		group = (Fetion_Group *) tmp_group->data;
 		if(group) {
-			m_cboGroup.AddString(ConvertUtf8ToUtf16(group->name));
-            if(i<25)
-                m_iGroupIDs[i] = group->id;
-            i++;
+			nIndex = m_cboGroup.AddString(ConvertUtf8ToUtf16(group->name));
+			if(nIndex >= 0)
+			{
+				m_cboGroup.SetItemData(nIndex, group->id);
+			}
 		}
 		tmp_group = d_list_next(tmp_group);
-	}  
+	}
 }
 void CFindBuddyDlg::OnFbSetMobile()
 {
@@ -221,7 +222,11 @@ void CFindBuddyDlg::OnFbAdd()
         return;
     }
     
-    int iNewGroupID = m_iGroupIDs[m_cboGroup.GetCurSel()];
+    int iNewGroupID = 0;
+	if(m_cboGroup.GetCurSel() >= 0)
+	{
+		iNewGroupID = m_cboGroup.GetItemData(m_cboGroup.GetCurSel());
+	}
 
 	if (bMobileNo)
 		fx_add_buddy_by_mobile(ConvertUtf16ToUtf8(m_strBuddyID), 

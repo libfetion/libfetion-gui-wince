@@ -47,8 +47,6 @@ public:
     void InitGroupItem(void);
     CComboBox m_cboGroup;
     afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-    // 将组ID保存到变量中与combobox中的每一个Index相对应
-    int m_iGroupIDs[25];
     afx_msg void OnOk();
 protected:
 //	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
