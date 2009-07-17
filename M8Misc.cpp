@@ -69,5 +69,5 @@ void FullScreen(HWND hwnd)
 
     int iFullHeight = GetSystemMetrics(SM_CYSCREEN);
 
-    ::SetWindowPos(hwnd, HWND_TOPMOST, 0, 40, iFullWidth, iFullHeight - 40, SWP_NOOWNERZORDER|SWP_SHOWWINDOW);
+    ::SetWindowPos(hwnd, HWND_TOPMOST, 0, 40, iFullWidth, iFullHeight - 280, SWP_NOOWNERZORDER|SWP_SHOWWINDOW);
 }

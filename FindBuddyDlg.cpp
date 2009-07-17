@@ -207,11 +207,12 @@ void CFindBuddyDlg::OnFbSetFxno()
 void CFindBuddyDlg::OnFbAdd()
 {
     UpdateData();
-#ifdef WIN32_PLATFORM_PSPC
-    bool bMobileNo = ((CButton*)GetDlgItem(IDC_FB_RD_MOBILE))->GetCheck() == BST_CHECKED;
-#endif
+    bool bMobileNo = true;
+
 #ifdef WIN32_PLATFORM_WFSP
-	bool bMobileNo = ((CComboBox*)GetDlgItem(IDC_FB_CBO_NUMTYPE))->GetCurSel() == 0;  //选择手机号
+	 bMobileNo = ((CComboBox*)GetDlgItem(IDC_FB_CBO_NUMTYPE))->GetCurSel() == 0;  //选择手机号
+#else
+    bMobileNo = ((CButton*)GetDlgItem(IDC_FB_RD_MOBILE))->GetCheck() == BST_CHECKED;
 #endif
     if((bMobileNo && m_strBuddyID.GetLength() != 11) || (!bMobileNo && m_strBuddyID.GetLength() != 9))
     {

@@ -257,8 +257,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,0,1
- PRODUCTVERSION 1,2,0,1
+ FILEVERSION 1,5,0,1
+ PRODUCTVERSION 1,5,0,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -273,15 +273,15 @@ BEGIN
     BEGIN
         BLOCK "080403a8"
         BEGIN
-            VALUE "Comments", "2009.04.05 build"
+            VALUE "Comments", "2009.07.15 build"
             VALUE "CompanyName", "LibFetion Develop Group"
             VALUE "FileDescription", "DDD_LibFetion_For_WM_SP"
-            VALUE "FileVersion", "2009.04.05"
+            VALUE "FileVersion", "2009.07.15"
             VALUE "InternalName", "LibFetion.exe"
             VALUE "LegalCopyright", "DDD(dedodong@163.com) 保留所有权利。"
             VALUE "OriginalFilename", "LibFetion.exe"
             VALUE "ProductName", "DDD(dedodong@163.com) 保留所有权利。"
-            VALUE "ProductVersion", "0.9.3"
+            VALUE "ProductVersion", "0.9.5"
         END
     END
     BLOCK "VarFileInfo"
@@ -407,6 +407,7 @@ BEGIN
     IDS_MAIN_STATE_ONLINE   "在线"
     IDS_MAIN_STATE_HIDE     "隐身"
     IDS_MAIN_STATE_BUSY     "繁忙"
+    IDS_MAIN_SHOWNEWMSG     "提取新消息"
 END
 
 STRINGTABLE 

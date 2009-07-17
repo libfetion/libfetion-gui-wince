@@ -235,6 +235,7 @@ ON_COMMAND(IDM_MAIN_SET_NOSOUND, &FxMainWin::OnMainSetNosound)
 ON_COMMAND(IDM_MAIN_SHOWNEWMSG, &FxMainWin::OnMainShownewmsg)
 ON_COMMAND(IDM_BD_SENDMSG, &FxMainWin::OnBdSendmsg)
 ON_COMMAND(IDM_MAIN_ADDBUDDY, &FxMainWin::OnMainAddbuddy)
+ON_COMMAND(IDM_BD_MOVEGROUP, &FxMainWin::OnBdMovegroup)
 ON_NOTIFY(NM_CLICK, IDC_TREE_BUDDY, &FxMainWin::OnNMClickTreeBuddy)
 END_MESSAGE_MAP()
 
@@ -1246,6 +1247,11 @@ void FxMainWin::OnMainShownewmsg2(void)
 void FxMainWin::OnMainDimiss(void)
 {
     CNotify::RemoveNotification();
+}
+
+void FxMainWin::OnBdMovegroup()
+{
+    OnBdViewinfo();
 }
 
 void FxMainWin::OnNMClickTreeBuddy(NMHDR *pNMHDR, LRESULT *pResult)
