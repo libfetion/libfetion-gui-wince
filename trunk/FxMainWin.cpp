@@ -29,8 +29,10 @@ void  Sys_EventListener (int message, WPARAM wParam, LPARAM lParam, void* args)
 	if(!args)
 		return;
 	FxMainWin * mainWind = (FxMainWin *) args;
-	//::SendMessage(mainWind->m_hWnd, message + WM_USER, wParam, lParam);
-	::PostMessage(mainWind->m_hWnd, message + WM_USER, wParam, lParam);
+	if (message == FX_NEW_MESSAGE)
+		::SendMessage(mainWind->m_hWnd, message + WM_USER, wParam, lParam);
+	else
+		::PostMessage(mainWind->m_hWnd, message + WM_USER, wParam, lParam);
 }
 
 BOOL FxMainWin::handleFx_Sys_Event(int message, WPARAM wParam, LPARAM lParam)
