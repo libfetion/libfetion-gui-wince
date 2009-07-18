@@ -145,7 +145,7 @@ void BuddyOpt::addQunToTree()
 				free(qun_name);
 			qun_info->qunID = qun->id; 
 
-			HTREEITEM item = treeWidget->InsertItem(qun_info->qunName, I_QUN, I_QUN);
+			HTREEITEM item = treeWidget->InsertItem(qun_info->qunName, I_QUN, I_QUN, QunItem);
 			treeWidget->SetItemData(item,(DWORD)qun_info); 
 		}
 		tmp_qun = d_list_next(tmp_qun);
