@@ -479,24 +479,25 @@ BOOL FxMainWin::PreTranslateMessage(MSG* pMsg)
 		    switch(pMsg->wParam)
 		    {
 		    case VK_RETURN:
-				{
-					HTREEITEM hItem = view.GetSelectedItem();
-					if(NULL != hItem)
-					{
-						if(!view.ItemHasChildren(hItem))
-						{
-							showMsgDlg(view.GetSelectedItem());
-						}
-						else
-						{
-							view.Expand(hItem,TVE_TOGGLE);
-						}
-					}
-				}
-				break;
-		    default:
-			    break;
-
+                {
+				    HTREEITEM hItem = view.GetSelectedItem();
+				    if(NULL != hItem)
+				    {
+					    if(!view.ItemHasChildren(hItem))
+					    {
+						    showMsgDlg(view.GetSelectedItem());
+					    }
+					    else
+					    {
+    #ifndef WIN32_PLATFORM_WFSP
+						    view.Expand(hItem,TVE_TOGGLE);
+    #endif
+					    }
+				    }
+				    break;
+                }
+	        default:
+		        break;
 		    }
 	    } else
 		if (pMsg->message == WM_LBUTTONDOWN)
@@ -1192,8 +1193,6 @@ void FxMainWin::OnMainAddbuddy()
 
 LRESULT FxMainWin::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	#if 1
-
     if (message == WM_COMMAND)
     {
         switch (LOWORD(wParam))
@@ -1226,32 +1225,8 @@ LRESULT FxMainWin::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
             break;
         }
     }
-	#endif
-	
-#if DEBUG_GUI
-
-	if (message == WM_LBUTTONDOWN)
-	{
-		SHRGINFO shrg;
-		shrg.cbSize = sizeof(shrg);
-		shrg.hwndClient = this->m_hWnd;
-		shrg.ptDown.x = LOWORD(lParam); 
-		shrg.ptDown.y = HIWORD(lParam); 
-		shrg.dwFlags = SHRG_RETURNCMD; 
-		CPoint point;
-		point.x = shrg.ptDown.x;
-		point.y = shrg.ptDown.y;
-		if(::SHRecognizeGesture(&shrg) == GN_CONTEXTMENU)//长按键消息
-		{ if (showBuddyMenu(point)) return TRUE; }
-		else
-		{	if (showMsgDlg(point)) return TRUE;  }
-	}
-#else
-
 	if (handleFx_Sys_Event(message, wParam, lParam))
-		return TRUE;
-#endif
-    
+		return TRUE;  
 
     return CDialog::DefWindowProc(message, wParam, lParam);
 }

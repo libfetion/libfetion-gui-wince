@@ -361,8 +361,11 @@ void CBuddyInfoDlg::OnCancel()
 {
 #ifdef WIN32_PLATFORM_WFSP
 	// 在这里修改后退键的行为为删除EditBox中的内容，而不是退出模态对话框
-	SHSendBackToFocusWindow(WM_HOTKEY, 2, MAKELPARAM(MOD_KEYUP, VK_TBACK));
-#else
+    if(this->GetFocus() == this->GetDlgItem(IDC_BI_EDT_SHOWNAME))
+    {
+        SHSendBackToFocusWindow(WM_HOTKEY, 2, MAKELPARAM(MOD_KEYUP, VK_TBACK));
+        return;
+    }
+#endif // WIN32_PLATFORM_WFSP
 	CDialog::OnCancel();
-#endif // WIN32_PLATFORM_W
 }
