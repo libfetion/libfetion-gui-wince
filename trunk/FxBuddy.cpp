@@ -907,14 +907,14 @@ static int GetSortValue(int iOnlineState)
     case FX_STATUS_UNSET:
     case FX_STATUS_NUM_PRIMITIVES:
         return 30;
-    case FX_STATUS_WAITING_AUTH:
-        return 35;
-    case FX_STATUS_REFUSE:
-        return 40;
-    case FX_STATUS_MOBILE:
-        return 50;
     case FX_STATUS_OFFLINE:
-        return 55;
+        return 35;
+    case FX_STATUS_MOBILE:
+        return 40;
+    case FX_STATUS_WAITING_AUTH:
+        return 45;
+    case FX_STATUS_REFUSE:
+        return 50;
     case FX_STATUS_BLACK:
         return 100;
     default :
