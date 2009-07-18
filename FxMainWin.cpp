@@ -47,7 +47,7 @@ BOOL FxMainWin::handleFx_Sys_Event(int message, WPARAM wParam, LPARAM lParam)
 		//emit signal_AddAccountApp((char*)(lParam), (char*)wParam);
 		return TRUE;
 	case FX_MOVE_GROUP_OK:
-		//emit signal_MoveGroup(qlonglong(lParam), (int)wParam);
+		handle_MoveGroupOk((long)lParam, (int)wParam);
 		return TRUE;
 	case FX_NEW_MESSAGE:
 		addNewMessage(long(lParam));
@@ -403,7 +403,7 @@ void FxMainWin::OnSize(UINT /*nType*/, int /*cx*/, int /*cy*/)
 
         xtxtFind = rcCtl.left;
         ytxtFind = rcCtl.top + ygrpInfo + hgrpInfo + DRA::SCALEY(2);
-        wtxtFind = wgrpInfo - DRA::SCALEX(2 * 20) - DRA::SCALEX(3);
+        wtxtFind = wgrpInfo - DRA::SCALEX(2 * 16) - DRA::SCALEX(3);
 
 #if !defined(WIN32_PLATFORM_WFSP)
         htxtFind = DRA::SCALEY(20);
@@ -412,11 +412,11 @@ void FxMainWin::OnSize(UINT /*nType*/, int /*cx*/, int /*cy*/)
 #endif
         xbtnFind = rcCtl.left + wtxtFind + DRA::SCALEY(2);
         ybtnFind = ytxtFind;
-        wbtnFind = DRA::SCALEX(20);
+        wbtnFind = DRA::SCALEX(16);
         
-        hbtnFind = htxtFind == 0 ? 0 : 16;
+        hbtnFind = htxtFind == 0 ? 0 : DRA::SCALEY(16);
 
-        xbtnAdd = rcCtl.left + wtxtFind + wbtnFind + DRA::SCALEY(3.5);
+        xbtnAdd = rcCtl.left + wtxtFind + wbtnFind + DRA::SCALEX(3);
         ybtnAdd = ytxtFind;
         wbtnAdd = wbtnFind;
         hbtnAdd = hbtnFind;
@@ -442,10 +442,10 @@ void FxMainWin::OnSize(UINT /*nType*/, int /*cx*/, int /*cy*/)
         ::MoveWindow(hwndctl, xtxtFind, ytxtFind, wtxtFind, htxtFind, false);
 
         hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BTN_FIND);
-        ::MoveWindow(hwndctl, xbtnFind, ybtnFind, 16, hbtnFind, false);
+        ::MoveWindow(hwndctl, xbtnFind, ybtnFind, wbtnFind, hbtnFind, false);
 
         hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BTN_ADD);
-        ::MoveWindow(hwndctl, xbtnAdd, ybtnAdd, 16, hbtnAdd, false);
+        ::MoveWindow(hwndctl, xbtnAdd, ybtnAdd, wbtnAdd, hbtnAdd, false);
 
         hwndctl = ::GetDlgItem(this->m_hWnd, IDC_TREE_BUDDY);
         ::MoveWindow(hwndctl, xtvBuddy, ytvBuddy, wtvBuddy, htvBuddy, false);
@@ -470,21 +470,26 @@ BOOL FxMainWin::PreTranslateMessage(MSG* pMsg)
     /*
     将大部分原先在这里处理的消息移到DefWndProc中处理,以解决显示出菜单时无法收到消息的问题
     */
-	if (pMsg->message == WM_KEYDOWN) 
-	{
-		switch(pMsg->wParam)
-		{
-		case VK_RETURN: 
-		    showMsgDlg(view.GetSelectedItem());
-		case VK_ESCAPE: 
-			return TRUE;
-		default:
-			break;
-
-		}
-	} 
 	if (pMsg->hwnd == view.m_hWnd)
 	{
+	    if (pMsg->message == WM_KEYDOWN) 
+	    {
+		    switch(pMsg->wParam)
+		    {
+		    case VK_RETURN:
+                {
+                    HTREEITEM hItem = view.GetSelectedItem();
+                    if (view.GetParentItem(hItem))
+		                showMsgDlg(hItem);
+                    else{
+                        view.Expand(hItem, TVE_TOGGLE);
+                    }
+                }
+		    default:
+			    break;
+
+		    }
+	    } else
 		if (pMsg->message == WM_LBUTTONDOWN)
 		{
 			SHRGINFO shrg;
@@ -497,9 +502,14 @@ BOOL FxMainWin::PreTranslateMessage(MSG* pMsg)
 			point.x = shrg.ptDown.x;
 			point.y = shrg.ptDown.y;
 			if(::SHRecognizeGesture(&shrg) == GN_CONTEXTMENU)//长按键消息
-			{ if (showBuddyMenu(point)) return TRUE; }
+			{ 
+                if (showBuddyMenu(point)) return TRUE; 
+            }
 			else
-			{	if (showMsgDlg(point)) return TRUE;  }
+			{	
+                if(view.HitTest(point) == view.GetSelectedItem())
+                    return showMsgDlg(point);
+            }
 		}
 	}
 	return CDialog::PreTranslateMessage(pMsg);
@@ -625,11 +635,8 @@ BOOL FxMainWin::showMsgDlg(HTREEITEM hItem)
 
 	if (filker.GetCount() == 0)
 			KillTimer(TIMER_NEWMSG);
-#endif
-	m_currentItem = hItem;
     showMsgDlg(ac_info->accountID);
-	m_BuddyOpt->setOnlineState(hItem);
-	m_currentItem = NULL;
+#endif
 	return TRUE;
 }
 
@@ -864,6 +871,8 @@ void FxMainWin::addNewMessage(long account_id, CString newmsg /* ="" */)
 
 	HTREEITEM accountItem = m_BuddyOpt->findAccountItem(account);
 
+	m_BuddyOpt->setOnlineState(accountItem);
+
 	if (accountItem == m_currentItem && m_currentMsgDlg)
 	{
 		m_currentMsgDlg->addNewMsg(newmsg);
@@ -936,13 +945,14 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName)
         // fixme: 这里要如何才能取得最后一条消息又不会导致消息被移除?
         // 下面这个代码是有问题的.取出消息后,再打开对话框将看不到新消息
         /*
-        Fetion_MSG * fxMsgPrev = NULL;
         Fetion_MSG * fxMsg = NULL;
         //得到最后一条消息
-        while(fxMsg = fx_get_msg(lAccountID))
-            fxMsgPrev = fxMsg;
-        
-	    char * msg_contain = fx_msg_no_format(fxMsgPrev->message);
+        fxMsg = fx_get_msg(lAccountID);
+
+        if(fxMsg == NULL)
+            return;
+
+	    char * msg_contain = fx_msg_no_format(fxMsg->message);
 
 	    strMsg = ConvertUtf8ToUtf16(msg_contain) + CString(_T("\r\n"));
 	    if (msg_contain)
@@ -1056,7 +1066,7 @@ void FxMainWin::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 // 处理移动组成功的消息
 void FxMainWin::handle_MoveGroupOk(long account_id, int group_id)  
 {
-	//this->m_BuddyOpt->delAccount_direct(account_id);  
+	this->m_BuddyOpt->delAccount_direct(account_id);  
 	this->m_BuddyOpt->addAccountToGroup(fx_get_account_by_id (account_id)); 
 }
 void FxMainWin::OnAbout()

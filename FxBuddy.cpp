@@ -341,14 +341,14 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account, CString & name, 
 		//groupItem->insertChild(group_info->online_no, accountItem);
 		group_info->online_no ++;
 	}
+    updateGroupInfo(groupItem, true);
+	//CString online;
+	//online.Format(_T("(%d"),group_info->online_no);
+	//CString BuddyCount;
+	//BuddyCount.Format(_T("/%d)"), GetChildCount(groupItem));
+	//CString groupShowName = group_info->groupName + online + BuddyCount;
 
-	CString online;
-	online.Format(_T("(%d"),group_info->online_no);
-	CString BuddyCount;
-	BuddyCount.Format(_T("/%d)"), GetChildCount(groupItem));
-	CString groupShowName = group_info->groupName + online + BuddyCount;
-
-	treeWidget->SetItemText(groupItem, groupShowName);
+	//treeWidget->SetItemText(groupItem, groupShowName);
 	//treeWidget->Expand(groupItem, TVE_EXPAND);
 }
 
@@ -394,6 +394,29 @@ HTREEITEM BuddyOpt::findAccountItem(const Fetion_Account *account)
 
 	HTREEITEM groupItem = findGroupItemByID(group_no);
 	return findAccountItemFromGroup(groupItem, account);
+}
+
+HTREEITEM BuddyOpt::findAccountItemFromAllGroup(const Fetion_Account *account)
+{
+	if (!account)
+		return NULL;
+
+	long account_id = (long)account->id;
+
+	HTREEITEM hGroupItem = treeWidget->GetRootItem();
+    while(hGroupItem != NULL)
+    {
+        HTREEITEM hItem = treeWidget->GetChildItem(hGroupItem);
+	    while (hItem != NULL)
+	    {
+		    Account_Info *ac_info =(Account_Info*)treeWidget->GetItemData(hItem);
+		    if(ac_info && account_id == ac_info->accountID)
+			    return hItem;
+		    hItem = treeWidget->GetNextSiblingItem(hItem);
+	    }
+        hGroupItem = treeWidget->GetNextSiblingItem(hGroupItem);
+    }
+	return NULL;
 }
 
 static BOOL isonline(int state)
@@ -509,44 +532,32 @@ void BuddyOpt::updateAccountInfo(long account_id)
 	printf("Updata new buddy.... \n");
 }
 
-#if 0
 void BuddyOpt::delAccount_direct(long uid)
 {
-	HTREEITEM  *RootItem = this->treeWidget->invisibleRootItem();
-	if(!RootItem)
-		return ;
+	const Fetion_Account * account = fx_get_account_by_id (uid);
+    HTREEITEM  hItem = findAccountItemFromAllGroup(account);
 
-	int GroupCount = RootItem-> childCount ();
-	HTREEITEM  *groupItem = NULL;
-	for(int i =0;  i< GroupCount; i++)
-	{
-		groupItem = RootItem->child(i);
-		if (!groupItem || isQunItem(groupItem) )
-			continue;
-		int itemCounts = groupItem-> childCount();
-		HTREEITEM  *tmpItem = NULL;
-		for(int i =0;  i< itemCounts; i++)
-		{
-			tmpItem = groupItem->child(i);
-			if(!tmpItem)
-				continue;
-#if MS_VC6
-			Account_Info *ac_info =(Account_Info*)(tmpItem->data(0, Qt::UserRole).toUInt());
-#else
-			Account_Info *ac_info =tmpItem->data(0, Qt::UserRole).value<Account_Info*>() ;
-#endif
-			if (!ac_info)
-				continue;
-			if(ac_info->accountID == uid)
-			{
-				delAccount(tmpItem); 
-				return;
-			}
-		}
-	}
+    if(hItem != NULL)
+    {
+        HTREEITEM groupItem = treeWidget->GetParentItem(hItem);
+        Group_Info *group_info =(Group_Info *)treeWidget->GetItemData(groupItem);
+
+	    if(!group_info)
+		    return ;
+
+        treeWidget->DeleteItem(hItem);
+
+	    if (fx_is_on_line_by_account (account))
+	    {
+		    group_info->online_no --;
+	    }
+
+        updateGroupInfo(hItem);
+    }
 
 }
 
+#if 0
 void BuddyOpt::delAccount(HTREEITEM accountItem)  
 {
 	if (!accountItem)
@@ -852,4 +863,87 @@ int BuddyOpt::GetChildCount(HTREEITEM groupItem)
 		}
 	}
 	return count;
+}
+// 更新组信息
+void BuddyOpt::updateGroupInfo(HTREEITEM hGroupItem, bool bAnyway)
+{
+
+	if (bAnyway || treeWidget->ItemHasChildren(hGroupItem))
+    {
+        Group_Info *group_info =(Group_Info *)treeWidget->GetItemData(hGroupItem);
+
+	    if(!group_info)
+		    return ;
+
+        CString online;
+        online.Format(_T("(%d"),group_info->online_no);
+        CString BuddyCount;
+        BuddyCount.Format(_T("/%d)"), GetChildCount(hGroupItem));
+        CString groupShowName = group_info->groupName + online + BuddyCount;
+        treeWidget->SetItemText(hGroupItem, groupShowName);
+
+        SortBuddy(hGroupItem);
+    }
+}
+
+// 做排序用，值越大则应该排的越前
+static int GetSortValue(int iOnlineState)
+{
+    switch(iOnlineState)
+    {
+    case FX_STATUS_ONLINE:
+        return 100;
+    case FX_STATUS_BUSY:
+        return 95;
+    case FX_STATUS_AWAY:
+    case FX_STATUS_EXTENDED_AWAY:
+        return 90;
+    case FX_STATUS_MEETING:
+        return 85;
+    case FX_STATUS_PHONE:
+        return 80;
+    case FX_STATUS_DINNER:
+        return 75;
+    case FX_STATUS_NUM_PRIMITIVES:
+        return 70;
+    case FX_STATUS_MOBILE:
+        return 58;
+    case FX_STATUS_WAITING_AUTH:
+        return 65;
+    case FX_STATUS_REFUSE:
+        return 60;
+    case FX_STATUS_BLACK:
+        return 55;
+    default :
+        return 0;
+    }
+}
+static int CALLBACK SortBuddyFunc(LPARAM lbuddy1, LPARAM lbuddy2, LPARAM lParamSort)
+{
+    CTreeCtrl* pTreeCtrl = (CTreeCtrl*) lParamSort;
+
+    
+    Account_Info *ac_info1 =(Account_Info*)lbuddy1;
+    Account_Info *ac_info2 =(Account_Info*)lbuddy2;
+
+	if(!ac_info1 || !ac_info2)
+		return 0;
+    int iSortValue1 = GetSortValue(ac_info1->onlinestate);
+    int iSortValue2 = GetSortValue(ac_info2->onlinestate);
+	int iRet = iSortValue2 - iSortValue1;
+	if(iRet == 0)
+	{    
+		iRet = ac_info1->accountName.CompareNoCase(ac_info2->accountName);
+	}
+    return iRet;
+}
+
+void BuddyOpt::SortBuddy(HTREEITEM hGroupItem)
+{
+    TVSORTCB tvs;
+    tvs.hParent = hGroupItem;
+    tvs.lpfnCompare = SortBuddyFunc;
+    tvs.lParam = (LPARAM)treeWidget;
+
+    treeWidget->SortChildrenCB(&tvs);
 }
