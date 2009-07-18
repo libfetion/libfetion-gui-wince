@@ -353,6 +353,7 @@ void CBuddyInfoDlg::OnOk()
     {
         fx_set_buddyinfo(m_lAccountID, ConvertUtf16ToUtf8(m_strShowName), NULL, NULL); 
     }
+
     CDialog::OnOK();
 }
 

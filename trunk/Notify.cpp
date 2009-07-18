@@ -121,15 +121,17 @@ void StartVirbate( )
     if(!m_bLedInited)
     {
         // FIXME 这里获取振动LED的代码应该没有问题,但是如果ledNum不为0,就不能振动,
-        //if(NLedGetDeviceInfo(NLED_COUNT_INFO_ID, (PVOID) &nci))
-        //{
-        //    m_LedNum = (int)nci.cLeds - 1;
-        //}
+        if(NLedGetDeviceInfo(NLED_COUNT_INFO_ID, (PVOID) &nci))
+        {
+            m_LedNum = (int)nci.cLeds - 1;
+        }
         m_bLedInited = true;
     }
     settings.LedNum = m_LedNum;
 	settings.OffOnBlink = 1;
 	NLedSetDevice(NLED_SETTINGS_INFO_ID, &settings);
+		settings.LedNum=0;
+	NLedSetDevice(NLED_SETTINGS_INFO_ID,&settings);
 }
 
 void StopVirbate(HWND hwnd, UINT idEvent, UINT_PTR, DWORD )
@@ -140,7 +142,9 @@ void StopVirbate(HWND hwnd, UINT idEvent, UINT_PTR, DWORD )
 	settings.LedNum= m_LedNum; 
 	settings.OffOnBlink= 0;
 	NLedSetDevice(NLED_SETTINGS_INFO_ID, &settings);
-    KillTimer(hwnd, TIMER_STOPVIBRATE);
+	settings.LedNum= 0;
+	NLedSetDevice(NLED_SETTINGS_INFO_ID, &settings);
+  KillTimer(hwnd, TIMER_STOPVIBRATE);
 }
 #endif
 

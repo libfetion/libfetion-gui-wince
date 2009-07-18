@@ -92,20 +92,20 @@ void CFindBuddyDlg::OnSize(UINT nType, int cx, int cy)
     hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_EDIT_NO);
     ::MoveWindow(hwndCtl, iX, iY, 
 #if !defined(WIN32_PLATFORM_WFSP)
-        iW - DRA::SCALEX(20),
+        iW - DRA::SCALEX(16),
 #else
         iW,
 #endif
         iH, false);
 
     hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_BTN_FIND);
-    ::MoveWindow(hwndCtl, iX + iW - DRA::SCALEX(20) + iMargin, iY, 
+    ::MoveWindow(hwndCtl, iX + iW - DRA::SCALEX(16) + iMargin, iY, 
 #if !defined(WIN32_PLATFORM_WFSP)
-    20,
+    DRA::SCALEX(16), DRA::SCALEY(16),
 #else
-    0,
+    0, 0,
 #endif
-    iH, false);
+    false);
     
     hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_STATIC_INFO);
     ::MoveWindow(hwndCtl, iX, iY, iW, iH, false);

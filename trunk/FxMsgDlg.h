@@ -64,7 +64,7 @@ public:
 	void addNewMsg(CString msg = _T(""));
 	void getMsg(CString &msg);
 	CString GetCurrentTimeString();
-	CString GetMsgTimeString(char *msgtime);
+	static CString GetMsgTimeString(char *msgtime);
 public:
 	CEdit m_browser;
 	CEdit m_send;
@@ -93,3 +93,4 @@ public:
 	afx_msg void OnSendCopy();
 	afx_msg void OnSendPaste();
 };
+
