@@ -479,7 +479,6 @@ BOOL FxMainWin::PreTranslateMessage(MSG* pMsg)
 		    switch(pMsg->wParam)
 		    {
 		    case VK_RETURN:
-				if(pMsg->hwnd == view.m_hWnd)
 				{
 					HTREEITEM hItem = view.GetSelectedItem();
 					if(NULL != hItem)
