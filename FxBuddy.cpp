@@ -892,28 +892,31 @@ static int GetSortValue(int iOnlineState)
     switch(iOnlineState)
     {
     case FX_STATUS_ONLINE:
-        return 100;
+        return 0;
     case FX_STATUS_BUSY:
-        return 95;
+        return 5;
     case FX_STATUS_AWAY:
     case FX_STATUS_EXTENDED_AWAY:
-        return 90;
+        return 10;
     case FX_STATUS_MEETING:
-        return 85;
+        return 15;
     case FX_STATUS_PHONE:
-        return 80;
+        return 20;
     case FX_STATUS_DINNER:
-        return 75;
+        return 25;
+    case FX_STATUS_UNSET:
     case FX_STATUS_NUM_PRIMITIVES:
-        return 70;
-    case FX_STATUS_MOBILE:
-        return 58;
+        return 30;
     case FX_STATUS_WAITING_AUTH:
-        return 65;
+        return 35;
     case FX_STATUS_REFUSE:
-        return 60;
-    case FX_STATUS_BLACK:
+        return 40;
+    case FX_STATUS_MOBILE:
+        return 50;
+    case FX_STATUS_OFFLINE:
         return 55;
+    case FX_STATUS_BLACK:
+        return 100;
     default :
         return 0;
     }
@@ -930,7 +933,7 @@ static int CALLBACK SortBuddyFunc(LPARAM lbuddy1, LPARAM lbuddy2, LPARAM lParamS
 		return 0;
     int iSortValue1 = GetSortValue(ac_info1->onlinestate);
     int iSortValue2 = GetSortValue(ac_info2->onlinestate);
-	int iRet = iSortValue2 - iSortValue1;
+	int iRet = iSortValue1 - iSortValue2;
 	if(iRet == 0)
 	{    
 		iRet = ac_info1->accountName.CompareNoCase(ac_info2->accountName);
