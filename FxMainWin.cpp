@@ -477,14 +477,22 @@ BOOL FxMainWin::PreTranslateMessage(MSG* pMsg)
 		    switch(pMsg->wParam)
 		    {
 		    case VK_RETURN:
-                {
-                    HTREEITEM hItem = view.GetSelectedItem();
-                    if (view.GetParentItem(hItem))
-		                showMsgDlg(hItem);
-                    else{
-                        view.Expand(hItem, TVE_TOGGLE);
-                    }
-                }
+				if(pMsg->hwnd == view.m_hWnd)
+				{
+					HTREEITEM hItem = view.GetSelectedItem();
+					if(NULL != hItem)
+					{
+						if(!view.ItemHasChildren(hItem))
+						{
+							showMsgDlg(view.GetSelectedItem());
+						}
+						else
+						{
+							view.Expand(hItem,TVE_TOGGLE);
+						}
+					}
+				}
+				break;
 		    default:
 			    break;
 
