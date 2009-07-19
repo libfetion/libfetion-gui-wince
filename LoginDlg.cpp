@@ -541,7 +541,27 @@ BOOL CLoginDlg::EstablishConnection(void)
     }
 
     DWORD dwStatus = 0; 
-    return ConnMgrEstablishConnectionSync(&ConnInfo, hConnect, 25000, &dwStatus) == S_OK;
+    ConnMgrEstablishConnectionSync(&ConnInfo, hConnect, 25000, &dwStatus);
+	DWORD dwStartTime = GetTickCount();
+	BOOL bRet = FALSE;
+	while ( GetTickCount ()-dwStartTime < 15* 1000 )
+	{
+		if ( m_hConnection )
+		{
+			DWORD dwStatus = 0;
+			HRESULT hr = ConnMgrConnectionStatus ( hConnect, &dwStatus );
+			if ( SUCCEEDED(hr) )
+			{
+				if ( dwStatus == CONNMGR_STATUS_CONNECTED )
+				{
+					return TRUE;
+				}
+			}
+		}
+		Sleep(100);
+	}
+	return FALSE;
+
 }
 #endif
 
