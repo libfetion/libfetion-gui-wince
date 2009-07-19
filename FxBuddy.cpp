@@ -136,6 +136,7 @@ void BuddyOpt::addQunToTree()
 			if (!QunItem) {					
 				//notify: set the qun icon
 				QunItem = treeWidget->InsertItem(_T("飞信群"), I_QUN, I_QUN);
+				treeWidget->SortChildren(TVI_ROOT);
 			}
 
 			qun_info = new Qun_Info;
@@ -147,6 +148,7 @@ void BuddyOpt::addQunToTree()
 
 			HTREEITEM item = treeWidget->InsertItem(qun_info->qunName, I_QUN, I_QUN, QunItem);
 			treeWidget->SetItemData(item,(DWORD)qun_info); 
+			treeWidget->SortChildren(QunItem);
 		}
 		tmp_qun = d_list_next(tmp_qun);
 	}
@@ -239,6 +241,7 @@ void BuddyOpt::addGroupToTree()
 			//notify: set the group icon
 			HTREEITEM item = treeWidget->InsertItem(str, I_QUN, I_QUN);
 			treeWidget->SetItemData(item,(DWORD)groupinfo); 
+			treeWidget->SortChildren(TVI_ROOT);
 		}
 		tmp_group = d_list_next(tmp_group);
 	}
@@ -254,7 +257,8 @@ void BuddyOpt::addGroup(const char* groupname, long id)
 
 	//notify: set the group icon
 	HTREEITEM item = treeWidget->InsertItem(groupinfo->groupName + _T("(0/0)"), I_QUN, I_QUN);
-	treeWidget->SetItemData(item,(DWORD)groupinfo); 
+	treeWidget->SetItemData(item,(DWORD)groupinfo);
+	treeWidget->SortChildren(TVI_ROOT);
 }
 
 //add account info to tree widget
@@ -492,18 +496,14 @@ void BuddyOpt::updateAccountInfo(long account_id)
 	int new_online_state = fx_get_online_status_by_account(account);
 	ac_info->onlinestate = new_online_state;
 
+	CString old_show_name = treeWidget->GetItemText(accountItem);
 	treeWidget->SetItemText(accountItem, show_name);
 	setOnlineState(accountItem, ac_info->onlinestate);
 
 	int state = 0;
 	if (isOnlineStateChanged(old_online_state , new_online_state , &state))
 	{
-		//group name ++1
-		int	group_no = fx_get_account_group_id(account) ;
-		if(group_no <= 0)
-			group_no = 0;
-
-		HTREEITEM groupItem = findGroupItemByID(group_no);
+		HTREEITEM groupItem = treeWidget->GetParentItem(accountItem);
 		if(groupItem)
 		{
 			Group_Info *group_info =(Group_Info *)treeWidget->GetItemData(groupItem);
@@ -521,15 +521,18 @@ void BuddyOpt::updateAccountInfo(long account_id)
 			else 
 				group_info->online_no --;
 
-			CString online;
-			online.Format(_T("(%d"),group_info->online_no);
-			CString BuddyCount;
-			BuddyCount.Format(_T("/%d)"), GetChildCount(groupItem));
-			CString groupShowName = group_info->groupName + online + BuddyCount;
-			treeWidget->SetItemText(groupItem, groupShowName);
+			updateGroupInfo(groupItem, true);
 		}
 	}
-	printf("Updata new buddy.... \n");
+	if(old_show_name.CompareNoCase(show_name))
+	{
+		HTREEITEM groupItem = treeWidget->GetParentItem(accountItem);
+		if(groupItem)
+		{
+			updateGroupInfo(groupItem, true);
+		}
+	}
+	//printf("Updata new buddy.... \n");
 }
 
 void BuddyOpt::delAccount_direct(long uid)
@@ -552,7 +555,7 @@ void BuddyOpt::delAccount_direct(long uid)
 		    group_info->online_no --;
 	    }
 
-        updateGroupInfo(hItem);
+        updateGroupInfo(hItem, true);
     }
 
 }
