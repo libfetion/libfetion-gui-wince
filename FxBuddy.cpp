@@ -96,6 +96,31 @@ void BuddyOpt::freeAllQundata(HTREEITEM groupItem)
 Account_Info *BuddyOpt::fetchNoUpdateAccount()
 {
 	HTREEITEM groupItem = treeWidget->GetRootItem();
+	CString strAccountID;
+	while (groupItem != NULL)
+	{
+		if (!isQunItem(groupItem)) //not the qun item
+		{
+			HTREEITEM hItem = treeWidget->GetChildItem(groupItem);
+			while (hItem != NULL)
+			{
+				Account_Info *ac_info =(Account_Info*)treeWidget->GetItemData(hItem);
+				if (ac_info && ac_info->isUpdate == FALSE)
+				{
+					strAccountID.Format(_T("%d"), ac_info->accountID);
+					if(0 == strAccountID.Compare(ac_info->accountName))
+					{
+						//优先更新只显示出飞信ID的好友
+						return ac_info;
+					}
+				}
+				hItem = treeWidget->GetNextSiblingItem(hItem);
+			}
+
+		}
+		groupItem = treeWidget->GetNextSiblingItem(groupItem);
+	}
+	groupItem = treeWidget->GetRootItem();
 	while (groupItem != NULL)
 	{
 		if (!isQunItem(groupItem)) //not the qun item
