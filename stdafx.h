@@ -44,7 +44,7 @@
 #include <afxcmn.h>			// MFC 对 Windows 公共控件的支持
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
-
+#include <pm.h>				// 电源管理
 
 #if defined(WIN32_PLATFORM_PSPC) || defined(WIN32_PLATFORM_WFSP) || defined(M8)
 #ifndef _DEVICE_RESOLUTION_AWARE
