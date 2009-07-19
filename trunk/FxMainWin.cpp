@@ -641,7 +641,8 @@ BOOL FxMainWin::showMsgDlg(HTREEITEM hItem)
 		filker.RemoveAt(pos);
 
     // 更正点击后头像消息的BUG
-    view.SetItemImage(view.GetParentItem(hItem), 13, 13);
+	m_BuddyOpt->setOnlineState(hItem);
+	view.SetItemImage(view.GetParentItem(hItem), 13, 13);
 
 	if (filker.GetCount() == 0)
 			KillTimer(TIMER_NEWMSG);
@@ -947,6 +948,7 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName)
     }
 
 #ifdef WIN32_PLATFORM_PSPC 
+	SetSystemPowerState(NULL, POWER_STATE_ON, 0);
     if(this->IsTopParentActive())
         CNotify::Nodify(this->m_hWnd, strSoundPath, iPeriod, this->m_bNoSound, this->m_bVibrate, Styles);
     else
