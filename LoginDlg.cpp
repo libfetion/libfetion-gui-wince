@@ -546,7 +546,7 @@ BOOL CLoginDlg::EstablishConnection(void)
 	BOOL bRet = FALSE;
 	while ( GetTickCount ()-dwStartTime < 15* 1000 )
 	{
-		if ( m_hConnection )
+		if ( hConnect )
 		{
 			DWORD dwStatus = 0;
 			HRESULT hr = ConnMgrConnectionStatus ( hConnect, &dwStatus );
