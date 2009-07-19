@@ -542,26 +542,13 @@ BOOL CLoginDlg::EstablishConnection(void)
 
     DWORD dwStatus = 0; 
     ConnMgrEstablishConnectionSync(&ConnInfo, hConnect, 25000, &dwStatus);
-	DWORD dwStartTime = GetTickCount();
-	BOOL bRet = FALSE;
-	while ( GetTickCount ()-dwStartTime < 15* 1000 )
+	if(dwStatus==CONNMGR_STATUS_CONNECTED)//网络连接成功
 	{
-		if ( hConnect )
-		{
-			DWORD dwStatus = 0;
-			HRESULT hr = ConnMgrConnectionStatus ( hConnect, &dwStatus );
-			if ( SUCCEEDED(hr) )
-			{
-				if ( dwStatus == CONNMGR_STATUS_CONNECTED )
-				{
-					return TRUE;
-				}
-			}
-		}
-		Sleep(100);
+		Sleep(1000);//等待1S，让设备准备好
+		return TRUE;
 	}
-	return FALSE;
-
+	else
+		return FALSE;
 }
 #endif
 
