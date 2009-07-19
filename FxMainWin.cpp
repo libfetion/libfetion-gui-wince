@@ -883,7 +883,7 @@ void FxMainWin::addNewMessage(long account_id, CString newmsg /* ="" */)
 
 	m_BuddyOpt->setOnlineState(accountItem);
 
-	if (accountItem == m_currentItem && m_currentMsgDlg)
+	if (m_currentMsgDlg && m_currentMsgDlg->account_id == account_id)
 	{
 		m_currentMsgDlg->addNewMsg(newmsg);
 		return;
