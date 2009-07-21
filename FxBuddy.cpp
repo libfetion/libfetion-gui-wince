@@ -753,6 +753,8 @@ int BuddyOpt::getOnlineIcon(int flag)
 
 void BuddyOpt::setOnlineState(HTREEITEM hItem)
 {
+	if(!hItem)
+		return;
 	Account_Info *ac_info =(Account_Info*)treeWidget->GetItemData(hItem);
 	if(!ac_info)
 		return;
@@ -761,6 +763,8 @@ void BuddyOpt::setOnlineState(HTREEITEM hItem)
 
 void BuddyOpt::setOnlineState(HTREEITEM hItem, int flag)
 {
+	if(!hItem)
+		return;
 	int res = getOnlineIcon(flag);
 	treeWidget->SetItemImage(hItem, res, res);
 }

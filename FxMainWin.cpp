@@ -884,10 +884,7 @@ void FxMainWin::addNewMessage(long account_id, CString newmsg /* ="" */)
 
 	HTREEITEM accountItem = m_BuddyOpt->findAccountItemFromAllGroup(account);
 
-	if(accountItem)
-	{
-		m_BuddyOpt->setOnlineState(accountItem);
-	}
+	m_BuddyOpt->setOnlineState(accountItem);
 
 	if (m_currentMsgDlg && m_currentMsgDlg->account_id == account_id)
 	{
