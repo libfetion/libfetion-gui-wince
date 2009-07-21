@@ -52,9 +52,7 @@ class BuddyOpt
 		CString createAccountTipsInfo(const Fetion_Account *account);
 		void setTipsOfAccount(HTREEITEM  accountItem, const Fetion_Account *account);
 
-		HTREEITEM findAccountItem(const Fetion_Account *account);
-		HTREEITEM findAccountItemFromGroup(HTREEITEM  groupItem, const Fetion_Account *account);
-        HTREEITEM BuddyOpt::findAccountItemFromAllGroup(const Fetion_Account *account);
+        HTREEITEM findAccountItemFromAllGroup(const Fetion_Account *account);
 		HTREEITEM findGroupItemByID(int group_id);
 
 		Account_Info *fetchNoUpdateAccount();
