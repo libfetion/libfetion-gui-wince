@@ -395,6 +395,7 @@ HTREEITEM BuddyOpt::findGroupItemByID(int group_id)
 	return NULL;
 }
 
+#if 0
 HTREEITEM BuddyOpt::findAccountItemFromGroup(HTREEITEM groupItem, const Fetion_Account *account)
 {
 	if (!groupItem || !account)
@@ -424,6 +425,7 @@ HTREEITEM BuddyOpt::findAccountItem(const Fetion_Account *account)
 	HTREEITEM groupItem = findGroupItemByID(group_no);
 	return findAccountItemFromGroup(groupItem, account);
 }
+#endif
 
 HTREEITEM BuddyOpt::findAccountItemFromAllGroup(const Fetion_Account *account)
 {
@@ -492,7 +494,7 @@ void BuddyOpt::updateAccountInfo(long account_id)
 	if (!account)
 		return;
 
-	HTREEITEM accountItem = findAccountItem(account);
+	HTREEITEM accountItem = findAccountItemFromAllGroup(account);
 
 	//not find this account, so add it to Group...
 	if (!accountItem) 

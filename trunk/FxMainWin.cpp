@@ -882,9 +882,12 @@ void FxMainWin::addNewMessage(long account_id, CString newmsg /* ="" */)
     // 提醒用户
     NotifyUser(1, account_id, ConvertUtf8ToUtf16(account->local_name));
 
-	HTREEITEM accountItem = m_BuddyOpt->findAccountItem(account);
+	HTREEITEM accountItem = m_BuddyOpt->findAccountItemFromAllGroup(account);
 
-	m_BuddyOpt->setOnlineState(accountItem);
+	if(accountItem)
+	{
+		m_BuddyOpt->setOnlineState(accountItem);
+	}
 
 	if (m_currentMsgDlg && m_currentMsgDlg->account_id == account_id)
 	{
