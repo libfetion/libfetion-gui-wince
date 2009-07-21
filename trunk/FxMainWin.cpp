@@ -115,6 +115,7 @@ BOOL FxMainWin::handleFx_Sys_Event(int message, WPARAM wParam, LPARAM lParam)
 	case FX_ADD_BUDDY_OK:
 		//this->m_BuddyOpt->delAccount_direct(account_id);  
 		this->m_BuddyOpt->addAccountToGroup( fx_get_account_by_id((long)lParam) );
+		update_account_info();
 		return TRUE;
 
 	case FX_RENAME_GROUP_OK:
