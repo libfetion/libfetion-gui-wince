@@ -522,7 +522,7 @@ BOOL FxMainWin::PreTranslateMessage(MSG* pMsg)
             }
 		}
 	}
-    if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)
+    if (pMsg->hwnd == this->GetSafeHwnd() && pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)
         return TRUE;
 	return CDialog::PreTranslateMessage(pMsg);
 }

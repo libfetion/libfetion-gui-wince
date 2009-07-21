@@ -58,9 +58,7 @@ int AddMenuBarForM8(HWND hwnd, UINT idMenu)
     ::CommandBar_InsertMenubar(hBar, hInst, idMenu, 0);
 
 
-#if !defined(_WIN32_WCE_PSPC)
-    CommandBands_AddAdornments(b, hInst, 0, NULL);
-#endif
+	return 0;
 }
 
 void FullScreen(HWND hwnd)
