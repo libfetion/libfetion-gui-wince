@@ -102,6 +102,7 @@ END_INTERFACE_MAP()
 BOOL FxMsgDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
+	m_browser.SetReadOnly();
 
 #ifdef M8
     AddMenuBarForM8(this->GetSafeHwnd(), IDR_MSG_MENU);
