@@ -131,7 +131,7 @@ BOOL FxMainWin::handleFx_Sys_Event(int message, WPARAM wParam, LPARAM lParam)
 		//emit signal_del_group( message, wParam, (qlonglong)lParam);
 		return TRUE;
 	case FX_DEL_BUDDY_OK:
-		//emit signal_del_buddy( message, wParam, (qlonglong)lParam);
+		this->m_BuddyOpt->delAccount_direct((long)lParam);  
 		return TRUE;
 
 	case FX_ADD_GROUP_FAIL:
