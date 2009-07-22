@@ -91,7 +91,7 @@ BOOL CBuddyInfoDlg::OnInitDialog()
 	if (m_account->personal)
 	{
 		m_strNickName = ConvertUtf8ToUtf16(m_account->personal->nickname);
-		m_strSex = m_account->personal->gender == 1? _T("帅哥") : _T("美女");
+		m_strSex = (m_account->personal->gender == 1)? _T("帅哥") : (m_account->personal->gender == 2)? _T("美女") : _T("保密");
 		m_strProv = ConvertUtf8ToUtf16(m_account->personal->province);
 		m_strCity = _T("");//ConvertUtf8ToUtf16(m_account->personal->city);
 		m_strSign = ConvertUtf8ToUtf16(m_account->personal->impresa);
