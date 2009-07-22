@@ -881,7 +881,10 @@ void FxMainWin::addNewMessage(long account_id, CString newmsg /* ="" */)
 		return;
 
     // 提醒用户
-    NotifyUser(1, account_id, ConvertUtf8ToUtf16(account->local_name));
+	char * showname = fx_get_account_show_name(account, FALSE);
+    NotifyUser(1, account_id, ConvertUtf8ToUtf16(showname));
+	if(showname)
+		free(showname);
 
 	HTREEITEM accountItem = m_BuddyOpt->findAccountItemFromAllGroup(account);
 
