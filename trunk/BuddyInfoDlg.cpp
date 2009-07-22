@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "WMLF.h"
 #include "BuddyInfoDlg.h"
-
+#include "ProvAndCityCode.h"
 
 #ifdef M8
 #include "M8Misc.h"
@@ -16,6 +16,7 @@
 // CBuddyInfoDlg 对话框
 
 IMPLEMENT_DYNAMIC(CBuddyInfoDlg, CDialog)
+
 
 CBuddyInfoDlg::CBuddyInfoDlg(long lAccountID, CWnd* pParent /*=NULL*/)
 	: CDialog(CBuddyInfoDlg::IDD, pParent)
@@ -92,8 +93,8 @@ BOOL CBuddyInfoDlg::OnInitDialog()
 	{
 		m_strNickName = ConvertUtf8ToUtf16(m_account->personal->nickname);
 		m_strSex = (m_account->personal->gender == 1)? _T("帅哥") : (m_account->personal->gender == 2)? _T("美女") : _T("保密");
-		m_strProv = ConvertUtf8ToUtf16(m_account->personal->province);
-		m_strCity = _T("");//ConvertUtf8ToUtf16(m_account->personal->city);
+		m_strProv = GetProvince( ConvertUtf8ToUtf16(m_account->personal->province));
+		m_strCity = GetCity(m_account->personal->city);
 		m_strSign = ConvertUtf8ToUtf16(m_account->personal->impresa);
 	}
 
@@ -377,4 +378,35 @@ void CBuddyInfoDlg::OnCancel()
     }
 #endif // WIN32_PLATFORM_WFSP
 	CDialog::OnCancel();
+}
+
+// 根据代码获取省份名字
+CString CBuddyInfoDlg::GetProvince(CString strProvinceCode)
+{
+    if(L"" == strProvinceCode)
+        return L"其它";
+    for(int i = 0; i < 34; i ++)
+    {
+        if(strProvinceCode == ProvinceArray[i].ProvinceCode)
+        {
+            return ProvinceArray[i].ProvinceName;
+        }
+    }
+    return L"其它";
+
+}
+
+CString CBuddyInfoDlg::GetCity(int iCityCode)
+{
+    //默认如果是99表示其它
+    if(99 == iCityCode)
+        return L"其它";
+    for(int i = 0; i < 340; i ++)
+    {
+        if(iCityCode == CityArray[i].CityCode)
+        {
+            return CityArray[i].CityName;
+        }
+    }
+    return L"其它";
 }
