@@ -80,13 +80,22 @@ BOOL CBuddyInfoDlg::OnInitDialog()
     if(NULL == m_account)
         return FALSE;
 
-    m_strShowName =  ConvertUtf8ToUtf16(m_account->local_name);
+	char * showname = fx_get_account_show_name(m_account, FALSE);
+	m_strShowName =  ConvertUtf8ToUtf16(showname);
+	if(showname)
+		free(showname);
+
     m_iGroupID = fx_get_account_group_id(m_account);
-    m_strNickName = ConvertUtf8ToUtf16(m_account->personal->nickname);
-    m_strSex = m_account->personal->gender == 1? _T("帅哥") : _T("美女");
-    m_strProv = ConvertUtf8ToUtf16(m_account->personal->province);
-    m_strCity = _T("");//ConvertUtf8ToUtf16(m_account->personal->city);
-    m_strSign = ConvertUtf8ToUtf16(m_account->personal->impresa);
+
+// in some case, the m_account->personal maybe is NULL.
+	if (m_account->personal)
+	{
+		m_strNickName = ConvertUtf8ToUtf16(m_account->personal->nickname);
+		m_strSex = m_account->personal->gender == 1? _T("帅哥") : _T("美女");
+		m_strProv = ConvertUtf8ToUtf16(m_account->personal->province);
+		m_strCity = _T("");//ConvertUtf8ToUtf16(m_account->personal->city);
+		m_strSign = ConvertUtf8ToUtf16(m_account->personal->impresa);
+	}
 
     for(int i = 0; i < m_cboGroup.GetCount() && i < 25; i++)
     {
