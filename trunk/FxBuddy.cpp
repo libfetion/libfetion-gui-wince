@@ -395,36 +395,6 @@ HTREEITEM BuddyOpt::findGroupItemByID(int group_id)
 	return NULL;
 }
 
-HTREEITEM BuddyOpt::findAccountItemFromGroup(HTREEITEM groupItem, const Fetion_Account *account)
-{
-	if (!groupItem || !account)
-		return NULL;
-
-	long account_id = (long)account->id;
-
-	HTREEITEM hItem = treeWidget->GetChildItem(groupItem);
-	while (hItem != NULL)
-	{
-		Account_Info *ac_info =(Account_Info*)treeWidget->GetItemData(hItem);
-		if(ac_info && account_id == ac_info->accountID)
-			return hItem;
-		hItem = treeWidget->GetNextSiblingItem(hItem);
-	}
-	return NULL;
-}
-
-HTREEITEM BuddyOpt::findAccountItem(const Fetion_Account *account)
-{
-	if (!account)
-		return NULL;
-	int	group_no = fx_get_account_group_id(account) ;
-	if (group_no <= 0)
-		group_no = 0;
-
-	HTREEITEM groupItem = findGroupItemByID(group_no);
-	return findAccountItemFromGroup(groupItem, account);
-}
-
 HTREEITEM BuddyOpt::findAccountItemFromAllGroup(const Fetion_Account *account)
 {
 	if (!account)
@@ -492,7 +462,7 @@ void BuddyOpt::updateAccountInfo(long account_id)
 	if (!account)
 		return;
 
-	HTREEITEM accountItem = findAccountItem(account);
+	HTREEITEM accountItem = findAccountItemFromAllGroup(account);
 
 	//not find this account, so add it to Group...
 	if (!accountItem) 
@@ -751,6 +721,8 @@ int BuddyOpt::getOnlineIcon(int flag)
 
 void BuddyOpt::setOnlineState(HTREEITEM hItem)
 {
+	if(!hItem)
+		return;
 	Account_Info *ac_info =(Account_Info*)treeWidget->GetItemData(hItem);
 	if(!ac_info)
 		return;
@@ -759,6 +731,8 @@ void BuddyOpt::setOnlineState(HTREEITEM hItem)
 
 void BuddyOpt::setOnlineState(HTREEITEM hItem, int flag)
 {
+	if(!hItem)
+		return;
 	int res = getOnlineIcon(flag);
 	treeWidget->SetItemImage(hItem, res, res);
 }
