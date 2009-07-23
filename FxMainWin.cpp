@@ -844,7 +844,7 @@ void FxMainWin::handle_sendmsg(int msgflag, int fx_msg, long account_id)
 			if (pos)
 			{
 				//newmsg = "<b style=\"color:rgb(170,0,255);\">" +tr("auto resend ok:") + "</b>" + newmsg.fromUtf8(msg);
-				newmsg = CString(_T("自动重发OK:\r\n")) + ConvertUtf8ToUtf16(msg);
+				newmsg = CString(_T("自动重发OK")) + _T("(") + GetCurrentTimeString() + _T("):") + ConvertUtf8ToUtf16(msg) + CString(_T("\r\n\r\n"));
 				addNewMessage(account_id, newmsg);
 				timeOutMsgVector.RemoveAt(pos);
 			}
@@ -854,7 +854,7 @@ void FxMainWin::handle_sendmsg(int msgflag, int fx_msg, long account_id)
 			if (pos)
 				timeOutMsgVector.RemoveAt(pos);
 			//newmsg = "<b style=\"color:red;\">"+tr("send fail:") +"</b>"+ newmsg.fromUtf8(msg);
-			newmsg = CString(_T("发送失败:\r\n")) + ConvertUtf8ToUtf16(msg);
+			newmsg = CString(_T("发送失败")) + _T("(") + GetCurrentTimeString() + _T("):") + ConvertUtf8ToUtf16(msg) + CString(_T("\r\n\r\n"));
 			addNewMessage(account_id, newmsg);
 			break;
 
@@ -863,13 +863,13 @@ void FxMainWin::handle_sendmsg(int msgflag, int fx_msg, long account_id)
 			if (pos)
 				timeOutMsgVector.RemoveAt(pos);
 			//newmsg = "<b style=\"color:red;\">"+tr("send sms fail by limit:") +"</b>"+ newmsg.fromUtf8(msg);
-			newmsg = CString(_T("发送数目限制:\r\n")) + ConvertUtf8ToUtf16(msg);
+			newmsg = CString(_T("发送数目限制")) + _T("(") + GetCurrentTimeString() + _T("):") + ConvertUtf8ToUtf16(msg) + CString(_T("\r\n\r\n"));
 			addNewMessage(account_id, newmsg);
 			break;
 		case MSG_TIMEOUT:
 			timeOutMsgVector.InsertAfter(timeOutMsgVector.GetTailPosition(), fx_msg);
 			//newmsg = "<b style=\"color:rgb(170,0,255);\">" +tr("send timeout:") +"</b>" + newmsg.fromUtf8(msg)+"<br><b style=\"color:rgb(170,0,255);\">" +tr("will auto resend")+"</b>";
-			newmsg = CString(_T("发送超时:\r\n")) + ConvertUtf8ToUtf16(msg);
+			newmsg = CString(_T("发送超时")) + _T("(") + GetCurrentTimeString() + _T("):") + ConvertUtf8ToUtf16(msg) + CString(_T("\r\n\r\n"));
 			addNewMessage(account_id, newmsg);
 			break;
 	}

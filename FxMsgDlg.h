@@ -63,8 +63,6 @@ public:
 public:
 	void addNewMsg(CString msg = _T(""));
 	void getMsg(CString &msg);
-	CString GetCurrentTimeString();
-	static CString GetMsgTimeString(char *msgtime);
 public:
 	CEdit m_browser;
 	CEdit m_send;
