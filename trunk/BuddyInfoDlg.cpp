@@ -34,7 +34,6 @@ CBuddyInfoDlg::CBuddyInfoDlg(long lAccountID, CWnd* pParent /*=NULL*/)
     char* original = fx_get_original_ID(m_lAccountID);
     m_strAccountID =  ConvertUtf8ToUtf16(original);
     free(original);
-
 }
 
 CBuddyInfoDlg::~CBuddyInfoDlg()
@@ -82,37 +81,9 @@ BOOL CBuddyInfoDlg::OnInitDialog()
 
     InitGroupItem();
     fx_update_account_info_by_id (m_lAccountID);
-	m_account = fx_get_account_by_id(m_lAccountID);
-    if(NULL == m_account)
-        return FALSE;
 
-	char * showname = fx_get_account_show_name(m_account, FALSE);
-	m_strShowName =  ConvertUtf8ToUtf16(showname);
-	if(showname)
-		free(showname);
+	updateAccountInfo();
 
-    m_iGroupID = fx_get_account_group_id(m_account);
-
-// in some case, the m_account->personal maybe is NULL.
-	if (m_account->personal)
-	{
-		m_strNickName = ConvertUtf8ToUtf16(m_account->personal->nickname);
-		m_strSex = (m_account->personal->gender == 1)? _T("帅哥") : (m_account->personal->gender == 2)? _T("美女") : _T("保密");
-		m_strProv = GetProvince( ConvertUtf8ToUtf16(m_account->personal->province));
-		m_strCity = GetCity(m_account->personal->city);
-		m_strSign = ConvertUtf8ToUtf16(m_account->personal->impresa);
-	}
-
-    for(int i = 0; i < m_cboGroup.GetCount() && i < 25; i++)
-    {
-        if(m_iGroupID == m_cboGroup.GetItemData(i))
-        {
-            m_cboGroup.SetCurSel(i);
-            break;
-        }
-    }
-
-    UpdateData(FALSE);
     InitScrollInfo();
     return TRUE;  // return TRUE unless you set the focus to a control
     // 异常: OCX 属性页应返回 FALSE
@@ -420,4 +391,37 @@ CString CBuddyInfoDlg::GetCity(int iCityCode)
         }
     }
     return L"其它";
+}
+void CBuddyInfoDlg::updateAccountInfo()
+{
+	m_account = fx_get_account_by_id(m_lAccountID);
+    if(NULL == m_account)
+        return;
+
+	char * showname = fx_get_account_show_name(m_account, FALSE);
+	m_strShowName =  ConvertUtf8ToUtf16(showname);
+	if(showname)
+		free(showname);
+
+    m_iGroupID = fx_get_account_group_id(m_account);
+
+// in some case, the m_account->personal maybe is NULL.
+	if (m_account->personal)
+	{
+		m_strNickName = ConvertUtf8ToUtf16(m_account->personal->nickname);
+		m_strSex = (m_account->personal->gender == 1)? _T("帅哥") : (m_account->personal->gender == 2)? _T("美女") : _T("保密");
+		m_strProv = GetProvince( ConvertUtf8ToUtf16(m_account->personal->province));
+		m_strCity = GetCity(m_account->personal->city);
+		m_strSign = ConvertUtf8ToUtf16(m_account->personal->impresa);
+	}
+
+    for(int i = 0; i < m_cboGroup.GetCount(); i++)
+    {
+        if(m_iGroupID == m_cboGroup.GetItemData(i))
+        {
+            m_cboGroup.SetCurSel(i);
+            break;
+        }
+    }
+	UpdateData(FALSE);
 }

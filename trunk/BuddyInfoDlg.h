@@ -59,4 +59,5 @@ public:
     // 根据代码获取省份名字
     CString GetProvince(CString strProvinceCode);
     CString GetCity(int iCityCode);
+    void updateAccountInfo();
 };

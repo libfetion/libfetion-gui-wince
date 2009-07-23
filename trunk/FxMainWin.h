@@ -7,6 +7,7 @@
 #pragma once
 #include "afxcmn.h"
 #include "MessageLog.h"
+#include "BuddyInfoDlg.h"
 
 class CLoginDlg;
 class BuddyOpt;
@@ -74,6 +75,8 @@ public:
 	FxMsgDlg* m_currentMsgDlg;
 	//当前聊天Item
 	HTREEITEM m_currentItem;
+	//当前好友资料对话框
+	CBuddyInfoDlg* m_BuddyInfoDlg;
 public:
 	void relogin_fetion();
 	void update_account_info();
