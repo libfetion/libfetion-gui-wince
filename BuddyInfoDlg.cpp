@@ -23,6 +23,8 @@ CBuddyInfoDlg::CBuddyInfoDlg(long lAccountID, CWnd* pParent /*=NULL*/)
     , m_strShowName(_T(""))
     , m_iGroupID(0)
     , m_lAccountID(lAccountID)
+	, m_strAccountID(_T(""))
+	, m_strMobileNo(_T(""))
     , m_strNickName(_T(""))
     , m_strName(_T(""))
     , m_strSex(_T(""))
@@ -30,10 +32,6 @@ CBuddyInfoDlg::CBuddyInfoDlg(long lAccountID, CWnd* pParent /*=NULL*/)
     , m_strCity(_T(""))
     , m_strSign(_T(""))
 {
-    //获取显示正确的号码，如果是手机用户，则返回手机号码，其它返回飞信号
-    char* original = fx_get_original_ID(m_lAccountID);
-    m_strAccountID =  ConvertUtf8ToUtf16(original);
-    free(original);
 }
 
 CBuddyInfoDlg::~CBuddyInfoDlg()
@@ -45,6 +43,7 @@ void CBuddyInfoDlg::DoDataExchange(CDataExchange* pDX)
     CDialog::DoDataExchange(pDX);
     DDX_Text(pDX, IDC_BI_EDT_SHOWNAME, m_strShowName);
     DDX_Text(pDX, IDC_BI_FETIONNO, m_strAccountID);
+	DDX_Text(pDX, IDC_BI_MOBILENO, m_strMobileNo);
     DDX_Text(pDX, IDC_BI_NICKNAME, m_strNickName);
     DDX_Text(pDX, IDC_BI_NAME, m_strName);
     DDX_Text(pDX, IDC_BI_SEX, m_strSex);
@@ -181,6 +180,15 @@ void CBuddyInfoDlg::OnSize(UINT nType, int cx, int cy)
     ::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
 
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_FETIONNO);
+    ::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue, FALSE);
+    
+    iY = iY + iHValue + iMargin ;
+    //
+
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_LB_MOBILENO);
+    ::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
+
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_MOBILENO);
     ::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue, FALSE);
     
     iY = iY + iHValue + iMargin ;
@@ -405,6 +413,25 @@ void CBuddyInfoDlg::updateAccountInfo()
 
     m_iGroupID = fx_get_account_group_id(m_account);
 
+	if(fx_is_pc_user_by_id(m_lAccountID))
+	{
+		//飞信用户
+		m_strAccountID.Format(_T("%d"), m_lAccountID);
+		if (m_account->personal)
+		{
+			m_strMobileNo = ConvertUtf8ToUtf16(m_account->personal->mobile_no);
+		}
+	}
+	else
+	{
+		//手机用户
+		m_strAccountID = _T("");
+		//获取显示正确的号码，如果是手机用户，则返回手机号码，其它返回飞信号
+		char* original = fx_get_original_ID(m_lAccountID);
+		m_strMobileNo =  ConvertUtf8ToUtf16(original);
+		free(original);
+	}
+
 // in some case, the m_account->personal maybe is NULL.
 	if (m_account->personal)
 	{
@@ -415,7 +442,7 @@ void CBuddyInfoDlg::updateAccountInfo()
 		m_strSign = ConvertUtf8ToUtf16(m_account->personal->impresa);
 	}
 
-    for(int i = 0; i < m_cboGroup.GetCount(); i++)
+	for(int i = 0; i < m_cboGroup.GetCount(); i++)
     {
         if(m_iGroupID == m_cboGroup.GetItemData(i))
         {
