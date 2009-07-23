@@ -80,6 +80,10 @@ BOOL FxMainWin::handleFx_Sys_Event(int message, WPARAM wParam, LPARAM lParam)
 	case FX_ADD_BLACKLIST_OK:
 	case FX_STATUS_SMSEXTENED:
 		this->m_BuddyOpt->updateAccountInfo(lParam);
+		if(m_BuddyInfoDlg && (m_BuddyInfoDlg->m_lAccountID == lParam))
+		{
+			m_BuddyInfoDlg->updateAccountInfo();
+		}
 		return TRUE;
 
 	case FX_SET_REFUSE_SMS_DAY_OK:
@@ -189,6 +193,7 @@ FxMainWin::FxMainWin(CWnd* pParent /*=NULL*/)
 	, m_BuddyOpt(NULL)
 	, m_currentMsgDlg(NULL)
 	, m_currentItem(NULL)
+	, m_BuddyInfoDlg(NULL)
 	, m_isLoginOK(FALSE)
     , m_strNickName(_T(""))
     , m_strSign(_T(""))
@@ -1042,12 +1047,13 @@ BOOL FxMainWin::showBuddyInfo(HTREEITEM hItem)
 	Account_Info *ac_info =(Account_Info*)view.GetItemData(hItem);
 	if (!ac_info)
 		return FALSE;
-    CBuddyInfoDlg* dlg = new CBuddyInfoDlg(ac_info->accountID);
+    m_BuddyInfoDlg = new CBuddyInfoDlg(ac_info->accountID);
 #else
     CBuddyInfoDlg* dlg = new CBuddyInfoDlg(123456);
 #endif
-    dlg->DoModal();
-    delete dlg;
+    m_BuddyInfoDlg->DoModal();
+    delete m_BuddyInfoDlg;
+	m_BuddyInfoDlg = NULL;
     return TRUE;
 }
 void FxMainWin::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
