@@ -234,7 +234,7 @@ void FxMsgDlg::OnSize(UINT nType, int cx, int cy)
         int xIDC_SEND, yIDC_SEND, wIDC_SEND, hIDC_SEND;
         int xIDC_SEND_MSG, yIDC_SEND_MSG, wIDC_SEND_MSG, hIDC_SEND_MSG;
         int iHeight, iWidth;
-        int iMargin = DRA::SCALEY(5);
+        int iMargin = DRA::SCALEY(2);
 
 	    RECT rcCtl;
 	    ::GetClientRect(this->m_hWnd, &rcCtl);
@@ -250,7 +250,7 @@ void FxMsgDlg::OnSize(UINT nType, int cx, int cy)
         hIDC_MSG_INFO = DRA::SCALEY(32);
 
         xIDC_SEND_MSG = xIDC_MSG_INFO;
-        hIDC_SEND_MSG = DRA::SCALEY(40);
+        hIDC_SEND_MSG = DRA::SCALEY(44);
         yIDC_SEND_MSG = iHeight - iMargin - hIDC_SEND_MSG;
         wIDC_SEND_MSG = wIDC_MSG_INFO;
 
