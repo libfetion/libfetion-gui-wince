@@ -30,6 +30,11 @@ CBuddyInfoDlg::CBuddyInfoDlg(long lAccountID, CWnd* pParent /*=NULL*/)
     , m_strCity(_T(""))
     , m_strSign(_T(""))
 {
+    //获取显示正确的号码，如果是手机用户，则返回手机号码，其它返回飞信号
+    char* original = fx_get_original_ID(m_lAccountID);
+    m_strAccountID =  ConvertUtf8ToUtf16(original);
+    free(original);
+
 }
 
 CBuddyInfoDlg::~CBuddyInfoDlg()
@@ -40,7 +45,7 @@ void CBuddyInfoDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
     DDX_Text(pDX, IDC_BI_EDT_SHOWNAME, m_strShowName);
-    DDX_Text(pDX, IDC_BI_FETIONNO, m_lAccountID);
+    DDX_Text(pDX, IDC_BI_FETIONNO, m_strAccountID);
     DDX_Text(pDX, IDC_BI_NICKNAME, m_strNickName);
     DDX_Text(pDX, IDC_BI_NAME, m_strName);
     DDX_Text(pDX, IDC_BI_SEX, m_strSex);
@@ -359,7 +364,13 @@ void CBuddyInfoDlg::OnOk()
     {
         fx_move_group_buddy_by_id(m_lAccountID, iNewGroupID, NULL, NULL);
     }
-    if(m_strShowName != ConvertUtf8ToUtf16(m_account->local_name))
+
+	char * showname = fx_get_account_show_name(m_account, FALSE);
+	CString strShowName =  ConvertUtf8ToUtf16(showname);
+	if(showname)
+		free(showname);
+
+    if(m_strShowName != strShowName)
     {
         fx_set_buddyinfo(m_lAccountID, ConvertUtf16ToUtf8(m_strShowName), NULL, NULL); 
     }

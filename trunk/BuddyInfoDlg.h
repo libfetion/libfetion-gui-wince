@@ -34,8 +34,9 @@ public:
     CString m_strShowName;
     // 所属组
     int m_iGroupID;
-    // 飞信号码
     long m_lAccountID;
+    // 飞信号码
+    CString m_strAccountID;
     // 昵称
     CString m_strNickName;
     CString m_strName;
