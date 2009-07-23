@@ -37,6 +37,8 @@ public:
     long m_lAccountID;
     // 飞信号码
     CString m_strAccountID;
+    // 手机号码
+    CString m_strMobileNo;
     // 昵称
     CString m_strNickName;
     CString m_strName;
