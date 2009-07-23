@@ -73,3 +73,43 @@ return szUtf8;
 	return NULL;
 //delete[] szUtf8; 
 } 
+
+CString GetCurrentTimeString()
+{
+	CString sShortTime;
+	SYSTEMTIME LocalTime;
+	GetLocalTime(&LocalTime);
+	sShortTime.Format(_T("%02d:%02d:%02d"), LocalTime.wHour, LocalTime.wMinute, LocalTime.wSecond);
+	return sShortTime;
+}
+
+CString GetMsgTimeString(char *msgtime)
+{
+	CString sShortTime;
+	char DayOfWeek[10] = {0};
+	char Month[10] = {0};
+	char GMT[10] = {0};
+	int Day, Year, Hour, Minute, Second;
+	TIME_ZONE_INFORMATION TimeZoneInformation;
+	int MinuteWithBias;
+
+	sscanf(msgtime, "%s %d %s %d %d:%d:%d %s", DayOfWeek, &Day, Month, &Year, &Hour, &Minute, &Second, GMT);
+	MinuteWithBias = Hour * 60 + Minute;
+
+	GetTimeZoneInformation(&TimeZoneInformation);
+	MinuteWithBias -= TimeZoneInformation.Bias;
+	if(MinuteWithBias < 0)
+	{
+		MinuteWithBias += 24 * 60;
+	}
+	if(MinuteWithBias > 24 * 60)
+	{
+		MinuteWithBias -= 24 * 60;
+	}
+	Hour = MinuteWithBias / 60;
+	Minute = MinuteWithBias - Hour * 60;
+
+	sShortTime.Format(_T("%02d:%02d:%02d"), Hour, Minute, Second);
+
+	return sShortTime;
+}
