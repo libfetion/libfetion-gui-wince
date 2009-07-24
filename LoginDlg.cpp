@@ -544,6 +544,9 @@ BOOL CLoginDlg::EstablishConnection(void)
     ConnMgrEstablishConnectionSync(&ConnInfo, hConnect, 25000, &dwStatus);
 	if(dwStatus==CONNMGR_STATUS_CONNECTED)//网络连接成功
 	{
+		this->m_login_state=_T("网络连接成功...");
+		this->UpdateData(FALSE);
+		this->UpdateWindow();
 		Sleep(1000);//等待1S，让设备准备好
 		return TRUE;
 	}
