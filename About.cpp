@@ -45,7 +45,7 @@ BOOL CAbout::OnInitDialog()
 	}
 
     CString strAboutMsg = 
-_T("关于LibFetion WM版(第五版)\r\n\r\n\
+_T("关于LibFetion WM版(第五版修正版)\r\n\r\n\
 本程序基于LibFetion库编写，了解更多请访问\r\n\
 www.libfetion.cn.\r\n\
 Copyright @ 2009 DDD(dedodong@163.com) \r\n\
