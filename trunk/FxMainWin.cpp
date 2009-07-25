@@ -259,36 +259,94 @@ LRESULT CALLBACK MyTreeProc(
 							LPARAM lParam   // second message parameter
 							)
 {
-		if(WM_GETDLGCODE == uMsg)
-	{
-		return   DLGC_WANTMESSAGE; 
-	}
-	else if(WM_KEYDOWN == uMsg &&  VK_RETURN == wParam)  //确认键按下
-	{
-		//展开选中节点
-		HTREEITEM hItem = g_cTree->GetSelectedItem();
-		if ((hItem != NULL) && g_cTree->ItemHasChildren(hItem))
-		{
-			g_cTree->Expand(hItem, TVE_TOGGLE);
-			/*
-			if ((g_cTree->GetItemState(hItem, TVIS_EXPANDED) & TVIS_EXPANDED) == FALSE) //未展开
-			{
-				g_cTree->Expand(hItem, TVE_EXPAND);
-				g_cTree->EnsureVisible(hItem);
-			}
-			else  //展开
-			{
-				g_cTree->Expand(hItem, TVE_COLLAPSE);
-			}
-			*/
-		}
-
-		return 1;
-	}
-	else
-	{
-		return prevProc(hwnd,uMsg,wParam,lParam);
-	}
+    if(WM_GETDLGCODE == uMsg)
+    {
+        return   DLGC_WANTMESSAGE; 
+    }
+    else if(WM_KEYDOWN == uMsg)
+    {
+        switch(wParam)  //确认键按下
+        {
+        case '5':
+        //case VK_RETURN:
+            {
+                //展开选中节点
+                HTREEITEM hItem = g_cTree->GetSelectedItem();
+                if ((hItem != NULL) && g_cTree->ItemHasChildren(hItem))
+                {
+                    g_cTree->Expand(hItem, TVE_TOGGLE);
+                    /*
+                    if ((g_cTree->GetItemState(hItem, TVIS_EXPANDED) & TVIS_EXPANDED) == FALSE) //未展开
+                    {
+                    g_cTree->Expand(hItem, TVE_EXPAND);
+                    g_cTree->EnsureVisible(hItem);
+                    }
+                    else  //展开
+                    {
+                    g_cTree->Expand(hItem, TVE_COLLAPSE);
+                    }
+                    */
+                }
+                break;
+            }
+        case '0':
+            ShowWindow(::GetParent(hwnd), SW_MINIMIZE );
+            break;
+        case '1':
+            g_cTree->SelectItem(g_cTree->GetFirstVisibleItem());
+            break;
+        case '2': 
+            {
+                HTREEITEM hItem = g_cTree->GetNextItem(g_cTree->GetSelectedItem(),TVGN_PREVIOUSVISIBLE);
+                if(hItem)
+                {
+                    g_cTree->SelectItem(hItem);
+                }
+                break;
+            }
+        case '4':
+            keybd_event(VK_LEFT, 0, KEYEVENTF_EXTENDEDKEY, 0);
+            keybd_event(VK_LEFT, 0, KEYEVENTF_KEYUP, 0);
+            break;
+        case '6':
+            keybd_event(VK_RIGHT, 0, KEYEVENTF_EXTENDEDKEY, 0);
+            keybd_event(VK_RIGHT, 0, KEYEVENTF_KEYUP, 0);
+            break;
+        case '7':
+            {
+                HTREEITEM hItem = g_cTree->GetNextVisibleItem(g_cTree->GetSelectedItem());
+                if(hItem)
+                {
+                    while(1)
+                    {
+                        if(NULL == g_cTree->GetNextVisibleItem(hItem))
+                            break;
+                        hItem = g_cTree->GetNextVisibleItem(hItem);
+                    }
+                    g_cTree->SelectItem(hItem);
+                }
+                break;
+            }
+        case '8':
+            {
+                HTREEITEM hItem = g_cTree->GetNextItem(g_cTree->GetSelectedItem(),TVGN_NEXTVISIBLE);
+                if(hItem)
+                {
+                    g_cTree->SelectItem(hItem);
+                }
+                break;
+            }
+        case '3':
+            break;
+        case '9':
+            keybd_event(0x5b, 0, KEYEVENTF_EXTENDEDKEY, 0);
+            keybd_event(0x5b, 0, KEYEVENTF_KEYUP, 0);
+            break;
+        case VK_TBACK:
+            break;
+        }
+    }
+    return prevProc(hwnd,uMsg,wParam,lParam);
 }
 #endif // WIN32_PLATFORM_WFSP
 
@@ -480,6 +538,7 @@ BOOL FxMainWin::PreTranslateMessage(MSG* pMsg)
     */
 	if (pMsg->hwnd == view.m_hWnd)
 	{
+    #ifndef WIN32_PLATFORM_WFSP
 	    if (pMsg->message == WM_KEYDOWN) 
 	    {
 		    switch(pMsg->wParam)
@@ -491,13 +550,11 @@ BOOL FxMainWin::PreTranslateMessage(MSG* pMsg)
 				    {
 					    if(!view.ItemHasChildren(hItem))
 					    {
-						    showMsgDlg(view.GetSelectedItem());
+						    return showMsgDlg(view.GetSelectedItem());
 					    }
 					    else
 					    {
-    #ifndef WIN32_PLATFORM_WFSP
-						    view.Expand(hItem,TVE_TOGGLE);
-    #endif
+						    return view.Expand(hItem,TVE_TOGGLE);
 					    }
 				    }
 				    break;
@@ -505,7 +562,9 @@ BOOL FxMainWin::PreTranslateMessage(MSG* pMsg)
 	        default:
 		        break;
 		    }
-	    } else
+	    } 
+        else
+    #endif
 		if (pMsg->message == WM_LBUTTONDOWN)
 		{
 			SHRGINFO shrg;

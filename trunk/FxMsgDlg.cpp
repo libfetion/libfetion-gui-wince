@@ -365,7 +365,15 @@ void FxMsgDlg::getMsg(CString &msg)
 
 	while (fxMsg = fx_get_msg(this->account_id))
 	{
-		char * msg_contain = fx_msg_no_format(fxMsg->message);
+        CString strNewMsg;
+        strNewMsg.Format(_T("%s"), ConvertUtf8ToUtf16(fxMsg->message));
+        strNewMsg.Replace(_T("<I>"), _T(""));
+        strNewMsg.Replace(_T("</I>"), _T(""));
+        strNewMsg.Replace(_T("<B>"), _T(""));
+        strNewMsg.Replace(_T("</B>"), _T(""));
+        
+		char * msg_contain = fx_msg_no_format(ConvertUtf16ToUtf8(strNewMsg.GetBuffer()));
+
 		msg +=  this->account_name + _T("(") + GetMsgTimeString(fxMsg->msgtime) + _T("):");
 		msg += ConvertUtf8ToUtf16(msg_contain) + CString(_T("\r\n\r\n"));
 		if (msg_contain)
