@@ -58,6 +58,10 @@ BEGIN_MESSAGE_MAP(CBuddyInfoDlg, CDialog)
     ON_WM_SIZE()
     ON_WM_VSCROLL()
     ON_COMMAND(IDOK, &CBuddyInfoDlg::OnOk)
+    
+#ifdef WIN32_PLATFORM_WFSP
+    ON_COMMAND(IDM_CANCEL, &CBuddyInfoDlg::OnCancel2)
+#endif
 END_MESSAGE_MAP()
 
 
@@ -452,3 +456,10 @@ void CBuddyInfoDlg::updateAccountInfo()
     }
 	UpdateData(FALSE);
 }
+
+#ifdef WIN32_PLATFORM_WFSP
+void CBuddyInfoDlg::OnCancel2()
+{
+	CDialog::OnCancel();
+}
+#endif

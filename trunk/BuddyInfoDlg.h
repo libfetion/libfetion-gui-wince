@@ -62,4 +62,8 @@ public:
     CString GetProvince(CString strProvinceCode);
     CString GetCity(int iCityCode);
     void updateAccountInfo();
+    
+#ifdef WIN32_PLATFORM_WFSP
+    afx_msg void OnCancel2();
+#endif
 };

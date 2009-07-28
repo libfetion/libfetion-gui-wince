@@ -538,7 +538,6 @@ BOOL FxMainWin::PreTranslateMessage(MSG* pMsg)
     */
 	if (pMsg->hwnd == view.m_hWnd)
 	{
-    #ifndef WIN32_PLATFORM_WFSP
 	    if (pMsg->message == WM_KEYDOWN) 
 	    {
 		    switch(pMsg->wParam)
@@ -554,7 +553,9 @@ BOOL FxMainWin::PreTranslateMessage(MSG* pMsg)
 					    }
 					    else
 					    {
+    #ifndef WIN32_PLATFORM_WFSP
 						    return view.Expand(hItem,TVE_TOGGLE);
+    #endif
 					    }
 				    }
 				    break;
@@ -564,7 +565,6 @@ BOOL FxMainWin::PreTranslateMessage(MSG* pMsg)
 		    }
 	    } 
         else
-    #endif
 		if (pMsg->message == WM_LBUTTONDOWN)
 		{
 			SHRGINFO shrg;
