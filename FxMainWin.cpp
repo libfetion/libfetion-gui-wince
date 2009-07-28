@@ -1023,7 +1023,7 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName)
         CNotify::Nodify(this->m_hWnd, strSoundPath, iPeriod, this->m_bNoSound, this->m_bVibrate, Styles);
     else
     {	
-        CString strMsg = L"<font color=\"#0000FF\"><b>根据中国法律,我不敢偷看你的消息,所以不知道他/她发了什么.你自己去看吧!:)</b></font>";
+        CString strMsg = L"<font color=\"#0000FF\"><b>为了保护个人隐私，这里不会直接显示消息，请自行点击查看。</b></font>";
         // fixme: 这里要如何才能取得最后一条消息又不会导致消息被移除?
         // 下面这个代码是有问题的.取出消息后,再打开对话框将看不到新消息
         /*

@@ -36,8 +36,11 @@ void CNotify::CreateAndAddNotification(HWND hwnd, WCHAR* szTitle, CString szNoti
         TCHAR szMsgTitle[128];
         TCHAR szMsgBody[1024];
         wsprintf(szMsgTitle, TEXT("收到来自 %s 的飞信消息"), szTitle);
+#ifndef NOTIF_NUM_SOFTKEYS
         wsprintf(szMsgBody, TEXT("<html><body><form method=\"POST\" action=>%s <input type=button name='cmd:%u' value='查看'>&nbsp;<input type=button name='cmd:%u' value='取消'></body></html>"), szNotify, IDM_MAIN_SHOWNEWMSG2, IDM_MAIN_DIMISS);
-        
+#else
+        wsprintf(szMsgBody, TEXT("<html><body><form method=\"POST\" action=>%s</body></html>"), szNotify);
+#endif
 	    pNotification =(SHNOTIFICATIONDATA2*)malloc( sizeof(SHNOTIFICATIONDATA2));
         ZeroMemory(pNotification, sizeof(SHNOTIFICATIONDATA2));
 	    pNotification->dwID = ID_NOTIFY;
@@ -61,7 +64,11 @@ void CNotify::CreateAndAddNotification(HWND hwnd, WCHAR* szTitle, CString szNoti
     } else {
         iMsgCount ++;
         TCHAR szMsgBody[1024];
-        wsprintf(szMsgBody, TEXT("<html><body><form method=\"POST\" action=>收到 %d 条消息!<input type=button name='cmd:%u' value='查看'>&nbsp;<input type=button name='cmd:%u' value='取消'></body></html>"), iMsgCount, IDM_MAIN_SHOWNEWMSG2, IDM_MAIN_DIMISS);
+#ifndef NOTIF_NUM_SOFTKEYS
+        wsprintf(szMsgBody, TEXT("<html><body><form method=\"POST\" action=>收到 %d 条消息！<input type=button name='cmd:%u' value='查看'>&nbsp;<input type=button name='cmd:%u' value='取消'></body></html>"), iMsgCount, IDM_MAIN_SHOWNEWMSG2, IDM_MAIN_DIMISS);
+#else
+        wsprintf(szMsgBody, TEXT("<html><body><form method=\"POST\" action=>收到 %d 条消息！</body></html>"), iMsgCount);
+#endif
 		pNotification->pszTitle = TEXT("LibFetion提醒");
         pNotification->pszHTML = szMsgBody;
 		SHNotificationUpdate(SHNUM_TITLE | SHNUM_HTML, pNotification);
