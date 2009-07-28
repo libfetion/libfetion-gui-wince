@@ -723,6 +723,14 @@ BOOL FxMainWin::showMsgDlg(long lAccountID)
 #if DEBUG_GUI
 	m_currentMsgDlg = new FxMsgDlg(123456, this);
 #else
+	if(NULL != m_currentMsgDlg)
+	{
+		//当从桌面提醒过来时，可能原来正在聊天状态，把老的聊天对话框关闭掉
+		m_currentMsgDlg->SendMessage(WM_CLOSE, 0, 0);
+		m_MessageLog.StoreMsgLog(m_currentMsgDlg->account_id, m_currentMsgDlg->m_msgBrowser);
+		delete m_currentMsgDlg;
+		m_currentMsgDlg = NULL;
+	}
 	m_currentMsgDlg = new FxMsgDlg(lAccountID, this);
     m_currentMsgDlg->m_msgBrowser = m_MessageLog.LoadMsgLog(lAccountID);
 #endif
@@ -732,7 +740,7 @@ BOOL FxMainWin::showMsgDlg(long lAccountID)
 	m_currentMsgDlg->DoModal();
 #if !DEBUG_GUI
     //把聊天记录暂时存到内存中
-	m_MessageLog.StoreMsgLog(lAccountID, m_currentMsgDlg->m_msgBrowser);
+	m_MessageLog.StoreMsgLog(m_currentMsgDlg->account_id, m_currentMsgDlg->m_msgBrowser);
 #endif
 	//fix: this is a bad code, 
 	//here will make sure that just have one msg dialog in system
@@ -740,8 +748,7 @@ BOOL FxMainWin::showMsgDlg(long lAccountID)
 	//this->ShowWindow(SW_SHOW);
 	m_currentMsgDlg = NULL;
 
-    return TRUE;
-
+	return TRUE;
 }
 
 bool FxMainWin::hand_SystemNetErr(int errcode)
