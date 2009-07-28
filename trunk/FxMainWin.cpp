@@ -1031,7 +1031,9 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName)
 #ifdef WIN32_PLATFORM_PSPC 
 	SetSystemPowerState(NULL, POWER_STATE_ON, 0);
     if(this->IsTopParentActive())
+	{
         CNotify::Nodify(this->m_hWnd, strSoundPath, iPeriod, this->m_bNoSound, this->m_bVibrate, Styles);
+	}
     else
     {	
         CString strMsg = L"<font color=\"#0000FF\"><b>为了保护个人隐私，这里不会直接显示消息，请自行点击查看。</b></font>";
@@ -1318,7 +1320,8 @@ LRESULT FxMainWin::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 // 通过桌面提醒进来的时候,需要移除提醒图标
 void FxMainWin::OnMainShownewmsg2(void)
 {
-    OnMainShownewmsg();
+	this->SetForegroundWindow();
+	OnMainShownewmsg();
     CNotify::RemoveNotification();
 }
 
