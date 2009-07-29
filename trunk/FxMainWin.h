@@ -70,7 +70,6 @@ public:
 	CList<HTREEITEM> filker;
 	CList<int> timeOutMsgVector;
 	CList<TMPMSG_Info*> tmpMsg;
-	HANDLE m_hEventMsgDlg;
 public:
 	//当前聊天对话框
 	FxMsgDlg* m_currentMsgDlg;

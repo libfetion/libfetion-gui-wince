@@ -115,7 +115,13 @@ BOOL FxMsgDlg::OnInitDialog()
 		return FALSE;      // 未能创建
 	}
 #endif // M8
+	SetNewBuddy(account_id);
+	return TRUE;  // return TRUE unless you set the focus to a control
+}
 
+BOOL FxMsgDlg::SetNewBuddy(long ac_id)
+{
+	account_id = ac_id;
 #if DEBUG_GUI
 #else
 	m_account = fx_get_account_by_id(this->account_id);
@@ -155,7 +161,8 @@ BOOL FxMsgDlg::OnInitDialog()
 	this->UpdateWindow();
 
     SetTimer(USER_SCROLLTOLAST, 500, 0);
-	return TRUE;  // return TRUE unless you set the focus to a control
+
+	return TRUE;
 }
 
 #define SYSTEM_ID 10000

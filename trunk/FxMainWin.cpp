@@ -202,7 +202,6 @@ FxMainWin::FxMainWin(CWnd* pParent /*=NULL*/)
     , m_strStartupPath(_T(""))
     , m_lAccountID(0)
     , m_bNoSound(false)
-	, m_hEventMsgDlg(NULL)
 {
 
 }
@@ -389,8 +388,7 @@ BOOL FxMainWin::OnInitDialog()
     GetStartupPath();
 
 	SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*3, NULL);
-	m_hEventMsgDlg = CreateEvent(NULL, TRUE, FALSE, NULL);
-
+	
     return TRUE;  // return TRUE unless you set the focus to a control
 }
 
@@ -528,8 +526,6 @@ void FxMainWin::OnClose()
 		delete m_BuddyOpt;
 	m_BuddyOpt = NULL;
  
-	CloseHandle(m_hEventMsgDlg);
-	m_hEventMsgDlg = NULL;
     CNotify::RemoveNotification();
 	CDialog::OnClose();
 }
@@ -729,11 +725,12 @@ BOOL FxMainWin::showMsgDlg(long lAccountID)
 #else
 	if(NULL != m_currentMsgDlg)
 	{
-		//当从桌面提醒过来时，可能原来正在聊天状态，把老的聊天对话框关闭掉
-		m_currentMsgDlg->SendMessage(WM_CLOSE, 0, 0);
-		WaitForSingleObject(m_hEventMsgDlg, INFINITE);
+		//当从桌面提醒过来时，可能之前正在与另一人聊天，将聊天切换到来新消息的好友
+		m_MessageLog.StoreMsgLog(m_currentMsgDlg->account_id, m_currentMsgDlg->m_msgBrowser);
+	    m_currentMsgDlg->m_msgBrowser = m_MessageLog.LoadMsgLog(lAccountID);
+		m_currentMsgDlg->SetNewBuddy(lAccountID);
+		return TRUE;
 	}
-	ResetEvent(m_hEventMsgDlg);
 	m_currentMsgDlg = new FxMsgDlg(lAccountID, this);
     m_currentMsgDlg->m_msgBrowser = m_MessageLog.LoadMsgLog(lAccountID);
 #endif
@@ -750,7 +747,6 @@ BOOL FxMainWin::showMsgDlg(long lAccountID)
 	delete m_currentMsgDlg;
 	//this->ShowWindow(SW_SHOW);
 	m_currentMsgDlg = NULL;
-	SetEvent(m_hEventMsgDlg);
 
 	return TRUE;
 }
