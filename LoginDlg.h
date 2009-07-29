@@ -81,6 +81,7 @@ protected:
     void OnRemPassChanged();
     // 是否记住密码
     BOOL m_bRemPass;
+    BOOL m_bLoginOffLine;
 public:
     // 是否已经开始登录
     bool m_bIsLoging;

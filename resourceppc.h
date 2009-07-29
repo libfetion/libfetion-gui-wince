@@ -204,13 +204,14 @@
 #define IDC_BI_MOBILENO                 32867
 #define IDR_LOGIN_CANCEL_MENU           32868
 #define IDM_LOGIN_CANCEL                32869
+#define IDC_LOGIN_OFFLINE               32870
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        175
-#define _APS_NEXT_COMMAND_VALUE         32870
+#define _APS_NEXT_COMMAND_VALUE         32871
 #define _APS_NEXT_CONTROL_VALUE         1083
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

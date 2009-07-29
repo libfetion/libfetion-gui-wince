@@ -75,6 +75,7 @@ CLoginDlg::CLoginDlg(CWnd* pParent /*=NULL*/)
 	, m_login_state(_T(""))
 	, m_LoginFlag(FALSE)
     , m_bRemPass(FALSE)
+	, m_bLoginOffLine(FALSE)
     , m_bIsLoging(false)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
@@ -90,6 +91,7 @@ void CLoginDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_LOGIN_STATE, m_login_state);
     DDX_Control(pDX, IDC_REMACC, RemAccount);
     DDX_Check(pDX, IDC_REMACC, m_bRemPass);
+    DDX_Check(pDX, IDC_LOGIN_OFFLINE, m_bLoginOffLine);
 }
 
 BEGIN_MESSAGE_MAP(CLoginDlg, CDialog)
@@ -171,6 +173,7 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
     int xIDC_LOGIN_STATE, yIDC_LOGIN_STATE, wIDC_LOGIN_STATE, hIDC_LOGIN_STATE;
     int xIDC_LOGIN, yIDC_LOGIN, wIDC_LOGIN, hIDC_LOGIN;
     int xIDC_REMACC, yIDC_REMACC, wIDC_REMACC, hIDC_REMACC;
+    int xIDC_LOGIN_OFFLINE, yIDC_LOGIN_OFFLINE, wIDC_LOGIN_OFFLINE, hIDC_LOGIN_OFFLINE;
     
     int iHeight, iWidth;
     int iMargin = DRA::SCALEX(5);
@@ -206,12 +209,17 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
     hIDC_PWD = hIDC_FETION_ID;
 
 
-    xIDC_REMACC = xIDC_FETION_ID;
+    xIDC_REMACC = xIDC_STATIC_ID + iMargin;
     yIDC_REMACC = yIDC_PWD + hIDC_PWD + iMargin;
     wIDC_REMACC = DRA::SCALEX(80);
     hIDC_REMACC = hIDC_FETION_ID;
 
-    xIDC_LOGIN = xIDC_FETION_ID;
+    xIDC_LOGIN_OFFLINE = xIDC_REMACC + wIDC_REMACC + iMargin + iMargin;
+    yIDC_LOGIN_OFFLINE = yIDC_REMACC;
+    wIDC_LOGIN_OFFLINE = wIDC_REMACC;
+    hIDC_LOGIN_OFFLINE = hIDC_REMACC;
+
+	xIDC_LOGIN = xIDC_FETION_ID;
     yIDC_LOGIN = yIDC_REMACC + hIDC_REMACC + iMargin;
     wIDC_LOGIN = wIDC_STATIC_ID;
 #if defined(M8)
@@ -245,7 +253,10 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_REMACC);
     ::MoveWindow(hwndctl, xIDC_REMACC, yIDC_REMACC, wIDC_REMACC, hIDC_REMACC, false);
 
-    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_LOGIN_STATE);
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_LOGIN_OFFLINE);
+    ::MoveWindow(hwndctl, xIDC_LOGIN_OFFLINE, yIDC_LOGIN_OFFLINE, wIDC_LOGIN_OFFLINE, hIDC_LOGIN_OFFLINE, false);
+
+	hwndctl = ::GetDlgItem(this->m_hWnd, IDC_LOGIN_STATE);
     ::MoveWindow(hwndctl, xIDC_LOGIN_STATE, yIDC_LOGIN_STATE, wIDC_LOGIN_STATE, hIDC_LOGIN_STATE, true);
 }
 #endif
@@ -293,8 +304,6 @@ void CLoginDlg::OnBnClickedLogin()
     }
 #endif
     this->m_login_state = _T("登陆中...");
-	this->UpdateData(FALSE);
-	this->UpdateWindow();
 	//fx_set_serve_address("221.130.45.208:8080");
 
 	char* fetion_id = ConvertUtf16ToUtf8(m_fetion_id);
@@ -310,6 +319,10 @@ void CLoginDlg::OnBnClickedLogin()
 			delete [] server_addr;
 	}
 
+	if(m_bLoginOffLine)
+	{
+		fx_set_login_status(FX_STATUS_OFFLINE);
+	}
 	fx_login(fetion_id, pwd,(My_EventListener), this);
 	if (fetion_id)
 		delete [] fetion_id;
