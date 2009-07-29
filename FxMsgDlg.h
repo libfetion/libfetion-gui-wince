@@ -41,6 +41,7 @@ public:
 	CString account_name;
 	BOOL m_isSendSMS;
 	const Fetion_Account *m_account;
+	BOOL SetNewBuddy(long ac_id);
 public:
 	virtual BOOL OnInitDialog();
 public:
