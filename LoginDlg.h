@@ -69,6 +69,7 @@ public:
 	CButton RemAccount;
 public:
 	afx_msg void OnLogin();
+	afx_msg void OnLoginCancel();
 public:
 	afx_msg void OnIDM_Cancel();
 protected:
@@ -83,5 +84,4 @@ protected:
 public:
     // 是否已经开始登录
     bool m_bIsLoging;
-    afx_msg void OnUpdateLogin(CCmdUI *pCmdUI);
 };

@@ -97,6 +97,11 @@ BEGIN
     END
 END
 
+IDR_LOGIN_CANCEL_MENU MENU 
+BEGIN
+    MENUITEM "È¡ÏûµÇÂ¼",                          IDM_LOGIN_CANCEL
+END
+
 IDR_MENU_FINDBUDDY MENU 
 BEGIN
     MENUITEM "Ìí¼Ó",                          IDM_FB_ADD
