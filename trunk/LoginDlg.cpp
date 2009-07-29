@@ -258,7 +258,8 @@ void CLoginDlg::OnBnClickedLogin()
         /* 最近的库里增加了取消登录的函数，所以我们可以在这里调用它，
            当第二次点击登录按钮时可以实现取消登录的功能 */
         fx_cancel_login();
-        return ;
+		this->m_login_state = _T("登录被取消");
+		goto fail;
     }
     m_bIsLoging = true;
 
@@ -503,6 +504,11 @@ void CLoginDlg::OnLogin()
 
 void CLoginDlg::OnIDM_Cancel()
 {
+	if(m_bIsLoging)
+	{
+		fx_cancel_login();
+		m_bIsLoging = false;
+	}
 	SendMessage(WM_CLOSE,0, 0);
 }
 
