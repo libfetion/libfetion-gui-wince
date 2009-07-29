@@ -101,11 +101,11 @@ BEGIN_MESSAGE_MAP(CLoginDlg, CDialog)
 //	ON_BN_CLICKED(IDC_REMACC, &CLoginDlg::OnBnClickedRemAccount)
 //#ifdef WIN32_PLATFORM_WFSP
 	ON_COMMAND(IDM_LOGIN, &CLoginDlg::OnLogin)
+	ON_COMMAND(IDM_LOGIN_CANCEL, &CLoginDlg::OnLoginCancel)
 	ON_COMMAND(IDM_LOGIN_REMPASS, &CLoginDlg::OnRemPassChanged)
 	ON_COMMAND(IDM_CANCEL, &CLoginDlg::OnIDM_Cancel)
     ON_UPDATE_COMMAND_UI(IDM_LOGIN_REMPASS, &CLoginDlg::OnRemPassUpdateUI)
 //#endif // WIN32_PLATFORM_WFSP
-ON_UPDATE_COMMAND_UI(IDM_LOGIN, &CLoginDlg::OnUpdateLogin)
 END_MESSAGE_MAP()
 
 // CLoginDlg 消息处理程序
@@ -255,11 +255,7 @@ void  My_EventListener (int message, WPARAM wParam, LPARAM lParam, void* args);
 void CLoginDlg::OnBnClickedLogin()
 {
     if(m_bIsLoging) {
-        /* 最近的库里增加了取消登录的函数，所以我们可以在这里调用它，
-           当第二次点击登录按钮时可以实现取消登录的功能 */
-        fx_cancel_login();
-		this->m_login_state = _T("登录被取消");
-		goto fail;
+		return;
     }
     m_bIsLoging = true;
 
@@ -297,6 +293,8 @@ void CLoginDlg::OnBnClickedLogin()
     }
 #endif
     this->m_login_state = _T("登陆中...");
+	this->UpdateData(FALSE);
+	this->UpdateWindow();
 	//fx_set_serve_address("221.130.45.208:8080");
 
 	char* fetion_id = ConvertUtf16ToUtf8(m_fetion_id);
@@ -313,14 +311,17 @@ void CLoginDlg::OnBnClickedLogin()
 	}
 
 	fx_login(fetion_id, pwd,(My_EventListener), this);
-
 	if (fetion_id)
 		delete [] fetion_id;
 	if (pwd)
 		delete [] pwd;
+
+	m_dlgCommandBar.InsertMenuBar(IDR_LOGIN_CANCEL_MENU);
+
     goto lfinally;
 fail:
     m_bIsLoging = false;
+	m_dlgCommandBar.InsertMenuBar(IDR_LOGIN_MENU);
 
 lfinally:
 	this->UpdateData(FALSE);
@@ -502,6 +503,20 @@ void CLoginDlg::OnLogin()
 	OnBnClickedLogin();
 }
 
+void CLoginDlg::OnLoginCancel()
+{
+    if(m_bIsLoging)
+	{
+		Sleep(500);
+        /* 最近的库里增加了取消登录的函数，所以我们可以在这里调用它*/
+	    m_bIsLoging = false;
+        fx_cancel_login();
+		this->m_login_state = _T("登录被取消");
+		m_dlgCommandBar.InsertMenuBar(IDR_LOGIN_MENU);
+    }
+	this->UpdateData(FALSE);
+}
+
 void CLoginDlg::OnIDM_Cancel()
 {
 	if(m_bIsLoging)
@@ -553,7 +568,7 @@ BOOL CLoginDlg::EstablishConnection(void)
 		this->m_login_state=_T("网络连接成功...");
 		this->UpdateData(FALSE);
 		this->UpdateWindow();
-		Sleep(1000);//等待1S，让设备准备好
+		Sleep(500);//等待0.5S，让设备准备好
 		return TRUE;
 	}
 	else
@@ -571,11 +586,4 @@ void CLoginDlg::OnRemPassChanged()
 void CLoginDlg::OnRemPassUpdateUI(CCmdUI* cmdui)
 {
     cmdui->SetCheck(m_bRemPass);
-}
-void CLoginDlg::OnUpdateLogin(CCmdUI *pCmdUI)
-{
-    if(m_bIsLoging)
-        pCmdUI->SetText(_T("取消登录"));
-    else
-        pCmdUI->SetText(_T("登录"));
 }
