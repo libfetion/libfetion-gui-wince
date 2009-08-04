@@ -1048,7 +1048,6 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName)
 		 CNotify::Nodify(this->m_hWnd, strSoundPath, 0, this->m_bNoSound,FALSE, Styles);//只声音提示，不震动
         return ;
     }
-	AfxMessageBox(strSoundPath);
 
 #ifdef WIN32_PLATFORM_PSPC 
 	SetSystemPowerState(NULL, POWER_STATE_ON, 0);
