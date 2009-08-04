@@ -1,0 +1,5 @@
+     问：libfetion-gui-wince是什么? 
+答：Libfetion-gui-wince是基于Libfetion的Windows Mobile版，包括SP和PPC系统的支持。目前也有M8版本。Libfetion是由邓东东主导的第三方飞信软件，目前有PC版和Linux版。
+
+    问：libfetion好使吗?
+答：只有体验过才知道是否好用！
