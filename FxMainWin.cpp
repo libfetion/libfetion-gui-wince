@@ -199,6 +199,7 @@ FxMainWin::FxMainWin(CWnd* pParent /*=NULL*/)
     , m_strSign(_T(""))
     , m_bVibrate(false)
     , m_bSilence(false)
+	, m_bOnline(false)
     , m_strStartupPath(_T(""))
     , m_lAccountID(0)
     , m_bNoSound(false)
@@ -233,6 +234,8 @@ BEGIN_MESSAGE_MAP(FxMainWin, CDialog)
     ON_COMMAND(IDM_MAIN_SET_SILENCE, &FxMainWin::OnMainSetSilence)
     ON_UPDATE_COMMAND_UI(IDM_MAIN_SET_SILENCE, &FxMainWin::OnUpdateMainSetSilence)
     ON_UPDATE_COMMAND_UI(IDM_MAIN_SET_VIBR, &FxMainWin::OnUpdateMainSetVibr)
+	ON_COMMAND(IDM_MAIN_SET_ONLINE,&FxMainWin::OnMainSetOnline)
+	ON_UPDATE_COMMAND_UI(IDM_MAIN_SET_ONLINE,&FxMainWin::OnUpdateMainSetOnline)
     ON_COMMAND(IDM_BD_VIEWINFO, &FxMainWin::OnBdViewinfo)
     ON_WM_INITMENUPOPUP()
 //    ON_COMMAND(IDM_MAIN_ADDBUDDY, &FxMainWin::OnMainAddbuddy)
@@ -1004,25 +1007,48 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName)
 {   
     if(m_bSilence)
         return;
-    LPCWSTR strSoundPath;
+	LPCWSTR strSoundPath;
     UINT Styles = 0;
     int iPeriod = 0;
     BOOL bVibrate = false;
+	CString wavfile;
     switch(EventType)
     {
     case 1:
-        //strSoundPath.Format(_T("%s\\sounds\\newmsg.wav"), m_strStartupPath);
-        strSoundPath = MAKEINTRESOURCE(IDR_MSGSOUND);
-        Styles = SND_RESOURCE;
-        iPeriod = 1000; //毫秒
-        bVibrate = this->m_bVibrate;
+		iPeriod = 1000; //毫秒
+		bVibrate = this->m_bVibrate;
+		wavfile = GetStartupPath() + CString(_T("\\newmsg.wav"));
+		if(!(::GetFileAttributes(wavfile) == 0xFFFFFFFF))
+		{
+			Styles=SND_FILENAME;
+			strSoundPath=(LPCTSTR)wavfile;
+
+		}
+		else
+		{
+			strSoundPath = MAKEINTRESOURCE(IDR_MSGSOUND);
+			Styles = SND_RESOURCE;
+		}
         break;
     case 2:
-        return;
-        //strSoundPath.Format(_T("%s\\sounds\\online.wav"), m_strStartupPath);
-        //iPeriod = 1000;
-        //break;
+		if(!m_bOnline)
+			return ;
+		wavfile = GetStartupPath() + CString(_T("\\online.wav"));
+		if(!(::GetFileAttributes(wavfile) == 0xFFFFFFFF))
+		{
+			Styles=SND_FILENAME;
+			strSoundPath=(LPCTSTR)wavfile;
+
+		}
+		else
+		{
+			strSoundPath = MAKEINTRESOURCE(IDR_ONLINESOUND);
+			Styles = SND_RESOURCE;
+		}
+		 CNotify::Nodify(this->m_hWnd, strSoundPath, 0, this->m_bNoSound,FALSE, Styles);//只声音提示，不震动
+        return ;
     }
+	AfxMessageBox(strSoundPath);
 
 #ifdef WIN32_PLATFORM_PSPC 
 	SetSystemPowerState(NULL, POWER_STATE_ON, 0);
@@ -1079,6 +1105,16 @@ void FxMainWin::OnUpdateMainSetVibr(CCmdUI *pCmdUI)
     pCmdUI->SetCheck(m_bVibrate);
 }
 
+void FxMainWin::OnMainSetOnline()
+{
+	m_bOnline=!m_bOnline;
+}
+
+void FxMainWin::OnUpdateMainSetOnline(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(m_bOnline);
+}
+
 // 获取启动路径
 CString FxMainWin::GetStartupPath(void)
 {
@@ -1131,7 +1167,7 @@ void FxMainWin::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
     pPopupMenu->CheckMenuItem(IDM_MAIN_SET_SILENCE, m_bSilence ? MF_CHECKED : MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_SET_NOSOUND, m_bNoSound ? MF_CHECKED : MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_SET_VIBR, m_bVibrate ? MF_CHECKED : MF_UNCHECKED);
-    
+    pPopupMenu->CheckMenuItem(IDM_MAIN_SET_ONLINE,m_bOnline ? MF_CHECKED : MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_STATE_ONLINE, MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_STATE_HIDE, MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_STATE_BUSY, MF_UNCHECKED);

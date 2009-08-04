@@ -67,6 +67,7 @@ BEGIN
             MENUITEM "振动",                          IDM_MAIN_SET_VIBR
             MENUITEM "无声",                          IDM_MAIN_SET_NOSOUND
             MENUITEM "无提示",                         IDM_MAIN_SET_SILENCE
+            MENUITEM "好友上线提醒",                      IDM_MAIN_SET_ONLINE
             MENUITEM "关于",                          IDM_ABOUT
         END
         MENUITEM "注销并退出",                       IDM_MAIN_LOGOFF
@@ -442,6 +443,7 @@ IDB_BITMAP_USERHEAD     BITMAP                  "res\\misc\\USERHEAD.bmp"
 //
 
 IDR_MSGSOUND            WAVE                    "res\\msg.wav"
+IDR_ONLINESOUND         WAVE                    "res\\online.wav"
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -105,6 +105,8 @@ public:
     void NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName);
     // 是否在收到消息时振动提醒
     bool m_bVibrate;
+	// 好友上线时是否提醒
+	bool m_bOnline;
 
     // 是否在收到消息时静音
     bool m_bSilence;
@@ -112,6 +114,8 @@ public:
     afx_msg void OnMainSetSilence();
     afx_msg void OnUpdateMainSetSilence(CCmdUI *pCmdUI);
     afx_msg void OnUpdateMainSetVibr(CCmdUI *pCmdUI);
+	afx_msg void OnMainSetOnline();
+	afx_msg void OnUpdateMainSetOnline(CCmdUI *pCmdUI);
     // 程序启动路径
     CString m_strStartupPath;
     // 获取启动路径

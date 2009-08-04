@@ -46,6 +46,7 @@
 #define IDR_MENU_ABOUT                  172
 #define IDI_ICON_NOTIFY                 173
 #define IDR_MSG_POP_MENU                174
+#define IDR_ONLINESOUND                 176
 #define IDC_STATIC_1                    200
 #define IDC_BI_CITY                     200
 #define IDC_FETION_ID                   1000
@@ -205,13 +206,15 @@
 #define IDR_LOGIN_CANCEL_MENU           32868
 #define IDM_LOGIN_CANCEL                32869
 #define IDC_LOGIN_OFFLINE               32870
+#define ID_32871                        32871
+#define IDM_MAIN_SET_ONLINE             32872
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        175
-#define _APS_NEXT_COMMAND_VALUE         32871
+#define _APS_NEXT_RESOURCE_VALUE        177
+#define _APS_NEXT_COMMAND_VALUE         32873
 #define _APS_NEXT_CONTROL_VALUE         1083
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
