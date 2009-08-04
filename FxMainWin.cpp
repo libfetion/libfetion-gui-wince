@@ -1017,7 +1017,7 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName)
     case 1:
 		iPeriod = 1000; //毫秒
 		bVibrate = this->m_bVibrate;
-		wavfile = GetStartupPath() + CString(_T("\\newmsg.wav"));
+		wavfile = m_strStartupPath + CString(_T("\\newmsg.wav"));
 		if(!(::GetFileAttributes(wavfile) == 0xFFFFFFFF))
 		{
 			Styles=SND_FILENAME;
@@ -1033,7 +1033,7 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName)
     case 2:
 		if(!m_bOnline)
 			return ;
-		wavfile = GetStartupPath() + CString(_T("\\online.wav"));
+		wavfile =m_strStartupPath + CString(_T("\\online.wav"));
 		if(!(::GetFileAttributes(wavfile) == 0xFFFFFFFF))
 		{
 			Styles=SND_FILENAME;
