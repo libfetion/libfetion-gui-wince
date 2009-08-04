@@ -6,7 +6,7 @@
 #include "LoginDlg.h"
 #include "FxMainWin.h"
 #ifndef M8
-#include "ConnectTo.h"
+//#include "ConnectTo.h"
 #endif
 
 #ifdef _DEBUG
@@ -101,7 +101,7 @@ int CWMLFApp::ExitInstance()
 	::fx_terminate();
 #ifndef M8
 	//释放网络连接
-	CloseConnection();
+//	CloseConnection();
 #endif
 	return CWinApp::ExitInstance();
 }

@@ -180,8 +180,7 @@ void CNotify::Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, bool bNoSound, boo
     }
     if(!bNoSound)
     {
-        //播放声音
-        PlaySound (strPath, AfxGetApp()->m_hInstance, Styles | SND_ASYNC);
+		PlaySound (strPath, AfxGetApp()->m_hInstance, Styles | SND_ASYNC);
     }
 
 }

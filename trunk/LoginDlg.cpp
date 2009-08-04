@@ -268,7 +268,7 @@ void CLoginDlg::OnBnClickedLogin()
     if(m_bIsLoging) {
 		return;
     }
-    m_bIsLoging = true;
+    m_bIsLoging = TRUE;
 
 #if DEBUG_GUI
 	this->m_LoginFlag = TRUE;
@@ -286,8 +286,8 @@ void CLoginDlg::OnBnClickedLogin()
 		goto fail;
 	}
 	
-	//fetion号长度为9位， 手机号长度为11位
-	if (this->m_fetion_id.GetLength()  != 9 && this->m_fetion_id.GetLength() != 11) {
+	//fetion号长度为9位
+	if (this->m_fetion_id.GetLength()  != 9) {
 		this->m_login_state = _T("请输入正确的飞信号码");
 		goto fail;
 	}
@@ -333,7 +333,7 @@ void CLoginDlg::OnBnClickedLogin()
 
     goto lfinally;
 fail:
-    m_bIsLoging = false;
+    m_bIsLoging =FALSE;
 	m_dlgCommandBar.InsertMenuBar(IDR_LOGIN_MENU);
 
 lfinally:
@@ -442,7 +442,7 @@ LRESULT CLoginDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		this->UpdateData(FALSE);
         //如果连接失败则允许再次连接
         if((bool)(LOWORD(wParam)))
-            m_bIsLoging = false;
+            m_bIsLoging =FALSE;
 		break;
 
 	case WM_CLOSE:
@@ -522,7 +522,7 @@ void CLoginDlg::OnLoginCancel()
 	{
 		Sleep(500);
         /* 最近的库里增加了取消登录的函数，所以我们可以在这里调用它*/
-	    m_bIsLoging = false;
+	    m_bIsLoging = FALSE;
         fx_cancel_login();
 		this->m_login_state = _T("登录被取消");
 		m_dlgCommandBar.InsertMenuBar(IDR_LOGIN_MENU);
@@ -535,7 +535,7 @@ void CLoginDlg::OnIDM_Cancel()
 	if(m_bIsLoging)
 	{
 		fx_cancel_login();
-		m_bIsLoging = false;
+		this->m_bIsLoging = FALSE;
 	}
 	SendMessage(WM_CLOSE,0, 0);
 }
