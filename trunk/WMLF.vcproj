@@ -1144,6 +1144,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\online.wav"
+				>
+			</File>
+			<File
 				RelativePath=".\res\misc\online_flick.bmp"
 				>
 			</File>
