@@ -6,6 +6,7 @@
 #include "LoginDlg.h"
 #include "FxMainWin.h"
 #ifndef M8
+#pragma comment(lib, "Ws2.lib")
 //#include "ConnectTo.h"
 #endif
 
