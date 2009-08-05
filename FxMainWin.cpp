@@ -197,14 +197,51 @@ FxMainWin::FxMainWin(CWnd* pParent /*=NULL*/)
 	, m_isLoginOK(FALSE)
     , m_strNickName(_T(""))
     , m_strSign(_T(""))
-    , m_bVibrate(false)
-    , m_bSilence(false)
-	, m_bOnline(false)
     , m_strStartupPath(_T(""))
     , m_lAccountID(0)
-    , m_bNoSound(false)
 {
+	{
+		//读取设置信息
+		CString buf;
 
+		//静音
+		buf.Empty();
+		Lib_ReadReg(_T("NoSound"),buf);
+		if(buf.IsEmpty()||(buf.CompareNoCase(_T("FALSE"))==0))
+			m_bNoSound=FALSE;
+		else if(buf.CompareNoCase(_T("True"))==0)
+			m_bNoSound=TRUE;
+
+		//震动
+		buf.Empty();
+		Lib_ReadReg(_T("Vibrate"),buf);
+		if (buf.IsEmpty()||(buf.CompareNoCase(_T("FALSE"))==0))
+			m_bVibrate=FALSE;
+		else if (buf.CompareNoCase(_T("TRUE"))==0)
+		{
+			m_bVibrate=TRUE;
+		}
+
+		//上线提醒
+		buf.Empty();
+		Lib_ReadReg(_T("Online"),buf);
+		if (buf.IsEmpty()||(buf.CompareNoCase(_T("FALSE"))==0))
+			m_bOnline=FALSE;
+		else if (buf.CompareNoCase(_T("TRUE"))==0)
+		{
+			m_bOnline=TRUE;
+		}
+
+		//无提醒
+		buf.Empty();
+		Lib_ReadReg(_T("Silence"),buf);
+		if (buf.IsEmpty()||(buf.CompareNoCase(_T("FALSE"))==0))
+			m_bSilence=FALSE;
+		else if (buf.CompareNoCase(_T("TRUE"))==0)
+		{
+			m_bSilence=TRUE;
+		}
+	}
 }
 
 FxMainWin::~FxMainWin()
@@ -1087,11 +1124,19 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName)
 void FxMainWin::OnMainSetVibr()
 {
     m_bVibrate = !m_bVibrate;
+	if(m_bVibrate)
+		Lib_WriteReg(_T("Vibrate"),_T("TRUE"));
+	else
+		Lib_WriteReg(_T("Vibrate"),_T("FALSE"));
 }
 
 void FxMainWin::OnMainSetSilence()
 {
     m_bSilence = !m_bSilence;
+	if(m_bSilence)
+		Lib_WriteReg(_T("Silence"),_T("TRUE"));
+	else
+		Lib_WriteReg(_T("Silence"),_T("FALSE"));
 }
 
 void FxMainWin::OnUpdateMainSetSilence(CCmdUI *pCmdUI)
@@ -1107,6 +1152,10 @@ void FxMainWin::OnUpdateMainSetVibr(CCmdUI *pCmdUI)
 void FxMainWin::OnMainSetOnline()
 {
 	m_bOnline=!m_bOnline;
+	if(m_bOnline)
+		Lib_WriteReg(_T("Online"),_T("TRUE"));
+	else
+		Lib_WriteReg(_T("Online"),_T("FALSE"));
 }
 
 void FxMainWin::OnUpdateMainSetOnline(CCmdUI *pCmdUI)
@@ -1256,6 +1305,10 @@ void FxMainWin::OnBdRmblacklist()
 void FxMainWin::OnMainSetNosound()
 {
     m_bNoSound = !m_bNoSound;
+	if(m_bNoSound)
+		Lib_WriteReg(_T("NoSound"),_T("TRUE"));
+	else
+		Lib_WriteReg(_T("NoSound"),_T("FALSE"));
 }
 
 BOOL FxMainWin::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
