@@ -165,7 +165,7 @@ CNotify::~CNotify(void)
 
 // 播放指定的声音或振动
 // 如果strPath不为空, 则播放声音
-void CNotify::Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, bool bNoSound, bool bVibr, UINT Styles)
+void CNotify::Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, bool bSound, bool bVibr, UINT Styles)
 {
     if(bVibr)
     {
@@ -178,7 +178,7 @@ void CNotify::Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, bool bNoSound, boo
     SetTimer(hwnd, TIMER_STOPVIBRATE, iPeriod, StopVib);
 #endif
     }
-    if(!bNoSound)
+    if(bSound)
     {
 		PlaySound (strPath, AfxGetApp()->m_hInstance, Styles | SND_ASYNC);
     }

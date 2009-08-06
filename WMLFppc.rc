@@ -64,10 +64,11 @@ BEGIN
         END
         POPUP "设置"
         BEGIN
-            MENUITEM "振动",                          IDM_MAIN_SET_VIBR
-            MENUITEM "无声",                          IDM_MAIN_SET_NOSOUND
-            MENUITEM "无提示",                         IDM_MAIN_SET_SILENCE
+            MENUITEM "消息提醒",                        IDM_MAIN_SET_NOSOUND
+            MENUITEM "振动提醒",                        IDM_MAIN_SET_VIBR
             MENUITEM "上线提醒",                        IDM_MAIN_SET_ONLINE
+            MENUITEM "关闭提醒",                        IDM_MAIN_SET_SILENCE
+            MENUITEM "清除登陆信息",                      IDM_MAIN_CLEAN
             MENUITEM "关于",                          IDM_ABOUT
         END
         MENUITEM "注销并退出",                       IDM_MAIN_LOGOFF
