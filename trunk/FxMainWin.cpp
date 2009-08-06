@@ -204,15 +204,15 @@ FxMainWin::FxMainWin(CWnd* pParent /*=NULL*/)
 		//读取设置信息
 		CString buf;
 
-		//静音
+		//新消息提醒
 		buf.Empty();
-		Lib_ReadReg(_T("NoSound"),buf);
-		if(buf.IsEmpty()||(buf.CompareNoCase(_T("FALSE"))==0))
-			m_bNoSound=FALSE;
-		else if(buf.CompareNoCase(_T("True"))==0)
-			m_bNoSound=TRUE;
+		Lib_ReadReg(_T("Sound"),buf);
+		if(buf.IsEmpty()||(buf.CompareNoCase(_T("TRUE"))==0))
+			m_bSound=TRUE;
+		else if(buf.CompareNoCase(_T("FALSE"))==0)
+			m_bSound=FALSE;
 
-		//震动
+		//震动提醒
 		buf.Empty();
 		Lib_ReadReg(_T("Vibrate"),buf);
 		if (buf.IsEmpty()||(buf.CompareNoCase(_T("FALSE"))==0))
@@ -286,6 +286,7 @@ ON_COMMAND(IDM_BD_SENDMSG, &FxMainWin::OnBdSendmsg)
 ON_COMMAND(IDM_MAIN_ADDBUDDY, &FxMainWin::OnMainAddbuddy)
 ON_COMMAND(IDM_BD_MOVEGROUP, &FxMainWin::OnBdMovegroup)
 ON_NOTIFY(NM_CLICK, IDC_TREE_BUDDY, &FxMainWin::OnNMClickTreeBuddy)
+ON_COMMAND(IDM_MAIN_CLEAN, &FxMainWin::OnMainClean)
 END_MESSAGE_MAP()
 
 #ifdef WIN32_PLATFORM_WFSP
@@ -1054,7 +1055,7 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName)
     case 1:
 		iPeriod = 1000; //毫秒
 		bVibrate = this->m_bVibrate;
-		wavfile = m_strStartupPath + CString(_T("\\newmsg.wav"));
+		wavfile = m_strStartupPath + CString(_T("\\message.wav"));
 		if(!(::GetFileAttributes(wavfile) == 0xFFFFFFFF))
 		{
 			Styles=SND_FILENAME;
@@ -1082,7 +1083,7 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName)
 			strSoundPath = MAKEINTRESOURCE(IDR_ONLINESOUND);
 			Styles = SND_RESOURCE;
 		}
-		 CNotify::Nodify(this->m_hWnd, strSoundPath, 0, this->m_bNoSound,FALSE, Styles);//只声音提示，不震动
+		 CNotify::Nodify(this->m_hWnd, strSoundPath, 0, this->m_bSound,FALSE, Styles);//只声音提示，不震动
         return ;
     }
 
@@ -1090,7 +1091,7 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName)
 	SetSystemPowerState(NULL, POWER_STATE_ON, 0);
     if(this->IsTopParentActive())
 	{
-        CNotify::Nodify(this->m_hWnd, strSoundPath, iPeriod, this->m_bNoSound, this->m_bVibrate, Styles);
+        CNotify::Nodify(this->m_hWnd, strSoundPath, iPeriod, this->m_bSound, this->m_bVibrate, Styles);
 	}
     else
     {	
@@ -1117,7 +1118,7 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName)
         CNotify::CreateAndAddNotification(this->GetSafeHwnd(), szBuddyName, strMsg);
     }
 #else
-        CNotify::Nodify(this->m_hWnd, strSoundPath, iPeriod, this->m_bNoSound, this->m_bVibrate, Styles);
+        CNotify::Nodify(this->m_hWnd, strSoundPath, iPeriod, this->m_bSound, this->m_bVibrate, Styles);
 #endif
 }
 
@@ -1213,7 +1214,7 @@ void FxMainWin::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
     CDialog::OnInitMenuPopup(pPopupMenu, nIndex, bSysMenu);
 
     pPopupMenu->CheckMenuItem(IDM_MAIN_SET_SILENCE, m_bSilence ? MF_CHECKED : MF_UNCHECKED);
-    pPopupMenu->CheckMenuItem(IDM_MAIN_SET_NOSOUND, m_bNoSound ? MF_CHECKED : MF_UNCHECKED);
+    pPopupMenu->CheckMenuItem(IDM_MAIN_SET_NOSOUND, m_bSound ? MF_CHECKED : MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_SET_VIBR, m_bVibrate ? MF_CHECKED : MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_SET_ONLINE,m_bOnline ? MF_CHECKED : MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_STATE_ONLINE, MF_UNCHECKED);
@@ -1304,11 +1305,11 @@ void FxMainWin::OnBdRmblacklist()
 
 void FxMainWin::OnMainSetNosound()
 {
-    m_bNoSound = !m_bNoSound;
-	if(m_bNoSound)
-		Lib_WriteReg(_T("NoSound"),_T("TRUE"));
+    m_bSound = !m_bSound;
+	if(m_bSound)
+		Lib_WriteReg(_T("Sound"),_T("TRUE"));
 	else
-		Lib_WriteReg(_T("NoSound"),_T("FALSE"));
+		Lib_WriteReg(_T("Sound"),_T("FALSE"));
 }
 
 BOOL FxMainWin::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
@@ -1432,4 +1433,11 @@ void FxMainWin::OnNMClickTreeBuddy(NMHDR *pNMHDR, LRESULT *pResult)
 		view.Expand(hItem,TVE_TOGGLE);
 	}
 	*pResult = 0;
+}
+
+void FxMainWin::OnMainClean()
+{
+	// TODO: 在此添加命令处理程序代码
+	Lib_WriteReg(_T("ID"), _T(""));
+	Lib_WriteReg(_T("PWD"), _T(""));
 }
