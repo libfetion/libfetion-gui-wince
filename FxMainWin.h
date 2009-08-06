@@ -133,7 +133,7 @@ public:
     afx_msg void OnBdAddblacklist();
     afx_msg void OnBdRmblacklist();
     afx_msg void OnMainSetNosound();
-    bool m_bNoSound;
+    bool m_bSound;
     
 protected:
     virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
@@ -151,4 +151,6 @@ public:
     void OnMainDimiss(void);
 	afx_msg void OnNMClickTreeBuddy(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnBdMovegroup();
+public:
+	afx_msg void OnMainClean();
 };
