@@ -628,8 +628,6 @@ BOOL FxMainWin::PreTranslateMessage(MSG* pMsg)
             }
 		}
 	}
-    if (pMsg->hwnd == this->GetSafeHwnd() && pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)
-        return TRUE;
 	return CDialog::PreTranslateMessage(pMsg);
 }
 
@@ -1440,4 +1438,12 @@ void FxMainWin::OnMainClean()
 	// TODO: 在此添加命令处理程序代码
 	Lib_WriteReg(_T("ID"), _T(""));
 	Lib_WriteReg(_T("PWD"), _T(""));
+}
+
+void FxMainWin::OnOK()
+{
+	// TODO: 在此添加专用代码和/或调用基类
+
+	//解决按回车键导致程序退出的问题
+	//CDialog::OnOK();
 }

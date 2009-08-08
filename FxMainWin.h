@@ -153,4 +153,6 @@ public:
     afx_msg void OnBdMovegroup();
 public:
 	afx_msg void OnMainClean();
+protected:
+	virtual void OnOK();
 };
