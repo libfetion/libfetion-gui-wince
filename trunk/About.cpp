@@ -51,9 +51,9 @@ _T("关于LibFetion WM版(第六版)\r\n\r\n\
 Copyright @ 2009 DDD(dedodong@163.com)\r\n\
 All Rights Reserved.\r\n\r\n\
 Windows Mobile 版本由以下人员开发:\r\n\
+\tgladyeti\r\n\
 \tBabylon\r\n\
 \txixinxing\r\n\
-\tgladyeti\r\n\
 \tEric\r\n\
 \tdaviyang35\r\n\
 LibFetion库:\t\tDDD\r\n\
