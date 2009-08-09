@@ -1312,9 +1312,9 @@ void FxMainWin::OnMainSetNosound()
 
 BOOL FxMainWin::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 {
+#ifdef WIN32_PLATFORM_PSPC
     switch(wParam)
     {
-#ifdef WIN32_PLATFORM_PSPC
     case ID_NOTIFY:
         {
             NMSHN* pnmshn = (NMSHN*)lParam;
@@ -1329,10 +1329,10 @@ BOOL FxMainWin::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
             }
             break;
         }
-#endif
     default:
         break;
     }
+#endif
     return CDialog::OnNotify(wParam, lParam, pResult);
 }
 
