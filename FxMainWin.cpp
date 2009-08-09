@@ -1447,3 +1447,11 @@ void FxMainWin::OnOK()
 	//解决按回车键导致程序退出的问题
 	//CDialog::OnOK();
 }
+
+void FxMainWin::OnCancel()
+{
+	// TODO: 在此添加专用代码和/或调用基类
+	//解决SP手机按CANCEL键后自动退出问题，并改成最小化
+	ShowWindow(SW_MINIMIZE);
+	//CDialog::OnCancel();
+}
