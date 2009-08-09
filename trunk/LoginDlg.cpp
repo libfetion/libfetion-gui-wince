@@ -316,7 +316,10 @@ void CLoginDlg::OnBnClickedLogin()
 		char* server_addr = ConvertUtf16ToUtf8(m_server_addr);
 		fx_set_serve_address(server_addr);
 		if (server_addr)
+		{
 			delete [] server_addr;
+			server_addr = NULL;
+		}
 	}
 
 	if(m_bLoginOffLine)
@@ -325,9 +328,15 @@ void CLoginDlg::OnBnClickedLogin()
 	}
 	fx_login(fetion_id, pwd,(My_EventListener), this);
 	if (fetion_id)
+	{
 		delete [] fetion_id;
+		fetion_id = NULL;
+	}
 	if (pwd)
+	{
 		delete [] pwd;
+		pwd = NULL;
+	}
 
 	m_dlgCommandBar.InsertMenuBar(IDR_LOGIN_CANCEL_MENU);
 
@@ -442,7 +451,10 @@ LRESULT CLoginDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		this->UpdateData(FALSE);
         //如果连接失败则允许再次连接
         if((bool)(LOWORD(wParam)))
+		{
             m_bIsLoging =FALSE;
+			m_dlgCommandBar.InsertMenuBar(IDR_LOGIN_MENU);
+		}
 		break;
 
 	case WM_CLOSE:
