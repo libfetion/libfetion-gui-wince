@@ -155,4 +155,5 @@ public:
 	afx_msg void OnMainClean();
 protected:
 	virtual void OnOK();
+	virtual void OnCancel();
 };
