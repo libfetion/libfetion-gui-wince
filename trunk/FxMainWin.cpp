@@ -428,7 +428,7 @@ BOOL FxMainWin::OnInitDialog()
     
     GetStartupPath();
 
-	SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*3, NULL);
+	SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000, NULL);
 	
     return TRUE;  // return TRUE unless you set the focus to a control
 }
