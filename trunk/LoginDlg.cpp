@@ -18,6 +18,7 @@
 #include <tpcshell.h>
 #include <connmgr.h>
 #endif
+#include <afxinet.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -69,6 +70,7 @@ void WINCE_https (char **reslut, char* url, int* netflag)
 
 CLoginDlg::CLoginDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CLoginDlg::IDD, pParent)
+	, m_mobile_no(_T(""))
 	, m_fetion_id(_T(""))
 	, m_passwd(_T(""))
 	, m_server_addr(_T(""))
@@ -85,8 +87,8 @@ CLoginDlg::CLoginDlg(CWnd* pParent /*=NULL*/)
 void CLoginDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    DDX_Text(pDX, IDC_FETION_ID, m_fetion_id);
-    DDV_MaxChars(pDX, m_fetion_id, 9);
+    DDX_Text(pDX, IDC_MOBILE_NO, m_mobile_no);
+    DDV_MaxChars(pDX, m_mobile_no, 11);
     DDX_Text(pDX, IDC_PWD, m_passwd);
     DDX_Text(pDX, IDC_LOGIN_STATE, m_login_state);
     DDX_Control(pDX, IDC_REMACC, RemAccount);
@@ -135,11 +137,11 @@ BOOL CLoginDlg::OnInitDialog()
 	// TODO: 在此添加额外的初始化代码
 	
 
+	Lib_ReadReg(_T("MOBILE"), m_mobile_no);
 	Lib_ReadReg(_T("PWD"), m_passwd);
-	Lib_ReadReg(_T("ID"), m_fetion_id);
 	Lib_ReadReg(_T("S_ADDR"), m_server_addr);
 
-	if (!m_passwd.IsEmpty() || !m_fetion_id.IsEmpty())
+	if (!m_passwd.IsEmpty() || !m_mobile_no.IsEmpty())
 	{
 		m_bRemPass = true;
 
@@ -168,7 +170,7 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
     int xIDC_LOGO, yIDC_LOGO, wIDC_LOGO, hIDC_LOGO;
     int xIDC_STATIC_ID, yIDC_STATIC_ID, wIDC_STATIC_ID, hIDC_STATIC_ID;
     int xIDC_STATIC_PWD, yIDC_STATIC_PWD, wIDC_STATIC_PWD, hIDC_STATIC_PWD;
-    int xIDC_FETION_ID, yIDC_FETION_ID, wIDC_FETION_ID, hIDC_FETION_ID;
+    int xIDC_MOBILE_NO, yIDC_MOBILE_NO, wIDC_MOBILE_NO, hIDC_MOBILE_NO;
     int xIDC_PWD, yIDC_PWD, wIDC_PWD, hIDC_PWD;
     int xIDC_LOGIN_STATE, yIDC_LOGIN_STATE, wIDC_LOGIN_STATE, hIDC_LOGIN_STATE;
     int xIDC_LOGIN, yIDC_LOGIN, wIDC_LOGIN, hIDC_LOGIN;
@@ -198,28 +200,28 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
     wIDC_STATIC_PWD = wIDC_STATIC_ID;
     hIDC_STATIC_PWD = hIDC_STATIC_ID;
 
-    xIDC_FETION_ID = xIDC_STATIC_ID + wIDC_STATIC_ID + iMargin;
-    yIDC_FETION_ID = yIDC_STATIC_ID;
-    wIDC_FETION_ID = iWidth - xIDC_FETION_ID - iMargin;
-    hIDC_FETION_ID = hIDC_STATIC_ID;
+    xIDC_MOBILE_NO = xIDC_STATIC_ID + wIDC_STATIC_ID + iMargin;
+    yIDC_MOBILE_NO = yIDC_STATIC_ID;
+    wIDC_MOBILE_NO = iWidth - xIDC_MOBILE_NO - iMargin;
+    hIDC_MOBILE_NO = hIDC_STATIC_ID;
 
-    xIDC_PWD = xIDC_FETION_ID;
+    xIDC_PWD = xIDC_MOBILE_NO;
     yIDC_PWD = yIDC_STATIC_PWD;
-    wIDC_PWD = wIDC_FETION_ID;
-    hIDC_PWD = hIDC_FETION_ID;
+    wIDC_PWD = wIDC_MOBILE_NO;
+    hIDC_PWD = hIDC_MOBILE_NO;
 
 
     xIDC_REMACC = xIDC_STATIC_ID + iMargin;
     yIDC_REMACC = yIDC_PWD + hIDC_PWD + iMargin;
     wIDC_REMACC = DRA::SCALEX(80);
-    hIDC_REMACC = hIDC_FETION_ID;
+    hIDC_REMACC = hIDC_MOBILE_NO;
 
     xIDC_LOGIN_OFFLINE = xIDC_REMACC + wIDC_REMACC + iMargin + iMargin;
     yIDC_LOGIN_OFFLINE = yIDC_REMACC;
     wIDC_LOGIN_OFFLINE = wIDC_REMACC;
     hIDC_LOGIN_OFFLINE = hIDC_REMACC;
 
-	xIDC_LOGIN = xIDC_FETION_ID;
+	xIDC_LOGIN = xIDC_MOBILE_NO;
     yIDC_LOGIN = yIDC_REMACC + hIDC_REMACC + iMargin;
     wIDC_LOGIN = wIDC_STATIC_ID;
 #if defined(M8)
@@ -242,8 +244,8 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_STATIC_PWD);
     ::MoveWindow(hwndctl, xIDC_STATIC_PWD, yIDC_STATIC_PWD, wIDC_STATIC_PWD, hIDC_STATIC_PWD, false);
 
-    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_FETION_ID);
-    ::MoveWindow(hwndctl, xIDC_FETION_ID, yIDC_FETION_ID, wIDC_FETION_ID, hIDC_FETION_ID, false);
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_MOBILE_NO);
+    ::MoveWindow(hwndctl, xIDC_MOBILE_NO, yIDC_MOBILE_NO, wIDC_MOBILE_NO, hIDC_MOBILE_NO, false);
 
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_PWD);
     ::MoveWindow(hwndctl, xIDC_PWD, yIDC_PWD, wIDC_PWD, hIDC_PWD, false);
@@ -281,14 +283,14 @@ void CLoginDlg::OnBnClickedLogin()
 	this->UpdateData();
     OnBnClickedRemAccount();
 
-	if(this->m_fetion_id.IsEmpty()) {
-		this->m_login_state = _T("请输入飞信号码");
+	if(this->m_mobile_no.IsEmpty()) {
+		this->m_login_state = _T("请输入手机号码");
 		goto fail;
 	}
 	
-	//fetion号长度为9位
-	if (this->m_fetion_id.GetLength()  != 9) {
-		this->m_login_state = _T("请输入正确的飞信号码");
+	//手机号长度为11位
+	if (this->m_mobile_no.GetLength()  != 11) {
+		this->m_login_state = _T("请输入正确的手机号码");
 		goto fail;
 	}
 	
@@ -304,6 +306,29 @@ void CLoginDlg::OnBnClickedLogin()
     }
 #endif
     this->m_login_state = _T("登陆中...");
+	this->UpdateData(FALSE);
+	this->UpdateWindow();
+
+	int netflag = 0;
+	m_fetion_id = GetFetionNoFromHttpsWeb(m_mobile_no, m_passwd, netflag);
+	if(this->m_fetion_id.IsEmpty())
+	{
+		switch(netflag)
+		{
+		case	404:
+			this->m_login_state = _T("网络错误");
+			break;
+		case	301:
+		case	401:
+			this->m_login_state = _T("验证用户信息失败");
+			break;
+		default:
+			this->m_login_state = _T("未知错误");
+			break;
+		}
+		goto fail;
+	}
+
 	//fx_set_serve_address("221.130.45.208:8080");
 
 	char* fetion_id = ConvertUtf16ToUtf8(m_fetion_id);
@@ -514,10 +539,10 @@ void CLoginDlg::OnBnClickedRemAccount()
 	if (m_bRemPass)
 	{	
 		//this->UpdateData();
+		Lib_WriteReg(_T("MOBILE"), m_mobile_no);
 		Lib_WriteReg(_T("PWD"), m_passwd);
-		Lib_WriteReg(_T("ID"), m_fetion_id);
 	} else {
-		Lib_WriteReg(_T("ID"), _T(""));
+		Lib_WriteReg(_T("MOBILE"), _T(""));
 		Lib_WriteReg(_T("PWD"), _T(""));
 	}
 }
@@ -611,4 +636,99 @@ void CLoginDlg::OnRemPassChanged()
 void CLoginDlg::OnRemPassUpdateUI(CCmdUI* cmdui)
 {
     cmdui->SetCheck(m_bRemPass);
+}
+
+#define BUFFER_SIZE 1024 * 10
+CString CLoginDlg::GetHttpsWebData(CString Url)
+{
+	CString sContent;
+	CString strHeaders = _T("Content-Type: application/x-www-form-urlencoded"); 
+	INTERNET_PORT nPort = INTERNET_DEFAULT_HTTPS_PORT;
+	CInternetSession session; 
+	CString strServerName;
+	CString strObject;
+	DWORD dwServiceType;
+	if (!AfxParseURL(Url, dwServiceType, strServerName, strObject, nPort) ||dwServiceType != INTERNET_SERVICE_HTTP)
+	{
+		BOOL bS = FALSE;
+	}
+	session.EnableStatusCallback(TRUE);
+	CHttpConnection* pServer = session.GetHttpConnection(strServerName, nPort);
+	CHttpFile* pFile = pServer->OpenRequest(CHttpConnection::HTTP_VERB_GET, strObject, NULL, (DWORD)this, NULL, NULL,
+	INTERNET_FLAG_EXISTING_CONNECT|
+	INTERNET_FLAG_SECURE|
+	INTERNET_FLAG_IGNORE_CERT_CN_INVALID|
+	INTERNET_FLAG_IGNORE_CERT_DATE_INVALID);
+	//end Request 
+	BOOL result = pFile->SendRequest(strHeaders, 
+	(LPVOID)(LPCTSTR)Url, Url.GetLength()); 
+	//Get Response
+	CString strGetData;
+	TCHAR* szWEBPage = new TCHAR[BUFFER_SIZE+1];
+	if(szWEBPage)
+	{
+		szWEBPage[0] = L'\0';
+		TCHAR* sz     = new TCHAR[BUFFER_SIZE+1];
+		TCHAR* szwBuf = new TCHAR[(BUFFER_SIZE+1)*2];
+		sz[0] = L'\0';
+		szwBuf[0] = L'\0';
+		DWORD n = 0;
+		printf("pFile:%d\n",pFile->GetLength());
+		pFile->SetReadBufferSize(BUFFER_SIZE*2);
+		while (pFile->ReadString(sz, BUFFER_SIZE))//每次一行数据
+		{
+			mbstowcs(szwBuf, (char*)sz, BUFFER_SIZE+1);
+			n += _tcslen(szwBuf);
+			if(n >= BUFFER_SIZE)
+				break;
+			_tcscat(szWEBPage, szwBuf);
+		}
+		delete [] sz;
+		sz = NULL;
+		delete [] szwBuf;
+		szwBuf = NULL;
+	}
+	strGetData = szWEBPage;
+	delete [] szWEBPage;
+	szWEBPage = NULL;
+	return strGetData;
+}
+
+CString CLoginDlg::GetFetionNoFromHttpsWeb(CString strMobileNo, CString strPwd, int& netflag)
+{
+	CString Url;
+	CString strWeb;
+	CString FetionNo = _T("");
+	int sip;
+	int AtFetion;
+	netflag = 0;
+	Url.Format(_T("https://nav.fetion.com.cn/ssiportal/SSIAppSignIn.aspx?mobileno=%s&pwd=%s"),strMobileNo,strPwd);
+	strWeb = GetHttpsWebData(Url);
+	if(strWeb.IsEmpty())
+	{
+		netflag = 404;
+		return _T("");
+	}
+	if(strWeb.Find(_T("results status-code=\"200\"")) < 0)
+	{
+		if(strWeb.Find(_T("results status-code=")) >= 0)
+		{
+			netflag = 401;
+		}
+		else
+		{
+			netflag = 404;
+		}
+		return _T("");
+	}
+	sip = strWeb.Find(_T("sip:"));
+	AtFetion = strWeb.Find(_T("@fetion.com.cn"));
+	if((sip < 0) || (AtFetion < 0) || (sip > AtFetion))
+	{
+		netflag = 301;
+		return _T("");
+	}
+	FetionNo = strWeb.Mid(sip + 4, AtFetion - sip - 4);
+	netflag = 0;
+	return FetionNo;
 }

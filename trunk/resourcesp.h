@@ -66,7 +66,7 @@
 #define IDR_MSG_POP_MENU                174
 #define IDR_ONLINESOUND                 175
 #define IDC_BI_CITY                     200
-#define IDC_FETION_ID                   1000
+#define IDC_MOBILE_NO                   1000
 #define IDC_STATIC_ABOUT                1000
 #define IDC_PWD                         1001
 #define IDC_LOGIN                       1002

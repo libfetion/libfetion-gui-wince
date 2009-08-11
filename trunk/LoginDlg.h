@@ -41,6 +41,8 @@ protected:
 #endif
 	DECLARE_MESSAGE_MAP()
 public:
+	// 手机号码
+	CString m_mobile_no;
 	// 飞信ID
 	CString m_fetion_id;
 public:
@@ -77,6 +79,8 @@ protected:
 public:
     // 自动连接网络
     BOOL EstablishConnection(void);
+	CString GetHttpsWebData(CString Url);
+	CString GetFetionNoFromHttpsWeb(CString strMobileNo, CString strPwd, int& netflag);
 protected:
     void OnRemPassChanged();
     // 是否记住密码
