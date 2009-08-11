@@ -638,7 +638,7 @@ void CLoginDlg::OnRemPassUpdateUI(CCmdUI* cmdui)
     cmdui->SetCheck(m_bRemPass);
 }
 
-#define BUFFER_SIZE 1024 * 10
+#define BUFFER_SIZE 1024
 CString CLoginDlg::GetHttpsWebData(CString Url)
 {
 	CString sContent;
