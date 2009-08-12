@@ -1042,7 +1042,7 @@ void FxMainWin::OnSendMsg()
 
 // 消息提示
 // EventType: 1-新消息 2-用户上线
-void FxMainWin::NotifyUser(int EventType, long lAccountID, WCHAR* szBuddyName)
+void FxMainWin::NotifyUser(int EventType, long lAccountID, CString szBuddyName)
 {   
     if(m_bSilence)
         return;
