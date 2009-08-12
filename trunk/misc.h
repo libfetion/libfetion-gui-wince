@@ -11,6 +11,8 @@ extern "C" {
 #endif 
 
 
+CString GetHttpsWebData(CString Url);
+
 #include <Winreg.h>
 
 #if 0

@@ -79,7 +79,6 @@ protected:
 public:
     // 自动连接网络
     BOOL EstablishConnection(void);
-	CString GetHttpsWebData(CString Url);
 	CString GetFetionNoFromHttpsWeb(CString strMobileNo, CString strPwd, int& netflag);
 protected:
     void OnRemPassChanged();

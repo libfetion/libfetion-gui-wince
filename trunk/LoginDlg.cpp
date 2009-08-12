@@ -18,53 +18,11 @@
 #include <tpcshell.h>
 #include <connmgr.h>
 #endif
-#include <afxinet.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
-#if 0
-extern CString WINCE_https (CString URL, int* netflag);
-void WINCE_https (char **reslut, char* url, int* netflag)
-{
-	CString strGetData = WINCE_https (ConvertUtf8ToUtf16(url), netflag);
-
-#if 0
-	CString strHeaders = _T("Content-Type: application/x-www-form-urlencoded"); 
-	// URL-encoded form variables - 
-	CString strFormData = ConvertUtf8ToUtf16(url);
-
-	INTERNET_PORT nPort = INTERNET_DEFAULT_HTTPS_PORT;
-	CInternetSession session; 
-	CHttpConnection* pConnection = session.GetHttpConnection(_T("221.130.45.201"),nPort); 
-
-	CHttpFile* pFile = 
-		pConnection->OpenRequest(CHttpConnection::HTTP_VERB_GET, 
-		_T(""),NULL,1,NULL,NULL,
-		INTERNET_FLAG_EXISTING_CONNECT|
-		INTERNET_FLAG_SECURE|
-		INTERNET_FLAG_IGNORE_CERT_CN_INVALID|
-		INTERNET_FLAG_IGNORE_CERT_DATE_INVALID
-		);   
-	//Send Request 
-	BOOL result = pFile->SendRequest(strHeaders, 
-		(LPVOID)(LPCTSTR)strFormData, strFormData.GetLength()); 
-	//Get Response
-	;
-	pFile->ReadString(strGetData);
-	
-	if (netflag)
-		netflag = result;
-#endif 
-//	MessageBox(strGetData);
-	*reslut = ConvertUtf16ToUtf8(strGetData);
-	//*reslut = malloc(strGetData.GetLength()+1);
-
-	
-}
-
-#endif
 
 // CLoginDlg 对话框
 
@@ -636,62 +594,6 @@ void CLoginDlg::OnRemPassChanged()
 void CLoginDlg::OnRemPassUpdateUI(CCmdUI* cmdui)
 {
     cmdui->SetCheck(m_bRemPass);
-}
-
-#define BUFFER_SIZE 1024
-CString CLoginDlg::GetHttpsWebData(CString Url)
-{
-	CString sContent;
-	CString strHeaders = _T("Content-Type: application/x-www-form-urlencoded"); 
-	INTERNET_PORT nPort = INTERNET_DEFAULT_HTTPS_PORT;
-	CInternetSession session; 
-	CString strServerName;
-	CString strObject;
-	DWORD dwServiceType;
-	if (!AfxParseURL(Url, dwServiceType, strServerName, strObject, nPort) ||dwServiceType != INTERNET_SERVICE_HTTP)
-	{
-		BOOL bS = FALSE;
-	}
-	session.EnableStatusCallback(TRUE);
-	CHttpConnection* pServer = session.GetHttpConnection(strServerName, nPort);
-	CHttpFile* pFile = pServer->OpenRequest(CHttpConnection::HTTP_VERB_GET, strObject, NULL, (DWORD)this, NULL, NULL,
-	INTERNET_FLAG_EXISTING_CONNECT|
-	INTERNET_FLAG_SECURE|
-	INTERNET_FLAG_IGNORE_CERT_CN_INVALID|
-	INTERNET_FLAG_IGNORE_CERT_DATE_INVALID);
-	//end Request 
-	BOOL result = pFile->SendRequest(strHeaders, 
-	(LPVOID)(LPCTSTR)Url, Url.GetLength()); 
-	//Get Response
-	CString strGetData;
-	TCHAR* szWEBPage = new TCHAR[BUFFER_SIZE+1];
-	if(szWEBPage)
-	{
-		szWEBPage[0] = L'\0';
-		TCHAR* sz     = new TCHAR[BUFFER_SIZE+1];
-		TCHAR* szwBuf = new TCHAR[(BUFFER_SIZE+1)*2];
-		sz[0] = L'\0';
-		szwBuf[0] = L'\0';
-		DWORD n = 0;
-		printf("pFile:%d\n",pFile->GetLength());
-		pFile->SetReadBufferSize(BUFFER_SIZE*2);
-		while (pFile->ReadString(sz, BUFFER_SIZE))//每次一行数据
-		{
-			mbstowcs(szwBuf, (char*)sz, BUFFER_SIZE+1);
-			n += _tcslen(szwBuf);
-			if(n >= BUFFER_SIZE)
-				break;
-			_tcscat(szWEBPage, szwBuf);
-		}
-		delete [] sz;
-		sz = NULL;
-		delete [] szwBuf;
-		szwBuf = NULL;
-	}
-	strGetData = szWEBPage;
-	delete [] szWEBPage;
-	szWEBPage = NULL;
-	return strGetData;
 }
 
 CString CLoginDlg::GetFetionNoFromHttpsWeb(CString strMobileNo, CString strPwd, int& netflag)
