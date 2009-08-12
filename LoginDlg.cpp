@@ -225,7 +225,11 @@ void  My_EventListener (int message, WPARAM wParam, LPARAM lParam, void* args);
 
 void CLoginDlg::OnBnClickedLogin()
 {
-    if(m_bIsLoging) {
+	CStringA fetion_id;
+	CStringA pwd;
+	CStringA server_addr;
+
+	if(m_bIsLoging) {
 		return;
     }
     m_bIsLoging = TRUE;
@@ -289,37 +293,22 @@ void CLoginDlg::OnBnClickedLogin()
 
 	//fx_set_serve_address("221.130.45.208:8080");
 
-	char* fetion_id = ConvertUtf16ToUtf8(m_fetion_id);
-	char* pwd = ConvertUtf16ToUtf8(m_passwd);
+	fetion_id = ConvertUtf16ToUtf8(m_fetion_id);
+	pwd = ConvertUtf16ToUtf8(m_passwd);
 	
 
 	if (!this->m_server_addr.IsEmpty()) 
 	{ 
 		//we should read the fetion server address if we set it before.
-		char* server_addr = ConvertUtf16ToUtf8(m_server_addr);
-		fx_set_serve_address(server_addr);
-		if (server_addr)
-		{
-			delete [] server_addr;
-			server_addr = NULL;
-		}
+		server_addr = ConvertUtf16ToUtf8(m_server_addr);
+		fx_set_serve_address(server_addr.GetBuffer());
 	}
 
 	if(m_bLoginOffLine)
 	{
 		fx_set_login_status(FX_STATUS_OFFLINE);
 	}
-	fx_login(fetion_id, pwd,(My_EventListener), this);
-	if (fetion_id)
-	{
-		delete [] fetion_id;
-		fetion_id = NULL;
-	}
-	if (pwd)
-	{
-		delete [] pwd;
-		pwd = NULL;
-	}
+	fx_login(fetion_id.GetBuffer(), pwd.GetBuffer(),(My_EventListener), this);
 
 	m_dlgCommandBar.InsertMenuBar(IDR_LOGIN_CANCEL_MENU);
 

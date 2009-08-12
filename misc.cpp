@@ -146,11 +146,11 @@ long Lib_WriteReg(CString Key, CString Buf)
 {
 	long ret;
 
-	char* WRbuf = ConvertUtf16ToUtf8(Buf);
+	CStringA WRbuf = ConvertUtf16ToUtf8(Buf);
 
 	OpenRegistry(_T("SOFTWARE\\HITECH\\Apps\\LibFetion"));
 
-	ret = WriteRegistry((LPTSTR)(LPCTSTR)Key,(BYTE*)WRbuf,Buf.GetLength(),REG_DWORD);
+	ret = WriteRegistry((LPTSTR)(LPCTSTR)Key,(BYTE*)WRbuf.GetBuffer(),Buf.GetLength(),REG_DWORD);
 #if 0
 	if (is_id)
 		ret = WriteRegistry(_T("ID"),(BYTE*)WRbuf,Buf.GetLength(),REG_DWORD);
@@ -159,8 +159,6 @@ long Lib_WriteReg(CString Key, CString Buf)
 #endif
 	CloseRegistry();
 
-	if (WRbuf)
-		delete [] WRbuf;
 	return ret;
 }
 

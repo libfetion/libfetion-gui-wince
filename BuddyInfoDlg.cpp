@@ -354,10 +354,9 @@ void CBuddyInfoDlg::OnOk()
 		free(showname);
 
     if(m_strShowName != strShowName)
-    {   char* showName = ConvertUtf16ToUtf8(m_strShowName);
-        fx_set_buddyinfo(m_lAccountID, showName, NULL, NULL); 
-        if (showName)
-        delete [] showName;
+    {
+		CStringA showName = ConvertUtf16ToUtf8(m_strShowName);
+		fx_set_buddyinfo(m_lAccountID, showName.GetBuffer(), NULL, NULL); 
     }
 
     CDialog::OnOK();

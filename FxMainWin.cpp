@@ -456,10 +456,8 @@ void FxMainWin::do_login()
     const Fetion_Personal * pInfo = fx_data_get_PersonalInfo();
     m_strNickName = ConvertUtf8ToUtf16(pInfo->nickname);
     m_strSign = ConvertUtf8ToUtf16(pInfo->impresa);
-    char * tmp_id = ConvertUtf16ToUtf8(loginDlg->m_fetion_id);
-    m_lAccountID = atol(tmp_id);
-   	if (tmp_id)
-    	delete [] tmp_id;
+    CStringA tmp_id = ConvertUtf16ToUtf8(loginDlg->m_fetion_id);
+	m_lAccountID = atol(tmp_id.GetBuffer());
 
 #endif
 }
