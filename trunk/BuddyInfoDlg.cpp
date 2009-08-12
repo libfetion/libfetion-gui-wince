@@ -354,8 +354,10 @@ void CBuddyInfoDlg::OnOk()
 		free(showname);
 
     if(m_strShowName != strShowName)
-    {
-        fx_set_buddyinfo(m_lAccountID, ConvertUtf16ToUtf8(m_strShowName), NULL, NULL); 
+    {   char* showName = ConvertUtf16ToUtf8(m_strShowName);
+        fx_set_buddyinfo(m_lAccountID, showName, NULL, NULL); 
+        if (showName)
+        delete [] showName;
     }
 
     CDialog::OnOK();

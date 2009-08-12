@@ -23,8 +23,9 @@ char* ConvertUtf16ToUtf8(CString strUtf16)
 } 
 
 
-WCHAR* ConvertUtf8ToUtf16(const char * utf8) 
-{ 	
+CString ConvertUtf8ToUtf16(const char * utf8) 
+{ 
+	CString res;
 	int len = MultiByteToWideChar(CP_UTF8/*CP_ACP*/, 0, utf8, -1, NULL, 0); 
 
 	WCHAR * szUtf16=new WCHAR[len + 1]; 
@@ -34,7 +35,10 @@ WCHAR* ConvertUtf8ToUtf16(const char * utf8)
 
 	szUtf16[len] = '\0';
 
-	return szUtf16;
+	res = szUtf16;
+	delete [] szUtf16;
+	
+	return res;
 }
 
 char* ConvertUtf8ToGBK( char* strUtf8)

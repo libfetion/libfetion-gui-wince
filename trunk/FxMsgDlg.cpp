@@ -330,9 +330,10 @@ void FxMsgDlg::OnStnClickedSend()
 		m_msgSend.Replace(_T(">"), _T("&gt;"));
 		sendFlag = fx_dialog_send( account_id, content, NULL, NULL); 
 	}
-
+	if (content)
+		delete [] content;
+	
 	CString show_msg;
-
 	CString head;
 	if(sendFlag) 
 		head = _T("我(") + GetCurrentTimeString() + _T("):");
