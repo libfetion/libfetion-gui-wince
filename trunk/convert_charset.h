@@ -20,7 +20,7 @@ char* ConvertUtf8ToGBK( char* strUtf8);
 char* ConvertGBKToUtf8(char* strGBK) ;
 
 CString ConvertUtf8ToUtf16(const char * utf8);
-char* ConvertUtf16ToUtf8(CString strUtf16);
+CStringA ConvertUtf16ToUtf8(CString strUtf16);
 
 CString GetCurrentTimeString();
 CString GetMsgTimeString(char *msgtime);

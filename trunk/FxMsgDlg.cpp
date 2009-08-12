@@ -318,20 +318,18 @@ void FxMsgDlg::OnStnClickedSend()
 
 	int sendFlag = 0;
 
-	char* content = ConvertUtf16ToUtf8(m_msgSend);
+	CStringA content = ConvertUtf16ToUtf8(m_msgSend);
 
 	//fixme: offline usr can send offline dialog
 	if (m_isSendSMS || !fx_is_pc_user_by_id(account_id))
-		sendFlag = fx_send_sms( account_id, content, NULL, NULL);   
+		sendFlag = fx_send_sms( account_id, content.GetBuffer(), NULL, NULL);   
 	else 
 	{
 		//note: just dialog_send need replace to html mark.  
 		m_msgSend.Replace(_T("<"), _T("&lt;"));
 		m_msgSend.Replace(_T(">"), _T("&gt;"));
-		sendFlag = fx_dialog_send( account_id, content, NULL, NULL); 
+		sendFlag = fx_dialog_send( account_id, content.GetBuffer(), NULL, NULL); 
 	}
-	if (content)
-		delete [] content;
 	
 	CString show_msg;
 	CString head;

@@ -228,20 +228,13 @@ void CFindBuddyDlg::OnFbAdd()
 		iNewGroupID = m_cboGroup.GetItemData(m_cboGroup.GetCurSel());
 	}
 
-	char *strBuddyID = ConvertUtf16ToUtf8(m_strBuddyID);
-	char *strLocalName = ConvertUtf16ToUtf8(m_strLocalName);
-	char *strUserName = ConvertUtf16ToUtf8(m_strUserName);
+	CStringA strBuddyID = ConvertUtf16ToUtf8(m_strBuddyID);
+	CStringA strLocalName = ConvertUtf16ToUtf8(m_strLocalName);
+	CStringA strUserName = ConvertUtf16ToUtf8(m_strUserName);
 	if (bMobileNo)
-		fx_add_buddy_by_mobile(strBuddyID, strLocalName, iNewGroupID, strUserName, NULL, NULL);
+		fx_add_buddy_by_mobile(strBuddyID.GetBuffer(), strLocalName.GetBuffer(), iNewGroupID, strUserName.GetBuffer(), NULL, NULL);
 	else
-		fx_add_buddy_by_uid(strBuddyID, strLocalName, iNewGroupID, strUserName, NULL, NULL);
-		
-		if(strBuddyID)
-			delete [] strBuddyID;
-		if(strLocalName)
-			delete [] strLocalName;
-		if(strUserName)
-			delete [] strUserName;
+		fx_add_buddy_by_uid(strBuddyID.GetBuffer(), strLocalName.GetBuffer(), iNewGroupID, strUserName.GetBuffer(), NULL, NULL);
 		
     CDialog::OnOK();
 }

@@ -7,19 +7,20 @@
 #include "stdafx.h"
 #include "convert_charset.h"
 
-char* ConvertUtf16ToUtf8(CString strUtf16) 
+CStringA ConvertUtf16ToUtf8(CString strUtf16) 
 { 
-
+	CStringA res;
 	int len = WideCharToMultiByte(CP_UTF8, 0, (LPCTSTR)strUtf16, -1, NULL, 0, NULL, NULL); 
 
-	char *szUtf8 = new char[len + 1]; 
+	char *szUtf8 = res.GetBufferSetLength(len + 1);
 	memset(szUtf8, 0, (len + 1)*sizeof(char)); 
 
 	WideCharToMultiByte (CP_UTF8, 0, (LPCTSTR)strUtf16, -1, szUtf8, len, NULL, NULL); 
 
 	szUtf8[len] = '\0';
 
-	return szUtf8;
+	res.ReleaseBuffer();
+	return res;
 } 
 
 
@@ -28,16 +29,14 @@ CString ConvertUtf8ToUtf16(const char * utf8)
 	CString res;
 	int len = MultiByteToWideChar(CP_UTF8/*CP_ACP*/, 0, utf8, -1, NULL, 0); 
 
-	WCHAR * szUtf16=new WCHAR[len + 1]; 
+	WCHAR * szUtf16 = res.GetBufferSetLength(len + 1); 
 	memset(szUtf16, 0, (len + 1)*sizeof(WCHAR)); 
 
 	MultiByteToWideChar(CP_UTF8/*CP_ACP*/, 0, utf8, -1, szUtf16, len); 
 
 	szUtf16[len] = '\0';
 
-	res = szUtf16;
-	delete [] szUtf16;
-	
+	res.ReleaseBuffer();
 	return res;
 }
 
