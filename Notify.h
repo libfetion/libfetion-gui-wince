@@ -64,7 +64,7 @@ public:
     // 播放指定的声音
     static void Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, bool bNoSound = false, bool bVibe = false, UINT Styles = 0);
 
-    static void CNotify::CreateAndAddNotification(HWND hwnd, WCHAR* szTitle, CString szNotify);
+    static void CNotify::CreateAndAddNotification(HWND hwnd, CString szTitle, CString szNotify);
     static void RemoveNotification();
 
 private:

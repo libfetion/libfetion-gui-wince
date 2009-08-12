@@ -6,12 +6,12 @@
 #if !defined _MISC_WMLF__H
 #define _MISC_WMLF__H
 
+CString GetHttpsWebData(CString Url);
+
 #ifdef __cplusplus 
 extern "C" { 
 #endif 
 
-
-CString GetHttpsWebData(CString Url);
 
 #include <Winreg.h>
 

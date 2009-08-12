@@ -25,7 +25,7 @@ static const GUID guidNotifyApp =
 
 
 
-void CNotify::CreateAndAddNotification(HWND hwnd, WCHAR* szTitle, CString szNotify)
+void CNotify::CreateAndAddNotification(HWND hwnd, CString szTitle, CString szNotify)
 {
 #ifdef WIN32_PLATFORM_PSPC
     if(pNotification == NULL)

@@ -181,7 +181,7 @@ CString GetHttpsWebData(CString Url)
 	}
 	session.EnableStatusCallback(TRUE);
 	CHttpConnection* pServer = session.GetHttpConnection(strServerName, nPort);
-	CHttpFile* pFile = pServer->OpenRequest(CHttpConnection::HTTP_VERB_GET, strObject, NULL, (DWORD)this, NULL, NULL,
+	CHttpFile* pFile = pServer->OpenRequest(CHttpConnection::HTTP_VERB_GET, strObject, NULL, 1, NULL, NULL,
 	INTERNET_FLAG_EXISTING_CONNECT|
 	INTERNET_FLAG_SECURE|
 	INTERNET_FLAG_IGNORE_CERT_CN_INVALID|
