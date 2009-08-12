@@ -1439,7 +1439,7 @@ void FxMainWin::OnNMClickTreeBuddy(NMHDR *pNMHDR, LRESULT *pResult)
 void FxMainWin::OnMainClean()
 {
 	// TODO: 在此添加命令处理程序代码
-	Lib_WriteReg(_T("ID"), _T(""));
+	Lib_WriteReg(_T("MOBILE"), _T(""));
 	Lib_WriteReg(_T("PWD"), _T(""));
 }
 
