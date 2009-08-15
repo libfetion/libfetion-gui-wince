@@ -40,6 +40,7 @@ CLoginDlg::CLoginDlg(CWnd* pParent /*=NULL*/)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	//fx_set_https_func(WINCE_https);
+
 }
 
 void CLoginDlg::DoDataExchange(CDataExchange* pDX)
@@ -98,6 +99,15 @@ BOOL CLoginDlg::OnInitDialog()
 	Lib_ReadReg(_T("MOBILE"), m_mobile_no);
 	Lib_ReadReg(_T("PWD"), m_passwd);
 	Lib_ReadReg(_T("S_ADDR"), m_server_addr);
+	//读取登陆状态信息
+	CString buf;
+
+	buf.Empty();
+	Lib_ReadReg(_T("HideLogin"),buf);
+	if(buf.IsEmpty()||(buf.CompareNoCase(_T("FALSE"))==0))
+		m_bLoginOffLine=FALSE;
+	else if(buf.CompareNoCase(_T("TRUE"))==0)
+		m_bLoginOffLine=TRUE;
 
 	if (!m_passwd.IsEmpty() || !m_mobile_no.IsEmpty())
 	{
@@ -105,6 +115,7 @@ BOOL CLoginDlg::OnInitDialog()
 
 		this->UpdateData(FALSE);
 	}
+
 #ifdef WIN32_PLATFORM_WFSP
     //重写后退键，引发WM_HOTKEY消息
     (void)::SendMessage(SHFindMenuBar (m_hWnd), SHCMBM_OVERRIDEKEY, VK_TBACK,
@@ -307,7 +318,10 @@ void CLoginDlg::OnBnClickedLogin()
 	if(m_bLoginOffLine)
 	{
 		fx_set_login_status(FX_STATUS_OFFLINE);
+		Lib_WriteReg(_T("HideLogin"),_T("TRUE"));
 	}
+	else
+		Lib_WriteReg(_T("HideLogin"),_T("FALSE"));
 	fx_login(fetion_id.GetBuffer(), pwd.GetBuffer(),(My_EventListener), this);
 
 	m_dlgCommandBar.InsertMenuBar(IDR_LOGIN_CANCEL_MENU);
