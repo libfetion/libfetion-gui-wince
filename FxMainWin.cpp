@@ -59,6 +59,8 @@ BOOL FxMainWin::handleFx_Sys_Event(int message, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 	case FX_SET_STATE_OK:
 		//emit signal_set_state((int)wParam);
+		m_strNickNameShow = m_strNickName + GetUserStateString();
+		this->UpdateData(FALSE);
 		return TRUE;
 
 	case FX_STATUS_ONLINE:
@@ -196,6 +198,7 @@ FxMainWin::FxMainWin(CWnd* pParent /*=NULL*/)
 	, m_BuddyInfoDlg(NULL)
 	, m_isLoginOK(FALSE)
     , m_strNickName(_T(""))
+    , m_strNickNameShow(_T(""))
     , m_strSign(_T(""))
     , m_strStartupPath(_T(""))
     , m_lAccountID(0)
@@ -252,7 +255,7 @@ void FxMainWin::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_TREE_BUDDY, view);
-    DDX_Text(pDX, IDC_INFO_NAME, m_strNickName);
+    DDX_Text(pDX, IDC_INFO_NAME, m_strNickNameShow);
     DDX_Text(pDX, IDC_INFO_SIGN, m_strSign);
 }
 
@@ -455,6 +458,7 @@ void FxMainWin::do_login()
 #else
     const Fetion_Personal * pInfo = fx_data_get_PersonalInfo();
     m_strNickName = ConvertUtf8ToUtf16(pInfo->nickname);
+	m_strNickNameShow = m_strNickName + GetUserStateString();
     m_strSign = ConvertUtf8ToUtf16(pInfo->impresa);
     CStringA tmp_id = ConvertUtf16ToUtf8(loginDlg->m_fetion_id);
 	m_lAccountID = atol(tmp_id.GetBuffer());
@@ -1422,4 +1426,27 @@ void FxMainWin::OnCancel()
 	//解决SP手机按CANCEL键后自动退出问题，并改成最小化
 	ShowWindow(SW_MINIMIZE);
 	//CDialog::OnCancel();
+}
+
+CString FxMainWin::GetUserStateString(void)
+{
+	CString strUserState = _T("");;
+    int iState = fx_get_user_state();
+    switch(iState)
+    {
+    case 0:
+    case FX_STATUS_ONLINE:
+        strUserState = _T(" (在线)");
+        break;
+    case FX_STATUS_OFFLINE:
+        strUserState = _T(" (隐身)");
+        break;
+    case FX_STATUS_BUSY:
+        strUserState = _T(" (忙碌)");
+        break;
+    case FX_STATUS_AWAY:
+        strUserState = _T(" (离开)");
+        break;
+    }
+	return strUserState;
 }

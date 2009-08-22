@@ -96,6 +96,8 @@ public:
 	BOOL m_isLoginOK;
     // 用户昵称
     CString m_strNickName;
+    // 用户昵称显示，会加上在线状态，例如"(隐身)"
+	CString m_strNickNameShow;
     // 用户签名
     CString m_strSign;
     afx_msg void OnStnClickedBtnAdd();
@@ -156,4 +158,6 @@ public:
 protected:
 	virtual void OnOK();
 	virtual void OnCancel();
+public:
+	CString GetUserStateString(void);
 };
