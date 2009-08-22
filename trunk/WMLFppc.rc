@@ -59,7 +59,7 @@ BEGIN
         BEGIN
             MENUITEM "在线",                          IDM_MAIN_STATE_ONLINE
             MENUITEM "隐身",                          IDM_MAIN_STATE_HIDE
-            MENUITEM "繁忙",                          IDM_MAIN_STATE_BUSY
+            MENUITEM "忙碌",                          IDM_MAIN_STATE_BUSY
             MENUITEM "离开",                          IDM_MAIN_STATE_AWAY
         END
         POPUP "设置"

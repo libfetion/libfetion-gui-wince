@@ -109,7 +109,7 @@ BEGIN
         BEGIN
             MENUITEM "在线",                          IDM_MAIN_STATE_ONLINE
             MENUITEM "隐身",                          IDM_MAIN_STATE_HIDE
-            MENUITEM "繁忙",                          IDM_MAIN_STATE_BUSY
+            MENUITEM "忙碌",                          IDM_MAIN_STATE_BUSY
             MENUITEM "离开",                          IDM_MAIN_STATE_AWAY
         END
         POPUP "设置"
@@ -414,7 +414,7 @@ BEGIN
     IDS_MAIN_STATE          "在线状态"
     IDS_MAIN_STATE_ONLINE   "在线"
     IDS_MAIN_STATE_HIDE     "隐身"
-    IDS_MAIN_STATE_BUSY     "繁忙"
+    IDS_MAIN_STATE_BUSY     "忙碌"
     IDS_MAIN_SHOWNEWMSG     "提取新消息"
 END
 
