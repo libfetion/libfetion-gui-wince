@@ -513,8 +513,7 @@ void BuddyOpt::updateAccountInfo(long account_id)
 	treeWidget->SetItemText(accountItem, show_name);
 	setOnlineState(accountItem, ac_info->onlinestate);
 
-	int state = 0;
-	if (isOnlineStateChanged(old_online_state , new_online_state , &state))
+	if (old_show_name.CompareNoCase(show_name) || (old_online_state != new_online_state))
 	{
 		HTREEITEM groupItem = treeWidget->GetParentItem(accountItem);
 		if(groupItem)
@@ -522,26 +521,15 @@ void BuddyOpt::updateAccountInfo(long account_id)
 			Group_Info *group_info =(Group_Info *)treeWidget->GetItemData(groupItem);
 			if(!group_info)
 				return ;
-#if 0
-			groupItem->removeChild(accountItem);
-			if (group_info->online_no - 1 > 0)
-				groupItem->insertChild(group_info->online_no - 1, accountItem);
-			else
-				groupItem->insertChild(0, accountItem);
-#endif
-			if (state)			
-				group_info->online_no ++;
-			else 
-				group_info->online_no --;
+			int state = 0;
+			if(isOnlineStateChanged(old_online_state , new_online_state , &state))
+			{
+				if (state)			
+					group_info->online_no ++;
+				else 
+					group_info->online_no --;
+			}
 
-			updateGroupInfo(groupItem, true);
-		}
-	}
-	if(old_show_name.CompareNoCase(show_name))
-	{
-		HTREEITEM groupItem = treeWidget->GetParentItem(accountItem);
-		if(groupItem)
-		{
 			updateGroupInfo(groupItem, true);
 		}
 	}
