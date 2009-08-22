@@ -3,11 +3,8 @@
 // Used by WMLFppc.rc
 //
 #define IDD_WMLF_DIALOG                 102
-#define IDD_WMLF_DIALOG_WIDE            103
 #define IDD_WMLF_MAIN                   104
-#define IDD_WMLF_MAIN_WIDE              105
 #define IDD_WMLF_MSG                    108
-#define IDD_WMLF_MSG_WIDE               109
 #define IDR_MAINFRAME                   128
 #define IDR_MENU_BUDDY                  131
 #define IDB_BITMAP_AWAY                 133
@@ -69,7 +66,6 @@
 #define IDC_EDIT_FIND                   1035
 #define IDC_BTN_FIND                    1036
 #define IDC_BTN_ADD                     1037
-#define IDC_GRP_INFO                    1038
 #define IDC_HEAD_PIC                    1039
 #define IDC_INFO_NAME                   1040
 #define IDC_INFO_SIGN                   1041
@@ -213,7 +209,6 @@
 #define IDM_MAIN_SET_ONLINE             32872
 #define ID_32873                        32873
 #define IDM_MAIN_CLEAN                  32874
-
 
 // Next default values for new objects
 // 

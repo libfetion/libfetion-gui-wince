@@ -479,9 +479,6 @@ void FxMainWin::OnSize(UINT /*nType*/, int /*cx*/, int /*cy*/)
         int xIDC_HEAD_PIC, yIDC_HEAD_PIC, wIDC_HEAD_PIC, hIDC_HEAD_PIC;
         int xIDC_INFO_NAME, yIDC_INFO_NAME, wIDC_INFO_NAME, hIDC_INFO_NAME;
         int xIDC_INFO_SIGN, yIDC_INFO_SIGN, wIDC_INFO_SIGN, hIDC_INFO_SIGN;
-        int xtxtFind, ytxtFind, wtxtFind, htxtFind;
-        int xbtnFind, ybtnFind, wbtnFind, hbtnFind;
-        int xbtnAdd, ybtnAdd, wbtnAdd, hbtnAdd;
         int xtvBuddy, ytvBuddy, wtvBuddy, htvBuddy;
 
 	    RECT rcCtl;
@@ -501,36 +498,16 @@ void FxMainWin::OnSize(UINT /*nType*/, int /*cx*/, int /*cy*/)
         
         xIDC_INFO_NAME = xIDC_HEAD_PIC + DRA::SCALEX(36);
         yIDC_INFO_NAME = yIDC_HEAD_PIC;
-        wIDC_INFO_NAME = DRA::SCALEX(100);
+        wIDC_INFO_NAME = wgrpInfo - xIDC_INFO_NAME - DRA::SCALEY(4);
         hIDC_INFO_NAME = DRA::SCALEY(16);
 
         xIDC_INFO_SIGN = xIDC_INFO_NAME;
         yIDC_INFO_SIGN = yIDC_INFO_NAME + hIDC_INFO_NAME + DRA::SCALEY(2);
-        wIDC_INFO_SIGN = wgrpInfo - xIDC_INFO_SIGN - DRA::SCALEY(4);
+        wIDC_INFO_SIGN = wIDC_INFO_NAME;
         hIDC_INFO_SIGN = DRA::SCALEY(16);
 
-        xtxtFind = rcCtl.left;
-        ytxtFind = rcCtl.top + ygrpInfo + hgrpInfo + DRA::SCALEY(2);
-        wtxtFind = wgrpInfo - DRA::SCALEX(2 * 16) - DRA::SCALEX(3);
-
-#if !defined(WIN32_PLATFORM_WFSP)
-        htxtFind = DRA::SCALEY(20);
-#else
-        htxtFind = 0;
-#endif
-        xbtnFind = rcCtl.left + wtxtFind + DRA::SCALEY(2);
-        ybtnFind = ytxtFind;
-        wbtnFind = DRA::SCALEX(16);
-        
-        hbtnFind = htxtFind == 0 ? 0 : DRA::SCALEY(16);
-
-        xbtnAdd = rcCtl.left + wtxtFind + wbtnFind + DRA::SCALEX(3);
-        ybtnAdd = ytxtFind;
-        wbtnAdd = wbtnFind;
-        hbtnAdd = hbtnFind;
-
         xtvBuddy = rcCtl.left;
-        ytvBuddy = rcCtl.top + ytxtFind + htxtFind + DRA::SCALEY(2);
+        ytvBuddy = rcCtl.top + hgrpInfo + DRA::SCALEY(2);
         wtvBuddy = wgrpInfo;
         htvBuddy = rcCtl.bottom - ytvBuddy;
 
@@ -545,15 +522,6 @@ void FxMainWin::OnSize(UINT /*nType*/, int /*cx*/, int /*cy*/)
 
         hwndctl = ::GetDlgItem(this->m_hWnd, IDC_INFO_SIGN);
         ::MoveWindow(hwndctl, xIDC_INFO_SIGN, yIDC_INFO_SIGN, wIDC_INFO_SIGN, hIDC_INFO_SIGN, false);
-
-        hwndctl = ::GetDlgItem(this->m_hWnd, IDC_EDIT_FIND);
-        ::MoveWindow(hwndctl, xtxtFind, ytxtFind, wtxtFind, htxtFind, false);
-
-        hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BTN_FIND);
-        ::MoveWindow(hwndctl, xbtnFind, ybtnFind, wbtnFind, hbtnFind, false);
-
-        hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BTN_ADD);
-        ::MoveWindow(hwndctl, xbtnAdd, ybtnAdd, wbtnAdd, hbtnAdd, false);
 
         hwndctl = ::GetDlgItem(this->m_hWnd, IDC_TREE_BUDDY);
         ::MoveWindow(hwndctl, xtvBuddy, ytvBuddy, wtvBuddy, htvBuddy, false);
