@@ -18,9 +18,14 @@
 #define I_MEETING 10
 #define I_EXAWAY 11
 #define I_NUM_PRIMITIVES 12
-#define I_QUN 13
-#define I_FLICK 14
-#define I_END 15
+#define I_ONLINE_M 13
+#define I_AWAY_M 14
+#define I_BUSY_M 15
+#define I_QUN 16
+#define I_FLICK 17
+#define I_END 18
+
+#define	MOBILE_LOGIN	0x020
 
 class BuddyOpt
 {

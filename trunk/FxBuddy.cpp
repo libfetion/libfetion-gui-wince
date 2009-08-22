@@ -349,13 +349,20 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account, CString & name, 
 	Account_Info *ac_info = new Account_Info;
 	ac_info->accountName = name;
 	ac_info->accountID = account->id;
-	ac_info->onlinestate = online_state;
 	ac_info->isUpdate = FALSE;
-
+    if (fx_islogin_by_mobile(account))
+	{         
+		//mobile login
+		ac_info->onlinestate = online_state + MOBILE_LOGIN;
+	}
+	else
+	{        
+		ac_info->onlinestate = online_state;
+	} 
 	//notify: set the group icon
 	HTREEITEM accountItem = treeWidget->InsertItem(name, 0, 0, groupItem);
 	treeWidget->SetItemData(accountItem,(DWORD)ac_info); 
-	setOnlineState(accountItem, online_state);
+	setOnlineState(accountItem, ac_info->onlinestate);
 
 //	setTipsOfAccount(accountItem, account);
 
@@ -425,7 +432,13 @@ static BOOL isonline(int state)
 			state != FX_STATUS_WAITING_AUTH &&
 			state != FX_STATUS_REFUSE &&
 			state != FX_STATUS_BLACK &&
-			state != FX_STATUS_MOBILE ) 
+			state != FX_STATUS_MOBILE &&
+			state != FX_STATUS_OFFLINE + MOBILE_LOGIN && 
+			state != 0  + MOBILE_LOGIN&&
+			state != FX_STATUS_WAITING_AUTH + MOBILE_LOGIN &&
+			state != FX_STATUS_REFUSE + MOBILE_LOGIN &&
+			state != FX_STATUS_BLACK + MOBILE_LOGIN &&
+			state != FX_STATUS_MOBILE + MOBILE_LOGIN ) 
 		return true;
 	else
 		return false;
@@ -489,6 +502,11 @@ void BuddyOpt::updateAccountInfo(long account_id)
 
 	int old_online_state = ac_info->onlinestate;
 	int new_online_state = fx_get_online_status_by_account(account);
+    if (fx_islogin_by_mobile(account))
+	{         
+		//mobile login
+		new_online_state = new_online_state + MOBILE_LOGIN;
+	} 
 	ac_info->onlinestate = new_online_state;
 
 	CString old_show_name = treeWidget->GetItemText(accountItem);
@@ -645,7 +663,7 @@ int BuddyOpt::init_icon(void)
 	//m_imagelist.Create(16,16,0,13,18); 
 	//m_imagelist.SetBkColor (RGB(1,1,1));
 
-	m_imagelist.Create(16,16,0,15,18); 
+	m_imagelist.Create(16,16,0,18,21);
 	pBitmap[I_OFFLINE].LoadBitmapW(IDB_BITMAP_OFFLINE);
 	pBitmap[I_BLACK].LoadBitmapW(IDB_BITMAP_BLACK);
 	pBitmap[I_MOBILE].LoadBitmapW(IDB_BITMAP_MOBILE);
@@ -659,11 +677,13 @@ int BuddyOpt::init_icon(void)
 	pBitmap[I_MEETING].LoadBitmapW(IDB_BITMAP_MEET); 
 	pBitmap[I_EXAWAY].LoadBitmapW(IDB_BITMAP_EXAWAY);
 	pBitmap[I_NUM_PRIMITIVES].LoadBitmapW(IDB_BITMAP_NUMP);
+	pBitmap[I_ONLINE_M].LoadBitmapW(IDB_BITMAP_ONLINE_M);
+	pBitmap[I_AWAY_M].LoadBitmapW(IDB_BITMAP_AWAY_M);
+	pBitmap[I_BUSY_M].LoadBitmapW(IDB_BITMAP_BUSY_M);
 	pBitmap[I_QUN].LoadBitmapW(IDB_BITMAP_QUN);
-//	pBitmap[I_FLICK].LoadBitmapW(IDB_BITMAP_MOBILE);
-		pBitmap[I_FLICK].LoadBitmapW(IDB_BITMAP_FLICK);
+	pBitmap[I_FLICK].LoadBitmapW(IDB_BITMAP_FLICK);
 	
-	for(int i = 0; i < I_END-1; i++) 
+	for(int i = 0; i < I_END; i++) 
 		m_imagelist.Add(&pBitmap[i], RGB(255,255,255)); 
 	treeWidget->SetImageList (&m_imagelist, TVSIL_NORMAL); 
 #endif
@@ -712,8 +732,24 @@ int BuddyOpt::getOnlineIcon(int flag)
 	case FX_STATUS_EXTENDED_AWAY:
 		res = I_EXAWAY;
 		break;
+    case FX_STATUS_UNSET:
 	case FX_STATUS_NUM_PRIMITIVES:
 		res = I_NUM_PRIMITIVES;
+		break;
+	case FX_STATUS_ONLINE + MOBILE_LOGIN:
+		res = I_ONLINE_M;
+		break;
+	case FX_STATUS_DINNER + MOBILE_LOGIN:
+	case FX_STATUS_AWAY + MOBILE_LOGIN:
+	case FX_STATUS_EXTENDED_AWAY + MOBILE_LOGIN:
+	case FX_STATUS_NUM_PRIMITIVES + MOBILE_LOGIN:
+    case FX_STATUS_UNSET + MOBILE_LOGIN:
+		res = I_AWAY_M;
+		break;
+	case FX_STATUS_PHONE + MOBILE_LOGIN:
+	case FX_STATUS_MEETING + MOBILE_LOGIN:
+	case FX_STATUS_BUSY + MOBILE_LOGIN:
+		res = I_BUSY_M;
 		break;
 	}
 	return res;
@@ -888,39 +924,49 @@ void BuddyOpt::updateGroupInfo(HTREEITEM hGroupItem, bool bAnyway)
     }
 }
 
-// 做排序用，值越大则应该排的越前
+// 做排序用，值越小则应该排的越前
 static int GetSortValue(int iOnlineState)
 {
     switch(iOnlineState)
     {
     case FX_STATUS_ONLINE:
         return 0;
-    case FX_STATUS_BUSY:
-        return 5;
-    case FX_STATUS_AWAY:
-    case FX_STATUS_EXTENDED_AWAY:
-        return 10;
-    case FX_STATUS_MEETING:
-        return 15;
+	case FX_STATUS_ONLINE + MOBILE_LOGIN:
+		return 5;
     case FX_STATUS_PHONE:
+        return 10;
+    case FX_STATUS_BUSY:
+    case FX_STATUS_MEETING:
         return 20;
+	case FX_STATUS_PHONE + MOBILE_LOGIN:
+	case FX_STATUS_MEETING + MOBILE_LOGIN:
+	case FX_STATUS_BUSY + MOBILE_LOGIN:
+		return 25;
+	case FX_STATUS_AWAY:
+    case FX_STATUS_EXTENDED_AWAY:
     case FX_STATUS_DINNER:
-        return 25;
+        return 30;
     case FX_STATUS_UNSET:
     case FX_STATUS_NUM_PRIMITIVES:
-        return 30;
-    case FX_STATUS_OFFLINE:
-        return 35;
-    case FX_STATUS_MOBILE:
         return 40;
-    case FX_STATUS_WAITING_AUTH:
-        return 45;
-    case FX_STATUS_REFUSE:
+	case FX_STATUS_DINNER + MOBILE_LOGIN:
+	case FX_STATUS_AWAY + MOBILE_LOGIN:
+	case FX_STATUS_EXTENDED_AWAY + MOBILE_LOGIN:
+    case FX_STATUS_UNSET + MOBILE_LOGIN:
+	case FX_STATUS_NUM_PRIMITIVES + MOBILE_LOGIN:
+		return 45;
+	case FX_STATUS_OFFLINE:
         return 50;
+    case FX_STATUS_MOBILE:
+        return 60;
+    case FX_STATUS_WAITING_AUTH:
+        return 70;
+    case FX_STATUS_REFUSE:
+        return 90;
     case FX_STATUS_BLACK:
         return 100;
     default :
-        return 0;
+        return 80;
     }
 }
 static int CALLBACK SortBuddyFunc(LPARAM lbuddy1, LPARAM lbuddy2, LPARAM lParamSort)

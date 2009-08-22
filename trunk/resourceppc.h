@@ -47,6 +47,9 @@
 #define IDI_ICON_NOTIFY                 173
 #define IDR_MSG_POP_MENU                174
 #define IDR_ONLINESOUND                 176
+#define IDB_BITMAP_ONLINE_M             177
+#define IDB_BITMAP_AWAY_M               178
+#define IDB_BITMAP_BUSY_M               179
 #define IDC_STATIC_1                    200
 #define IDC_BI_CITY                     200
 #define IDC_MOBILE_NO                   1000
@@ -211,11 +214,12 @@
 #define ID_32873                        32873
 #define IDM_MAIN_CLEAN                  32874
 
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        177
+#define _APS_NEXT_RESOURCE_VALUE        180
 #define _APS_NEXT_COMMAND_VALUE         32875
 #define _APS_NEXT_CONTROL_VALUE         1083
 #define _APS_NEXT_SYMED_VALUE           101

@@ -65,6 +65,9 @@
 #define IDR_MENU_ABOUT                  172
 #define IDR_MSG_POP_MENU                174
 #define IDR_ONLINESOUND                 175
+#define IDB_BITMAP_ONLINE_M             177
+#define IDB_BITMAP_AWAY_M               178
+#define IDB_BITMAP_BUSY_M               179
 #define IDC_BI_CITY                     200
 #define IDC_MOBILE_NO                   1000
 #define IDC_STATIC_ABOUT                1000
@@ -216,7 +219,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        176
+#define _APS_NEXT_RESOURCE_VALUE        180
 #define _APS_NEXT_COMMAND_VALUE         32875
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101
