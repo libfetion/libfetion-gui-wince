@@ -749,7 +749,7 @@ BOOL FxMainWin::showMsgDlg(HTREEITEM hItem)
 
     // 更正点击后头像消息的BUG
 	m_BuddyOpt->setOnlineState(hItem);
-	view.SetItemImage(view.GetParentItem(hItem), 13, 13);
+	view.SetItemImage(view.GetParentItem(hItem), I_QUN, I_QUN);
 
 	if (filker.GetCount() == 0)
 			KillTimer(TIMER_NEWMSG);
@@ -848,7 +848,7 @@ void FxMainWin::OnTimer(UINT_PTR nIDEvent)
 {
 switch(nIDEvent)
 	{
-	case TIMER_NEWMSG:  //1/3秒刷新一次
+	case TIMER_NEWMSG:  //1/1秒刷新一次
 		filker_newmsg();
 		break;
 	case TIMER_RELOGIN:
@@ -874,12 +874,11 @@ void FxMainWin::filker_newmsg()
 		HTREEITEM hItem = filker.GetAt(pos);
 		if (state)
 		{
-			//fix: bad code 14 is empty icon. 13 is qun icon
-			view.SetItemImage(hItem, 14, 14);
-			view.SetItemImage(view.GetParentItem(hItem), 14, 14);
+			view.SetItemImage(hItem, I_FLICK, I_FLICK);
+			view.SetItemImage(view.GetParentItem(hItem), I_FLICK, I_FLICK);
 		} else {
 			m_BuddyOpt->setOnlineState(hItem);
-			view.SetItemImage(view.GetParentItem(hItem), 13, 13);
+			view.SetItemImage(view.GetParentItem(hItem), I_QUN, I_QUN);
 		}
 
 	}
@@ -1018,7 +1017,7 @@ void FxMainWin::addNewMessage(long account_id, CString newmsg /* ="" */)
 	if (accountItem)
 	{
 		if (filker.GetCount() == 0)
-			SetTimer(TIMER_NEWMSG, 300,NULL);
+			SetTimer(TIMER_NEWMSG, 500,NULL);
 
         // 更正一个好友多条消息时要打开多次对话框才会停止闪烁的BUG
         if(filker.Find(accountItem) == NULL)
