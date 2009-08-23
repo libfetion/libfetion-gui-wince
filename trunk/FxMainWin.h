@@ -124,6 +124,7 @@ public:
     CString GetStartupPath(void);
     // 当前登录用户的ID
     long m_lAccountID;
+	CString m_mobile_no;
     afx_msg void OnBdViewinfo();
     afx_msg void OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu);
 private:
@@ -160,4 +161,6 @@ protected:
 	virtual void OnCancel();
 public:
 	CString GetUserStateString(void);
+	UINT GetSettingFromIni(LPCTSTR lpKeyName, int nDefault = 0);
+	BOOL SetSettingToIni(LPCTSTR lpKeyName, UINT uValue);
 };

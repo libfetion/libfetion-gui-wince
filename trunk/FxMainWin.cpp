@@ -15,6 +15,7 @@
 #include "Notify.h"
 #include "BuddyInfoDlg.h"
 #include "About.h"
+#include "IniWR.h"
 
 #ifdef M8
 #include "M8Misc.h"
@@ -202,49 +203,8 @@ FxMainWin::FxMainWin(CWnd* pParent /*=NULL*/)
     , m_strSign(_T(""))
     , m_strStartupPath(_T(""))
     , m_lAccountID(0)
+	, m_mobile_no(_T(""))
 {
-	{
-		//读取设置信息
-		CString buf;
-
-		//新消息提醒
-		buf.Empty();
-		Lib_ReadReg(_T("Sound"),buf);
-		if(buf.IsEmpty()||(buf.CompareNoCase(_T("TRUE"))==0))
-			m_bSound=TRUE;
-		else if(buf.CompareNoCase(_T("FALSE"))==0)
-			m_bSound=FALSE;
-
-		//震动提醒
-		buf.Empty();
-		Lib_ReadReg(_T("Vibrate"),buf);
-		if (buf.IsEmpty()||(buf.CompareNoCase(_T("FALSE"))==0))
-			m_bVibrate=FALSE;
-		else if (buf.CompareNoCase(_T("TRUE"))==0)
-		{
-			m_bVibrate=TRUE;
-		}
-
-		//上线提醒
-		buf.Empty();
-		Lib_ReadReg(_T("Online"),buf);
-		if (buf.IsEmpty()||(buf.CompareNoCase(_T("FALSE"))==0))
-			m_bOnline=FALSE;
-		else if (buf.CompareNoCase(_T("TRUE"))==0)
-		{
-			m_bOnline=TRUE;
-		}
-
-		//无提醒
-		buf.Empty();
-		Lib_ReadReg(_T("Silence"),buf);
-		if (buf.IsEmpty()||(buf.CompareNoCase(_T("FALSE"))==0))
-			m_bSilence=FALSE;
-		else if (buf.CompareNoCase(_T("TRUE"))==0)
-		{
-			m_bSilence=TRUE;
-		}
-	}
 }
 
 FxMainWin::~FxMainWin()
@@ -429,8 +389,6 @@ BOOL FxMainWin::OnInitDialog()
 //#endif // WIN32_PLATFORM_WFSP
 	// TODO: 在此添加额外的初始化代码
     
-    GetStartupPath();
-
 	SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*2, NULL);
 	
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -438,7 +396,9 @@ BOOL FxMainWin::OnInitDialog()
 
 void FxMainWin::do_login()
 {
+    GetStartupPath();
 	loginDlg = new CLoginDlg;
+	loginDlg->m_strStartupPath = m_strStartupPath;
 	loginDlg->DoModal();
 
 	//if login false, will exit the application
@@ -461,8 +421,20 @@ void FxMainWin::do_login()
 	m_strNickNameShow = m_strNickName + GetUserStateString();
     m_strSign = ConvertUtf8ToUtf16(pInfo->impresa);
     CStringA tmp_id = ConvertUtf16ToUtf8(loginDlg->m_fetion_id);
+	m_mobile_no = loginDlg->m_mobile_no;
 	m_lAccountID = atol(tmp_id.GetBuffer());
 
+	{
+		//读取设置信息
+		//新消息提醒
+		m_bSound = GetSettingFromIni(_T("Sound"), 1);
+		//震动提醒
+		m_bVibrate = GetSettingFromIni(_T("Vibrate"));
+		//上线提醒
+		m_bOnline = GetSettingFromIni(_T("Online"));
+		//无提醒
+		m_bSilence = GetSettingFromIni(_T("Silence"));
+	}
 #endif
 }
 
@@ -1095,19 +1067,13 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, CString szBuddyName)
 void FxMainWin::OnMainSetVibr()
 {
     m_bVibrate = !m_bVibrate;
-	if(m_bVibrate)
-		Lib_WriteReg(_T("Vibrate"),_T("TRUE"));
-	else
-		Lib_WriteReg(_T("Vibrate"),_T("FALSE"));
+	SetSettingToIni(_T("Vibrate"), m_bVibrate);
 }
 
 void FxMainWin::OnMainSetSilence()
 {
     m_bSilence = !m_bSilence;
-	if(m_bSilence)
-		Lib_WriteReg(_T("Silence"),_T("TRUE"));
-	else
-		Lib_WriteReg(_T("Silence"),_T("FALSE"));
+	SetSettingToIni(_T("Silence"), m_bSilence);
 }
 
 void FxMainWin::OnUpdateMainSetSilence(CCmdUI *pCmdUI)
@@ -1123,10 +1089,7 @@ void FxMainWin::OnUpdateMainSetVibr(CCmdUI *pCmdUI)
 void FxMainWin::OnMainSetOnline()
 {
 	m_bOnline=!m_bOnline;
-	if(m_bOnline)
-		Lib_WriteReg(_T("Online"),_T("TRUE"));
-	else
-		Lib_WriteReg(_T("Online"),_T("FALSE"));
+	SetSettingToIni(_T("Online"), m_bOnline);
 }
 
 void FxMainWin::OnUpdateMainSetOnline(CCmdUI *pCmdUI)
@@ -1276,10 +1239,7 @@ void FxMainWin::OnBdRmblacklist()
 void FxMainWin::OnMainSetNosound()
 {
     m_bSound = !m_bSound;
-	if(m_bSound)
-		Lib_WriteReg(_T("Sound"),_T("TRUE"));
-	else
-		Lib_WriteReg(_T("Sound"),_T("FALSE"));
+	SetSettingToIni(_T("Sound"), m_bSound);
 }
 
 BOOL FxMainWin::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
@@ -1408,8 +1368,8 @@ void FxMainWin::OnNMClickTreeBuddy(NMHDR *pNMHDR, LRESULT *pResult)
 void FxMainWin::OnMainClean()
 {
 	// TODO: 在此添加命令处理程序代码
-	Lib_WriteReg(_T("MOBILE"), _T(""));
-	Lib_WriteReg(_T("PWD"), _T(""));
+	CIniWR hIni;
+	hIni.WritePrivateProfileString(m_mobile_no, _T("PassWord"), _T(""), m_strStartupPath + _T("\\Users\\") + m_mobile_no + _T("\\") + m_mobile_no + _T(".ini"));
 }
 
 void FxMainWin::OnOK()
@@ -1449,4 +1409,16 @@ CString FxMainWin::GetUserStateString(void)
         break;
     }
 	return strUserState;
+}
+
+UINT FxMainWin::GetSettingFromIni(LPCTSTR lpKeyName, int nDefault)
+{
+	CIniWR hIni;
+	return hIni.GetPrivateProfileInt(_T("OPTION"), lpKeyName, nDefault, m_strStartupPath + _T("\\Users\\") + m_mobile_no + _T("\\") + m_mobile_no + _T(".ini"));
+}
+
+BOOL FxMainWin::SetSettingToIni(LPCTSTR lpKeyName, UINT uValue)
+{
+	CIniWR hIni;
+	return hIni.WritePrivateProfileInt(_T("OPTION"), lpKeyName, uValue, m_strStartupPath + _T("\\Users\\") + m_mobile_no + _T("\\") + m_mobile_no + _T(".ini"));
 }

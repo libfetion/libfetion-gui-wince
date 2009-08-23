@@ -62,7 +62,7 @@
 #define IDC_SEND                        1021
 #define IDC_CHANGE                      1024
 #define IDC_NET_STATE                   1028
-#define IDC_REMACC                      1033
+#define IDC_REMPASS                     1033
 #define IDC_EDIT_FIND                   1035
 #define IDC_BTN_FIND                    1036
 #define IDC_BTN_ADD                     1037
@@ -104,6 +104,7 @@
 #define IDC_FB_CBO_GROUP                1080
 #define IDC_FB_STATIC_INFO              1081
 #define IDC_STATIC_ABOUT                1082
+#define IDC_COMBO_USERS                 1084
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_MENU_32773                   32773
@@ -153,7 +154,7 @@
 #define ID_32816                        32816
 #define IDM_LOGIN_LOGIN                 32817
 #define IDM_LOGIN_REMPASS               32818
-#define IDM_LGOIN_AUTODIAL              32819
+#define IDM_LOGIN_OFFLINE               32819
 #define IDM_LOGIN_EXIT                  32820
 #define IDM_CANCEL                      32821
 #define IDM_LOGIN                       32822
@@ -216,7 +217,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        180
 #define _APS_NEXT_COMMAND_VALUE         32875
-#define _APS_NEXT_CONTROL_VALUE         1083
+#define _APS_NEXT_CONTROL_VALUE         1085
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

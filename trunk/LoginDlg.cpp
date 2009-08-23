@@ -11,6 +11,7 @@
 #include "LoginDlg.h"
 
 #include "convert_charset.h"
+#include "IniWR.h"
 
 #ifdef M8
 #include "M8Misc.h"
@@ -45,14 +46,14 @@ CLoginDlg::CLoginDlg(CWnd* pParent /*=NULL*/)
 
 void CLoginDlg::DoDataExchange(CDataExchange* pDX)
 {
-    CDialog::DoDataExchange(pDX);
-    DDX_Text(pDX, IDC_MOBILE_NO, m_mobile_no);
-    DDV_MaxChars(pDX, m_mobile_no, 11);
-    DDX_Text(pDX, IDC_PWD, m_passwd);
-    DDX_Text(pDX, IDC_LOGIN_STATE, m_login_state);
-    DDX_Control(pDX, IDC_REMACC, RemAccount);
-    DDX_Check(pDX, IDC_REMACC, m_bRemPass);
-    DDX_Check(pDX, IDC_LOGIN_OFFLINE, m_bLoginOffLine);
+	CDialog::DoDataExchange(pDX);
+	DDV_MaxChars(pDX, m_mobile_no, 11);
+	DDX_Text(pDX, IDC_PWD, m_passwd);
+	DDX_Text(pDX, IDC_LOGIN_STATE, m_login_state);
+	DDX_Control(pDX, IDC_REMPASS, RemPass);
+	DDX_Check(pDX, IDC_REMPASS, m_bRemPass);
+	DDX_Check(pDX, IDC_LOGIN_OFFLINE, m_bLoginOffLine);
+	DDX_Control(pDX, IDC_COMBO_USERS, m_cboUsersList);
 }
 
 BEGIN_MESSAGE_MAP(CLoginDlg, CDialog)
@@ -66,9 +67,11 @@ BEGIN_MESSAGE_MAP(CLoginDlg, CDialog)
 	ON_COMMAND(IDM_LOGIN, &CLoginDlg::OnLogin)
 	ON_COMMAND(IDM_LOGIN_CANCEL, &CLoginDlg::OnLoginCancel)
 	ON_COMMAND(IDM_LOGIN_REMPASS, &CLoginDlg::OnRemPassChanged)
+	ON_COMMAND(IDM_LOGIN_OFFLINE, &CLoginDlg::OnOffLineChanged)
 	ON_COMMAND(IDM_CANCEL, &CLoginDlg::OnIDM_Cancel)
-    ON_UPDATE_COMMAND_UI(IDM_LOGIN_REMPASS, &CLoginDlg::OnRemPassUpdateUI)
 //#endif // WIN32_PLATFORM_WFSP
+ON_CBN_SELCHANGE(IDC_COMBO_USERS, &CLoginDlg::OnCbnSelchangeComboUsers)
+    ON_WM_INITMENUPOPUP()
 END_MESSAGE_MAP()
 
 // CLoginDlg 消息处理程序
@@ -95,26 +98,8 @@ BOOL CLoginDlg::OnInitDialog()
 #endif
 	// TODO: 在此添加额外的初始化代码
 	
-
-	Lib_ReadReg(_T("MOBILE"), m_mobile_no);
-	Lib_ReadReg(_T("PWD"), m_passwd);
-	Lib_ReadReg(_T("S_ADDR"), m_server_addr);
-	//读取登陆状态信息
-	CString buf;
-
-	buf.Empty();
-	Lib_ReadReg(_T("HideLogin"),buf);
-	if(buf.IsEmpty()||(buf.CompareNoCase(_T("FALSE"))==0))
-		m_bLoginOffLine=FALSE;
-	else if(buf.CompareNoCase(_T("TRUE"))==0)
-		m_bLoginOffLine=TRUE;
-
-	if (!m_passwd.IsEmpty() || !m_mobile_no.IsEmpty())
-	{
-		m_bRemPass = true;
-
-		this->UpdateData(FALSE);
-	}
+	InitUsersList();
+	GetSelectedUserOption();
 
 #ifdef WIN32_PLATFORM_WFSP
     //重写后退键，引发WM_HOTKEY消息
@@ -139,11 +124,11 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
     int xIDC_LOGO, yIDC_LOGO, wIDC_LOGO, hIDC_LOGO;
     int xIDC_STATIC_ID, yIDC_STATIC_ID, wIDC_STATIC_ID, hIDC_STATIC_ID;
     int xIDC_STATIC_PWD, yIDC_STATIC_PWD, wIDC_STATIC_PWD, hIDC_STATIC_PWD;
-    int xIDC_MOBILE_NO, yIDC_MOBILE_NO, wIDC_MOBILE_NO, hIDC_MOBILE_NO;
+    int xIDC_COMBO_USERS, yIDC_COMBO_USERS, wIDC_COMBO_USERS, hIDC_COMBO_USERS;
     int xIDC_PWD, yIDC_PWD, wIDC_PWD, hIDC_PWD;
     int xIDC_LOGIN_STATE, yIDC_LOGIN_STATE, wIDC_LOGIN_STATE, hIDC_LOGIN_STATE;
     int xIDC_LOGIN, yIDC_LOGIN, wIDC_LOGIN, hIDC_LOGIN;
-    int xIDC_REMACC, yIDC_REMACC, wIDC_REMACC, hIDC_REMACC;
+    int xIDC_REMPASS, yIDC_REMPASS, wIDC_REMPASS, hIDC_REMPASS;
     int xIDC_LOGIN_OFFLINE, yIDC_LOGIN_OFFLINE, wIDC_LOGIN_OFFLINE, hIDC_LOGIN_OFFLINE;
     
     int iHeight, iWidth;
@@ -169,29 +154,29 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
     wIDC_STATIC_PWD = wIDC_STATIC_ID;
     hIDC_STATIC_PWD = hIDC_STATIC_ID;
 
-    xIDC_MOBILE_NO = xIDC_STATIC_ID + wIDC_STATIC_ID + iMargin;
-    yIDC_MOBILE_NO = yIDC_STATIC_ID;
-    wIDC_MOBILE_NO = iWidth - xIDC_MOBILE_NO - iMargin;
-    hIDC_MOBILE_NO = hIDC_STATIC_ID;
+    xIDC_COMBO_USERS = xIDC_STATIC_ID + wIDC_STATIC_ID + iMargin;
+    yIDC_COMBO_USERS = yIDC_STATIC_ID;
+    wIDC_COMBO_USERS = iWidth - xIDC_COMBO_USERS - DRA::SCALEX(10);
+    hIDC_COMBO_USERS = hIDC_STATIC_ID * 5;
 
-    xIDC_PWD = xIDC_MOBILE_NO;
+    xIDC_PWD = xIDC_COMBO_USERS;
     yIDC_PWD = yIDC_STATIC_PWD;
-    wIDC_PWD = wIDC_MOBILE_NO;
-    hIDC_PWD = hIDC_MOBILE_NO;
+    wIDC_PWD = wIDC_COMBO_USERS;
+    hIDC_PWD = hIDC_STATIC_ID;
 
 
-    xIDC_REMACC = xIDC_STATIC_ID + iMargin;
-    yIDC_REMACC = yIDC_PWD + hIDC_PWD + iMargin;
-    wIDC_REMACC = DRA::SCALEX(80);
-    hIDC_REMACC = hIDC_MOBILE_NO;
+    xIDC_REMPASS = xIDC_STATIC_ID + iMargin;
+    yIDC_REMPASS = yIDC_PWD + hIDC_PWD + iMargin;
+    wIDC_REMPASS = DRA::SCALEX(80);
+    hIDC_REMPASS = hIDC_STATIC_ID;
 
-    xIDC_LOGIN_OFFLINE = xIDC_REMACC + wIDC_REMACC + iMargin + iMargin;
-    yIDC_LOGIN_OFFLINE = yIDC_REMACC;
-    wIDC_LOGIN_OFFLINE = wIDC_REMACC;
-    hIDC_LOGIN_OFFLINE = hIDC_REMACC;
+    xIDC_LOGIN_OFFLINE = xIDC_REMPASS + wIDC_REMPASS + iMargin + iMargin;
+    yIDC_LOGIN_OFFLINE = yIDC_REMPASS;
+    wIDC_LOGIN_OFFLINE = wIDC_REMPASS;
+    hIDC_LOGIN_OFFLINE = hIDC_REMPASS;
 
-	xIDC_LOGIN = xIDC_MOBILE_NO;
-    yIDC_LOGIN = yIDC_REMACC + hIDC_REMACC + iMargin;
+	xIDC_LOGIN = xIDC_COMBO_USERS;
+    yIDC_LOGIN = yIDC_REMPASS + hIDC_REMPASS + iMargin;
     wIDC_LOGIN = wIDC_STATIC_ID;
 #if defined(M8)
     hIDC_LOGIN = hIDC_STATIC_ID;// 应要求,隐藏按钮,如果需要按钮, 赋值 hIDC_STATIC_ID;
@@ -213,16 +198,16 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_STATIC_PWD);
     ::MoveWindow(hwndctl, xIDC_STATIC_PWD, yIDC_STATIC_PWD, wIDC_STATIC_PWD, hIDC_STATIC_PWD, false);
 
-    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_MOBILE_NO);
-    ::MoveWindow(hwndctl, xIDC_MOBILE_NO, yIDC_MOBILE_NO, wIDC_MOBILE_NO, hIDC_MOBILE_NO, false);
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_COMBO_USERS);
+    ::MoveWindow(hwndctl, xIDC_COMBO_USERS, yIDC_COMBO_USERS, wIDC_COMBO_USERS, hIDC_COMBO_USERS, false);
 
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_PWD);
     ::MoveWindow(hwndctl, xIDC_PWD, yIDC_PWD, wIDC_PWD, hIDC_PWD, false);
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_LOGIN);
     ::MoveWindow(hwndctl, xIDC_LOGIN, yIDC_LOGIN, wIDC_LOGIN, hIDC_LOGIN, false);
 
-    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_REMACC);
-    ::MoveWindow(hwndctl, xIDC_REMACC, yIDC_REMACC, wIDC_REMACC, hIDC_REMACC, false);
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_REMPASS);
+    ::MoveWindow(hwndctl, xIDC_REMPASS, yIDC_REMPASS, wIDC_REMPASS, hIDC_REMPASS, false);
 
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_LOGIN_OFFLINE);
     ::MoveWindow(hwndctl, xIDC_LOGIN_OFFLINE, yIDC_LOGIN_OFFLINE, wIDC_LOGIN_OFFLINE, hIDC_LOGIN_OFFLINE, false);
@@ -239,6 +224,8 @@ void CLoginDlg::OnBnClickedLogin()
 	CStringA fetion_id;
 	CStringA pwd;
 	CStringA server_addr;
+	CIniWR hIni;
+	CString strUser;
 
 	if(m_bIsLoging) {
 		return;
@@ -254,7 +241,10 @@ void CLoginDlg::OnBnClickedLogin()
 	this->m_LoginFlag = FALSE;
 	
 	this->UpdateData();
-    OnBnClickedRemAccount();
+
+	m_cboUsersList.GetWindowTextW(strUser.GetBuffer(12), 12);
+	strUser.ReleaseBuffer();
+	m_mobile_no = strUser;
 
 	if(this->m_mobile_no.IsEmpty()) {
 		this->m_login_state = _T("请输入手机号码");
@@ -278,12 +268,17 @@ void CLoginDlg::OnBnClickedLogin()
         goto fail;
     }
 #endif
-    this->m_login_state = _T("从服务器获取登陆信息...");
+	this->m_login_state = _T("从服务器获取登陆信息...");
 	this->UpdateData(FALSE);
 	this->UpdateWindow();
 
 	int netflag = 0;
-	m_fetion_id = GetFetionNoFromHttpsWeb(m_mobile_no, m_passwd, netflag);
+	m_fetion_id = GetFetionNoFromIni(m_mobile_no);
+	if(m_fetion_id.GetLength() != 9)
+	{
+		m_fetion_id = GetFetionNoFromHttpsWeb(m_mobile_no, m_passwd, netflag);
+	}
+
 	if(this->m_fetion_id.IsEmpty())
 	{
 		switch(netflag)
@@ -301,6 +296,7 @@ void CLoginDlg::OnBnClickedLogin()
 		}
 		goto fail;
 	}
+	WriteLoginUserToIni();
 
 	//fx_set_serve_address("221.130.45.208:8080");
 
@@ -318,10 +314,7 @@ void CLoginDlg::OnBnClickedLogin()
 	if(m_bLoginOffLine)
 	{
 		fx_set_login_status(FX_STATUS_OFFLINE);
-		Lib_WriteReg(_T("HideLogin"),_T("TRUE"));
 	}
-	else
-		Lib_WriteReg(_T("HideLogin"),_T("FALSE"));
 	fx_login(fetion_id.GetBuffer(), pwd.GetBuffer(),(My_EventListener), this);
 
 	m_dlgCommandBar.InsertMenuBar(IDR_LOGIN_CANCEL_MENU);
@@ -418,7 +411,8 @@ void  My_EventListener (int message, WPARAM wParam, LPARAM lParam, void* args)
 		loginDlg->m_LoginFlag = TRUE;
 		//after login success, we should save the fetion server address.
 		loginDlg->m_server_addr = ConvertUtf8ToUtf16(fx_get_serve_address());
-		Lib_WriteReg(_T("S_ADDR"), loginDlg->m_server_addr);
+		CIniWR hIni;
+		hIni.WritePrivateProfileString(_T("OPTION"), _T("ServerAddress"), loginDlg->m_server_addr, loginDlg->m_strStartupPath + _T("\\LibFetion.ini"));
 
 		::SendMessage(loginDlg->m_hWnd, WM_CLOSE, (WPARAM)bLoginFail, 0);
 
@@ -473,9 +467,11 @@ BOOL CLoginDlg::PreTranslateMessage(MSG* pMsg)
 	{
 		switch(pMsg->wParam)
 		{
+#if 0
 		case VK_RETURN: 
 			OnBnClickedLogin();
 			return TRUE;
+#endif
 		case VK_ESCAPE: 
 			return TRUE;
 			break;
@@ -492,22 +488,6 @@ BOOL CLoginDlg::PreTranslateMessage(MSG* pMsg)
 	}
 	return CDialog::PreTranslateMessage(pMsg);
 }
-
-long Lib_ReadReg(CString RegKey, CString &Buf);
-
-void CLoginDlg::OnBnClickedRemAccount()
-{
-	if (m_bRemPass)
-	{	
-		//this->UpdateData();
-		Lib_WriteReg(_T("MOBILE"), m_mobile_no);
-		Lib_WriteReg(_T("PWD"), m_passwd);
-	} else {
-		Lib_WriteReg(_T("MOBILE"), _T(""));
-		Lib_WriteReg(_T("PWD"), _T(""));
-	}
-}
-
 
 void CLoginDlg::OnLogin()
 {
@@ -594,9 +574,11 @@ void CLoginDlg::OnRemPassChanged()
     UpdateData(FALSE);
 }
 
-void CLoginDlg::OnRemPassUpdateUI(CCmdUI* cmdui)
+void CLoginDlg::OnOffLineChanged()
 {
-    cmdui->SetCheck(m_bRemPass);
+    UpdateData();
+    m_bLoginOffLine = !m_bLoginOffLine;
+    UpdateData(FALSE);
 }
 
 CString CLoginDlg::GetFetionNoFromHttpsWeb(CString strMobileNo, CString strPwd, int& netflag)
@@ -636,4 +618,153 @@ CString CLoginDlg::GetFetionNoFromHttpsWeb(CString strMobileNo, CString strPwd, 
 	FetionNo = strWeb.Mid(sip + 4, AtFetion - sip - 4);
 	netflag = 0;
 	return FetionNo;
+}
+
+void CLoginDlg::InitUsersList(void)
+{
+	WIN32_FIND_DATA FindFileData;
+	HANDLE hFind = INVALID_HANDLE_VALUE;
+	
+	m_cboUsersList.LimitText(11);
+	hFind = FindFirstFile(m_strStartupPath + _T("\\Users\\*.*"), &FindFileData);
+
+	if(INVALID_HANDLE_VALUE != hFind)
+	{
+		while(1)
+		{
+			CString strFileName = FindFileData.cFileName;
+			
+			if(FindFileData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
+			{
+				if(strFileName.GetLength() == 11)
+				{
+					m_cboUsersList.AddString(strFileName);
+				}
+			}
+			if(!FindNextFile(hFind, &FindFileData))
+			{
+				if(GetLastError() == ERROR_NO_MORE_FILES)
+				{
+					break;
+				}
+			}
+		}
+		FindClose(hFind);
+		hFind = INVALID_HANDLE_VALUE;
+	}
+	if(m_cboUsersList.GetCount() > 0)
+	{
+		m_cboUsersList.SetCurSel(0);
+	}
+
+	CIniWR hIni;
+	CString strLastUser;
+	hIni.GetString(_T("OPTION"), _T("LastUser"), strLastUser.GetBuffer(MAX_PATH), MAX_PATH, m_strStartupPath + _T("\\LibFetion.ini"));
+	strLastUser.ReleaseBuffer();
+	
+	for(int i = 0; i < m_cboUsersList.GetCount(); i++)
+	{
+		CString strMobileNo;
+		m_cboUsersList.GetLBText(i, strMobileNo);
+		if(0 == strLastUser.Compare(strMobileNo))
+		{
+			m_cboUsersList.SetCurSel(i);
+			break;
+		}
+	}
+	hIni.GetString(_T("OPTION"), _T("ServerAddress"), m_server_addr.GetBuffer(MAX_PATH), MAX_PATH, m_strStartupPath + _T("\\LibFetion.ini"));
+	m_server_addr.ReleaseBuffer();
+}
+
+void CLoginDlg::GetSelectedUserOption(void)
+{
+	if(m_cboUsersList.GetCount() == 0)
+	{
+		return;
+	}
+	
+	CString strMobileNo;
+
+	m_cboUsersList.GetLBText(m_cboUsersList.GetCurSel(), strMobileNo);
+	if(strMobileNo.GetLength() != 11)
+	{
+		return;
+	}
+
+	CIniWR hIni;
+	int nDefault = 0;
+
+	m_bRemPass = hIni.GetPrivateProfileInt(_T("OPTION"), _T("RemberPassWord"), nDefault, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
+	m_bLoginOffLine = hIni.GetPrivateProfileInt(_T("OPTION"), _T("LoginOffLine"), nDefault, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
+	if(m_bRemPass)
+	{
+		CString strRead;
+		hIni.GetString(strMobileNo, _T("PassWord"), strRead.GetBuffer(MAX_PATH), MAX_PATH, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
+		strRead.ReleaseBuffer();
+		m_passwd = strRead;
+	}
+	else
+	{
+		m_passwd = _T("");
+	}
+
+	this->UpdateData(FALSE);
+}
+
+void CLoginDlg::OnCbnSelchangeComboUsers()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	GetSelectedUserOption();
+}
+
+CString CLoginDlg::GetFetionNoFromIni(CString strMobileNo)
+{
+	CIniWR hIni;
+	CString strRead;
+
+	hIni.GetString(strMobileNo, _T("FetionID"), strRead.GetBuffer(MAX_PATH), MAX_PATH, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
+	strRead.ReleaseBuffer();
+	if(strRead.GetLength() == 9)
+	{
+		return strRead;
+	}
+	else
+	{
+		return _T("");
+	}
+}
+
+void CLoginDlg::WriteLoginUserToIni()
+{
+	CString strMobileNo = m_mobile_no;
+	CIniWR hIni;
+	hIni.WritePrivateProfileString(_T("OPTION"), _T("LastUser"), strMobileNo, m_strStartupPath + _T("\\LibFetion.ini"));
+
+	CreateDirectory(m_strStartupPath + _T("\\Users"), NULL);
+	CreateDirectory(m_strStartupPath + _T("\\Users\\") + strMobileNo, NULL);
+
+	hIni.WritePrivateProfileString(strMobileNo, _T("FetionID"), m_fetion_id, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
+	hIni.WritePrivateProfileInt(_T("OPTION"), _T("RemberPassWord"), m_bRemPass, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
+	
+	CString strWrite;
+	if(m_bRemPass)
+	{
+		strWrite = m_passwd;
+	}
+	else
+	{
+		strWrite = _T("");
+	}
+	hIni.WritePrivateProfileString(strMobileNo, _T("PassWord"), strWrite, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
+
+	hIni.WritePrivateProfileInt(_T("OPTION"), _T("LoginOffLine"), m_bLoginOffLine, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
+}
+
+void CLoginDlg::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
+{
+	CDialog::OnInitMenuPopup(pPopupMenu, nIndex, bSysMenu);
+
+	UpdateData();
+	pPopupMenu->CheckMenuItem(IDM_LOGIN_REMPASS, m_bRemPass ? MF_CHECKED : MF_UNCHECKED);
+	pPopupMenu->CheckMenuItem(IDM_LOGIN_OFFLINE, m_bLoginOffLine ? MF_CHECKED : MF_UNCHECKED);
 }

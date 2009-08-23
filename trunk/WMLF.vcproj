@@ -880,6 +880,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IniWR.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\LoginDlg.cpp"
 				>
 			</File>
@@ -1026,6 +1030,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FxMsgDlg.h"
+				>
+			</File>
+			<File
 				RelativePath=".\LoginDlg.h"
 				>
 			</File>
@@ -1117,6 +1125,18 @@
 			</File>
 			<File
 				RelativePath=".\res\misc\LibFetion_Big.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\onlineSmall\m_away.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\onlineSmall\m_busy.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\onlineSmall\m_online.bmp"
 				>
 			</File>
 			<File
