@@ -75,6 +75,7 @@
 #define IDC_LOGIN                       1002
 #define IDC_STATIC_PWD                  1003
 #define IDC_STATIC_ID                   1004
+#define IDC_STATIC_NET                  1005
 #define IDC_LOGIN_STATE                 1006
 #define IDC_TREE_BUDDY                  1011
 #define IDC_MSG_BROWSER                 1013
@@ -124,6 +125,7 @@
 #define IDC_FB_STATIC_INFO              1081
 #define IDC_FB_CBO_NUMTYPE              1083
 #define IDC_COMBO_USERS                 1084
+#define IDC_COMBO_NET                   1085
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_MENU_32773                   32773

@@ -91,9 +91,14 @@ public:
     // 是否已经开始登录
     bool m_bIsLoging;
 	void InitUsersList(void);
+	void InitNetList(void);
+	BOOL GetSelectedNet(GUID &IID_DestNetInternet);
 	CComboBox m_cboUsersList;
+	CComboBox m_cboNetList;
     // 程序启动路径
     CString m_strStartupPath;
 	void GetSelectedUserOption(void);
 	afx_msg void OnCbnSelchangeComboUsers();
+	afx_msg void OnDestroy();
+	void DeleteNetListDataPrt(void);
 };

@@ -54,6 +54,7 @@ void CLoginDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_REMPASS, m_bRemPass);
 	DDX_Check(pDX, IDC_LOGIN_OFFLINE, m_bLoginOffLine);
 	DDX_Control(pDX, IDC_COMBO_USERS, m_cboUsersList);
+	DDX_Control(pDX, IDC_COMBO_NET, m_cboNetList);
 }
 
 BEGIN_MESSAGE_MAP(CLoginDlg, CDialog)
@@ -72,6 +73,7 @@ BEGIN_MESSAGE_MAP(CLoginDlg, CDialog)
 //#endif // WIN32_PLATFORM_WFSP
 ON_CBN_SELCHANGE(IDC_COMBO_USERS, &CLoginDlg::OnCbnSelchangeComboUsers)
     ON_WM_INITMENUPOPUP()
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 // CLoginDlg 消息处理程序
@@ -100,6 +102,7 @@ BOOL CLoginDlg::OnInitDialog()
 	
 	InitUsersList();
 	GetSelectedUserOption();
+	InitNetList();
 
 #ifdef WIN32_PLATFORM_WFSP
     //重写后退键，引发WM_HOTKEY消息
@@ -130,6 +133,8 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
     int xIDC_LOGIN, yIDC_LOGIN, wIDC_LOGIN, hIDC_LOGIN;
     int xIDC_REMPASS, yIDC_REMPASS, wIDC_REMPASS, hIDC_REMPASS;
     int xIDC_LOGIN_OFFLINE, yIDC_LOGIN_OFFLINE, wIDC_LOGIN_OFFLINE, hIDC_LOGIN_OFFLINE;
+    int xIDC_STATIC_NET, yIDC_STATIC_NET, wIDC_STATIC_NET, hIDC_STATIC_NET;
+    int xIDC_COMBO_NET, yIDC_COMBO_NET, wIDC_COMBO_NET, hIDC_COMBO_NET;
     
     int iHeight, iWidth;
     int iMargin = DRA::SCALEX(5);
@@ -154,7 +159,12 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
     wIDC_STATIC_PWD = wIDC_STATIC_ID;
     hIDC_STATIC_PWD = hIDC_STATIC_ID;
 
-    xIDC_COMBO_USERS = xIDC_STATIC_ID + wIDC_STATIC_ID + iMargin;
+    xIDC_STATIC_NET = xIDC_STATIC_ID;
+    yIDC_STATIC_NET = yIDC_STATIC_PWD + hIDC_STATIC_PWD + iMargin;
+    wIDC_STATIC_NET = wIDC_STATIC_ID;
+    hIDC_STATIC_NET = hIDC_STATIC_ID;
+
+	xIDC_COMBO_USERS = xIDC_STATIC_ID + wIDC_STATIC_ID + iMargin;
     yIDC_COMBO_USERS = yIDC_STATIC_ID;
     wIDC_COMBO_USERS = iWidth - xIDC_COMBO_USERS - DRA::SCALEX(10);
     hIDC_COMBO_USERS = hIDC_STATIC_ID * 5;
@@ -164,9 +174,13 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
     wIDC_PWD = wIDC_COMBO_USERS;
     hIDC_PWD = hIDC_STATIC_ID;
 
+    xIDC_COMBO_NET = xIDC_COMBO_USERS;
+    yIDC_COMBO_NET = yIDC_STATIC_NET;
+    wIDC_COMBO_NET = wIDC_COMBO_USERS;
+    hIDC_COMBO_NET = hIDC_STATIC_ID * 5;
 
     xIDC_REMPASS = xIDC_STATIC_ID + iMargin;
-    yIDC_REMPASS = yIDC_PWD + hIDC_PWD + iMargin;
+    yIDC_REMPASS = yIDC_STATIC_NET + hIDC_STATIC_NET + iMargin;
     wIDC_REMPASS = DRA::SCALEX(80);
     hIDC_REMPASS = hIDC_STATIC_ID;
 
@@ -198,12 +212,19 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_STATIC_PWD);
     ::MoveWindow(hwndctl, xIDC_STATIC_PWD, yIDC_STATIC_PWD, wIDC_STATIC_PWD, hIDC_STATIC_PWD, false);
 
-    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_COMBO_USERS);
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_STATIC_NET);
+    ::MoveWindow(hwndctl, xIDC_STATIC_NET, yIDC_STATIC_NET, wIDC_STATIC_NET, hIDC_STATIC_NET, false);
+
+	hwndctl = ::GetDlgItem(this->m_hWnd, IDC_COMBO_USERS);
     ::MoveWindow(hwndctl, xIDC_COMBO_USERS, yIDC_COMBO_USERS, wIDC_COMBO_USERS, hIDC_COMBO_USERS, false);
 
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_PWD);
     ::MoveWindow(hwndctl, xIDC_PWD, yIDC_PWD, wIDC_PWD, hIDC_PWD, false);
-    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_LOGIN);
+
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_COMBO_NET);
+    ::MoveWindow(hwndctl, xIDC_COMBO_NET, yIDC_COMBO_NET, wIDC_COMBO_NET, hIDC_COMBO_NET, false);
+
+	hwndctl = ::GetDlgItem(this->m_hWnd, IDC_LOGIN);
     ::MoveWindow(hwndctl, xIDC_LOGIN, yIDC_LOGIN, wIDC_LOGIN, hIDC_LOGIN, false);
 
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_REMPASS);
@@ -515,6 +536,7 @@ void CLoginDlg::OnIDM_Cancel()
 		fx_cancel_login();
 		this->m_bIsLoging = FALSE;
 	}
+	DeleteNetListDataPrt();
 	SendMessage(WM_CLOSE,0, 0);
 }
 
@@ -547,10 +569,10 @@ BOOL CLoginDlg::EstablishConnection(void)
     ConnInfo.cbSize      = sizeof(ConnInfo);
     ConnInfo.dwParams    = CONNMGR_PARAM_GUIDDESTNET; 
     ConnInfo.dwPriority  = CONNMGR_PRIORITY_USERINTERACTIVE; 
-    {
-        GUID IID_DestNetInternet = {0x436ef144, 0xb4fb, 0x4863, 0xa0, 0x41, 0x8f, 0x90, 0x5a, 0x62, 0xc5, 0x72};
-        ConnInfo.guidDestNet = IID_DestNetInternet; 
-    }
+	if(!GetSelectedNet(ConnInfo.guidDestNet))
+	{
+		return FALSE;
+	}
 
     DWORD dwStatus = 0; 
     ConnMgrEstablishConnectionSync(&ConnInfo, hConnect, 25000, &dwStatus);
@@ -739,6 +761,9 @@ void CLoginDlg::WriteLoginUserToIni()
 	CString strMobileNo = m_mobile_no;
 	CIniWR hIni;
 	hIni.WritePrivateProfileString(_T("OPTION"), _T("LastUser"), strMobileNo, m_strStartupPath + _T("\\LibFetion.ini"));
+	CString strNet;
+	m_cboNetList.GetLBText(m_cboNetList.GetCurSel(), strNet);
+	hIni.WritePrivateProfileString(_T("OPTION"), _T("Network"), strNet, m_strStartupPath + _T("\\LibFetion.ini"));
 
 	CreateDirectory(m_strStartupPath + _T("\\Users"), NULL);
 	CreateDirectory(m_strStartupPath + _T("\\Users\\") + strMobileNo, NULL);
@@ -767,4 +792,82 @@ void CLoginDlg::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 	UpdateData();
 	pPopupMenu->CheckMenuItem(IDM_LOGIN_REMPASS, m_bRemPass ? MF_CHECKED : MF_UNCHECKED);
 	pPopupMenu->CheckMenuItem(IDM_LOGIN_OFFLINE, m_bLoginOffLine ? MF_CHECKED : MF_UNCHECKED);
+}
+
+void CLoginDlg::InitNetList(void)
+{
+	HRESULT hResult = E_FAIL;
+	CONNMGR_DESTINATION_INFO DestInfo;
+	int index = 0; 
+	int nIndex = 0;
+	hResult = ConnMgrEnumDestinations(index++, &DestInfo);
+	while(SUCCEEDED(hResult)) 
+	{
+
+		CONNMGR_DESTINATION_INFO * lpDestInfo = new CONNMGR_DESTINATION_INFO;
+		*lpDestInfo = DestInfo;
+		nIndex = m_cboNetList.AddString(DestInfo.szDescription);
+		if(nIndex >= 0)
+		{
+			m_cboNetList.SetItemDataPtr(nIndex, lpDestInfo);
+		}
+		//ConnInfo.guidDestNet = DestInfo.guid;
+		hResult = ConnMgrEnumDestinations(index++, &DestInfo);
+	}
+
+	if(m_cboNetList.GetCount() > 0)
+	{
+		m_cboNetList.SetCurSel(0);
+	}
+
+	CIniWR hIni;
+	CString strNetwork;
+	hIni.GetString(_T("OPTION"), _T("Network"), strNetwork.GetBuffer(MAX_PATH), MAX_PATH, m_strStartupPath + _T("\\LibFetion.ini"));
+	strNetwork.ReleaseBuffer();
+	
+	for(int i = 0; i < m_cboNetList.GetCount(); i++)
+	{
+		CString strNet;
+		m_cboNetList.GetLBText(i, strNet);
+		if(0 == strNetwork.Compare(strNet))
+		{
+			m_cboNetList.SetCurSel(i);
+			break;
+		}
+	}
+}
+
+BOOL CLoginDlg::GetSelectedNet(GUID &IID_DestNetInternet)
+{
+	if(m_cboNetList.GetCount() == 0)
+	{
+		return FALSE;
+	}
+	
+	CONNMGR_DESTINATION_INFO * lpDestInfo = (CONNMGR_DESTINATION_INFO*)m_cboNetList.GetItemDataPtr(m_cboNetList.GetCurSel());
+	if(NULL == lpDestInfo)
+	{
+		return FALSE;
+	}
+	IID_DestNetInternet = lpDestInfo->guid;
+	return TRUE;
+}
+
+void CLoginDlg::OnDestroy()
+{
+	CDialog::OnDestroy();
+
+	// TODO: 在此处添加消息处理程序代码
+	DeleteNetListDataPrt();
+}
+
+void CLoginDlg::DeleteNetListDataPrt(void)
+{
+	for(int i = 0; i < m_cboNetList.GetCount(); i++)
+	{
+		CONNMGR_DESTINATION_INFO * lpDestInfo = (CONNMGR_DESTINATION_INFO*)m_cboNetList.GetItemDataPtr(i);
+		delete [] lpDestInfo;
+		lpDestInfo = NULL;
+		m_cboNetList.SetItemDataPtr(i, NULL);
+	}
 }
