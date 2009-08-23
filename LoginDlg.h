@@ -65,23 +65,24 @@ protected:
 public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 public:
-	afx_msg void OnBnClickedRemAccount();
-	afx_msg void OnRemPassUpdateUI(CCmdUI* cmdui);
-public:
-	CButton RemAccount;
+	CButton RemPass;
 public:
 	afx_msg void OnLogin();
 	afx_msg void OnLoginCancel();
 public:
 	afx_msg void OnIDM_Cancel();
+    afx_msg void OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu);
 protected:
 	virtual void OnCancel();
 public:
     // 自动连接网络
     BOOL EstablishConnection(void);
 	CString GetFetionNoFromHttpsWeb(CString strMobileNo, CString strPwd, int& netflag);
+	CString GetFetionNoFromIni(CString strMobileNo);
+	void WriteLoginUserToIni();
 protected:
     void OnRemPassChanged();
+	void OnOffLineChanged();
     // 是否记住密码
     BOOL m_bRemPass;
 	//是否隐身登陆
@@ -89,4 +90,10 @@ protected:
 public:
     // 是否已经开始登录
     bool m_bIsLoging;
+	void InitUsersList(void);
+	CComboBox m_cboUsersList;
+    // 程序启动路径
+    CString m_strStartupPath;
+	void GetSelectedUserOption(void);
+	afx_msg void OnCbnSelchangeComboUsers();
 };
