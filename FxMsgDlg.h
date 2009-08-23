@@ -19,6 +19,7 @@ public:
 	virtual ~FxMsgDlg();
 
 	virtual void OnFinalRelease();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
 // 对话框数据
 	enum { IDD = IDD_WMLF_MSG };
