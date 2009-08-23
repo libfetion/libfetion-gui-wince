@@ -396,7 +396,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,4.20 /machine:ARM /ARMPADCODE"
-				OutputFile="$(OutDir)\libfetion_ppc2003.exe"
+				OutputFile="$(OutDir)\LibFetion_PPC2003.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				OptimizeReferences="2"
@@ -478,7 +478,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,4.20 /machine:ARM /ARMPADCODE"
-				OutputFile="$(OutDir)\libfetion_sp2003.exe"
+				OutputFile="$(OutDir)\LibFetion_SP2003.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				OptimizeReferences="2"
@@ -642,7 +642,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,4.20 /machine:THUMB /ARMPADCODE "
-				OutputFile="$(OutDir)\libfetion_wm6.exe"
+				OutputFile="$(OutDir)\LibFetion_WM6.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="9"
@@ -810,7 +810,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,4.20 /machine:THUMB /ARMPADCODE"
-				OutputFile="$(OutDir)\libfetion_ppc.exe"
+				OutputFile="$(OutDir)\LibFetion_PPC.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				OptimizeReferences="2"
