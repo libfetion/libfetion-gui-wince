@@ -519,3 +519,21 @@ void FxMsgDlg::OnSendPaste()
 	// TODO: 在此添加命令处理程序代码
 	m_send.Paste();
 }
+BOOL FxMsgDlg::PreTranslateMessage(MSG* pMsg)
+{
+
+	if(pMsg->message==WM_KEYDOWN)         
+	{
+		if (pMsg->hwnd == m_browser.m_hWnd)
+		{
+			switch(pMsg->wParam)
+			{
+			case VK_RETURN: 
+				//当焦点在浏览消息框里时，按一下确认键，焦点切换到输入消息框
+				m_send.SetFocus();
+				break;
+			}
+		}
+	}
+	return CDialog::PreTranslateMessage(pMsg);
+}
