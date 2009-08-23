@@ -278,7 +278,7 @@ void CLoginDlg::OnBnClickedLogin()
         goto fail;
     }
 #endif
-    this->m_login_state = _T("登陆中...");
+    this->m_login_state = _T("从服务器获取登陆信息...");
 	this->UpdateData(FALSE);
 	this->UpdateWindow();
 
