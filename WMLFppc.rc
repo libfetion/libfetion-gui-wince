@@ -96,7 +96,7 @@ BEGIN
         MENUITEM "记住密码",                        IDM_LOGIN_REMPASS
         MENUITEM "隐身登录",                        IDM_LOGIN_OFFLINE
         MENUITEM SEPARATOR
-        MENUITEM "退出登录",                        IDM_CANCEL
+        MENUITEM "退出",                          IDM_CANCEL
     END
 END
 
