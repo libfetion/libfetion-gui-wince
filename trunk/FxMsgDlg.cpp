@@ -531,7 +531,7 @@ BOOL FxMsgDlg::PreTranslateMessage(MSG* pMsg)
 			case VK_RETURN: 
 				//当焦点在浏览消息框里时，按一下确认键，焦点切换到输入消息框
 				m_send.SetFocus();
-				break;
+				return TRUE;
 			}
 		}
 	}

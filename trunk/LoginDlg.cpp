@@ -145,12 +145,12 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
     iWidth = rcCtl.right - rcCtl.left;
 
     xIDC_LOGO = rcCtl.left + iWidth / 2 - 60;//图像宽度120
-    yIDC_LOGO = (rcCtl.bottom - rcCtl.top - 29 - DRA::SCALEY(120)) / 2;
+    yIDC_LOGO = (rcCtl.bottom - rcCtl.top - 29 - DRA::SCALEY(140)) / 2;
     wIDC_LOGO = 120;
     hIDC_LOGO = 29;
 
     xIDC_STATIC_ID = rcCtl.left + DRA::SCALEX(10);
-    yIDC_STATIC_ID = yIDC_LOGO + 29 + DRA::SCALEY(10);
+    yIDC_STATIC_ID = yIDC_LOGO + hIDC_LOGO + DRA::SCALEY(10);
     wIDC_STATIC_ID = DRA::SCALEX(68);
     hIDC_STATIC_ID = DRA::SCALEY(25);
 
