@@ -289,35 +289,40 @@ void CLoginDlg::OnBnClickedLogin()
         goto fail;
     }
 #endif
-	this->m_login_state = _T("从服务器获取登陆信息...");
-	this->UpdateData(FALSE);
-	this->UpdateWindow();
 
-	int netflag = 0;
 	m_fetion_id = GetFetionNoFromIni(m_mobile_no);
 	if(m_fetion_id.GetLength() != 9)
 	{
+		this->m_login_state = _T("从服务器获取登陆信息...");
+		this->UpdateData(FALSE);
+		this->UpdateWindow();
+
+		int netflag = 0;
 		m_fetion_id = GetFetionNoFromHttpsWeb(m_mobile_no, m_passwd, netflag);
+		if(this->m_fetion_id.IsEmpty())
+		{
+			switch(netflag)
+			{
+			case	404:
+				this->m_login_state = _T("网络错误");
+				break;
+			case	301:
+			case	401:
+				this->m_login_state = _T("验证用户信息失败");
+				break;
+			default:
+				this->m_login_state = _T("未知错误");
+				break;
+			}
+			goto fail;
+		}
 	}
 
-	if(this->m_fetion_id.IsEmpty())
-	{
-		switch(netflag)
-		{
-		case	404:
-			this->m_login_state = _T("网络错误");
-			break;
-		case	301:
-		case	401:
-			this->m_login_state = _T("验证用户信息失败");
-			break;
-		default:
-			this->m_login_state = _T("未知错误");
-			break;
-		}
-		goto fail;
-	}
 	WriteLoginUserToIni();
+
+	this->m_login_state = _T("登录中...");
+	this->UpdateData(FALSE);
+	this->UpdateWindow();
 
 	//fx_set_serve_address("221.130.45.208:8080");
 
