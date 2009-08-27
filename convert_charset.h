@@ -25,4 +25,7 @@ CStringA ConvertUtf16ToUtf8(CString strUtf16);
 CString GetCurrentTimeString();
 CString GetMsgTimeString(char *msgtime);
 
+CString ConvertUtf16ToNUM(CString strUtf16);
+CString ConvertNUMToUft16(CString strNUM);
+
 #endif

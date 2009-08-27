@@ -728,7 +728,7 @@ void CLoginDlg::GetSelectedUserOption(void)
 		CString strRead;
 		hIni.GetString(strMobileNo, _T("PassWord"), strRead.GetBuffer(MAX_PATH), MAX_PATH, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
 		strRead.ReleaseBuffer();
-		m_passwd = strRead;
+		m_passwd = ConvertNUMToUft16(strRead);
 	}
 	else
 	{
@@ -779,7 +779,7 @@ void CLoginDlg::WriteLoginUserToIni()
 	CString strWrite;
 	if(m_bRemPass)
 	{
-		strWrite = m_passwd;
+		strWrite = ConvertUtf16ToNUM(m_passwd);
 	}
 	else
 	{
