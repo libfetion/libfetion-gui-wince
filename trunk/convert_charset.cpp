@@ -116,3 +116,36 @@ CString GetMsgTimeString(char *msgtime)
 
 	return sShortTime;
 }
+
+CString ConvertUtf16ToNUM(CString strUtf16)
+{
+	CString res = _T("");
+	CString str5c;
+	for(int i = 0; i< strUtf16.GetLength(); i++)
+	{
+		str5c.Format(_T("%05d"), strUtf16.GetAt(i));
+		res += str5c;
+	}
+	return res;
+}
+
+CString ConvertNUMToUft16(CString strNUM)
+{
+	CString res = _T("");
+	PTCHAR pNUM;
+	PTCHAR pUtf16;
+	TCHAR tc5c[6];
+	CString str5c;
+	pNUM = strNUM.GetBuffer();
+	pUtf16 = res.GetBufferSetLength(strNUM.GetLength()/5 + 1);
+	for(int i = 0; i<(strNUM.GetLength()/5); i++)
+	{
+		wmemcpy(tc5c, pNUM + i * 5, 5);
+		tc5c[6] = '\0';
+		str5c = tc5c;
+		pUtf16[i] = atol(ConvertUtf16ToUtf8(str5c));
+	}
+	pUtf16[strNUM.GetLength()/5] = '\0';
+	res.ReleaseBuffer();
+	return res;
+}
