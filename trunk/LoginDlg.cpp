@@ -152,7 +152,7 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
     xIDC_STATIC_ID = rcCtl.left + DRA::SCALEX(10);
     yIDC_STATIC_ID = yIDC_LOGO + hIDC_LOGO + DRA::SCALEY(10);
     wIDC_STATIC_ID = DRA::SCALEX(68);
-    hIDC_STATIC_ID = DRA::SCALEY(25);
+    hIDC_STATIC_ID = DRA::SCALEY(20);
 
     xIDC_STATIC_PWD = xIDC_STATIC_ID;
     yIDC_STATIC_PWD = yIDC_STATIC_ID + hIDC_STATIC_ID + iMargin;

@@ -47,7 +47,7 @@ BOOL FxMainWin::handleFx_Sys_Event(int message, WPARAM wParam, LPARAM lParam)
 		//emit signal_Current_Version((int)wParam);
 		return TRUE;
 	case FX_ADDACCOUNT_APP:
-		//emit signal_AddAccountApp((char*)(lParam), (char*)wParam);
+		handle_AddAccountApp((char*)(lParam), (char*)wParam);
 		return TRUE;
 	case FX_MOVE_GROUP_OK:
 		handle_MoveGroupOk((long)lParam, (int)wParam);
@@ -1421,4 +1421,16 @@ BOOL FxMainWin::SetSettingToIni(LPCTSTR lpKeyName, UINT uValue)
 {
 	CIniWR hIni;
 	return hIni.WritePrivateProfileInt(_T("OPTION"), lpKeyName, uValue, m_strStartupPath + _T("\\Users\\") + m_mobile_no + _T("\\") + m_mobile_no + _T(".ini"));
+}
+
+
+void FxMainWin::handle_AddAccountApp(char* uri, char* showname)
+{
+    CString strMessage;
+    strMessage.Format(_T("%s 想添加你为好友，是否同意？"), ConvertUtf8ToUtf16(showname));
+
+    if(AfxMessageBox(strMessage, MB_YESNO | MB_ICONQUESTION | MB_APPLMODAL) == IDYES)
+    {
+        fx_handleContactRequest(uri, 1, 0, showname);
+    }
 }
