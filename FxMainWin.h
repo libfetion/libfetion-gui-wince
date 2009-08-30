@@ -130,6 +130,8 @@ public:
 private:
     // 处理移动组成功的消息
     void handle_MoveGroupOk(long account_id, int group_id);
+    // 处理增加好友请求
+    void handle_AddAccountApp(char* uri, char* showname);
 public:
     afx_msg void OnAbout();
     afx_msg void OnBdDelete();
