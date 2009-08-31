@@ -978,7 +978,7 @@ void FxMainWin::addNewQunMessage(long qun_id,CString newmsg )
 		return;
 	
 	// 提醒用户
-	char * showname = fx_get_qun_show_name(qun);
+	char * showname = fx_get_qun_show_name((Fetion_Qun*)qun);
 	NotifyUser(1, qun_id, ConvertUtf8ToUtf16(showname));
 	if(showname)
 		free(showname);
