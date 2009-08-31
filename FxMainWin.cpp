@@ -56,7 +56,7 @@ BOOL FxMainWin::handleFx_Sys_Event(int message, WPARAM wParam, LPARAM lParam)
 		addNewMessage(long(lParam));
 		return TRUE;
 	case FX_NEW_QUN_MESSAGE:
-		//emit signal_NewQunMsg(qlonglong(lParam));
+		addNewQunMessage(long(lParam));
 		return TRUE;
 	case FX_SET_STATE_OK:
 		//emit signal_set_state((int)wParam);
@@ -966,6 +966,48 @@ void FxMainWin::addNewMessage(long account_id, CString newmsg /* ="" */)
         // 更正一个好友多条消息时要打开多次对话框才会停止闪烁的BUG
         if(filker.Find(accountItem) == NULL)
 		    filker.InsertAfter(filker.GetTailPosition(), accountItem);
+	}
+
+}
+
+void FxMainWin::addNewQunMessage(long qun_id,CString newmsg )
+{
+	TMPMSG_Info * msg_info = NULL;
+	const Fetion_Qun * qun = fx_get_qun_by_id(qun_id);
+	if (!qun)
+		return;
+	
+	// 提醒用户
+	char * showname = fx_get_qun_show_name(qun);
+	NotifyUser(1, qun_id, ConvertUtf8ToUtf16(showname));
+	if(showname)
+		free(showname);
+
+	HTREEITEM accountItem = m_BuddyOpt->findAccountItemFromAllGroup(qun);
+
+	m_BuddyOpt->setOnlineState(accountItem);
+	if (m_currentMsgDlg && m_currentMsgDlg->account_id == qun_id)
+	{
+		m_currentMsgDlg->addNewMsg(newmsg);
+		return;
+	}
+
+	if (!newmsg.IsEmpty())
+	{
+		msg_info = new TMPMSG_Info;
+		msg_info->accountID = qun_id;
+		msg_info->msg = newmsg;
+		tmpMsg.InsertAfter(tmpMsg.GetTailPosition(), msg_info);
+	}
+
+	if (accountItem)
+	{
+		if (filker.GetCount() == 0)
+			SetTimer(TIMER_NEWMSG, 500,NULL);
+
+		// 更正一个好友多条消息时要打开多次对话框才会停止闪烁的BUG
+		if(filker.Find(accountItem) == NULL)
+			filker.InsertAfter(filker.GetTailPosition(), accountItem);
 	}
 
 }
