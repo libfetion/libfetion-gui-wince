@@ -86,6 +86,7 @@ public:
     // 更新组信息,如果bAnyWay为true，则不做较验。考虑如果只检查该HTREEITEM下有没有ChildItem，那么万一该组下刚刚把最后一个好友删除，则会不更新
     void updateGroupInfo(HTREEITEM hGroupItem, bool bAnyway = false);
     void SortBuddy(HTREEITEM hGroupItem);
+	HTREEITEM findAccountItemFromAllGroup(const Fetion_Qun * qun);
 };
 
 
