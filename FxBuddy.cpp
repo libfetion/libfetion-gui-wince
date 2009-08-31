@@ -987,25 +987,25 @@ void BuddyOpt::SortBuddy(HTREEITEM hGroupItem)
     treeWidget->SortChildrenCB(&tvs);
 }
 
-HTREEITEM BuddyOpt::findAccountItemFromAllGroup(const Fetion_Qun * qun)
+HTREEITEM BuddyOpt::findQunItem(const Fetion_Qun * qun)
 {
 	if (!qun)
 		return NULL;
 
 	long qun_id = (long)qun->id;
 
-	HTREEITEM hGroupItem = treeWidget->GetRootItem();
-	while(hGroupItem != NULL)
+	if(NULL != QunItem)
 	{
-		HTREEITEM hItem = treeWidget->GetChildItem(hGroupItem);
-		while (hItem != NULL)
+		HTREEITEM hItem = treeWidget->GetChildItem(QunItem);
+		while (NULL != hItem)
 		{
 			Qun_Info *qun_info =(Qun_Info*)treeWidget->GetItemData(hItem);
-			if(qun_info && qun_id == qun_info->qunID)
+			if(qun_info && (qun_id == qun_info->qunID))
+			{
 				return hItem;
+			}
 			hItem = treeWidget->GetNextSiblingItem(hItem);
 		}
-		hGroupItem = treeWidget->GetNextSiblingItem(hGroupItem);
 	}
 	return NULL;
 }
