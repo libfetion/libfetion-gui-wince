@@ -92,5 +92,10 @@ public:
 	afx_msg void OnBrowserCopy();
 	afx_msg void OnSendCopy();
 	afx_msg void OnSendPaste();
+	// 是否是群消息
+	bool IsQun;
+	const Fetion_Qun *m_Qun;
+	// 是否为陌生人
+	bool IsStranger;
 };
 
