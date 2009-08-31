@@ -91,6 +91,7 @@ public:
 	void hand_MsgSend_Event(int message, int fx_msg, long who);
 	void handle_sendmsg(int msgflag, int fx_msg, long account_id);
 	void addNewMessage(long account_id, CString newmsg = _T(""));
+	void addNewQunMessage(long qun_id,CString newmsg=_T(""));
     BOOL SetUserOnlineState(int iState);
 public:
 	BOOL m_isLoginOK;
