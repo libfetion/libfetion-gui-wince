@@ -32,6 +32,9 @@ FxMsgDlg::FxMsgDlg(long ac_id, CWnd* pParent /*= NULL*/, BOOL SendFlag /*= FALSE
 , m_msgSend(_T(""))
 , m_isLoginOK(FALSE)
 , m_strInfo(_T(""))
+, IsQun(false)
+, m_Qun(NULL)
+, IsStranger(false)
 {
 	EnableAutomation();
 }
@@ -125,18 +128,34 @@ BOOL FxMsgDlg::SetNewBuddy(long ac_id)
 #if DEBUG_GUI
 #else
 	m_account = fx_get_account_by_id(this->account_id);
+	m_Qun=fx_get_qun_by_id(this->account_id);
 	//begin a dialog init, if the account is mobile, this function will do nothing...
 	if (!m_isSendSMS)
 		fx_begin_dialog (this->account_id, NULL, NULL); 
 
 	//如果得不到m_account 则说明是陌生人..就是那些老发垃圾广告的混蛋!!!
-	if (m_account)
+	if (m_account!=NULL)
 	{
+		this->IsQun=FALSE;
+		this->IsStranger=FALSE;
 		char * showname = fx_get_account_show_name(m_account, FALSE);
 		account_name = ConvertUtf8ToUtf16(showname);
 		if(showname)
 			free(showname);
-	} else {
+	}
+	else if (NULL!=m_Qun)
+	{
+		this->IsQun=TRUE;
+		this->IsStranger=FALSE;
+		char * showname=fx_get_qun_show_name(m_Qun);
+		account_name=ConvertUtf8ToUtf16(showname);
+		if(showname)
+			free(showname);
+	}
+	else 
+	{
+		this->IsQun=FALSE;
+		this->IsStranger=TRUE;
 		account_name.Format(_T("%d"), this->account_id);
 	}
 #endif
@@ -179,8 +198,14 @@ void FxMsgDlg::printfOnlineInfo()
 	}
 
 #if !DEBUG_GUI
-	if(!m_account) {
+	if(this->IsStranger)
+	{
 		m_strInfo.Format(_T("与 %s 陌生人聊天中"), account_name);
+		goto out;
+	}
+	if(this->IsQun)
+	{
+		m_strInfo.Format(_T("与 %s 群友聊天中"),account_name);
 		goto out;
 	}
 #endif
@@ -372,9 +397,25 @@ void FxMsgDlg::getMsg(CString &msg)
 	while (fxMsg = fx_get_msg(this->account_id))
 	{
 		char * msg_contain = fx_msg_no_format(fxMsg->message); 
-
-		msg +=  this->account_name + _T("(") + GetMsgTimeString(fxMsg->msgtime) + _T("):");
-		msg += ConvertUtf8ToUtf16(msg_contain) + CString(_T("\r\n\r\n"));
+		if(!fxMsg->ext_id)
+		{
+			msg +=  this->account_name + _T("(") + GetMsgTimeString(fxMsg->msgtime) + _T("):");
+			msg += ConvertUtf8ToUtf16(msg_contain) + CString(_T("\r\n\r\n"));
+		}
+		else
+		{
+			const Fetion_Account * sender_account = fx_get_account_by_id(fxMsg->ext_id);
+			char * sender_name=fx_get_account_show_name(sender_account,FALSE);
+			CString temp;
+			temp.Format(_T("%d"),fxMsg->ext_id);
+			if(sender_name!=NULL)
+				msg+=ConvertUtf8ToUtf16(sender_name)+ _T("(") + GetMsgTimeString(fxMsg->msgtime) + _T("):");
+			else
+				msg+=temp+_T("(") + GetMsgTimeString(fxMsg->msgtime) + _T("):");
+			msg += ConvertUtf8ToUtf16(msg_contain) + CString(_T("\r\n\r\n"));
+			if(sender_name)
+				free(sender_name);
+		}
 		if (msg_contain)
 			free(msg_contain);
 		fx_destroy_msg (fxMsg);
