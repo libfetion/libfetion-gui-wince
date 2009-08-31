@@ -1214,7 +1214,7 @@ FX_EXPORT char *fx_get_account_show_name(const Fetion_Account *account, BOOL nee
   *
   * \return the show name of qun
 */
-FX_EXPORT char *fx_get_qun_show_name(const Fetion_Qun *qun);
+FX_EXPORT char *fx_get_qun_show_name(Fetion_Qun *qun);
 
 /**
   * \fn int fx_get_account_group_id(const Fetion_Account *account)
