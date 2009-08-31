@@ -147,7 +147,7 @@ BOOL FxMsgDlg::SetNewBuddy(long ac_id)
 	{
 		this->IsQun=TRUE;
 		this->IsStranger=FALSE;
-		char * showname=fx_get_qun_show_name(m_Qun);
+		char * showname=fx_get_qun_show_name((Fetion_Qun*)m_Qun);
 		account_name=ConvertUtf8ToUtf16(showname);
 		if(showname)
 			free(showname);
