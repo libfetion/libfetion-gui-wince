@@ -652,24 +652,29 @@ int BuddyOpt::init_icon(void)
 	//m_imagelist.SetBkColor (RGB(1,1,1));
 
 	m_imagelist.Create(16,16,0,18,21);
-	pBitmap[I_OFFLINE].LoadBitmapW(IDB_BITMAP_OFFLINE);
-	pBitmap[I_BLACK].LoadBitmapW(IDB_BITMAP_BLACK);
-	pBitmap[I_MOBILE].LoadBitmapW(IDB_BITMAP_MOBILE);
-	pBitmap[I_WAITING_AUTH].LoadBitmapW(IDB_BITMAP_WAIT);
-	pBitmap[I_REFUSE].LoadBitmapW(IDB_BITMAP_REFUSE);
-	pBitmap[I_DINNER].LoadBitmapW(IDB_BITMAP_DINNER);
-	pBitmap[I_AWAY].LoadBitmapW(IDB_BITMAP_AWAY);
-	pBitmap[I_ONLINE].LoadBitmapW(IDB_BITMAP_ONLINE);
-	pBitmap[I_PHONE].LoadBitmapW(IDB_BITMAP_PHONE);
-	pBitmap[I_BUSY].LoadBitmapW(IDB_BITMAP_BUSY);
-	pBitmap[I_MEETING].LoadBitmapW(IDB_BITMAP_MEET); 
+	pBitmap[I_ONLINE].LoadBitmapW(IDB_BITMAP_ONLINE);//电脑在线
+	pBitmap[I_BUSY].LoadBitmapW(IDB_BITMAP_BUSY);//电脑在线 忙碌
+	pBitmap[I_AWAY].LoadBitmapW(IDB_BITMAP_AWAY);//电脑在线 离开
+
+	pBitmap[I_ONLINE_M].LoadBitmapW(IDB_BITMAP_ONLINE_M);//手机在线
+	pBitmap[I_BUSY_M].LoadBitmapW(IDB_BITMAP_BUSY_M);//手机在线 忙碌
+	pBitmap[I_AWAY_M].LoadBitmapW(IDB_BITMAP_AWAY_M);//手机在线 离开
+
+	pBitmap[I_MEETING].LoadBitmapW(IDB_BITMAP_MEET); //会议中
+	pBitmap[I_DINNER].LoadBitmapW(IDB_BITMAP_DINNER);//外出就餐
+	pBitmap[I_PHONE].LoadBitmapW(IDB_BITMAP_PHONE);//通话中
+
+	pBitmap[I_MOBILE].LoadBitmapW(IDB_BITMAP_MOBILE);//未开通飞信好友
+	pBitmap[I_WAITING_AUTH].LoadBitmapW(IDB_BITMAP_WAIT);//等待对方验证
+	pBitmap[I_REFUSE].LoadBitmapW(IDB_BITMAP_REFUSE);//对方拒绝好友请求
+	pBitmap[I_BLACK].LoadBitmapW(IDB_BITMAP_BLACK);//黑名单
+
+	pBitmap[I_OFFLINE].LoadBitmapW(IDB_BITMAP_OFFLINE);//离线
+	
+	pBitmap[I_QUN].LoadBitmapW(IDB_BITMAP_QUN);//群
+	pBitmap[I_NUM_PRIMITIVES].LoadBitmapW(IDB_BITMAP_NUMP);//自定义状态
+	pBitmap[I_FLICK].LoadBitmapW(IDB_BITMAP_FLICK);//头像闪动
 	pBitmap[I_EXAWAY].LoadBitmapW(IDB_BITMAP_EXAWAY);
-	pBitmap[I_NUM_PRIMITIVES].LoadBitmapW(IDB_BITMAP_NUMP);
-	pBitmap[I_ONLINE_M].LoadBitmapW(IDB_BITMAP_ONLINE_M);
-	pBitmap[I_AWAY_M].LoadBitmapW(IDB_BITMAP_AWAY_M);
-	pBitmap[I_BUSY_M].LoadBitmapW(IDB_BITMAP_BUSY_M);
-	pBitmap[I_QUN].LoadBitmapW(IDB_BITMAP_QUN);
-	pBitmap[I_FLICK].LoadBitmapW(IDB_BITMAP_FLICK);
 	
 	for(int i = 0; i < I_END; i++) 
 		m_imagelist.Add(&pBitmap[i], RGB(255,255,255)); 
@@ -987,25 +992,25 @@ void BuddyOpt::SortBuddy(HTREEITEM hGroupItem)
     treeWidget->SortChildrenCB(&tvs);
 }
 
-HTREEITEM BuddyOpt::findAccountItemFromAllGroup(const Fetion_Qun * qun)
+HTREEITEM BuddyOpt::findQunItem(const Fetion_Qun * qun)
 {
 	if (!qun)
 		return NULL;
 
 	long qun_id = (long)qun->id;
 
-	HTREEITEM hGroupItem = treeWidget->GetRootItem();
-	while(hGroupItem != NULL)
+	if(NULL != QunItem)
 	{
-		HTREEITEM hItem = treeWidget->GetChildItem(hGroupItem);
-		while (hItem != NULL)
+		HTREEITEM hItem = treeWidget->GetChildItem(QunItem);
+		while (NULL != hItem)
 		{
 			Qun_Info *qun_info =(Qun_Info*)treeWidget->GetItemData(hItem);
-			if(qun_info && qun_id == qun_info->qunID)
+			if(qun_info && (qun_id == qun_info->qunID))
+			{
 				return hItem;
+			}
 			hItem = treeWidget->GetNextSiblingItem(hItem);
 		}
-		hGroupItem = treeWidget->GetNextSiblingItem(hGroupItem);
 	}
 	return NULL;
 }

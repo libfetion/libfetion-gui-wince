@@ -983,9 +983,10 @@ void FxMainWin::addNewQunMessage(long qun_id,CString newmsg )
 	if(showname)
 		free(showname);
 
-	HTREEITEM accountItem = m_BuddyOpt->findAccountItemFromAllGroup(qun);
+	HTREEITEM accountItem = m_BuddyOpt->findQunItem(qun);
 
-	m_BuddyOpt->setOnlineState(accountItem);
+	//对象不匹配，注释掉防止出错
+	//m_BuddyOpt->setOnlineState(accountItem);
 	if (m_currentMsgDlg && m_currentMsgDlg->account_id == qun_id)
 	{
 		m_currentMsgDlg->addNewMsg(newmsg);
