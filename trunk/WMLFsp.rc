@@ -118,6 +118,7 @@ BEGIN
             MENUITEM "消息提醒",                        IDM_MAIN_SET_NOSOUND
             MENUITEM "振动提醒",                        IDM_MAIN_SET_VIBR
             MENUITEM "上线提醒",                        IDM_MAIN_SET_ONLINE
+            MENUITEM "屏蔽群消息",                       IDM_MAIN_SET_SHIELDQUNMESSAGE
             MENUITEM "关闭提醒",                        IDM_MAIN_SET_SILENCE
             MENUITEM "清除登录密码",                      IDM_MAIN_CLEAN
             MENUITEM "关于",                          IDM_ABOUT
@@ -375,6 +376,7 @@ IDB_BITMAP_USERHEAD     BITMAP                  "res\\misc\\USERHEAD.bmp"
 
 IDR_MSGSOUND            WAVE                    "res\\msg.wav"
 IDR_ONLINESOUND         WAVE                    "res\\online.wav"
+IDR_QUNSOUND            WAVE                    "res\\qun.wav"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -466,10 +468,7 @@ IDB_BITMAP_REFUSE       BITMAP                  "res\\onlineSmall\\refuse.bmp"
 IDB_BITMAP_ONLINE_M     BITMAP                  "res\\onlineSmall\\m_online.bmp"
 IDB_BITMAP_AWAY_M       BITMAP                  "res\\onlineSmall\\m_away.bmp"
 IDB_BITMAP_BUSY_M       BITMAP                  "res\\onlineSmall\\m_busy.bmp"
-IDB_BITMAP_SEND         BITMAP                  "res\\misc\\send_button.bmp"
-IDB_CHANGE_SEND_MODE    BITMAP                  "res\\misc\\change_send_mode.bmp"
 IDB_BITMAP_FLICK        BITMAP                  "res\\misc\\online_flick.bmp"
-IDB_BITMAP_LOGO         BITMAP                  "res\\misc\\LibFetion.bmp"
 IDB_BITMAP_BIGLOGO      BITMAP                  "res\\misc\\LibFetion_Big.bmp"
 IDB_BITMAP_FIND         BITMAP                  "res\\misc\\find.bmp"
 
