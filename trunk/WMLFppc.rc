@@ -377,7 +377,7 @@ IDB_BITMAP_USERHEAD     BITMAP                  "res\\misc\\USERHEAD.bmp"
 
 IDR_MSGSOUND            WAVE                    "res\\msg.wav"
 IDR_ONLINESOUND         WAVE                    "res\\online.wav"
-IDR_QUNSOUND            WAVE                    "res\\qun.wav"
+IDR_QUNSOUND            WAVE                    "res\\message.wav"
 
 /////////////////////////////////////////////////////////////////////////////
 //

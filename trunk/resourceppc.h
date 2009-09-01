@@ -2,6 +2,7 @@
 // Microsoft Visual C++ generated include file.
 // Used by WMLFppc.rc
 //
+#define IDR_QUNSOUND                    4
 #define IDD_WMLF_DIALOG                 102
 #define IDD_WMLF_MAIN                   104
 #define IDD_WMLF_MSG                    108
@@ -22,9 +23,6 @@
 #define IDB_BITMAP_REFUSE               144
 #define IDB_BITMAP_WAIT                 145
 #define IDB_BITMAP_QUN                  149
-#define IDB_CHANGE_SEND_MODE            152
-#define IDB_BITMAP_SEND                 153
-#define IDB_BITMAP_LOGO                 155
 #define IDB_BITMAP_FLICK                159
 #define IDR_MAIN_MENU                   160
 #define IDR_LOGIN_MENU                  161
@@ -212,13 +210,18 @@
 #define IDM_MAIN_SET_ONLINE             32872
 #define ID_32873                        32873
 #define IDM_MAIN_CLEAN                  32874
+#define ID_32875                        32875
+#define IDM_MAIN_                       32876
+#define IDM_MAIN_SHIELDQUN              32877
+#define IDM_MAIN_SET_SHIELDQUN          32878
+#define IDM_MAIN_SET_SHIELDQUNMESSAGE   32879
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        180
-#define _APS_NEXT_COMMAND_VALUE         32875
+#define _APS_NEXT_RESOURCE_VALUE        182
+#define _APS_NEXT_COMMAND_VALUE         32880
 #define _APS_NEXT_CONTROL_VALUE         1085
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
