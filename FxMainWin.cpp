@@ -236,6 +236,8 @@ BEGIN_MESSAGE_MAP(FxMainWin, CDialog)
     ON_UPDATE_COMMAND_UI(IDM_MAIN_SET_VIBR, &FxMainWin::OnUpdateMainSetVibr)
 	ON_COMMAND(IDM_MAIN_SET_ONLINE,&FxMainWin::OnMainSetOnline)
 	ON_UPDATE_COMMAND_UI(IDM_MAIN_SET_ONLINE,&FxMainWin::OnUpdateMainSetOnline)
+	ON_COMMAND(IDM_MAIN_SET_SHIELDQUNMESSAGE,&FxMainWin::OnMainShieldQunMessage)
+	ON_UPDATE_COMMAND_UI(IDM_MAIN_SET_SHIELDQUNMESSAGE,&FxMainWin::OnUpdateShieldQunMessage)
     ON_COMMAND(IDM_BD_VIEWINFO, &FxMainWin::OnBdViewinfo)
     ON_WM_INITMENUPOPUP()
 //    ON_COMMAND(IDM_MAIN_ADDBUDDY, &FxMainWin::OnMainAddbuddy)
@@ -434,6 +436,8 @@ void FxMainWin::do_login()
 		m_bOnline = GetSettingFromIni(_T("Online"));
 		//无提醒
 		m_bSilence = GetSettingFromIni(_T("Silence"));
+		//屏蔽群消息
+		m_bShieldQunMessage=GetSettingFromIni(_T("ShieldQunMessage"));
 	}
 #endif
 }
@@ -979,7 +983,7 @@ void FxMainWin::addNewQunMessage(long qun_id,CString newmsg )
 	
 	// 提醒用户
 	char * showname = fx_get_qun_show_name((Fetion_Qun*)qun);
-	NotifyUser(1, qun_id, ConvertUtf8ToUtf16(showname));
+	NotifyUser(3, qun_id, ConvertUtf8ToUtf16(showname));
 	if(showname)
 		free(showname);
 
@@ -1025,7 +1029,7 @@ void FxMainWin::OnSendMsg()
 
 
 // 消息提示
-// EventType: 1-新消息 2-用户上线
+// EventType: 1-新消息 2-用户上线 3-群消息提醒
 void FxMainWin::NotifyUser(int EventType, long lAccountID, CString szBuddyName)
 {   
     if(m_bSilence)
@@ -1038,38 +1042,64 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, CString szBuddyName)
     switch(EventType)
     {
     case 1:
-		iPeriod = 1000; //毫秒
-		bVibrate = this->m_bVibrate;
-		wavfile = m_strStartupPath + CString(_T("\\message.wav"));
-		if(!(::GetFileAttributes(wavfile) == 0xFFFFFFFF))
-		{
-			Styles=SND_FILENAME;
-			strSoundPath=(LPCTSTR)wavfile;
 
-		}
-		else
 		{
-			strSoundPath = MAKEINTRESOURCE(IDR_MSGSOUND);
-			Styles = SND_RESOURCE;
+			iPeriod = 1000; //毫秒
+			bVibrate = this->m_bVibrate;
+			wavfile = m_strStartupPath + CString(_T("\\message.wav"));
+			if(!(::GetFileAttributes(wavfile) == 0xFFFFFFFF))
+			{
+				Styles=SND_FILENAME;
+				strSoundPath=(LPCTSTR)wavfile;
+
+			}
+			else
+			{
+				strSoundPath = MAKEINTRESOURCE(IDR_MSGSOUND);
+				Styles = SND_RESOURCE;
+			}
+			break;
 		}
-        break;
+
     case 2:
-		if(!m_bOnline)
-			return ;
-		wavfile =m_strStartupPath + CString(_T("\\online.wav"));
-		if(!(::GetFileAttributes(wavfile) == 0xFFFFFFFF))
-		{
-			Styles=SND_FILENAME;
-			strSoundPath=(LPCTSTR)wavfile;
 
-		}
-		else
 		{
-			strSoundPath = MAKEINTRESOURCE(IDR_ONLINESOUND);
-			Styles = SND_RESOURCE;
+			if(!m_bOnline)
+				return ;
+			wavfile =m_strStartupPath + CString(_T("\\online.wav"));
+			if(!(::GetFileAttributes(wavfile) == 0xFFFFFFFF))
+			{
+				Styles=SND_FILENAME;
+				strSoundPath=(LPCTSTR)wavfile;
+
+			}
+			else
+			{
+				strSoundPath = MAKEINTRESOURCE(IDR_ONLINESOUND);
+				Styles = SND_RESOURCE;
+			}
+			CNotify::Nodify(this->m_hWnd, strSoundPath, 0, this->m_bSound,FALSE, Styles);//只声音提示，不震动
+			return ;
 		}
-		 CNotify::Nodify(this->m_hWnd, strSoundPath, 0, this->m_bSound,FALSE, Styles);//只声音提示，不震动
-        return ;
+
+	case 3:
+		{
+			if(m_bShieldQunMessage)
+				return;
+			wavfile=m_strStartupPath+CString(_T("\\qun.wav"));
+			if(!(::GetFileAttributes(wavfile) == 0xFFFFFFFF))
+			{
+				Styles=SND_FILENAME;
+				strSoundPath=(LPCTSTR)wavfile;
+
+			}
+			else
+			{
+				strSoundPath = MAKEINTRESOURCE(IDR_QUNSOUND);
+				Styles = SND_RESOURCE;
+			}
+		}
+
     }
 
 #ifdef WIN32_PLATFORM_PSPC 
@@ -1140,6 +1170,16 @@ void FxMainWin::OnUpdateMainSetOnline(CCmdUI *pCmdUI)
 	pCmdUI->SetCheck(m_bOnline);
 }
 
+void FxMainWin::OnMainShieldQunMessage()
+{
+	m_bShieldQunMessage=!m_bShieldQunMessage;
+	SetSettingToIni(_T("ShieldQunMessage"),m_bShieldQunMessage);
+}
+
+void FxMainWin::OnUpdateShieldQunMessage(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(m_bShieldQunMessage);
+}
 // 获取启动路径
 CString FxMainWin::GetStartupPath(void)
 {
@@ -1193,6 +1233,7 @@ void FxMainWin::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
     pPopupMenu->CheckMenuItem(IDM_MAIN_SET_NOSOUND, m_bSound ? MF_CHECKED : MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_SET_VIBR, m_bVibrate ? MF_CHECKED : MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_SET_ONLINE,m_bOnline ? MF_CHECKED : MF_UNCHECKED);
+	pPopupMenu->CheckMenuItem(IDM_MAIN_SET_SHIELDQUNMESSAGE,m_bShieldQunMessage ? MF_CHECKED:MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_STATE_ONLINE, MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_STATE_HIDE, MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_STATE_BUSY, MF_UNCHECKED);

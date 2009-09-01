@@ -113,12 +113,21 @@ public:
 
     // 是否在收到消息时静音
     bool m_bSilence;
+
+	// 是否屏蔽群消息
+	bool m_bShieldQunMessage;
+
     afx_msg void OnMainSetVibr();
+    afx_msg void OnUpdateMainSetVibr(CCmdUI *pCmdUI);
+
     afx_msg void OnMainSetSilence();
     afx_msg void OnUpdateMainSetSilence(CCmdUI *pCmdUI);
-    afx_msg void OnUpdateMainSetVibr(CCmdUI *pCmdUI);
+
 	afx_msg void OnMainSetOnline();
 	afx_msg void OnUpdateMainSetOnline(CCmdUI *pCmdUI);
+
+	afx_msg void OnMainShieldQunMessage();
+	afx_msg void OnUpdateShieldQunMessage(CCmdUI *pCmdUI);
     // 程序启动路径
     CString m_strStartupPath;
     // 获取启动路径
@@ -166,4 +175,5 @@ public:
 	CString GetUserStateString(void);
 	UINT GetSettingFromIni(LPCTSTR lpKeyName, int nDefault = 0);
 	BOOL SetSettingToIni(LPCTSTR lpKeyName, UINT uValue);
+
 };

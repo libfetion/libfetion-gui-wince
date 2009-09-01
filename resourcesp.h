@@ -46,9 +46,6 @@
 #define IDB_BITMAP_WAIT                 145
 #define IDR_MSGSOUND                    148
 #define IDB_BITMAP_QUN                  149
-#define IDB_CHANGE_SEND_MODE            152
-#define IDB_BITMAP_SEND                 153
-#define IDB_BITMAP_LOGO                 155
 #define IDB_BITMAP_FLICK                159
 #define IDR_MAIN_MENU                   160
 #define IDR_LOGIN_MENU                  161
@@ -68,6 +65,7 @@
 #define IDB_BITMAP_ONLINE_M             177
 #define IDB_BITMAP_AWAY_M               178
 #define IDB_BITMAP_BUSY_M               179
+#define IDR_QUNSOUND                    180
 #define IDC_BI_CITY                     200
 #define IDC_MOBILE_NO                   1000
 #define IDC_STATIC_ABOUT                1000
@@ -217,13 +215,16 @@
 #define IDM_MAIN_SET_ONLINE             32872
 #define ID_32873                        32873
 #define IDM_MAIN_CLEAN                  32874
+#define ID_32875                        32875
+#define IDM_MAIN_SET_SHIELDQUN          32876
+#define IDM_MAIN_SET_SHIELDQUNMESSAGE   32877
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        180
-#define _APS_NEXT_COMMAND_VALUE         32875
+#define _APS_NEXT_RESOURCE_VALUE        181
+#define _APS_NEXT_COMMAND_VALUE         32878
 #define _APS_NEXT_CONTROL_VALUE         1085
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
