@@ -944,6 +944,7 @@ static int GetSortValue(int iOnlineState)
 	case FX_STATUS_NUM_PRIMITIVES + MOBILE_LOGIN:
 		return 45;
 	case FX_STATUS_OFFLINE:
+	case FX_STATUS_OFFLINE + MOBILE_LOGIN:
         return 50;
     case FX_STATUS_MOBILE:
         return 60;
