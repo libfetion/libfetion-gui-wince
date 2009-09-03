@@ -65,7 +65,6 @@
 #define IDB_BITMAP_ONLINE_M             177
 #define IDB_BITMAP_AWAY_M               178
 #define IDB_BITMAP_BUSY_M               179
-#define IDR_QUNSOUND                    180
 #define IDC_BI_CITY                     200
 #define IDC_MOBILE_NO                   1000
 #define IDC_STATIC_ABOUT                1000
