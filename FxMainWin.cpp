@@ -1095,7 +1095,7 @@ void FxMainWin::NotifyUser(int EventType, long lAccountID, CString szBuddyName)
 			}
 			else
 			{
-				strSoundPath = MAKEINTRESOURCE(IDR_QUNSOUND);
+				strSoundPath = MAKEINTRESOURCE(IDR_MSGSOUND);
 				Styles = SND_RESOURCE;
 			}
 		}

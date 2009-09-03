@@ -2,7 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by WMLFppc.rc
 //
-#define IDR_QUNSOUND                    4
 #define IDD_WMLF_DIALOG                 102
 #define IDD_WMLF_MAIN                   104
 #define IDD_WMLF_MSG                    108
