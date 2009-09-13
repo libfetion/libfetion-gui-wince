@@ -1,0 +1,542 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resourcesp.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 非特定语言(系统默认值) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
+#pragma code_page(936)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_LOGIN_MENU MENU 
+BEGIN
+    POPUP "上下文菜单"
+    BEGIN
+        MENUITEM "记住密码",                        IDM_LOGIN_REMPASS
+        MENUITEM "隐身登录",                        IDM_LOGIN_OFFLINE
+        MENUITEM SEPARATOR
+        MENUITEM "退出",                          IDM_CANCEL
+    END
+END
+
+IDR_LOGIN_CANCEL_MENU MENU 
+BEGIN
+    MENUITEM "取消登录",                        IDM_LOGIN_CANCEL
+END
+
+IDR_MENU_BUDDYINFO MENU 
+BEGIN
+    MENUITEM "保存",                          IDOK
+    MENUITEM "取消",                          IDCANCEL
+END
+
+IDR_MSG_MENU MENU 
+BEGIN
+    MENUITEM "发送",                          32812
+    POPUP "选项"
+    BEGIN
+        MENUITEM "查看资料",                        IDM_BD_VIEWINFO
+        MENUITEM SEPARATOR
+        MENUITEM "切换发送方式",                      IDM_MSG_CHANGE_METHOD
+        MENUITEM "返回主界面",                       IDOK
+    END
+END
+
+IDR_MENU_BUDDY MENU 
+BEGIN
+    POPUP "Menu"
+    BEGIN
+        MENUITEM "发送消息",                        IDM_BD_SENDMSG
+        MENUITEM "查看资料",                        IDM_BD_VIEWINFO
+        MENUITEM "删除",                          IDM_BD_DELETE
+        MENUITEM "添加到黑名单",                      IDM_BD_ADDBLACKLIST
+        MENUITEM "移出黑名单",                       IDM_BD_RMBLACKLIST
+        MENUITEM SEPARATOR
+        MENUITEM "移动到组",                        IDM_BD_MOVEGROUP
+    END
+END
+
+IDR_MENU_FINDBUDDY MENU 
+BEGIN
+    MENUITEM "添加",                          IDM_FB_ADD
+    POPUP "选项"
+    BEGIN
+        MENUITEM "使用手机号",                       IDM_FB_SET_MOBILE
+        MENUITEM "使用飞信号",                       IDM_FB_SET_FXNO
+        MENUITEM SEPARATOR
+        MENUITEM "取消",                          IDFINDCANCEL
+    END
+END
+
+IDR_MENU_ABOUT MENU 
+BEGIN
+    MENUITEM "确定   ",                       IDOK
+END
+
+IDR_MAIN_MENU MENU 
+BEGIN
+    MENUITEM "查看消息",                        IDM_MAIN_SHOWNEWMSG
+    POPUP "菜单"
+    BEGIN
+        POPUP "联系人操作"
+        BEGIN
+            MENUITEM "添加好友",                        IDM_MAIN_ADDBUDDY
+            MENUITEM "查看资料",                        IDM_BD_VIEWINFO
+            MENUITEM "删除",                          IDM_BD_DELETE
+            MENUITEM "加入黑名单",                       IDM_BD_ADDBLACKLIST
+            MENUITEM "移出黑名单",                       IDM_BD_RMBLACKLIST
+            MENUITEM SEPARATOR
+            MENUITEM "移动到组",                        IDM_BD_MOVEGROUP
+        END
+        POPUP "在线状态"
+        BEGIN
+            MENUITEM "在线",                          IDM_MAIN_STATE_ONLINE
+            MENUITEM "隐身",                          IDM_MAIN_STATE_HIDE
+            MENUITEM "忙碌",                          IDM_MAIN_STATE_BUSY
+            MENUITEM "离开",                          IDM_MAIN_STATE_AWAY
+        END
+        POPUP "设置"
+        BEGIN
+            MENUITEM "消息提醒",                        IDM_MAIN_SET_NOSOUND
+            MENUITEM "振动提醒",                        IDM_MAIN_SET_VIBR
+            MENUITEM "上线提醒",                        IDM_MAIN_SET_ONLINE
+            MENUITEM "屏蔽群消息",                       IDM_MAIN_SET_SHIELDQUNMESSAGE
+            MENUITEM "关闭提醒",                        IDM_MAIN_SET_SILENCE
+            MENUITEM "清除登录密码",                      IDM_MAIN_CLEAN
+            MENUITEM "关于",                          IDM_ABOUT
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "注销并退出",                       IDM_MAIN_LOGOFF
+        MENUITEM "最小化",                         IDM_MAIN_MINIMAL
+    END
+END
+
+IDR_MSG_POP_MENU MENU 
+BEGIN
+    POPUP "编辑"
+    BEGIN
+        MENUITEM "复制",                          IDM_COPY1
+    END
+    POPUP "编辑"
+    BEGIN
+        MENUITEM "复制",                          IDM_COPY2
+        MENUITEM "粘贴",                          IDM_PASTE
+    END
+END
+
+#endif    // 非特定语言(系统默认值) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(中华人民共和国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_WMLF_MAIN DIALOG  0, 0, 155, 159
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_APPWINDOW | 0x80000000L
+CAPTION "LibFetion"
+FONT 9, "MS Shell Dlg"
+BEGIN
+    CONTROL         "",IDC_TREE_BUDDY,"SysTreeView32",WS_BORDER | WS_HSCROLL | WS_TABSTOP,6,36,142,116
+    LTEXT           "网络错误,正在重连服务器...",IDC_NET_STATE,6,144,142,8,NOT WS_VISIBLE
+    CONTROL         164,IDC_HEAD_PIC,"Static",SS_BITMAP,10,12,18,18
+    LTEXT           "静态",IDC_INFO_NAME,36,10,15,8
+    LTEXT           "静态",IDC_INFO_SIGN,36,22,15,8
+END
+
+IDD_WMLF_DIALOG DIALOG  0, 0, 156, 129
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_APPWINDOW | 0x80000000L
+CAPTION "LibFetion"
+FONT 9, "MS Shell Dlg"
+BEGIN
+    COMBOBOX        IDC_COMBO_USERS,51,37,86,37,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_PWD,51,54,87,12,ES_PASSWORD | ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO_NET,51,71,86,37,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "记住密码",IDC_REMPASS,"Button",BS_AUTOCHECKBOX | BS_VCENTER | WS_TABSTOP,17,86,58,10
+    CONTROL         "隐身登录",IDC_LOGIN_OFFLINE,"Button",BS_AUTOCHECKBOX | BS_VCENTER | WS_TABSTOP,80,86,48,10
+    DEFPUSHBUTTON   "登录",IDC_LOGIN,15,111,50,14
+    CTEXT           "手机号码:",IDC_STATIC_ID,14,38,35,8
+    CTEXT           "登录密码:",IDC_STATIC_PWD,15,56,33,8
+    LTEXT           "",IDC_LOGIN_STATE,15,99,120,8
+    CONTROL         162,IDC_LOGO,"Static",SS_BITMAP,47,12,69,17
+    CTEXT           "网络链接:",IDC_STATIC_NET,15,73,35,8
+END
+
+IDD_WMLF_MSG DIALOG  0, 0, 158, 129
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION
+EXSTYLE WS_EX_APPWINDOW | 0x80000000L
+CAPTION "LibFetion"
+FONT 9, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_SEND_MSG,4,86,150,36,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_GROUP
+    EDITTEXT        IDC_MSG_BROWSER,4,5,150,64,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_GROUP,WS_EX_DLGMODALFRAME
+    CONTROL         152,IDC_CHANGE,"Static",SS_BITMAP | SS_NOTIFY,11,72,29,11
+    CONTROL         153,IDC_SEND,"Static",SS_BITMAP | SS_NOTIFY,98,72,45,11
+    LTEXT           "网络错误,正在重连服务器...",IDC_NET_STATE,6,7,108,8,NOT WS_VISIBLE
+    LTEXT           "好友",IDC_MSG_INFO,4,5,132,8
+END
+
+IDD_WMLF_BUDDYINFO DIALOG  0, 0, 187, 234
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_VSCROLL | WS_SYSMENU
+CAPTION "好友信息"
+FONT 9, "MS Shell Dlg"
+BEGIN
+    LTEXT           "屏显名称:",IDC_BI_LB_SHOWNAME,15,17,36,8
+    EDITTEXT        IDC_BI_EDT_SHOWNAME,55,15,106,14,ES_AUTOHSCROLL
+    LTEXT           "所属好友组",IDC_BI_LB_GROUP,15,35,35,8
+    COMBOBOX        IDC_BI_CBO_GROUP,55,33,106,64,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "飞信号码:",IDC_BI_LB_FETIONNO,17,70,31,8
+    LTEXT           "静态",IDC_BI_FETIONNO,54,70,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "手机号码:",IDC_BI_LB_MOBILENO,17,86,31,8
+    LTEXT           "静态",IDC_BI_MOBILENO,54,86,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "昵称:",IDC_BI_LB_NICKNAME,17,102,31,8
+    LTEXT           "静态",IDC_BI_NICKNAME,54,102,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "姓名:",IDC_BI_LB_NAME,17,118,31,8
+    LTEXT           "静态",IDC_BI_NAME,54,118,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "性别:",IDC_BI_LB_SEX,17,134,31,8
+    LTEXT           "静态",IDC_BI_SEX,54,134,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "省份:",IDC_BI_LB_PROV,17,150,31,8
+    LTEXT           "静态",IDC_BI_PROV,54,150,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "城市:",IDC_BI_LB_CITY,17,166,31,8
+    LTEXT           "静态",IDC_BI_CITY,54,166,106,11,0,WS_EX_STATICEDGE
+    LTEXT           "心情短语:",IDC_BI_LB_SIGN,17,182,31,8
+    LTEXT           "静态",IDC_BI_SIGN,54,182,106,36,0,WS_EX_STATICEDGE
+    GROUPBOX        "设置",IDC_BI_GRP_SET,7,7,163,44
+    GROUPBOX        "个人信息",IDC_BI_GRP_INFO,7,55,163,174
+END
+
+IDD_WMLF_FINDBUDDY DIALOG  0, 0, 163, 176
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_VSCROLL | WS_SYSMENU
+CAPTION "添加好友"
+FONT 9, "MS Shell Dlg"
+BEGIN
+    COMBOBOX        IDC_FB_CBO_NUMTYPE,7,7,138,90,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_FB_EDIT_NO,7,23,130,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_FB_EDIT_NAME,7,90,138,14,ES_AUTOHSCROLL
+    COMBOBOX        IDC_FB_CBO_GROUP,7,117,138,90,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_FB_EDIT_NAME2,7,145,138,14,ES_AUTOHSCROLL
+    CONTROL         "飞信号",IDC_FB_RD_FXNO,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE,86,159,37,10
+    CONTROL         "手机号",IDC_FB_RD_MOBILE,"Button",BS_AUTORADIOBUTTON | NOT WS_VISIBLE,42,159,37,10
+    LISTBOX         IDC_FB_LIST_INFO,7,55,138,20,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_MULTICOLUMN | WS_VSCROLL
+    LTEXT           "发送请求时向对方显示的名称:",IDC_FB_STATIC_NAME,7,79,112,8
+    LTEXT           "添加到组",IDC_FB_STATIC_GROUP,7,107,85,8
+    LTEXT           "静态",IDC_FB_STATIC_INFO,7,41,15,8
+    LTEXT           "对方的昵称:",IDC_FB_STATIC_NAME2,7,133,138,8
+END
+
+IDD_WMLF_ABOUT DIALOG  0, 0, 162, 151
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_VSCROLL | WS_SYSMENU
+CAPTION "Dialog"
+FONT 9, "MS Shell Dlg"
+BEGIN
+    LTEXT           "关于LibFetion WM版(20090712alpha)\r\n\r\n本程序基于LibFetion库编写，了解更多请访问\r\nwww.libfetion.cn.\r\nCopyright @ 2009 DDD(dedodong@163.com) \r\nAll Rights Reserved.\r\n\r\nWindows Mobile 版本由以下人员开发:\r\nDDD\r\ndaviyang35\r\nEric\r\nBabylon\r\n如有问题欢迎到论坛反馈。",IDC_STATIC_ABOUT,7,7,138,136
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,5,0,1
+ PRODUCTVERSION 1,5,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080403a8"
+        BEGIN
+            VALUE "Comments", "2009.07.15 build"
+            VALUE "CompanyName", "LibFetion Develop Group"
+            VALUE "FileDescription", "DDD_LibFetion_For_WM_SP"
+            VALUE "FileVersion", "2009.07.15"
+            VALUE "InternalName", "LibFetion.exe"
+            VALUE "LegalCopyright", "DDD(dedodong@163.com) 保留所有权利。"
+            VALUE "OriginalFilename", "LibFetion.exe"
+            VALUE "ProductName", "DDD(dedodong@163.com) 保留所有权利。"
+            VALUE "ProductVersion", "0.9.5"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 936
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_WMLF_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 148
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 152
+    END
+
+    IDD_WMLF_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 149
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 122
+    END
+
+    IDD_WMLF_MSG, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 154
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 122
+    END
+
+    IDD_WMLF_BUDDYINFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 170
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 210
+    END
+
+    IDD_WMLF_FINDBUDDY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 145
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 169
+    END
+
+    IDD_WMLF_ABOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 145
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 143
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP_USERHEAD     BITMAP                  "res\\misc\\USERHEAD.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// WAVE
+//
+
+IDR_MSGSOUND            WAVE                    "res\\msg.wav"
+IDR_ONLINESOUND         WAVE                    "res\\online.wav"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_WMLF_FINDBUDDY DLGINIT
+BEGIN
+    IDC_FB_CBO_NUMTYPE, 0x403, 7, 0
+0xd6ca, 0xfabb, 0xc5ba, "\000" 
+    IDC_FB_CBO_NUMTYPE, 0x403, 7, 0
+0xc9b7, 0xc5d0, 0xc5ba, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_OK                  "确定"
+    IDS_CANCEL              "取消"
+    IDS_LOGIN               "登录"
+    IDS_MSG_SEND            "发送消息"
+    IDS_MSG_CLOSE           "关闭"
+    IDS_MSG_CHANGE          "切换发生模式"
+    IDS_SHOW_MENU           "菜单"
+    IDS_FB_ADD              "添加"
+    IDS_OPTION              "选项"
+    IDS_LOGIN_REMPASS       "记住密码"
+    IDS_LGOIN_AUTODIAL      "自动拨号"
+    IDS_EXIT                "退出登录"
+    IDS_MAIN_ADDBUDDY       "添加好友"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MAIN_STATE          "在线状态"
+    IDS_MAIN_STATE_ONLINE   "在线"
+    IDS_MAIN_STATE_HIDE     "隐身"
+    IDS_MAIN_STATE_BUSY     "忙碌"
+    IDS_MAIN_SHOWNEWMSG     "提取新消息"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MAIN_STATE_AWAY     "离开"
+    IDS_MAIN_SET_SILENCE    "静音"
+    IDS_MAIN_SET_VIBR       "振动"
+    IDS_MAIN_MINIMAL        "最小化"
+    IDS_MAIN_LOGOFF         "注销并退出"
+END
+
+#endif    // 中文(中华人民共和国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// 英语(美国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP_AWAY         BITMAP                  "res\\onlineSmall\\away.bmp"
+IDB_BITMAP_BLACK        BITMAP                  "res\\onlineSmall\\black.bmp"
+IDB_BITMAP_BUSY         BITMAP                  "res\\onlineSmall\\busy.bmp"
+IDB_BITMAP_DINNER       BITMAP                  "res\\onlineSmall\\dinner.bmp"
+IDB_BITMAP_EXAWAY       BITMAP                  "res\\onlineSmall\\extnded_away.bmp"
+IDB_BITMAP_MEET         BITMAP                  "res\\onlineSmall\\meeting.bmp"
+IDB_BITMAP_MOBILE       BITMAP                  "res\\onlineSmall\\mobile.bmp"
+IDB_BITMAP_NUMP         BITMAP                  "res\\onlineSmall\\num_primitives.bmp"
+IDB_BITMAP_OFFLINE      BITMAP                  "res\\onlineSmall\\offline.bmp"
+IDB_BITMAP_ONLINE       BITMAP                  "res\\onlineSmall\\online.bmp"
+IDB_BITMAP_PHONE        BITMAP                  "res\\onlineSmall\\phone.bmp"
+IDB_BITMAP_WAIT         BITMAP                  "res\\onlineSmall\\waiting.bmp"
+IDB_BITMAP_QUN          BITMAP                  "res\\onlineSmall\\qun.bmp"
+IDB_BITMAP_REFUSE       BITMAP                  "res\\onlineSmall\\refuse.bmp"
+IDB_BITMAP_ONLINE_M     BITMAP                  "res\\onlineSmall\\m_online.bmp"
+IDB_BITMAP_AWAY_M       BITMAP                  "res\\onlineSmall\\m_away.bmp"
+IDB_BITMAP_BUSY_M       BITMAP                  "res\\onlineSmall\\m_busy.bmp"
+IDB_BITMAP_FLICK        BITMAP                  "res\\misc\\online_flick.bmp"
+IDB_BITMAP_BIGLOGO      BITMAP                  "res\\misc\\LibFetion_Big.bmp"
+IDB_BITMAP_FIND         BITMAP                  "res\\misc\\find.bmp"
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resourcesp.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#include ""res\\WMLFsp.rc2""  // ??? Microsoft Visual C++ ????-|?????????\r\n"
+    "#include ""afxres.rc""     // ???????????t\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\WMLF.ico"
+#endif    // 英语(美国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE 4, 2
+#pragma code_page(936)
+#include "res\WMLFsp.rc2"  // ??? Microsoft Visual C++ ????-|?????????
+#include "afxres.rc"     // ???????????t
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
