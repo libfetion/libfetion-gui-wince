@@ -45,7 +45,7 @@ BOOL CAbout::OnInitDialog()
 	}
 
     CString strAboutMsg = 
-_T("关于LibFetion WM版(第七版)\rn\r\n\
+_T("关于LibFetion WM版(第七版)\r\n\r\n\
 本程序基于LibFetion库编写，想了解更多\r\n\
 请访问:www.libfetion.cn.\r\n\
 Copyright @ 2009 DDD(dedodong@163.com)\r\n\
@@ -56,7 +56,7 @@ Windows Mobile 版本由以下人员开发:\r\n\
 \txixinxing\r\n\
 \tEric\r\n\
 \tdaviyang35\r\n\
-\lionlee\r\n\
+\tlionlee\r\n\
 LibFetion库:\t\tDDD\r\n\
 如有问题欢迎到论坛反馈。");
     
