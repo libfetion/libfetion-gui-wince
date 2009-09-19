@@ -143,7 +143,7 @@ CString ConvertNUMToUft16(CString strNUM)
 		wmemcpy(tc5c, pNUM + i * 5, 5);
 		tc5c[6] = '\0';
 		str5c = tc5c;
-		pUtf16[i] = atol(ConvertUtf16ToUtf8(str5c));
+		pUtf16[i] = _wtol(str5c);
 	}
 	pUtf16[strNUM.GetLength()/5] = '\0';
 	res.ReleaseBuffer();

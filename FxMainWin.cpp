@@ -250,7 +250,6 @@ ON_COMMAND(IDM_MAIN_SHOWNEWMSG, &FxMainWin::OnMainShownewmsg)
 ON_COMMAND(IDM_BD_SENDMSG, &FxMainWin::OnBdSendmsg)
 ON_COMMAND(IDM_MAIN_ADDBUDDY, &FxMainWin::OnMainAddbuddy)
 ON_COMMAND(IDM_BD_MOVEGROUP, &FxMainWin::OnBdMovegroup)
-ON_NOTIFY(NM_CLICK, IDC_TREE_BUDDY, &FxMainWin::OnNMClickTreeBuddy)
 ON_COMMAND(IDM_MAIN_CLEAN, &FxMainWin::OnMainClean)
 END_MESSAGE_MAP()
 
@@ -1433,20 +1432,6 @@ void FxMainWin::OnMainDimiss(void)
 void FxMainWin::OnBdMovegroup()
 {
     OnBdViewinfo();
-}
-
-void FxMainWin::OnNMClickTreeBuddy(NMHDR *pNMHDR, LRESULT *pResult)
-{
-	// TODO: 在此添加控件通知处理程序代码
-	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
-	LV_HITTESTINFO* pHitTestInfo = (LV_HITTESTINFO*)pNMHDR;   
-
-	HTREEITEM hItem = (HTREEITEM)pHitTestInfo->iItem;
-	if((NULL != hItem) && view.ItemHasChildren(hItem))
-	{
-		view.Expand(hItem,TVE_TOGGLE);
-	}
-	*pResult = 0;
 }
 
 void FxMainWin::OnMainClean()

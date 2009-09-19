@@ -456,7 +456,7 @@ LRESULT CLoginDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 	case FX_LOGINSTATE_MSG:
 		this->UpdateData(FALSE);
         //如果连接失败则允许再次连接
-        if((bool)(LOWORD(wParam)))
+        if(TRUE == (LOWORD(wParam)))
 		{
             m_bIsLoging =FALSE;
 			m_dlgCommandBar.InsertMenuBar(IDR_LOGIN_MENU);
