@@ -98,7 +98,7 @@ BOOL FxMainWin::handleFx_Sys_Event(int message, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case FX_SYS_DEREGISTERED:
-		AfxMessageBox(_T("您已经在其它地方登录，程序将退出"));
+		MessageBox(_T("您已经在其它地方登录，程序将退出！"), _T("LibFetion"), MB_ICONSTOP);
 		::exit(0); //fixed: no release the res of this app...
 		return TRUE;
 
