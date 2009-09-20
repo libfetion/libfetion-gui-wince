@@ -816,7 +816,6 @@ void CLoginDlg::InitNetList(void)
 		{
 			m_cboNetList.SetItemDataPtr(nIndex, lpDestInfo);
 		}
-		//ConnInfo.guidDestNet = DestInfo.guid;
 		hResult = ConnMgrEnumDestinations(index++, &DestInfo);
 	}
 

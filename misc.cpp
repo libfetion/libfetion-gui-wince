@@ -18,9 +18,10 @@ CString GetHttpsWebData(CString Url)
 	CString strServerName;
 	CString strObject;
 	DWORD dwServiceType;
-	if (!AfxParseURL(Url, dwServiceType, strServerName, strObject, nPort) ||dwServiceType != INTERNET_SERVICE_HTTP)
+	if (!AfxParseURL(Url, dwServiceType, strServerName, strObject, nPort) || (dwServiceType != AFX_INET_SERVICE_HTTPS))
 	{
 		BOOL bS = FALSE;
+		return _T("");
 	}
 	session.EnableStatusCallback(TRUE);
 	CHttpConnection* pServer = session.GetHttpConnection(strServerName, nPort);
@@ -30,8 +31,16 @@ CString GetHttpsWebData(CString Url)
 	INTERNET_FLAG_IGNORE_CERT_CN_INVALID|
 	INTERNET_FLAG_IGNORE_CERT_DATE_INVALID);
 	//end Request 
-	BOOL result = pFile->SendRequest(strHeaders, 
-	(LPVOID)(LPCTSTR)Url, Url.GetLength()); 
+	BOOL result = FALSE;
+	try
+	{
+		result = pFile->SendRequest(strHeaders, (LPVOID)(LPCTSTR)Url, Url.GetLength()); 
+	}
+	catch(CInternetException * pException)
+	{
+		pException->m_dwError;
+		pException->Delete();
+	}
 	//Get Response
 	CString strGetData;
 	TCHAR* szWEBPage = new TCHAR[BUFFER_SIZE+1];
