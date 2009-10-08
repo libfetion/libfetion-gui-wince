@@ -75,6 +75,7 @@ public:
 protected:
 	virtual void OnCancel();
 public:
+	BOOL handleFx_Login_Event(int message, WPARAM wParam, LPARAM lParam);
     // 自动连接网络
     BOOL EstablishConnection(void);
 	CString GetFetionNoFromHttpsWeb(CString strMobileNo, CString strPwd, int& netflag);
