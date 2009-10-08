@@ -358,16 +358,23 @@ lfinally:
 
 void  My_EventListener (int message, WPARAM wParam, LPARAM lParam, void* args)
 {
-	CLoginDlg *loginDlg = NULL;
-	
 	if(!args)
 		return;
-    
-    bool bLoginFail = false;
+	
+	CLoginDlg *loginDlg = (CLoginDlg *)args;
+	::SendMessage(loginDlg->m_hWnd, message + WM_USER, wParam, lParam);
+}
 
-	loginDlg = (CLoginDlg *)args;
-    
-	switch(message)
+BOOL CLoginDlg::handleFx_Login_Event(int message, WPARAM wParam, LPARAM lParam)
+{
+    CLoginDlg *loginDlg = this;
+    bool bLoginFail = false;
+	CIniWR hIni;
+
+	if (message < WM_USER)
+		return FALSE;
+
+	switch(message - WM_USER)
 	{
 	case FX_LOGIN_URI_ERROR:
 		loginDlg->m_login_state = (_T("飞信号错误"));
@@ -437,20 +444,33 @@ void  My_EventListener (int message, WPARAM wParam, LPARAM lParam, void* args)
 		loginDlg->m_LoginFlag = TRUE;
 		//after login success, we should save the fetion server address.
 		loginDlg->m_server_addr = ConvertUtf8ToUtf16(fx_get_serve_address());
-		CIniWR hIni;
 		hIni.WritePrivateProfileString(_T("OPTION"), _T("ServerAddress"), loginDlg->m_server_addr, loginDlg->m_strStartupPath + _T("\\LibFetion.ini"));
 
 		::SendMessage(loginDlg->m_hWnd, WM_CLOSE, (WPARAM)bLoginFail, 0);
-
 		break;
+
+	default:
+		return FALSE;
 	}
 
+	this->UpdateData(FALSE);
+	//如果连接失败则允许再次连接
+	if(bLoginFail)
+	{
+		m_bIsLoging =FALSE;
+		m_dlgCommandBar.InsertMenuBar(IDR_LOGIN_MENU);
+	}
+		
 	//safe to do for our process..
-	::SendMessage(loginDlg->m_hWnd, FX_LOGINSTATE_MSG, bLoginFail, 0);
+	//::SendMessage(loginDlg->m_hWnd, FX_LOGINSTATE_MSG, bLoginFail, 0);
+	return TRUE;
 }
 
 LRESULT CLoginDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
+	if (handleFx_Login_Event(message, wParam, lParam))
+		return TRUE;
+
 	switch(message)
 	{
 	case FX_LOGINSTATE_MSG:
