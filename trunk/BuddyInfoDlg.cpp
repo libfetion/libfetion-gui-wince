@@ -348,7 +348,7 @@ void CBuddyInfoDlg::OnOk()
         fx_move_group_buddy_by_id(m_lAccountID, iNewGroupID, NULL, NULL);
     }
 
-	char * showname = fx_get_account_show_name(m_account, FALSE);
+	char * showname = m_account->local_name;
 	CString strShowName =  ConvertUtf8ToUtf16(showname);
 	if(showname)
 		free(showname);
@@ -411,7 +411,7 @@ void CBuddyInfoDlg::updateAccountInfo()
     if(NULL == m_account)
         return;
 
-	char * showname = fx_get_account_show_name(m_account, FALSE);
+	char * showname = m_account->local_name;
 	m_strShowName =  ConvertUtf8ToUtf16(showname);
 	if(showname)
 		free(showname);
