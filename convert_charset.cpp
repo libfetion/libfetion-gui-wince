@@ -27,6 +27,11 @@ CStringA ConvertUtf16ToUtf8(CString strUtf16)
 CString ConvertUtf8ToUtf16(const char * utf8) 
 { 
 	CString res;
+	if(NULL == utf8)
+	{
+		res = _T("");
+		return res;
+	}
 	int len = MultiByteToWideChar(CP_UTF8/*CP_ACP*/, 0, utf8, -1, NULL, 0); 
 
 	WCHAR * szUtf16 = res.GetBufferSetLength(len + 1); 
