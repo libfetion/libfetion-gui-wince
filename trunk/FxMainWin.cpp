@@ -769,6 +769,8 @@ void FxMainWin::relogin_ok()
 		this->m_currentMsgDlg->GetDlgItem(IDC_SEND)->EnableWindow(TRUE);
 		this->m_currentMsgDlg->GetDlgItem(IDC_SEND_MSG)->EnableWindow(TRUE);
 	}
+	m_strNickNameShow = m_strNickName + GetUserStateString();
+	this->UpdateData(FALSE);
 }
 
 void FxMainWin::relogin_fetion()
@@ -777,6 +779,9 @@ void FxMainWin::relogin_fetion()
 	SetTimer(TIMER_RELOGIN, 1000*35, NULL);
 	//fx_relogin(Relogin_EventListener, this);
 	fx_relogin(Sys_EventListener, this);
+
+	m_strNickNameShow = m_strNickName + GetUserStateString();
+	this->UpdateData(FALSE);
 }
 
 void FxMainWin::update_account_info()
@@ -1476,7 +1481,14 @@ CString FxMainWin::GetUserStateString(void)
     case FX_STATUS_AWAY:
         strUserState = _T(" (离开)");
         break;
+	default:
+		break;
     }
+	if(FALSE == this->m_isLoginOK)
+	{
+        strUserState = _T(" (脱机)");
+	}
+
 	return strUserState;
 }
 
