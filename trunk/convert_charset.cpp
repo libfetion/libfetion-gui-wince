@@ -87,7 +87,7 @@ CString GetCurrentTimeString()
 	CString sShortTime;
 	SYSTEMTIME LocalTime;
 	GetLocalTime(&LocalTime);
-	sShortTime.Format(_T("%02d:%02d:%02d"), LocalTime.wHour, LocalTime.wMinute, LocalTime.wSecond);
+	sShortTime.Format(_T("%d-%d-%d %02d:%02d:%02d"), LocalTime.wYear, LocalTime.wMonth, LocalTime.wDay, LocalTime.wHour, LocalTime.wMinute, LocalTime.wSecond);
 	return sShortTime;
 }
 
@@ -95,29 +95,59 @@ CString GetMsgTimeString(char *msgtime)
 {
 	CString sShortTime;
 	char DayOfWeek[10] = {0};
-	char Month[10] = {0};
+	char szMonth[10] = {0};
 	char GMT[10] = {0};
-	int Day, Year, Hour, Minute, Second;
+	int Day, Year, Month, Hour, Minute, Second;
 	TIME_ZONE_INFORMATION TimeZoneInformation;
 	int MinuteWithBias;
+	SYSTEMTIME SystemTimeUTC, SystemTimeLocal;
+	FILETIME FileTimeUTC, FileTimeLocal;
 
-	sscanf(msgtime, "%s %d %s %d %d:%d:%d %s", DayOfWeek, &Day, Month, &Year, &Hour, &Minute, &Second, GMT);
-	MinuteWithBias = Hour * 60 + Minute;
+	sscanf(msgtime, "%s %d %s %d %d:%d:%d %s", DayOfWeek, &Day, szMonth, &Year, &Hour, &Minute, &Second, GMT);
 
-	GetTimeZoneInformation(&TimeZoneInformation);
-	MinuteWithBias -= TimeZoneInformation.Bias;
-	if(MinuteWithBias < 0)
 	{
-		MinuteWithBias += 24 * 60;
+		if (0 == strcmp(szMonth, "Jan"))
+			Month = 1;
+		else if (0 == strcmp(szMonth, "Feb"))
+			Month = 2;
+		else if (0 == strcmp(szMonth, "Mar"))
+			Month = 3;
+		else if (0 == strcmp(szMonth, "Apr"))
+			Month = 4;
+		else if (0 == strcmp(szMonth, "May"))
+			Month = 5;
+		else if (0 == strcmp(szMonth, "Jun"))
+			Month = 6;
+		else if (0 == strcmp(szMonth, "Jul"))
+			Month = 7;
+		else if (0 == strcmp(szMonth, "Aug"))
+			Month = 8;
+		else if (0 == strcmp(szMonth, "Sep"))
+			Month = 9;
+		else if (0 == strcmp(szMonth, "Oct"))
+			Month = 10;
+		else if (0 == strcmp(szMonth, "Nov"))
+			Month = 11;
+		else if (0 == strcmp(szMonth, "Dec"))
+			Month = 12;
+		else
+			Month = 0;
 	}
-	if(MinuteWithBias > 24 * 60)
-	{
-		MinuteWithBias -= 24 * 60;
-	}
-	Hour = MinuteWithBias / 60;
-	Minute = MinuteWithBias - Hour * 60;
 
-	sShortTime.Format(_T("%02d:%02d:%02d"), Hour, Minute, Second);
+	ZeroMemory(&SystemTimeUTC, sizeof(SYSTEMTIME));
+	SystemTimeUTC.wYear = Year;
+	SystemTimeUTC.wMonth = Month;
+	SystemTimeUTC.wDay = Day;
+	SystemTimeUTC.wHour = Hour;
+	SystemTimeUTC.wMinute = Minute;
+	SystemTimeUTC.wSecond = Second;
+	SystemTimeUTC.wMilliseconds = 0;
+
+	SystemTimeToFileTime(&SystemTimeUTC, &FileTimeUTC);
+	FileTimeToLocalFileTime(&FileTimeUTC, &FileTimeLocal);
+	FileTimeToSystemTime(&FileTimeLocal, &SystemTimeLocal);
+
+	sShortTime.Format(_T("%d-%d-%d %02d:%02d:%02d"), SystemTimeLocal.wYear, SystemTimeLocal.wMonth, SystemTimeLocal.wDay, SystemTimeLocal.wHour, SystemTimeLocal.wMinute, SystemTimeLocal.wSecond);
 
 	return sShortTime;
 }
