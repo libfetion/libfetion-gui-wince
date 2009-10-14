@@ -359,9 +359,9 @@ void FxMsgDlg::OnStnClickedSend()
 	CString show_msg;
 	CString head;
 	if(sendFlag) 
-		head = _T("我(") + GetCurrentTimeString() + _T("):");
+		head = _T("我(") + GetCurrentTimeString() + _T(")\r\n");
 	else 
-		head = _T("发送失败(") + GetCurrentTimeString() + _T("):");
+		head = _T("发送失败(") + GetCurrentTimeString() + _T(")\r\n");
 
 	m_msgSend.Replace(_T("&lt;"), _T("<"));
 	m_msgSend.Replace(_T("&gt;"), _T(">"));
@@ -399,7 +399,7 @@ void FxMsgDlg::getMsg(CString &msg)
 		char * msg_contain = fx_msg_no_format(fxMsg->message); 
 		if(!fxMsg->ext_id)
 		{
-			msg +=  this->account_name + _T("(") + GetMsgTimeString(fxMsg->msgtime) + _T("):");
+			msg +=  this->account_name + _T("(") + GetMsgTimeString(fxMsg->msgtime) + _T(")\r\n");
 			msg += ConvertUtf8ToUtf16(msg_contain) + CString(_T("\r\n\r\n"));
 		}
 		else
@@ -409,9 +409,9 @@ void FxMsgDlg::getMsg(CString &msg)
 			CString temp;
 			temp.Format(_T("%d"),fxMsg->ext_id);
 			if(sender_name!=NULL)
-				msg+=ConvertUtf8ToUtf16(sender_name)+ _T("(") + GetMsgTimeString(fxMsg->msgtime) + _T("):");
+				msg+=ConvertUtf8ToUtf16(sender_name)+ _T("(") + GetMsgTimeString(fxMsg->msgtime) + _T(")\r\n");
 			else
-				msg+=temp+_T("(") + GetMsgTimeString(fxMsg->msgtime) + _T("):");
+				msg+=temp+_T("(") + GetMsgTimeString(fxMsg->msgtime) + _T(")\r\n");
 			msg += ConvertUtf8ToUtf16(msg_contain) + CString(_T("\r\n\r\n"));
 			if(sender_name)
 				free(sender_name);
