@@ -107,11 +107,19 @@ Account_Info *BuddyOpt::fetchNoUpdateAccount()
 				Account_Info *ac_info =(Account_Info*)treeWidget->GetItemData(hItem);
 				if (ac_info && ac_info->isUpdate == FALSE)
 				{
-					strAccountID.Format(_T("%d"), ac_info->accountID);
-					if(0 == strAccountID.Compare(ac_info->accountName))
+					if(fx_is_pc_user_by_id(ac_info->accountID))
 					{
-						//优先更新只显示出飞信ID的好友
-						return ac_info;
+						strAccountID.Format(_T("%d"), ac_info->accountID);
+						if(0 == strAccountID.Compare(ac_info->accountName))
+						{
+							//优先更新只显示出飞信ID的好友
+							return ac_info;
+						}
+					}
+					else
+					{
+						//手机好友不需要更新
+						ac_info->isUpdate = TRUE;
 					}
 				}
 				hItem = treeWidget->GetNextSiblingItem(hItem);
@@ -130,9 +138,18 @@ Account_Info *BuddyOpt::fetchNoUpdateAccount()
 			{
 				Account_Info *ac_info =(Account_Info*)treeWidget->GetItemData(hItem);
 				if (ac_info && ac_info->isUpdate == FALSE)
-					return ac_info;
-				else
-					hItem = treeWidget->GetNextSiblingItem(hItem);
+				{
+					if(fx_is_pc_user_by_id(ac_info->accountID))
+					{
+						return ac_info;
+					}
+					else
+					{
+						//手机好友不需要更新
+						ac_info->isUpdate = TRUE;
+					}
+				}
+				hItem = treeWidget->GetNextSiblingItem(hItem);
 			}
 
 		}
