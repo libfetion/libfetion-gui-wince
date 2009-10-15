@@ -83,7 +83,10 @@ BOOL CBuddyInfoDlg::OnInitDialog()
 #endif
 
     InitGroupItem();
-    fx_update_account_info_by_id (m_lAccountID);
+	if(fx_is_pc_user_by_id(m_lAccountID))
+	{
+		fx_update_account_info_by_id (m_lAccountID);
+	}
 
 	updateAccountInfo();
 
@@ -350,8 +353,6 @@ void CBuddyInfoDlg::OnOk()
 
 	char * showname = m_account->local_name;
 	CString strShowName =  ConvertUtf8ToUtf16(showname);
-	if(showname)
-		free(showname);
 
     if(m_strShowName != strShowName)
     {
@@ -413,8 +414,6 @@ void CBuddyInfoDlg::updateAccountInfo()
 
 	char * showname = m_account->local_name;
 	m_strShowName =  ConvertUtf8ToUtf16(showname);
-	if(showname)
-		free(showname);
 
     m_iGroupID = fx_get_account_group_id(m_account);
 
