@@ -351,10 +351,7 @@ void CBuddyInfoDlg::OnOk()
         fx_move_group_buddy_by_id(m_lAccountID, iNewGroupID, NULL, NULL);
     }
 
-	char * showname = m_account->local_name;
-	CString strShowName =  ConvertUtf8ToUtf16(showname);
-
-    if(m_strShowName != strShowName)
+    if(m_strShowName != ConvertUtf8ToUtf16(m_account->local_name))
     {
 		CStringA showName = ConvertUtf16ToUtf8(m_strShowName);
 		fx_set_buddyinfo(m_lAccountID, showName.GetBuffer(), NULL, NULL); 
@@ -412,8 +409,7 @@ void CBuddyInfoDlg::updateAccountInfo()
     if(NULL == m_account)
         return;
 
-	char * showname = m_account->local_name;
-	m_strShowName =  ConvertUtf8ToUtf16(showname);
+	m_strShowName =  ConvertUtf8ToUtf16(m_account->local_name);
 
     m_iGroupID = fx_get_account_group_id(m_account);
 
