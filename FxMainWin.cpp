@@ -400,6 +400,13 @@ void FxMainWin::do_login()
     GetStartupPath();
 	loginDlg = new CLoginDlg;
 	loginDlg->m_strStartupPath = m_strStartupPath;
+
+	ZeroMemory(&m_ConnInfo, sizeof(m_ConnInfo));
+	m_ConnInfo.cbSize      = sizeof(m_ConnInfo);
+	m_ConnInfo.dwParams    = CONNMGR_PARAM_GUIDDESTNET; 
+	m_ConnInfo.dwPriority  = CONNMGR_PRIORITY_USERINTERACTIVE; 
+	loginDlg->m_pConnInfo = &m_ConnInfo;
+
 	loginDlg->DoModal();
 
 	//if login false, will exit the application
@@ -776,6 +783,18 @@ void FxMainWin::relogin_ok()
 void FxMainWin::relogin_fetion()
 {
 	KillTimer(TIMER_RELOGIN);
+
+	HANDLE* hConnect = new HANDLE();
+	if(NULL != hConnect)
+	{
+		DWORD dwStatus = 0; 
+		ConnMgrEstablishConnectionSync(&m_ConnInfo, hConnect, 25000, &dwStatus);
+		if(dwStatus==CONNMGR_STATUS_CONNECTED)
+		{
+			//网络连接成功
+		}
+		delete hConnect;
+	}
 	SetTimer(TIMER_RELOGIN, 1000*35, NULL);
 	//fx_relogin(Relogin_EventListener, this);
 	fx_relogin(Sys_EventListener, this);

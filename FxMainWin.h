@@ -8,6 +8,11 @@
 #include "afxcmn.h"
 #include "MessageLog.h"
 #include "BuddyInfoDlg.h"
+#ifdef M8
+#include "M8Misc.h"
+#else
+#include <connmgr.h>
+#endif
 
 class CLoginDlg;
 class BuddyOpt;
@@ -94,6 +99,7 @@ public:
 	void addNewQunMessage(long qun_id,CString newmsg=_T(""));
     BOOL SetUserOnlineState(int iState);
 public:
+	CONNMGR_CONNECTIONINFO m_ConnInfo;
 	BOOL m_isLoginOK;
     // 用户昵称
     CString m_strNickName;

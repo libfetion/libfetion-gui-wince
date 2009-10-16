@@ -9,6 +9,11 @@
 
 #pragma once
 #include "afxwin.h"
+#ifdef M8
+#include "M8Misc.h"
+#else
+#include <connmgr.h>
+#endif
 
 #define FX_LOGINSTATE_MSG WM_USER+1 
 
@@ -41,6 +46,7 @@ protected:
 #endif
 	DECLARE_MESSAGE_MAP()
 public:
+    CONNMGR_CONNECTIONINFO* m_pConnInfo;
 	// 手机号码
 	CString m_mobile_no;
 	// 飞信ID

@@ -41,7 +41,7 @@ CLoginDlg::CLoginDlg(CWnd* pParent /*=NULL*/)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	//fx_set_https_func(WINCE_https);
-
+	m_pConnInfo = NULL;
 }
 
 void CLoginDlg::DoDataExchange(CDataExchange* pDX)
@@ -586,21 +586,22 @@ void CLoginDlg::OnCancel()
 BOOL CLoginDlg::EstablishConnection(void)
 {
     HANDLE* hConnect = new HANDLE();
+	if(NULL == hConnect)
+	{
+		return FALSE;
+	}
 	this->m_login_state=_T("连接网络...");
 	this->UpdateData(FALSE);
 	this->UpdateWindow();
 
-    CONNMGR_CONNECTIONINFO ConnInfo = { 0 };
-    ConnInfo.cbSize      = sizeof(ConnInfo);
-    ConnInfo.dwParams    = CONNMGR_PARAM_GUIDDESTNET; 
-    ConnInfo.dwPriority  = CONNMGR_PRIORITY_USERINTERACTIVE; 
-	if(!GetSelectedNet(ConnInfo.guidDestNet))
+	if(!GetSelectedNet(m_pConnInfo->guidDestNet))
 	{
 		return FALSE;
 	}
 
     DWORD dwStatus = 0; 
-    ConnMgrEstablishConnectionSync(&ConnInfo, hConnect, 25000, &dwStatus);
+    ConnMgrEstablishConnectionSync(m_pConnInfo, hConnect, 25000, &dwStatus);
+	delete hConnect;
 	if(dwStatus==CONNMGR_STATUS_CONNECTED)//网络连接成功
 	{
 		this->m_login_state=_T("网络连接成功...");
