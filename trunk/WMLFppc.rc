@@ -176,7 +176,7 @@ BEGIN
     COMBOBOX        IDC_COMBO_NET,51,82,86,37,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "记住密码",IDC_REMPASS,"Button",BS_AUTOCHECKBOX | BS_VCENTER | WS_TABSTOP,20,98,48,8
     CONTROL         "隐身登录",IDC_LOGIN_OFFLINE,"Button",BS_AUTOCHECKBOX | BS_VCENTER | WS_TABSTOP,80,98,48,10
-    DEFPUSHBUTTON   "登录",IDC_LOGIN,87,111,50,14
+    DEFPUSHBUTTON   "登录",IDC_LOGIN,17,108,50,14
     LTEXT           "",IDC_LOGIN_STATE,17,94,106,8
 END
 
@@ -286,10 +286,10 @@ BEGIN
     BEGIN
         BLOCK "080403a8"
         BEGIN
-            VALUE "Comments", "2009.07.15 build"
+            VALUE "Comments", "2009.10.18 build"
             VALUE "CompanyName", "LibFetion Develop Group"
             VALUE "FileDescription", "DDD_LibFetion_For_WM_PPC"
-            VALUE "FileVersion", "2009.07.15"
+            VALUE "FileVersion", "2009.010.18"
             VALUE "InternalName", "LibFetion.exe"
             VALUE "LegalCopyright", "DDD(dedodong@163.com) 保留所有权利。"
             VALUE "OriginalFilename", "LibFetion.exe"
