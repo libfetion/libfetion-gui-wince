@@ -289,7 +289,7 @@ BEGIN
             VALUE "Comments", "2009.10.18 build"
             VALUE "CompanyName", "LibFetion Develop Group"
             VALUE "FileDescription", "DDD_LibFetion_For_WM_PPC"
-            VALUE "FileVersion", "2009.010.18"
+            VALUE "FileVersion", "2009.10.18"
             VALUE "InternalName", "LibFetion.exe"
             VALUE "LegalCopyright", "DDD(dedodong@163.com) 保留所有权利。"
             VALUE "OriginalFilename", "LibFetion.exe"
