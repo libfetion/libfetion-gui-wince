@@ -165,7 +165,7 @@ CNotify::~CNotify(void)
 
 // 播放指定的声音或振动
 // 如果strPath不为空, 则播放声音
-void CNotify::Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, bool bSound, bool bVibr, UINT Styles)
+void CNotify::Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, BOOL bSound, BOOL bVibr, UINT Styles)
 {
     if(bVibr)
     {

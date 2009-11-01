@@ -62,7 +62,7 @@ public:
     CNotify(void);
     ~CNotify(void);
     // 播放指定的声音
-    static void Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, bool bNoSound = false, bool bVibe = false, UINT Styles = 0);
+    static void Nodify(HWND hwnd, LPCWSTR strPath, int iPeriod, BOOL bNoSound = FALSE, BOOL bVibe = FALSE, UINT Styles = 0);
 
     static void CNotify::CreateAndAddNotification(HWND hwnd, CString szTitle, CString szNotify);
     static void RemoveNotification();

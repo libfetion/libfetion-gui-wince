@@ -8,6 +8,7 @@
 #include "afxcmn.h"
 #include "MessageLog.h"
 #include "BuddyInfoDlg.h"
+#include "FxMsgDlgView.h"
 #ifdef M8
 #include "M8Misc.h"
 #else
@@ -50,6 +51,7 @@ public:
 	//login window
 	CLoginDlg *loginDlg;
 	BuddyOpt *m_BuddyOpt;
+	CFxMsgDlgView * m_pFxMsgDlgView;
 
 public:
 	CTreeCtrl view;
@@ -76,10 +78,6 @@ public:
 	CList<int> timeOutMsgVector;
 	CList<TMPMSG_Info*> tmpMsg;
 public:
-	//当前聊天对话框
-	FxMsgDlg* m_currentMsgDlg;
-	//当前聊天Item
-	HTREEITEM m_currentItem;
 	//当前好友资料对话框
 	CBuddyInfoDlg* m_BuddyInfoDlg;
 public:
@@ -113,15 +111,15 @@ public:
     // 消息提示
     void NotifyUser(int EventType, long lAccountID, CString szBuddyName);
     // 是否在收到消息时振动提醒
-    bool m_bVibrate;
+    BOOL m_bVibrate;
 	// 好友上线时是否提醒
-	bool m_bOnline;
+	BOOL m_bOnline;
 
     // 是否在收到消息时静音
-    bool m_bSilence;
+    BOOL m_bSilence;
 
 	// 是否屏蔽群消息
-	bool m_bShieldQunMessage;
+	BOOL m_bShieldQunMessage;
 
     afx_msg void OnMainSetVibr();
     afx_msg void OnUpdateMainSetVibr(CCmdUI *pCmdUI);
@@ -154,7 +152,7 @@ public:
     afx_msg void OnBdAddblacklist();
     afx_msg void OnBdRmblacklist();
     afx_msg void OnMainSetNosound();
-    bool m_bSound;
+    BOOL m_bSound;
     
 protected:
     virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
@@ -180,5 +178,7 @@ public:
 	CString GetUserStateString(void);
 	UINT GetSettingFromIni(LPCTSTR lpKeyName, int nDefault = 0);
 	BOOL SetSettingToIni(LPCTSTR lpKeyName, UINT uValue);
-
+	void RecoveryMenuBar();
+	afx_msg void OnSendMyself();
+	void RemoveFilker(long lAccountID);
 };

@@ -9,7 +9,6 @@
 #include "WMLF.h"
 #include "FxMainWin.h"
 #include "LoginDlg.h"
-#include "FxMsgDlg.h"
 #include "FxBuddy.h"
 #include "FindBuddyDlg.h"
 #include "Notify.h"
@@ -87,6 +86,7 @@ BOOL FxMainWin::handleFx_Sys_Event(int message, WPARAM wParam, LPARAM lParam)
 		{
 			m_BuddyInfoDlg->updateAccountInfo();
 		}
+		m_pFxMsgDlgView->updateAccountInfo(lParam);
 		return TRUE;
 
 	case FX_SET_REFUSE_SMS_DAY_OK:
@@ -194,8 +194,6 @@ FxMainWin::FxMainWin(CWnd* pParent /*=NULL*/)
 	: CDialog(FxMainWin::IDD, pParent)
 	, loginDlg(NULL)
 	, m_BuddyOpt(NULL)
-	, m_currentMsgDlg(NULL)
-	, m_currentItem(NULL)
 	, m_BuddyInfoDlg(NULL)
 	, m_isLoginOK(FALSE)
     , m_strNickName(_T(""))
@@ -204,11 +202,17 @@ FxMainWin::FxMainWin(CWnd* pParent /*=NULL*/)
     , m_strStartupPath(_T(""))
     , m_lAccountID(0)
 	, m_mobile_no(_T(""))
+	, m_pFxMsgDlgView(NULL)
 {
 }
 
 FxMainWin::~FxMainWin()
 {
+	if(NULL != m_pFxMsgDlgView)
+	{
+		delete m_pFxMsgDlgView;
+		m_pFxMsgDlgView = NULL;
+	}
 }
 
 void FxMainWin::DoDataExchange(CDataExchange* pDX)
@@ -251,6 +255,7 @@ ON_COMMAND(IDM_BD_SENDMSG, &FxMainWin::OnBdSendmsg)
 ON_COMMAND(IDM_MAIN_ADDBUDDY, &FxMainWin::OnMainAddbuddy)
 ON_COMMAND(IDM_BD_MOVEGROUP, &FxMainWin::OnBdMovegroup)
 ON_COMMAND(IDM_MAIN_CLEAN, &FxMainWin::OnMainClean)
+ON_COMMAND(IDM_SEND_MYSELF, &FxMainWin::OnSendMyself)
 END_MESSAGE_MAP()
 
 #ifdef WIN32_PLATFORM_WFSP
@@ -374,6 +379,10 @@ BOOL FxMainWin::OnInitDialog()
 
 	m_BuddyOpt = new BuddyOpt(&view);
 	
+	m_pFxMsgDlgView = new CFxMsgDlgView(this);
+	m_pFxMsgDlgView->Create(IDD_WMLF_MSG_VIEW, this);
+	m_pFxMsgDlgView->ModifyStyleEx(0, WS_EX_CONTROLPARENT);
+    
 //#ifdef WIN32_PLATFORM_WFSP
 #ifndef M8
 	if (!m_dlgCommandBar.Create(this) ||
@@ -389,7 +398,6 @@ BOOL FxMainWin::OnInitDialog()
 #endif
 //#endif // WIN32_PLATFORM_WFSP
 	// TODO: 在此添加额外的初始化代码
-    
 	SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*2, NULL);
 	
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -697,50 +705,20 @@ BOOL FxMainWin::showMsgDlg(HTREEITEM hItem)
 	if (!ac_info)
 		return FALSE;
 
-	POSITION pos = filker.Find(hItem);
-	if (pos)
-		filker.RemoveAt(pos);
+	RemoveFilker(ac_info->accountID);
 
-    // 更正点击后头像消息的BUG
-	m_BuddyOpt->setOnlineState(hItem);
-	view.SetItemImage(view.GetParentItem(hItem), I_QUN, I_QUN);
-
-	if (filker.GetCount() == 0)
-			KillTimer(TIMER_NEWMSG);
-    showMsgDlg(ac_info->accountID);
+	showMsgDlg(ac_info->accountID);
 #endif
 	return TRUE;
 }
 
 BOOL FxMainWin::showMsgDlg(long lAccountID)
 {	
-#if DEBUG_GUI
-	m_currentMsgDlg = new FxMsgDlg(123456, this);
-#else
-	if(NULL != m_currentMsgDlg)
-	{
-		//当从桌面提醒过来时，可能之前正在与另一人聊天，将聊天切换到来新消息的好友
-		m_MessageLog.StoreMsgLog(m_currentMsgDlg->account_id, m_currentMsgDlg->m_msgBrowser);
-	    m_currentMsgDlg->m_msgBrowser = m_MessageLog.LoadMsgLog(lAccountID);
-		m_currentMsgDlg->SetNewBuddy(lAccountID);
-		return TRUE;
-	}
-	m_currentMsgDlg = new FxMsgDlg(lAccountID, this);
-    m_currentMsgDlg->m_msgBrowser = m_MessageLog.LoadMsgLog(lAccountID);
-#endif
-    
-	//this->ShowWindow(SW_HIDE);
-	m_currentMsgDlg->m_isLoginOK = this->m_isLoginOK;
-	m_currentMsgDlg->DoModal();
-#if !DEBUG_GUI
-    //把聊天记录暂时存到内存中
-	m_MessageLog.StoreMsgLog(m_currentMsgDlg->account_id, m_currentMsgDlg->m_msgBrowser);
-#endif
-	//fix: this is a bad code, 
-	//here will make sure that just have one msg dialog in system
-	delete m_currentMsgDlg;
-	//this->ShowWindow(SW_SHOW);
-	m_currentMsgDlg = NULL;
+	m_pFxMsgDlgView->m_isLoginOK = m_isLoginOK;
+	m_pFxMsgDlgView->ShowWindow(SW_SHOW);
+	m_pFxMsgDlgView->m_isShow= TRUE;
+	m_pFxMsgDlgView->ShowChat(m_pFxMsgDlgView->ChatWith(lAccountID));
+	m_pFxMsgDlgView->ShowMenuBar();
 
 	return TRUE;
 }
@@ -749,13 +727,6 @@ bool FxMainWin::hand_SystemNetErr(int errcode)
 {
 	this->m_isLoginOK = FALSE;
 	GetDlgItem(IDC_NET_STATE)->ShowWindow(SW_SHOW);
-	if(this->m_currentMsgDlg)
-	{
-		this->m_currentMsgDlg->GetDlgItem(IDC_NET_STATE)->ShowWindow(SW_SHOW);
-		//this->m_currentMsgDlg->GetDlgItem(IDC_SEND)->ShowWindow(SW_HIDE);
-		this->m_currentMsgDlg->GetDlgItem(IDC_SEND)->EnableWindow(FALSE);
-		this->m_currentMsgDlg->GetDlgItem(IDC_SEND_MSG)->EnableWindow(FALSE);
-	}
 	relogin_fetion();
 	this->UpdateWindow();
 	return true;
@@ -769,13 +740,6 @@ void FxMainWin::relogin_ok()
 	fx_set_system_msg_cb (Sys_EventListener, this);
 
 	GetDlgItem(IDC_NET_STATE)->ShowWindow(SW_HIDE);
-	if(this->m_currentMsgDlg)
-	{
-		this->m_currentMsgDlg->GetDlgItem(IDC_NET_STATE)->ShowWindow(SW_HIDE);
-		//this->m_currentMsgDlg->GetDlgItem(IDC_SEND)->ShowWindow(SW_SHOW);
-		this->m_currentMsgDlg->GetDlgItem(IDC_SEND)->EnableWindow(TRUE);
-		this->m_currentMsgDlg->GetDlgItem(IDC_SEND_MSG)->EnableWindow(TRUE);
-	}
 	m_strNickNameShow = m_strNickName + GetUserStateString();
 	this->UpdateData(FALSE);
 }
@@ -971,10 +935,13 @@ void FxMainWin::addNewMessage(long account_id, CString newmsg /* ="" */)
 
 	m_BuddyOpt->setOnlineState(accountItem);
 
-	if (m_currentMsgDlg && m_currentMsgDlg->account_id == account_id)
+	if(FALSE == m_pFxMsgDlgView->addNewMsg(account_id, newmsg))
 	{
-		m_currentMsgDlg->addNewMsg(newmsg);
 		return;
+	}
+	else
+	{
+		RecoveryMenuBar();
 	}
 
 	if (!newmsg.IsEmpty())
@@ -1014,10 +981,14 @@ void FxMainWin::addNewQunMessage(long qun_id,CString newmsg )
 
 	//对象不匹配，注释掉防止出错
 	//m_BuddyOpt->setOnlineState(accountItem);
-	if (m_currentMsgDlg && m_currentMsgDlg->account_id == qun_id)
+
+	if(FALSE == m_pFxMsgDlgView->addNewMsg(qun_id, newmsg))
 	{
-		m_currentMsgDlg->addNewMsg(newmsg);
 		return;
+	}
+	else
+	{
+		RecoveryMenuBar();
 	}
 
 	if (!newmsg.IsEmpty())
@@ -1533,4 +1504,43 @@ void FxMainWin::handle_AddAccountApp(char* uri, char* showname)
     {
         fx_handleContactRequest(uri, 1, 0, showname);
     }
+}
+void FxMainWin::RecoveryMenuBar()
+{
+	m_dlgCommandBar.InsertMenuBar(IDR_MAIN_MENU);
+}
+void FxMainWin::OnSendMyself()
+{
+	// TODO: 在此添加命令处理程序代码
+	m_pFxMsgDlgView->m_isLoginOK = m_isLoginOK;
+	m_pFxMsgDlgView->ShowWindow(SW_SHOW);
+	m_pFxMsgDlgView->m_isShow= TRUE;
+	m_pFxMsgDlgView->ShowChat(m_pFxMsgDlgView->ChatWith(strtol(fx_get_usr_uid(), NULL,10), TRUE));
+	m_pFxMsgDlgView->ShowMenuBar();
+}
+
+void FxMainWin::RemoveFilker(long lAccountID)
+{
+	const Fetion_Account * account = fx_get_account_by_id (lAccountID);
+	if(NULL == account)
+	{
+		return;
+	}
+
+	HTREEITEM hItem = m_BuddyOpt->findAccountItemFromAllGroup(account);
+
+	POSITION pos = filker.Find(hItem);
+	if(pos)
+	{
+		filker.RemoveAt(pos);
+	}
+
+    // 更正点击后头像消息的BUG
+	m_BuddyOpt->setOnlineState(hItem);
+	view.SetItemImage(view.GetParentItem(hItem), I_QUN, I_QUN);
+
+	if (filker.GetCount() == 0)
+	{
+		KillTimer(TIMER_NEWMSG);
+	}
 }

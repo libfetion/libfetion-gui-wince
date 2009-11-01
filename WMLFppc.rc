@@ -72,6 +72,10 @@ BEGIN
             MENUITEM "清除登录密码",                      IDM_MAIN_CLEAN
             MENUITEM "关于",                          IDM_ABOUT
         END
+        POPUP "操作"
+        BEGIN
+            MENUITEM "给自己发送短信",                     IDM_SEND_MYSELF
+        END
         MENUITEM SEPARATOR
         MENUITEM "注销并退出",                       IDM_MAIN_LOGOFF
         MENUITEM "最小化",                         IDM_MAIN_MINIMAL
@@ -84,8 +88,10 @@ BEGIN
     POPUP "选项"
     BEGIN
         MENUITEM "查看资料",                        IDM_BD_VIEWINFO
-        MENUITEM SEPARATOR
         MENUITEM "切换发送方式",                      IDM_MSG_CHANGE_METHOD
+        MENUITEM "下一个对话",                       IDM_NEXT_TALK
+        MENUITEM "结束当前对话",                      IDM_END_TALK
+        MENUITEM SEPARATOR
         MENUITEM "返回主界面",                       IDOK
     END
 END
@@ -193,20 +199,6 @@ BEGIN
     LTEXT           "静态",IDC_INFO_SIGN,36,22,15,8
 END
 
-IDD_WMLF_MSG DIALOG  0, 0, 158, 129
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION
-EXSTYLE WS_EX_APPWINDOW | 0x80000000L
-CAPTION "LibFetion"
-FONT 9, "MS Shell Dlg"
-BEGIN
-    EDITTEXT        IDC_SEND_MSG,4,86,150,36,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_GROUP
-    EDITTEXT        IDC_MSG_BROWSER,4,16,150,53,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_GROUP,WS_EX_DLGMODALFRAME
-    CONTROL         152,IDC_CHANGE,"Static",SS_BITMAP | SS_NOTIFY,11,72,29,11
-    CONTROL         153,IDC_SEND,"Static",SS_BITMAP | SS_NOTIFY,98,72,45,11
-    LTEXT           "网络错误,正在重连服务器...",IDC_NET_STATE,4,11,108,8,NOT WS_VISIBLE
-    LTEXT           "好友",IDC_MSG_INFO,4,5,132,19
-END
-
 IDD_WMLF_FINDBUDDY DIALOG  0, 0, 163, 176
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "添加好友"
@@ -261,6 +253,23 @@ CAPTION "Dialog"
 FONT 9, "MS Shell Dlg"
 BEGIN
     LTEXT           "关于LibFetion WM版(20090712alpha)\r\n\r\n本程序基于LibFetion库编写，了解更多请访问\r\nwww.libfetion.cn.\r\nCopyright @ 2009 DDD(dedodong@163.com) \r\nAll Rights Reserved.\r\n\r\nWindows Mobile 版本由以下人员开发:\r\nDDD\r\ndaviyang35\r\nEric\r\nBabylon\r\n如有问题欢迎到论坛反馈。",IDC_STATIC_ABOUT,7,7,172,135
+END
+
+IDD_WMLF_MSG_VIEW DIALOG  0, 0, 159, 159
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_BORDER
+EXSTYLE WS_EX_APPWINDOW | 0x80000000L
+FONT 9, "MS Shell Dlg"
+BEGIN
+    CONTROL         "",IDC_TAB_CHAT,"SysTabControl32",TCS_FOCUSONBUTTONDOWN | WS_TABSTOP,0,0,151,148
+END
+
+IDD_WMLF_MSG_PAGE DIALOG  0, 0, 160, 176
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_BORDER
+FONT 9, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_SEND_MSG,0,130,159,39,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_GROUP
+    EDITTEXT        IDC_MSG_BROWSER,0,28,159,89,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_GROUP
+    LTEXT           "好友",IDC_MSG_INFO,0,1,154,20
 END
 
 
@@ -328,14 +337,6 @@ BEGIN
         BOTTOMMARGIN, 152
     END
 
-    IDD_WMLF_MSG, DIALOG
-    BEGIN
-        LEFTMARGIN, 4
-        RIGHTMARGIN, 154
-        TOPMARGIN, 5
-        BOTTOMMARGIN, 122
-    END
-
     IDD_WMLF_FINDBUDDY, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -358,6 +359,20 @@ BEGIN
         RIGHTMARGIN, 179
         TOPMARGIN, 7
         BOTTOMMARGIN, 142
+    END
+
+    IDD_WMLF_MSG_VIEW, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 155
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 152
+    END
+
+    IDD_WMLF_MSG_PAGE, DIALOG
+    BEGIN
+        RIGHTMARGIN, 159
+        BOTTOMMARGIN, 169
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -424,6 +439,7 @@ IDB_BITMAP_BUSY_M       BITMAP                  "res\\onlineSmall\\m_busy.bmp"
 IDB_BITMAP_FLICK        BITMAP                  "res\\misc\\online_flick.bmp"
 IDB_BITMAP_BIGLOGO      BITMAP                  "res\\misc\\LibFetion_Big.bmp"
 IDB_BITMAP_FIND         BITMAP                  "res\\misc\\find.bmp"
+IDB_BITMAP_NOTREAD      BITMAP                  "res\\NotRead.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
