@@ -124,10 +124,10 @@ BEGIN
             MENUITEM "关闭提醒",                        IDM_MAIN_SET_SILENCE
             MENUITEM "清除登录密码",                      IDM_MAIN_CLEAN
             MENUITEM "关于",                          IDM_ABOUT
-            POPUP "操作"
-            BEGIN
-                MENUITEM "给自己发送短信",                     IDM_SEND_MYSELF
-            END
+        END
+        POPUP "操作"
+        BEGIN
+            MENUITEM "给自己发送短信",                     IDM_SEND_MYSELF
         END
         MENUITEM SEPARATOR
         MENUITEM "注销并退出",                       IDM_MAIN_LOGOFF
