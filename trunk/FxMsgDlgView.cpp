@@ -96,11 +96,12 @@ void CFxMsgDlgView::OnSize(UINT nType, int cx, int cy)
 
 	// TODO: 在此处添加消息处理程序代码
 	CRect rc;
-	GetClientRect(rc);
-	m_TabChat.MoveWindow(rc);
-
-	m_TabChat.GetClientRect(rc);
-	rc.top += 24;
+	GetClientRect(&rc);
+	m_TabChat.MoveWindow(&rc);
+	CRect rcItem;
+    m_TabChat.GetItemRect(0, &rcItem);
+	m_TabChat.GetClientRect(&rc);
+	rc.top = rcItem.bottom + 2;
 	rc.bottom -= 2;
 	rc.left += 2;
 	rc.right -= 2;
@@ -116,7 +117,7 @@ void CFxMsgDlgView::OnSize(UINT nType, int cx, int cy)
 		pMsgPage = (CFxMsgDlgPage*)Item.lParam;
 		if(NULL != pMsgPage)
 		{
-			pMsgPage->MoveWindow(rc);
+			pMsgPage->MoveWindow(&rc);
 		}
 	}
 }
@@ -169,9 +170,11 @@ CFxMsgDlgPage * CFxMsgDlgView::AddNewChat(long lAccountID, BOOL bMyself)
 
 	int nItem = pMsgPage->Create(IDD_WMLF_MSG_PAGE,&m_TabChat);
 	pMsgPage->ShowWindow(SW_HIDE);
+	CRect rcItem;
+    m_TabChat.GetItemRect(0, &rcItem);
 	CRect rc;
-	m_TabChat.GetClientRect(rc);
-	rc.top += 24;
+	m_TabChat.GetClientRect(&rc);
+	rc.top = rcItem.bottom + 2;
 	rc.bottom -= 2;
 	rc.left += 2;
 	rc.right -= 2;
