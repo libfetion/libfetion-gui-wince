@@ -746,6 +746,9 @@ void FxMainWin::relogin_ok()
 
 void FxMainWin::relogin_fetion()
 {
+	m_strNickNameShow = m_strNickName + GetUserStateString();
+	this->UpdateData(FALSE);
+
 	KillTimer(TIMER_RELOGIN);
 
 	HANDLE* hConnect = new HANDLE();
@@ -762,9 +765,6 @@ void FxMainWin::relogin_fetion()
 	SetTimer(TIMER_RELOGIN, 1000*35, NULL);
 	//fx_relogin(Relogin_EventListener, this);
 	fx_relogin(Sys_EventListener, this);
-
-	m_strNickNameShow = m_strNickName + GetUserStateString();
-	this->UpdateData(FALSE);
 }
 
 void FxMainWin::update_account_info()
