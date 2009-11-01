@@ -876,7 +876,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\FxMsgDlg.cpp"
+				RelativePath=".\FxMsgDlgPage.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FxMsgDlgView.cpp"
 				>
 			</File>
 			<File
@@ -1026,11 +1030,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\FxMsgDlg.h"
+				RelativePath=".\FxMsgDlgPage.h"
 				>
 			</File>
 			<File
-				RelativePath=".\FxMsgDlg.h"
+				RelativePath=".\FxMsgDlgView.h"
 				>
 			</File>
 			<File
@@ -1149,6 +1153,10 @@
 			</File>
 			<File
 				RelativePath=".\res\msg.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\res\NotRead.bmp"
 				>
 			</File>
 			<File
