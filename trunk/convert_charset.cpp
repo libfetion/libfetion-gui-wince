@@ -98,8 +98,6 @@ CString GetMsgTimeString(char *msgtime)
 	char szMonth[10] = {0};
 	char GMT[10] = {0};
 	int Day, Year, Month, Hour, Minute, Second;
-	TIME_ZONE_INFORMATION TimeZoneInformation;
-	int MinuteWithBias;
 	SYSTEMTIME SystemTimeUTC, SystemTimeLocal;
 	FILETIME FileTimeUTC, FileTimeLocal;
 
