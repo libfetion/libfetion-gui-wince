@@ -939,7 +939,7 @@ void FxMainWin::addNewMessage(long account_id, CString newmsg /* ="" */)
 	{
 		return;
 	}
-	else
+	if(!m_pFxMsgDlgView->m_isShow)
 	{
 		RecoveryMenuBar();
 	}
@@ -986,7 +986,7 @@ void FxMainWin::addNewQunMessage(long qun_id,CString newmsg )
 	{
 		return;
 	}
-	else
+	if(!m_pFxMsgDlgView->m_isShow)
 	{
 		RecoveryMenuBar();
 	}
