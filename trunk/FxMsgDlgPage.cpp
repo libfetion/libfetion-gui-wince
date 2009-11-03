@@ -17,12 +17,13 @@
 
 IMPLEMENT_DYNAMIC(CFxMsgDlgPage, CDialog)
 
-CFxMsgDlgPage::CFxMsgDlgPage(long lAccountID, CWnd* pParent /*=NULL*/)
+CFxMsgDlgPage::CFxMsgDlgPage(long lAccountID, CWnd* pParent /*=NULL*/, BOOL bLoginOK /*=TRUE*/)
 	: CDialog(CFxMsgDlgPage::IDD, pParent)
 	, m_lAccountID(lAccountID)
 	, m_isSendSMS(FALSE)
 	, m_bMyself(FALSE)
 	, m_bNotReadFlag(FALSE)
+	, m_isLoginOK(bLoginOK)
 {
 	m_pParentWnd = pParent;
 }
@@ -109,17 +110,9 @@ BOOL CFxMsgDlgPage::OnInitDialog()
 	if (!m_isSendSMS)
 		fx_begin_dialog (m_lAccountID, NULL, NULL); 
 
-	ShowOnlineInfo();
+	LoginOK(m_isLoginOK);
 	m_send.SetFocus();
 
-	if(((CFxMsgDlgView*)m_pParentWnd)->m_isLoginOK)
-	{
-		m_send.SetReadOnly(FALSE);
-	}
-	else
-	{
-		m_send.SetReadOnly(TRUE);
-	}
 	//this->UpdateWindow();
 
     SetTimer(USER_SCROLLTOLAST, 500, 0);
@@ -131,6 +124,13 @@ BOOL CFxMsgDlgPage::OnInitDialog()
 void CFxMsgDlgPage::ShowOnlineInfo()
 {
 	UpdateData();
+
+	if(!m_isLoginOK)
+	{
+		m_strInfo.Format(_T("您已脱机，正在重新连接..."));
+		UpdateData(FALSE);
+		return;
+	}
 
 	if(m_bMyself)
 	{
@@ -470,3 +470,16 @@ BOOL CFxMsgDlgPage::PreTranslateMessage(MSG* pMsg)
 	return CDialog::PreTranslateMessage(pMsg);
 }
 
+void CFxMsgDlgPage::LoginOK(BOOL bLoginOK)
+{
+	m_isLoginOK = bLoginOK;
+	if(m_isLoginOK)
+	{
+		m_send.SetReadOnly(FALSE);
+	}
+	else
+	{
+		m_send.SetReadOnly(TRUE);
+	}
+	ShowOnlineInfo();
+}

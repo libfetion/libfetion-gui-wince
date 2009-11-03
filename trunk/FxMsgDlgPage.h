@@ -8,7 +8,7 @@ class CFxMsgDlgPage : public CDialog
 	DECLARE_DYNAMIC(CFxMsgDlgPage)
 
 public:
-	CFxMsgDlgPage(long lAccountID, CWnd* pParent = NULL);   // 标准构造函数
+	CFxMsgDlgPage(long lAccountID, CWnd* pParent = NULL, BOOL bLoginOK = TRUE);   // 标准构造函数
 	virtual ~CFxMsgDlgPage();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	CString GetTitle();
@@ -16,7 +16,9 @@ public:
     void ScrollToLast(void);
 	void addNewMsg(CString msg = _T(""));
 	void getMsg(CString &msg);
+	void LoginOK(BOOL bLoginOK);
 
+	BOOL m_isLoginOK;
 	long m_lAccountID;
 	CString m_account_name;
 	const Fetion_Account *m_account;
