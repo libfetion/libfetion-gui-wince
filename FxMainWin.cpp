@@ -714,7 +714,7 @@ BOOL FxMainWin::showMsgDlg(HTREEITEM hItem)
 
 BOOL FxMainWin::showMsgDlg(long lAccountID)
 {	
-	m_pFxMsgDlgView->m_isLoginOK = m_isLoginOK;
+	m_pFxMsgDlgView->LoginOK(m_isLoginOK);
 	m_pFxMsgDlgView->ShowWindow(SW_SHOW);
 	m_pFxMsgDlgView->m_isShow= TRUE;
 	m_pFxMsgDlgView->ShowChat(m_pFxMsgDlgView->ChatWith(lAccountID));
@@ -726,6 +726,7 @@ BOOL FxMainWin::showMsgDlg(long lAccountID)
 bool FxMainWin::hand_SystemNetErr(int errcode)
 {
 	this->m_isLoginOK = FALSE;
+	m_pFxMsgDlgView->LoginOK(m_isLoginOK);
 	GetDlgItem(IDC_NET_STATE)->ShowWindow(SW_SHOW);
 	relogin_fetion();
 	this->UpdateWindow();
@@ -735,6 +736,7 @@ bool FxMainWin::hand_SystemNetErr(int errcode)
 void FxMainWin::relogin_ok()
 {
 	this->m_isLoginOK = TRUE;
+	m_pFxMsgDlgView->LoginOK(m_isLoginOK);
 	
 	//set the fetion system msg call back function
 	fx_set_system_msg_cb (Sys_EventListener, this);
@@ -1512,7 +1514,7 @@ void FxMainWin::RecoveryMenuBar()
 void FxMainWin::OnSendMyself()
 {
 	// TODO: 在此添加命令处理程序代码
-	m_pFxMsgDlgView->m_isLoginOK = m_isLoginOK;
+	m_pFxMsgDlgView->LoginOK(m_isLoginOK);
 	m_pFxMsgDlgView->ShowWindow(SW_SHOW);
 	m_pFxMsgDlgView->m_isShow= TRUE;
 	m_pFxMsgDlgView->ShowChat(m_pFxMsgDlgView->ChatWith(strtol(fx_get_usr_uid(), NULL,10), TRUE));

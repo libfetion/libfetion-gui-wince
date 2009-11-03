@@ -20,6 +20,7 @@ public:
 	BOOL addNewMsg(long lAccountID, CString msg);
 	void updateAccountInfo(long lAccountID);
 	void SetNotReadFlag(int nItem, BOOL bNotRead);
+	void LoginOK(BOOL bLoginOK);
 
 	BOOL m_isLoginOK;
 	BOOL m_isShow;

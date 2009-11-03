@@ -16,7 +16,7 @@ CFxMsgDlgView::CFxMsgDlgView(CWnd* pParent /*=NULL*/)
 	: CDialog(CFxMsgDlgView::IDD, pParent)
 {
 	m_pParentWnd = pParent;
-	m_isLoginOK = FALSE;
+	m_isLoginOK = TRUE;
 	m_isShow = FALSE;
 }
 
@@ -157,7 +157,7 @@ CFxMsgDlgPage * CFxMsgDlgView::SeekPage(long lAccountID, int & nItem)
 
 CFxMsgDlgPage * CFxMsgDlgView::AddNewChat(long lAccountID, BOOL bMyself)
 {
-	CFxMsgDlgPage * pMsgPage = new CFxMsgDlgPage(lAccountID, this);
+	CFxMsgDlgPage * pMsgPage = new CFxMsgDlgPage(lAccountID, this, m_isLoginOK);
 	ASSERT(NULL != pMsgPage);
 	pMsgPage->m_bMyself = bMyself;
 	CString strTitle = pMsgPage->GetTitle();
@@ -168,7 +168,7 @@ CFxMsgDlgPage * CFxMsgDlgView::AddNewChat(long lAccountID, BOOL bMyself)
 	Item.lParam = (LPARAM)pMsgPage;
 	m_TabChat.InsertItem(m_TabChat.GetItemCount(), &Item);
 
-	int nItem = pMsgPage->Create(IDD_WMLF_MSG_PAGE,&m_TabChat);
+	int nItem = pMsgPage->Create(IDD_WMLF_MSG_PAGE, &m_TabChat);
 	pMsgPage->ShowWindow(SW_HIDE);
 	CRect rcItem;
     m_TabChat.GetItemRect(0, &rcItem);
@@ -342,4 +342,25 @@ void CFxMsgDlgView::SetNotReadFlag(int nItem, BOOL bNotRead)
 	Item.mask = TCIF_IMAGE;
 	Item.iImage = bNotRead?0:-1;
 	m_TabChat.SetItem(nItem, &Item);
+}
+
+void CFxMsgDlgView::LoginOK(BOOL bLoginOK)
+{
+	if(m_isLoginOK != bLoginOK)
+	{
+		m_isLoginOK = bLoginOK;
+
+		TCITEM Item;
+		CFxMsgDlgPage * pMsgPage = NULL;
+		for(int i = 0; i<m_TabChat.GetItemCount(); i++)
+		{
+			Item.mask = TCIF_PARAM;
+			m_TabChat.GetItem(i, &Item);
+			pMsgPage = (CFxMsgDlgPage*)Item.lParam;
+			if(NULL != pMsgPage)
+			{
+				pMsgPage->LoginOK(m_isLoginOK);
+			}
+		}
+	}
 }
