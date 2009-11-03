@@ -209,6 +209,7 @@ void CFxMsgDlgView::ShowChat(CFxMsgDlgPage * pSeekMsgPage)
 					((FxMainWin*)m_pParentWnd)->RemoveFilker(pMsgPage->m_lAccountID);
 				}
 				pMsgPage->ShowWindow(SW_SHOW);
+				pMsgPage->ScrollToLast();
 				pMsgPage->m_send.SetFocus();
 			}
 			else
