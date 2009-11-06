@@ -116,7 +116,6 @@ BOOL CFxMsgDlgPage::OnInitDialog()
 	//this->UpdateWindow();
 
     SetTimer(USER_SCROLLTOLAST, 500, 0);
-
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 异常: OCX 属性页应返回 FALSE
 }
@@ -219,10 +218,13 @@ void CFxMsgDlgPage::OnSize(UINT nType, int cx, int cy)
         xIDC_MSG_INFO = rcCtl.left + iMargin;
         yIDC_MSG_INFO = rcCtl.top + iMargin;
         wIDC_MSG_INFO = iWidth - iMargin * 2;
-        hIDC_MSG_INFO = DRA::SCALEY(32);
+        hIDC_MSG_INFO = DRA::SCALEY(26);
 
         xIDC_SEND_MSG = xIDC_MSG_INFO;
         hIDC_SEND_MSG = DRA::SCALEY(44);
+#ifdef WIN32_PLATFORM_WFSP
+        hIDC_SEND_MSG = DRA::SCALEY(30);
+#endif // WIN32_PLATFORM_WFSP
         yIDC_SEND_MSG = iHeight - iMargin - hIDC_SEND_MSG;
         wIDC_SEND_MSG = wIDC_MSG_INFO;
 
@@ -378,17 +380,14 @@ void CFxMsgDlgPage::getMsg(CString &msg)
 	}
 }
 
-void CFxMsgDlgPage::OnCancel()
+void CFxMsgDlgPage::OnTBack()
 {
 #ifdef WIN32_PLATFORM_WFSP
 	// 在这里修改后退键的行为为删除EditBox中的内容，而不是退出模态对话框
 	//如果文本框为多行的则必须加入下面这行代码，单行的则不用~
-	::SendMessage(GetDlgItem(IDC_SEND_MSG)->m_hWnd, EM_SETEXTENDEDSTYLE, 0, ES_EX_CLEARONBACKPRESSHOLD);
-	SHSendBackToFocusWindow(WM_HOTKEY, 2, MAKELPARAM(MOD_KEYUP, VK_TBACK));
-#else
-	CDialog::OnCancel();
+	::SendMessage(m_send.GetSafeHwnd(), EM_SETEXTENDEDSTYLE, 0, ES_EX_CLEARONBACKPRESSHOLD);
+	SHSendBackToFocusWindow(WM_HOTKEY, VK_TBACK, MAKELPARAM(MOD_KEYUP, VK_TBACK));
 #endif // WIN32_PLATFORM_WFSP
-
 }
 
 void CFxMsgDlgPage::OnTimer(UINT_PTR nIDEvent)
