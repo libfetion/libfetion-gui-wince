@@ -17,6 +17,7 @@ public:
 	void addNewMsg(CString msg = _T(""));
 	void getMsg(CString &msg);
 	void LoginOK(BOOL bLoginOK);
+	void OnTBack();
 
 	BOOL m_isLoginOK;
 	long m_lAccountID;
@@ -46,7 +47,6 @@ public:
 	afx_msg void OnSendPaste();
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
-	virtual void OnCancel();
 
 	DECLARE_MESSAGE_MAP()
 public:

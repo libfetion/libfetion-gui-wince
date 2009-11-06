@@ -49,4 +49,6 @@ public:
     afx_msg void OnBdViewinfo();
 	afx_msg void OnEndTalk();
 	afx_msg void OnNextTalk();
+protected:
+	virtual void OnCancel();
 };

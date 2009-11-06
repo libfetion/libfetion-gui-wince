@@ -364,3 +364,12 @@ void CFxMsgDlgView::LoginOK(BOOL bLoginOK)
 		}
 	}
 }
+void CFxMsgDlgView::OnCancel()
+{
+	// TODO: 在此添加专用代码和/或调用基类
+
+	CFxMsgDlgPage * pMsgPage = GetCurrentDlgPage();
+	pMsgPage->OnTBack();
+	
+	//CDialog::OnCancel();
+}
