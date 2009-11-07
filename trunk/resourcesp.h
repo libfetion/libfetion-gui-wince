@@ -136,7 +136,6 @@
 #define IDFINDCANCEL                    32802
 #define IDM_MAIN_STATE_ONLINE           32802
 #define IDM_MAIN_STATE_HIDE             32803
-#define IDM_MAIN_SENDMSG                32803
 #define IDM_MAIN_STATE_BUSY             32804
 #define IDM_MAIN_STATE_AWAY             32805
 #define IDM_MAIN_SET_SILENCE            32807
@@ -151,6 +150,7 @@
 #define IDM_LOGIN                       32822
 #define IDM_FB_ADD                      32824
 #define IDM_MAIN_ADDBUDDY               32827
+#define IDM_MAIN_SENDMSG                32828
 #define IDM_BD_VIEWINFO                 32829
 #define IDM_BD_SENDMSG                  32830
 #define IDM_BD_DELETE                   32835
