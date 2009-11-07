@@ -291,14 +291,14 @@ void CFxMsgDlgPage::OnMsgSend()
 	CString show_msg;
 	CString head;
 	if(sendFlag) 
-		head = _T("Œ“(") + GetCurrentTimeString() + _T(")\r\n");
+		head = ((FxMainWin*)((CFxMsgDlgView*)m_pParentWnd)->m_pParentWnd)->m_strNickName;
 	else 
-		head = _T("∑¢ÀÕ ß∞‹(") + GetCurrentTimeString() + _T(")\r\n");
+		head = _T("∑¢ÀÕ ß∞‹");
 
 	m_msgSend.Replace(_T("&lt;"), _T("<"));
 	m_msgSend.Replace(_T("&gt;"), _T(">"));
 
-	this->m_msgBrowser += head + m_msgSend + _T("\r\n\r\n");
+	this->m_msgBrowser += head + _T("(") + GetCurrentTimeString() + _T(")\r\n")+ m_msgSend + _T("\r\n\r\n");
 	//	saveHistroyMsg(strtol(fx_get_usr_uid(), NULL, 10), account_id, show_msg.toUtf8().data(), NULL);
 	//clean the send edit
 	m_msgSend = _T("");
@@ -336,8 +336,7 @@ void CFxMsgDlgPage::getMsg(CString &msg)
 		char * msg_contain = fx_msg_no_format(fxMsg->message); 
 		if(!fxMsg->ext_id)
 		{
-			msg +=  m_account_name + _T("(") + GetMsgTimeString(fxMsg->msgtime) + _T(")\r\n");
-			msg += ConvertUtf8ToUtf16(msg_contain) + CString(_T("\r\n\r\n"));
+			msg +=  m_account_name;
 		}
 		else
 		{
@@ -346,15 +345,22 @@ void CFxMsgDlgPage::getMsg(CString &msg)
 			CString temp;
 			temp.Format(_T("%d"),fxMsg->ext_id);
 			if(sender_name!=NULL)
-				msg+=ConvertUtf8ToUtf16(sender_name)+ _T("(") + GetMsgTimeString(fxMsg->msgtime) + _T(")\r\n");
+				msg+=ConvertUtf8ToUtf16(sender_name);
 			else
-				msg+=temp+_T("(") + GetMsgTimeString(fxMsg->msgtime) + _T(")\r\n");
-			msg += ConvertUtf8ToUtf16(msg_contain) + CString(_T("\r\n\r\n"));
+				msg+=temp;
 			if(sender_name)
+			{
 				free(sender_name);
+				sender_name = NULL;
+			}
 		}
+		msg += _T("(") + GetMsgTimeString(fxMsg->msgtime) + _T(")\r\n");
+		msg += ConvertUtf8ToUtf16(msg_contain) + CString(_T("\r\n\r\n"));
 		if (msg_contain)
+		{
 			free(msg_contain);
+			msg_contain = NULL;
+		}
 		fx_destroy_msg (fxMsg);
 		fxMsg = NULL;
 	}

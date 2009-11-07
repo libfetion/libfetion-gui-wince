@@ -878,6 +878,7 @@ void FxMainWin::handle_sendmsg(int msgflag, int fx_msg, long account_id)
 	Fetion_MSG *fxMsg = (Fetion_MSG *) fx_msg;
 	char *msg = fx_msg_no_format(fxMsg->message); 
 	CString newmsg;
+	CString head;
 	
 	switch(msgflag)
 	{
@@ -885,39 +886,47 @@ void FxMainWin::handle_sendmsg(int msgflag, int fx_msg, long account_id)
 			pos = timeOutMsgVector.Find(fx_msg);
 			if (pos)
 			{
-				//newmsg = "<b style=\"color:rgb(170,0,255);\">" +tr("auto resend ok:") + "</b>" + newmsg.fromUtf8(msg);
-				newmsg = CString(_T("自动重发OK")) + _T("(") + GetCurrentTimeString() + _T("\r\n") + ConvertUtf8ToUtf16(msg) + CString(_T("\r\n\r\n"));
-				addNewMessage(account_id, newmsg);
 				timeOutMsgVector.RemoveAt(pos);
+				//newmsg = "<b style=\"color:rgb(170,0,255);\">" +tr("auto resend ok:") + "</b>" + newmsg.fromUtf8(msg);
+				head = CString(_T("自动重发OK"));
 			}
 			break;
 		case MSG_FAIL:
 			pos = timeOutMsgVector.Find(fx_msg);
 			if (pos)
+			{
 				timeOutMsgVector.RemoveAt(pos);
+			}
 			//newmsg = "<b style=\"color:red;\">"+tr("send fail:") +"</b>"+ newmsg.fromUtf8(msg);
-			newmsg = CString(_T("发送失败")) + _T("(") + GetCurrentTimeString() + _T("\r\n") + ConvertUtf8ToUtf16(msg) + CString(_T("\r\n\r\n"));
-			addNewMessage(account_id, newmsg);
+			head = CString(_T("发送失败"));
 			break;
 
 		case MSG_FAIL_LIMIT:
 			pos = timeOutMsgVector.Find(fx_msg);
 			if (pos)
+			{
 				timeOutMsgVector.RemoveAt(pos);
+			}
 			//newmsg = "<b style=\"color:red;\">"+tr("send sms fail by limit:") +"</b>"+ newmsg.fromUtf8(msg);
-			newmsg = CString(_T("发送数目限制")) + _T("(") + GetCurrentTimeString() + _T("\r\n") + ConvertUtf8ToUtf16(msg) + CString(_T("\r\n\r\n"));
-			addNewMessage(account_id, newmsg);
+			head = CString(_T("发送数目限制"));
 			break;
 		case MSG_TIMEOUT:
 			timeOutMsgVector.InsertAfter(timeOutMsgVector.GetTailPosition(), fx_msg);
 			//newmsg = "<b style=\"color:rgb(170,0,255);\">" +tr("send timeout:") +"</b>" + newmsg.fromUtf8(msg)+"<br><b style=\"color:rgb(170,0,255);\">" +tr("will auto resend")+"</b>";
-			newmsg = CString(_T("发送超时")) + _T("(") + GetCurrentTimeString() + _T("\r\n") + ConvertUtf8ToUtf16(msg) + CString(_T("\r\n\r\n"));
-			addNewMessage(account_id, newmsg);
+			head = CString(_T("发送超时"));
 			break;
+	}
+	if(!head.IsEmpty())
+	{
+		newmsg = head +  + _T("(") + GetCurrentTimeString() + _T("\r\n") + ConvertUtf8ToUtf16(msg) + CString(_T("\r\n\r\n"));
+		addNewMessage(account_id, newmsg);
 	}
 
 	if(msg)
+	{
 		free(msg);
+		msg = NULL;
+	}
 }
 
 void FxMainWin::addNewMessage(long account_id, CString newmsg /* ="" */)
