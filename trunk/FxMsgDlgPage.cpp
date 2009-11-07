@@ -222,9 +222,10 @@ void CFxMsgDlgPage::OnSize(UINT nType, int cx, int cy)
 
         xIDC_SEND_MSG = xIDC_MSG_INFO;
         hIDC_SEND_MSG = DRA::SCALEY(44);
-#ifdef WIN32_PLATFORM_WFSP
-        hIDC_SEND_MSG = DRA::SCALEY(30);
-#endif // WIN32_PLATFORM_WFSP
+		if((rcCtl.bottom - rcCtl.top) < 200)
+		{
+			hIDC_SEND_MSG = DRA::SCALEY(30);
+		}
         yIDC_SEND_MSG = iHeight - iMargin - hIDC_SEND_MSG;
         wIDC_SEND_MSG = wIDC_MSG_INFO;
 
