@@ -297,7 +297,7 @@ void CBuddyInfoDlg::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
         si.nPos = si.nMax - si.nPage;   
         break;   
     case SB_LINEDOWN:   
-        if(si.nPos + si.nPage < si.nMax)   
+        if(si.nPos + (int)si.nPage < si.nMax)   
         {   
             SetScrollPos(SB_VERT, GetScrollPos(SB_VERT)+5);   
             ::ScrollWindowEx(m_hWnd,0,-5,NULL, NULL,NULL, NULL,SW_ERASE|SW_SCROLLCHILDREN);       
@@ -327,7 +327,7 @@ void CBuddyInfoDlg::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
         break;        
   
     case SB_PAGEDOWN:   
-        if(si.nPos + si.nPage < si.nMax)   
+        if(si.nPos + (int)si.nPage < si.nMax)   
         {   
             SetScrollPos(SB_VERT, GetScrollPos(SB_VERT)+5);   
             ::ScrollWindowEx(m_hWnd,0,-5,NULL, NULL,NULL, NULL,SW_ERASE|SW_SCROLLCHILDREN);       
