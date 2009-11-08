@@ -6,7 +6,12 @@
 #include "stdafx.h"
 #include "FxBuddy.h"
 #include "convert_charset.h"
+
+#ifdef WIN32_PLATFORM_WFSP
+#include "Resourcesp.h"
+#else
 #include "Resourceppc.h"
+#endif
 
 
 BuddyOpt::BuddyOpt(CTreeCtrl * widget)

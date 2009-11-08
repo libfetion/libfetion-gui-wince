@@ -380,13 +380,6 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Bitmap
-//
-
-IDB_BITMAP_USERHEAD     BITMAP                  "res\\misc\\USERHEAD.bmp"
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // WAVE
 //
 
@@ -419,6 +412,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Bitmap
 //
 
+IDB_BITMAP_USERHEAD     BITMAP                  "res\\misc\\USERHEAD.bmp"
 IDB_BITMAP_AWAY         BITMAP                  "res\\onlineSmall\\away.bmp"
 IDB_BITMAP_BLACK        BITMAP                  "res\\onlineSmall\\black.bmp"
 IDB_BITMAP_BUSY         BITMAP                  "res\\onlineSmall\\busy.bmp"

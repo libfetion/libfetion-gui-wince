@@ -1,6 +1,10 @@
 ﻿#include "StdAfx.h"
 #include "Notify.h"
-#include "resourceppc.h"
+#ifdef WIN32_PLATFORM_WFSP
+#include "Resourcesp.h"
+#else
+#include "Resourceppc.h"
+#endif
 
 #ifdef WIN32_PLATFORM_WFSP
 #include "vibrate.h"
