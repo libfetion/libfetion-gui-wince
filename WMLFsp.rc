@@ -28,7 +28,8 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
 
 IDR_LOGIN_MENU MENU 
 BEGIN
-    POPUP "上下文菜单"
+    MENUITEM "登录",                          IDM_LOGIN
+    POPUP "选项"
     BEGIN
         MENUITEM "记住密码",                        IDM_LOGIN_REMPASS
         MENUITEM "隐身登录",                        IDM_LOGIN_OFFLINE
@@ -50,7 +51,7 @@ END
 
 IDR_MSG_MENU MENU 
 BEGIN
-    MENUITEM "发送",                          32812
+    MENUITEM "发送",                          IDR_MSG_SEND
     POPUP "选项"
     BEGIN
         MENUITEM "查看资料",                        IDM_BD_VIEWINFO
@@ -95,7 +96,7 @@ END
 
 IDR_MAIN_MENU MENU 
 BEGIN
-    MENUITEM "查看消息",                        IDM_MAIN_SHOWNEWMSG
+    MENUITEM "提取新消息",                       IDM_MAIN_SHOWNEWMSG
     POPUP "菜单"
     BEGIN
         POPUP "联系人操作"
@@ -379,13 +380,6 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Bitmap
-//
-
-IDB_BITMAP_USERHEAD     BITMAP                  "res\\misc\\USERHEAD.bmp"
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // WAVE
 //
 
@@ -417,7 +411,7 @@ BEGIN
     IDS_OK                  "确定"
     IDS_CANCEL              "取消"
     IDS_LOGIN               "登录"
-    IDS_MSG_SEND            "发送消息"
+    IDS_MSG_SEND            "发送"
     IDS_MSG_CLOSE           "关闭"
     IDS_MSG_CHANGE          "切换发生模式"
     IDS_SHOW_MENU           "菜单"
@@ -442,6 +436,10 @@ STRINGTABLE
 BEGIN
     IDS_MAIN_STATE_AWAY     "离开"
     IDS_MAIN_SET_SILENCE    "静音"
+END
+
+STRINGTABLE 
+BEGIN
     IDS_MAIN_SET_VIBR       "振动"
     IDS_MAIN_MINIMAL        "最小化"
     IDS_MAIN_LOGOFF         "注销并退出"
@@ -465,6 +463,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Bitmap
 //
 
+IDB_BITMAP_USERHEAD     BITMAP                  "res\\misc\\USERHEAD.bmp"
 IDB_BITMAP_AWAY         BITMAP                  "res\\onlineSmall\\away.bmp"
 IDB_BITMAP_BLACK        BITMAP                  "res\\onlineSmall\\black.bmp"
 IDB_BITMAP_BUSY         BITMAP                  "res\\onlineSmall\\busy.bmp"
@@ -476,9 +475,9 @@ IDB_BITMAP_NUMP         BITMAP                  "res\\onlineSmall\\num_primitive
 IDB_BITMAP_OFFLINE      BITMAP                  "res\\onlineSmall\\offline.bmp"
 IDB_BITMAP_ONLINE       BITMAP                  "res\\onlineSmall\\online.bmp"
 IDB_BITMAP_PHONE        BITMAP                  "res\\onlineSmall\\phone.bmp"
+IDB_BITMAP_REFUSE       BITMAP                  "res\\onlineSmall\\refuse.bmp"
 IDB_BITMAP_WAIT         BITMAP                  "res\\onlineSmall\\waiting.bmp"
 IDB_BITMAP_QUN          BITMAP                  "res\\onlineSmall\\qun.bmp"
-IDB_BITMAP_REFUSE       BITMAP                  "res\\onlineSmall\\refuse.bmp"
 IDB_BITMAP_ONLINE_M     BITMAP                  "res\\onlineSmall\\m_online.bmp"
 IDB_BITMAP_AWAY_M       BITMAP                  "res\\onlineSmall\\m_away.bmp"
 IDB_BITMAP_BUSY_M       BITMAP                  "res\\onlineSmall\\m_busy.bmp"

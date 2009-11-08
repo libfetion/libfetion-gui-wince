@@ -171,7 +171,7 @@ CFxMsgDlgPage * CFxMsgDlgView::AddNewChat(long lAccountID, BOOL bMyself)
 	int nItem = pMsgPage->Create(IDD_WMLF_MSG_PAGE, &m_TabChat);
 	pMsgPage->ShowWindow(SW_HIDE);
 	CRect rcItem;
-    m_TabChat.GetItemRect(0, &rcItem);
+	m_TabChat.GetItemRect(0, &rcItem);
 	CRect rc;
 	m_TabChat.GetClientRect(&rc);
 	rc.top = rcItem.bottom + 2;
@@ -225,6 +225,10 @@ CFxMsgDlgPage * CFxMsgDlgView::GetCurrentDlgPage()
 	TCITEM Item;
 	CFxMsgDlgPage * pMsgPage = NULL;
 
+	if(m_TabChat.GetItemCount() == 0)
+	{
+		return NULL;
+	}
 	Item.mask = TCIF_PARAM;
 	m_TabChat.GetItem(m_TabChat.GetCurSel(), &Item);
 
@@ -269,21 +273,22 @@ void CFxMsgDlgView::OnEndTalk()
 	CFxMsgDlgPage * pMsgPage = GetCurrentDlgPage();
 	int nItem = m_TabChat.GetCurSel();
 	m_TabChat.DeleteItem(nItem);
-	if(nItem >= m_TabChat.GetItemCount())
-	{
-		nItem --;
-	}
-	m_TabChat.SetCurSel(nItem);
 	pMsgPage->ShowWindow(SW_HIDE);
 	delete pMsgPage;
 	pMsgPage = NULL;
 
-	ShowChat(GetCurrentDlgPage());
 	if(m_TabChat.GetItemCount() == 0)
 	{
 		OnOK();
 		return;
 	}
+
+	if(nItem >= m_TabChat.GetItemCount())
+	{
+		nItem --;
+	}
+	m_TabChat.SetCurSel(nItem);
+	ShowChat(GetCurrentDlgPage());
 }
 
 BOOL CFxMsgDlgView::addNewMsg(long lAccountID, CString msg)

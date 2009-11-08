@@ -6,11 +6,11 @@
 #define IDD_WMLF_MAIN                   104
 #define IDR_MAINFRAME                   128
 #define IDR_MENU_BUDDY                  131
-#define IDB_BITMAP_AWAY                 133
-#define IDB_BITMAP_BLACK                134
-#define IDB_BITMAP_BUSY                 135
-#define IDB_BITMAP_DINNER               136
-#define IDB_BITMAP_EXAWAY               137
+#define IDB_BITMAP_AWAY                 132
+#define IDB_BITMAP_BLACK                133
+#define IDB_BITMAP_BUSY                 134
+#define IDB_BITMAP_DINNER               135
+#define IDB_BITMAP_EXAWAY               136
 #define IDR_MSG_MENU                    137
 #define IDB_BITMAP_MEET                 138
 #define IDB_BITMAP_MOBILE               139
@@ -24,8 +24,6 @@
 #define IDB_BITMAP_FLICK                159
 #define IDR_MAIN_MENU                   160
 #define IDR_LOGIN_MENU                  161
-#define IDB_BITMAP1                     162
-#define IDB_BITMAP_LOGO_BIG             162
 #define IDB_BITMAP_BIGLOGO              162
 #define IDB_BITMAP_USERHEAD             164
 #define IDD_WMLF_FINDBUDDY              165
@@ -33,7 +31,6 @@
 #define IDD_WMLF_BUDDYINFO              167
 #define IDR_MSGSOUND                    168
 #define IDR_MENU_BUDDYINFO              169
-#define IDB_BITMAP2                     170
 #define IDB_BITMAP_FIND                 170
 #define IDD_WMLF_ABOUT                  171
 #define IDR_MENU_ABOUT                  172
@@ -46,7 +43,6 @@
 #define IDB_BITMAP_BUSY_M               179
 #define IDD_WMLF_MSG_PAGE               180
 #define IDB_BITMAP_NOTREAD              181
-#define IDC_STATIC_1                    200
 #define IDC_BI_CITY                     200
 #define IDC_MOBILE_NO                   1000
 #define IDC_PWD                         1001
@@ -55,7 +51,6 @@
 #define IDC_STATIC_ID                   1004
 #define IDC_STATIC_NET                  1005
 #define IDC_LOGIN_STATE                 1006
-#define IDC_TREE1                       1010
 #define IDC_TREE_BUDDY                  1011
 #define IDC_MSG_BROWSER                 1013
 #define IDC_SEND_MSG                    1019
@@ -76,8 +71,8 @@
 #define IDC_FB_BTN_FIND                 1049
 #define IDC_FB_STATIC_NAME              1050
 #define IDC_MSG_INFO                    1051
-#define IDC_FB_EDIT_NAME2               1051
-#define IDC_FB_STATIC_NAME2             1052
+#define IDC_FB_EDIT_NAME2               1052
+#define IDC_FB_STATIC_NAME2             1053
 #define IDC_BI_LB_NICKNAME              1054
 #define IDC_BI_LB_SHOWNAME              1055
 #define IDC_BI_EDT_SHOWNAME             1056
@@ -179,7 +174,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        186
+#define _APS_NEXT_RESOURCE_VALUE        182
 #define _APS_NEXT_COMMAND_VALUE         32883
 #define _APS_NEXT_CONTROL_VALUE         1086
 #define _APS_NEXT_SYMED_VALUE           101

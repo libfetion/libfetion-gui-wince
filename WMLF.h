@@ -7,11 +7,10 @@
 	#error "在包含此文件之前包含“stdafx.h”以生成 PCH 文件"
 #endif
 
-#ifdef POCKETPC2003_UI_MODEL
-#include "resourceppc.h"
-#endif 
-#ifdef SMARTPHONE2003_UI_MODEL
-#include "resourcesp.h"
+#ifdef WIN32_PLATFORM_WFSP
+#include "Resourcesp.h"
+#else
+#include "Resourceppc.h"
 #endif
 
 // CWMLFApp:

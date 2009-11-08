@@ -1518,6 +1518,7 @@ void FxMainWin::handle_AddAccountApp(char* uri, char* showname)
 }
 void FxMainWin::RecoveryMenuBar()
 {
+	ShowWindow(TRUE);
 	m_dlgCommandBar.InsertMenuBar(IDR_MAIN_MENU);
 }
 void FxMainWin::OnSendMyself()
