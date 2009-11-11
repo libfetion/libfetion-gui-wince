@@ -106,3 +106,20 @@ typedef struct _TMPMSG_Info
 	CString msg;
 	long accountID;
 }TMPMSG_Info;
+
+typedef struct _BUDDYINFODB
+{
+	long lID;
+	CString strLocalName;
+	CString strNickName;
+	CString strImpresa;
+}BUDDYINFODB;
+
+typedef struct _MSGLOGDB
+{
+	long lID;
+	CString strSender;
+	SYSTEMTIME MsgTime;
+	CString strMsg;
+}MSGLOGDB;
+
