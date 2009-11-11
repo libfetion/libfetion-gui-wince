@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "FxBuddy.h"
 #include "convert_charset.h"
+#include "FxDatabase.h"
 
 #ifdef WIN32_PLATFORM_WFSP
 #include "Resourcesp.h"
@@ -13,6 +14,7 @@
 #include "Resourceppc.h"
 #endif
 
+extern CFxDatabase * g_pFxDB;
 
 BuddyOpt::BuddyOpt(CTreeCtrl * widget)
 {
@@ -348,17 +350,32 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account)
 		}
 	}
 
+	BOOL bFromDB = FALSE;
+	BUDDYINFODB BuddyInfo;
+	BuddyInfo.lID = account->id;
+	g_pFxDB->ReadBuddyInfo(&BuddyInfo);
+	if(!BuddyInfo.strNickName.IsEmpty())
+	{
+		fx_set_buddy_nickname_ex(account->id, ConvertUtf16ToUtf8(BuddyInfo.strNickName));
+		bFromDB = TRUE;
+	}
+	if(!BuddyInfo.strImpresa.IsEmpty())
+	{
+		fx_set_buddy_impresa_ex(account->id, ConvertUtf16ToUtf8(BuddyInfo.strImpresa));
+		bFromDB = TRUE;
+	}
+
 	char *showname = fx_get_account_show_name(account, TRUE);
 	CString show_name = ConvertUtf8ToUtf16(showname);
 	int online_state = fx_get_online_status_by_account(account);
 
-	addAccountToGroup(account, show_name, online_state, group_no);
+	addAccountToGroup(account, show_name, online_state, group_no, bFromDB);
 
 	if(showname)
 		free(showname);
 }
 
-void BuddyOpt::addAccountToGroup(const Fetion_Account *account, CString & name, int online_state, int group_id )
+void BuddyOpt::addAccountToGroup(const Fetion_Account *account, CString & name, int online_state, int group_id, BOOL bFromDB)
 {
 	//remove the user's id on account from list... fixed: it maybe have redundance
 	if (!account || account->id == (long)strtol(fx_get_usr_uid(), NULL, 10))
@@ -371,7 +388,16 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account, CString & name, 
 	Account_Info *ac_info = new Account_Info;
 	ac_info->accountName = name;
 	ac_info->accountID = account->id;
-	ac_info->isUpdate = FALSE;
+	
+	if(bFromDB)
+	{
+		ac_info->isUpdate = TRUE;
+	}
+	else
+	{
+		ac_info->isUpdate = FALSE;
+	}
+
     if (fx_islogin_by_mobile(account))
 	{         
 		//mobile login
@@ -519,6 +545,24 @@ void BuddyOpt::updateAccountInfo(long account_id)
 
 	if(!ac_info)
 		return;
+
+	BUDDYINFODB BuddyInfo;
+	BuddyInfo.lID = account->id;
+	BuddyInfo.strLocalName =  ConvertUtf8ToUtf16(account->local_name);
+	if(account->personal)
+	{
+		BuddyInfo.strNickName = ConvertUtf8ToUtf16(account->personal->nickname);
+		BuddyInfo.strImpresa = ConvertUtf8ToUtf16(account->personal->impresa);
+	}
+	else
+	{
+		BuddyInfo.strNickName = _T("");
+		BuddyInfo.strImpresa = _T("");
+	}
+	if(!g_pFxDB->UpdateBuddyInfo(&BuddyInfo))
+	{
+		//AfxMessageBox(_T("a"));
+	}
 
 	ac_info->accountName = show_name;
 

@@ -52,6 +52,7 @@ public:
 	CLoginDlg *loginDlg;
 	BuddyOpt *m_BuddyOpt;
 	CFxMsgDlgView * m_pFxMsgDlgView;
+	//CFxDatabase * m_pFxDB;
 
 public:
 	CTreeCtrl view;

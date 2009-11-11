@@ -15,10 +15,13 @@
 #include "BuddyInfoDlg.h"
 #include "About.h"
 #include "IniWR.h"
+#include "FxDatabase.h"
 
 #ifdef M8
 #include "M8Misc.h"
 #endif
+
+extern CFxDatabase * g_pFxDB;
 
 #define TIMER_NEWMSG  15
 #define TIMER_RELOGIN 20
@@ -203,6 +206,7 @@ FxMainWin::FxMainWin(CWnd* pParent /*=NULL*/)
     , m_lAccountID(0)
 	, m_mobile_no(_T(""))
 	, m_pFxMsgDlgView(NULL)
+	//, m_pFxDB(NULL)
 {
 }
 
@@ -213,6 +217,12 @@ FxMainWin::~FxMainWin()
 		delete m_pFxMsgDlgView;
 		m_pFxMsgDlgView = NULL;
 	}
+	if(NULL != g_pFxDB)
+	{
+		delete g_pFxDB;
+		g_pFxDB = NULL;
+	}
+
 }
 
 void FxMainWin::DoDataExchange(CDataExchange* pDX)
@@ -372,18 +382,16 @@ BOOL FxMainWin::OnInitDialog()
 
 	::SHDoneButton(this->m_hWnd,SHDB_HIDE);
 
+	m_pFxMsgDlgView = new CFxMsgDlgView(this);
+	m_pFxMsgDlgView->Create(IDD_WMLF_MSG_VIEW, this);
+	m_pFxMsgDlgView->ModifyStyleEx(0, WS_EX_CONTROLPARENT);
+
 #ifdef WIN32_PLATFORM_WFSP
 	g_cTree = &view;  
 	prevProc=(WNDPROC)SetWindowLong(view.m_hWnd,GWL_WNDPROC,(LONG)MyTreeProc);
 #endif // WIN32_PLATFORM_WFSP
 
-	m_BuddyOpt = new BuddyOpt(&view);
-	
-	m_pFxMsgDlgView = new CFxMsgDlgView(this);
-	m_pFxMsgDlgView->Create(IDD_WMLF_MSG_VIEW, this);
-	m_pFxMsgDlgView->ModifyStyleEx(0, WS_EX_CONTROLPARENT);
-    
-//#ifdef WIN32_PLATFORM_WFSP
+	//#ifdef WIN32_PLATFORM_WFSP
 #ifndef M8
 	if (!m_dlgCommandBar.Create(this) ||
 		!m_dlgCommandBar.InsertMenuBar(IDR_MAIN_MENU))
@@ -397,9 +405,21 @@ BOOL FxMainWin::OnInitDialog()
 
 #endif
 //#endif // WIN32_PLATFORM_WFSP
+
+	g_pFxDB = new CFxDatabase;
+	if(!g_pFxDB->Init(m_strStartupPath + _T("\\Users\\") + m_mobile_no + _T("\\") + m_mobile_no + _T(".db")))
+	//if(!g_pFxDB->Init(_T("\\") + m_mobile_no + _T(".db")))
+	{
+		MessageBox(_T("打开数据库文件失败，程序将退出！"), _T("LibFetion"), MB_ICONSTOP);
+		//::exit(0);
+	}
+
+	m_BuddyOpt = new BuddyOpt(&view);
+	
+  
 	// TODO: 在此添加额外的初始化代码
 	SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*2, NULL);
-	
+
     return TRUE;  // return TRUE unless you set the focus to a control
 }
 
@@ -766,7 +786,7 @@ void FxMainWin::relogin_fetion()
 	}
 	SetTimer(TIMER_RELOGIN, 1000*35, NULL);
 	//fx_relogin(Relogin_EventListener, this);
-	fx_relogin(Sys_EventListener, this);
+	fx_relogin(Sys_EventListener, this, NULL, NULL);
 }
 
 void FxMainWin::update_account_info()
