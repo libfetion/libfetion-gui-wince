@@ -864,11 +864,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CppSQLite3U.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\FindBuddyDlg.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\FxBuddy.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FxDatabase.cpp"
 				>
 			</File>
 			<File
@@ -906,6 +914,58 @@
 			<File
 				RelativePath=".\Notify.cpp"
 				>
+			</File>
+			<File
+				RelativePath=".\sqlite3.c"
+				>
+				<FileConfiguration
+					Name="Debug|Pocket PC 2003 (ARMV4)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Smartphone 2003 (ARMV4)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Pocket PC 2003 (ARMV4)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Smartphone 2003 (ARMV4)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\stdafx.cpp"
@@ -1018,11 +1078,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CppSQLite3U.h"
+				>
+			</File>
+			<File
 				RelativePath=".\FindBuddyDlg.h"
 				>
 			</File>
 			<File
 				RelativePath=".\FxBuddy.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FxDatabase.h"
 				>
 			</File>
 			<File
@@ -1067,6 +1135,14 @@
 			</File>
 			<File
 				RelativePath=".\Resourcesp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sqlite3.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sqlite3ext.h"
 				>
 			</File>
 			<File
