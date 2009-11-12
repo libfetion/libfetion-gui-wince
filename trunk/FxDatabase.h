@@ -16,6 +16,7 @@ public:
 	BOOL AddMegLog(MSGLOGDB * pMsgLog);
 	DWORD GetMegLogCount(int lID);
 	BOOL ReadMsgLog(MSGLOGFROMDB * pMsgLogFromDB);
+	BOOL DeleteAllMsgLog(long lID);
 protected:
 	//CppSQLite3DB m_db;
 	CString m_szFile;

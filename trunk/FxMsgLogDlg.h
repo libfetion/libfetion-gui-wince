@@ -45,4 +45,7 @@ public:
 	afx_msg void OnBnClickedNextPage();
 	afx_msg void OnBnClickedTailPage();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnDeleteAllMsglog();
+	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
+	afx_msg void OnEditMsgLogCopy();
 };

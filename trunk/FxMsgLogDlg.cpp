@@ -50,6 +50,9 @@ BEGIN_MESSAGE_MAP(CFxMsgLogDlg, CDialog)
 	ON_BN_CLICKED(IDC_NEXT_PAGE, &CFxMsgLogDlg::OnBnClickedNextPage)
 	ON_BN_CLICKED(IDC_TAIL_PAGE, &CFxMsgLogDlg::OnBnClickedTailPage)
 	ON_WM_TIMER()
+	ON_COMMAND(IDM_DELETE_ALL_MSGLOG, &CFxMsgLogDlg::OnDeleteAllMsglog)
+	ON_WM_CONTEXTMENU()
+	ON_COMMAND(IDM_COPY1, &CFxMsgLogDlg::OnEditMsgLogCopy)
 END_MESSAGE_MAP()
 
 
@@ -261,4 +264,41 @@ void CFxMsgLogDlg::OnTimer(UINT_PTR nIDEvent)
 		break;
 	}
 	CDialog::OnTimer(nIDEvent);
+}
+
+void CFxMsgLogDlg::OnDeleteAllMsglog()
+{
+	// TODO: 在此添加命令处理程序代码
+    CString strMessage;
+    strMessage.Format(_T("该操作将删除与此好友的所有的聊天记录，且不可恢复，您确定要如此操作？"));
+    if(MessageBox(strMessage, _T("LibFetion"), MB_OKCANCEL | MB_ICONQUESTION | MB_DEFBUTTON2) == IDCANCEL)
+	{
+		return;
+	}
+	g_pFxDB->DeleteAllMsgLog(m_lAccountID);
+	LoadMsgLog();
+}
+
+void CFxMsgLogDlg::OnContextMenu(CWnd* pWnd, CPoint point)
+{
+	// TODO: 在此处添加消息处理程序代码
+	int iID;
+	iID = pWnd->GetDlgCtrlID();
+	if(iID == m_EditMsgLog.GetDlgCtrlID())
+	{
+			CMenu *pMenu;
+
+            pMenu=new CMenu;
+            
+            pMenu->LoadMenu( IDR_MSG_POP_MENU );  //加载菜单资源
+            CMenu *pMenuPop=pMenu->GetSubMenu(0); //资源菜单的第一项
+			pMenuPop->TrackPopupMenu( TPM_LEFTALIGN, point.x, point.y, this);
+            delete pMenu;
+	}
+}
+
+void CFxMsgLogDlg::OnEditMsgLogCopy()
+{
+	// TODO: 在此添加命令处理程序代码
+	m_EditMsgLog.Copy();
 }

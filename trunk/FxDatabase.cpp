@@ -233,3 +233,24 @@ BOOL CFxDatabase::ReadMsgLog(MSGLOGFROMDB * pMsgLogFromDB)
 	}
 	return TRUE;
 }
+
+BOOL CFxDatabase::DeleteAllMsgLog(long lID)
+{
+	try
+	{
+		CppSQLite3DB db;
+		CString sqlStr;
+
+		db.open(m_szFile);
+		CheckMsgLogTable(db);
+		sqlStr.Format(_T("delete from MsgLog where id=%d;"), lID);
+		db.execDML(sqlStr);
+		db.close();
+	}
+	catch(CppSQLite3Exception e)
+	{
+		TRACE(e.errorMessage());
+		return FALSE;
+	}
+	return TRUE;
+}
