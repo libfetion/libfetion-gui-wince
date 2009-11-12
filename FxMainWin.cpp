@@ -26,6 +26,7 @@ extern CFxDatabase * g_pFxDB;
 #define TIMER_NEWMSG  15
 #define TIMER_RELOGIN 20
 #define TIMER_UPDATE_ACCOUNTINFO 25
+#define TIMER_ADD_ITEM_TO_TREE 30
 
 void  Sys_EventListener (int message, WPARAM wParam, LPARAM lParam, void* args)
 {
@@ -266,6 +267,7 @@ ON_COMMAND(IDM_MAIN_ADDBUDDY, &FxMainWin::OnMainAddbuddy)
 ON_COMMAND(IDM_BD_MOVEGROUP, &FxMainWin::OnBdMovegroup)
 ON_COMMAND(IDM_MAIN_CLEAN, &FxMainWin::OnMainClean)
 ON_COMMAND(IDM_SEND_MYSELF, &FxMainWin::OnSendMyself)
+ON_COMMAND(IDM_UPDATE_ALL_ACCOUNTINFO, &FxMainWin::OnUpdateAllAccountinfo)
 END_MESSAGE_MAP()
 
 #ifdef WIN32_PLATFORM_WFSP
@@ -405,6 +407,7 @@ BOOL FxMainWin::OnInitDialog()
 
 #endif
 //#endif // WIN32_PLATFORM_WFSP
+	UpdateData(FALSE);
 
 	g_pFxDB = new CFxDatabase;
 	if(!g_pFxDB->Init(m_strStartupPath + _T("\\Users\\") + m_mobile_no + _T("\\") + m_mobile_no + _T(".db")))
@@ -415,10 +418,9 @@ BOOL FxMainWin::OnInitDialog()
 	}
 
 	m_BuddyOpt = new BuddyOpt(&view);
-	
   
 	// TODO: 在此添加额外的初始化代码
-	SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*2, NULL);
+	SetTimer(TIMER_ADD_ITEM_TO_TREE, 1, NULL);
 
     return TRUE;  // return TRUE unless you set the focus to a control
 }
@@ -803,13 +805,18 @@ void FxMainWin::update_account_info()
 
 void FxMainWin::OnTimer(UINT_PTR nIDEvent)
 {
-switch(nIDEvent)
+	switch(nIDEvent)
 	{
 	case TIMER_NEWMSG:  //1/1秒刷新一次
 		filker_newmsg();
 		break;
 	case TIMER_RELOGIN:
 		relogin_fetion();
+		break;
+	case TIMER_ADD_ITEM_TO_TREE:
+		KillTimer(TIMER_ADD_ITEM_TO_TREE);
+		m_BuddyOpt->addItemToTree();
+		SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*2, NULL);
 		break;
 	case TIMER_UPDATE_ACCOUNTINFO:
 		update_account_info();
@@ -938,7 +945,13 @@ void FxMainWin::handle_sendmsg(int msgflag, int fx_msg, long account_id)
 	}
 	if(!head.IsEmpty())
 	{
-		newmsg = head +  + _T("(") + GetCurrentTimeString() + _T("\r\n") + ConvertUtf8ToUtf16(msg) + CString(_T("\r\n\r\n"));
+		MSGLOGDB MsgLog;
+		MsgLog.lID = account_id;
+		MsgLog.strSender = head;
+		MsgLog.MsgTime = GetCurrentTime();
+		MsgLog.strMsg = ConvertUtf8ToUtf16(msg);
+		g_pFxDB->AddMegLog(&MsgLog);
+		newmsg = FormatMsgLog(&MsgLog);
 		addNewMessage(account_id, newmsg);
 	}
 
@@ -1575,4 +1588,17 @@ void FxMainWin::RemoveFilker(long lAccountID)
 	{
 		KillTimer(TIMER_NEWMSG);
 	}
+}
+
+void FxMainWin::OnUpdateAllAccountinfo()
+{
+	// TODO: 在此添加命令处理程序代码
+    CString strMessage;
+    strMessage.Format(_T("当好友较多时，更新所有好友资料将会产生较大网络数据流量，且时间较长。如果只想更新单个好友资料，您可以选择单个好友“查看资料”。是否确定要更新所有好友资料？"));
+    if(MessageBox(strMessage, _T("LibFetion"), MB_OKCANCEL | MB_ICONQUESTION) == IDCANCEL)
+	{
+		return;
+	}
+	m_BuddyOpt->WantUpdateAllAccountInfo();
+	SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*2, NULL);
 }

@@ -51,4 +51,6 @@ public:
 	afx_msg void OnNextTalk();
 protected:
 	virtual void OnCancel();
+public:
+	afx_msg void OnShowMsglog();
 };

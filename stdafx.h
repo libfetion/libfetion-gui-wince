@@ -76,7 +76,6 @@
 #include <altcecrt.h>
 
 #include "libfetion/libfetion.h"
-#include "convert_charset.h"
 #include "misc.h"
 
 typedef struct _Group_Info
@@ -123,3 +122,12 @@ typedef struct _MSGLOGDB
 	CString strMsg;
 }MSGLOGDB;
 
+typedef struct _MSGLOGFROMDB
+{
+	long lID;
+	DWORD dwFirst;
+	DWORD dwCount;
+	CString strMsg;
+}MSGLOGFROMDB;
+
+#include "convert_charset.h"

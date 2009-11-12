@@ -32,6 +32,7 @@ class BuddyOpt
 	public:
 		BuddyOpt(CTreeCtrl * Widget);
 		~BuddyOpt();
+		void addItemToTree();
 
 		int  markedCount;
 		BOOL isQunItem(HTREEITEM); 
@@ -58,6 +59,7 @@ class BuddyOpt
 		void setTipsOfAccount(HTREEITEM  accountItem, const Fetion_Account *account);
 
         HTREEITEM findAccountItemFromAllGroup(const Fetion_Account *account);
+		void WantUpdateAllAccountInfo();
 		HTREEITEM findGroupItemByID(int group_id);
 
 		Account_Info *fetchNoUpdateAccount();

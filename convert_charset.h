@@ -22,10 +22,13 @@ char* ConvertGBKToUtf8(char* strGBK) ;
 CString ConvertUtf8ToUtf16(const char * utf8);
 CStringA ConvertUtf16ToUtf8(CString strUtf16);
 
-CString GetCurrentTimeString();
-CString GetMsgTimeString(char *msgtime);
+SYSTEMTIME GetCurrentTime();
+SYSTEMTIME GetMsgTime(char *msgtime);
+CString GetTimeString(SYSTEMTIME SystemTime);
 
 CString ConvertUtf16ToNUM(CString strUtf16);
 CString ConvertNUMToUft16(CString strNUM);
+
+CString FormatMsgLog(MSGLOGDB * pMsgLog);
 
 #endif

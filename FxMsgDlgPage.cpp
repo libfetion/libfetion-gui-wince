@@ -6,9 +6,12 @@
 #include "FxMsgDlgPage.h"
 #include "FxMsgDlgView.h"
 #include "FxMainWin.h"
+#include "FxDatabase.h"
 #ifdef WIN32_PLATFORM_WFSP
 #include <tpcshell.h>
 #endif
+
+extern CFxDatabase * g_pFxDB;
 
 #define USER_SCROLLTOLAST WM_USER+1000 //消息框滚动到最底部
 #define SYSTEM_ID 10000
@@ -265,6 +268,8 @@ void CFxMsgDlgPage::OnMsgSend()
 		return;
 
 	int sendFlag = 0;
+	MSGLOGDB MsgLog;
+	MsgLog.lID = m_lAccountID;
 
 	CStringA content = ConvertUtf16ToUtf8(m_msgSend);
 
@@ -299,7 +304,12 @@ void CFxMsgDlgPage::OnMsgSend()
 	m_msgSend.Replace(_T("&lt;"), _T("<"));
 	m_msgSend.Replace(_T("&gt;"), _T(">"));
 
-	this->m_msgBrowser += head + _T("(") + GetCurrentTimeString() + _T(")\r\n")+ m_msgSend + _T("\r\n\r\n");
+	MsgLog.strSender = head;
+	MsgLog.MsgTime = GetCurrentTime();
+	MsgLog.strMsg = m_msgSend;
+	g_pFxDB->AddMegLog(&MsgLog);
+
+	this->m_msgBrowser += FormatMsgLog(&MsgLog);
 	//	saveHistroyMsg(strtol(fx_get_usr_uid(), NULL, 10), account_id, show_msg.toUtf8().data(), NULL);
 	//clean the send edit
 	m_msgSend = _T("");
@@ -331,13 +341,16 @@ void CFxMsgDlgPage::getMsg(CString &msg)
 { 
 	//get fetion msg
 	Fetion_MSG * fxMsg = NULL;
+	MSGLOGDB MsgLog;
+	MsgLog.lID = m_lAccountID;
 
 	while (fxMsg = fx_get_msg(m_lAccountID))
 	{
+		CString strSender;
 		char * msg_contain = fx_msg_no_format(fxMsg->message); 
 		if(!fxMsg->ext_id)
 		{
-			msg +=  m_account_name;
+			strSender =  m_account_name;
 		}
 		else
 		{
@@ -346,17 +359,20 @@ void CFxMsgDlgPage::getMsg(CString &msg)
 			CString temp;
 			temp.Format(_T("%d"),fxMsg->ext_id);
 			if(sender_name!=NULL)
-				msg+=ConvertUtf8ToUtf16(sender_name);
+				strSender=ConvertUtf8ToUtf16(sender_name);
 			else
-				msg+=temp;
+				strSender=temp;
 			if(sender_name)
 			{
 				free(sender_name);
 				sender_name = NULL;
 			}
 		}
-		msg += _T("(") + GetMsgTimeString(fxMsg->msgtime) + _T(")\r\n");
-		msg += ConvertUtf8ToUtf16(msg_contain) + CString(_T("\r\n\r\n"));
+		MsgLog.strSender = strSender;
+		MsgLog.MsgTime = GetMsgTime(fxMsg->msgtime);
+		MsgLog.strMsg = ConvertUtf8ToUtf16(msg_contain);
+		g_pFxDB->AddMegLog(&MsgLog);
+		msg += FormatMsgLog(&MsgLog);
 		if (msg_contain)
 		{
 			free(msg_contain);

@@ -6,7 +6,7 @@
 #include "FxMsgDlgPage.h"
 #include "FxMsgDlgView.h"
 #include "FxMainWin.h"
-
+#include "FxMsgLogDlg.h"
 
 // CFxMsgDlgView 对话框
 
@@ -52,6 +52,7 @@ BEGIN_MESSAGE_MAP(CFxMsgDlgView, CDialog)
     ON_COMMAND(IDM_BD_VIEWINFO, &CFxMsgDlgView::OnBdViewinfo)
 	ON_COMMAND(IDM_END_TALK, &CFxMsgDlgView::OnEndTalk)
 	ON_COMMAND(IDM_NEXT_TALK, &CFxMsgDlgView::OnNextTalk)
+	ON_COMMAND(IDM_SHOW_MSGLOG, &CFxMsgDlgView::OnShowMsglog)
 END_MESSAGE_MAP()
 
 
@@ -377,4 +378,12 @@ void CFxMsgDlgView::OnCancel()
 	pMsgPage->OnTBack();
 	
 	//CDialog::OnCancel();
+}
+
+void CFxMsgDlgView::OnShowMsglog()
+{
+	// TODO: 在此添加命令处理程序代码
+	CFxMsgDlgPage * pMsgPage = GetCurrentDlgPage();
+	CFxMsgLogDlg MsgLogDlg(pMsgPage->m_lAccountID, pMsgPage->m_account_name);
+	MsgLogDlg.DoModal();
 }

@@ -182,4 +182,5 @@ public:
 	void RecoveryMenuBar();
 	afx_msg void OnSendMyself();
 	void RemoveFilker(long lAccountID);
+	afx_msg void OnUpdateAllAccountinfo();
 };
