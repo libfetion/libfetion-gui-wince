@@ -892,6 +892,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FxMsgLogDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\IniWR.cpp"
 				>
 			</File>
@@ -1103,6 +1107,10 @@
 			</File>
 			<File
 				RelativePath=".\FxMsgDlgView.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FxMsgLogDlg.h"
 				>
 			</File>
 			<File
