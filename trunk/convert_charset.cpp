@@ -82,16 +82,14 @@ return szUtf8;
 //delete[] szUtf8; 
 } 
 
-CString GetCurrentTimeString()
+SYSTEMTIME GetCurrentTime()
 {
-	CString sShortTime;
 	SYSTEMTIME LocalTime;
 	GetLocalTime(&LocalTime);
-	sShortTime.Format(_T("%d-%d-%d %02d:%02d:%02d"), LocalTime.wYear, LocalTime.wMonth, LocalTime.wDay, LocalTime.wHour, LocalTime.wMinute, LocalTime.wSecond);
-	return sShortTime;
+	return LocalTime;
 }
 
-CString GetMsgTimeString(char *msgtime)
+SYSTEMTIME GetMsgTime(char *msgtime)
 {
 	CString sShortTime;
 	char DayOfWeek[10] = {0};
@@ -145,7 +143,13 @@ CString GetMsgTimeString(char *msgtime)
 	FileTimeToLocalFileTime(&FileTimeUTC, &FileTimeLocal);
 	FileTimeToSystemTime(&FileTimeLocal, &SystemTimeLocal);
 
-	sShortTime.Format(_T("%d-%d-%d %02d:%02d:%02d"), SystemTimeLocal.wYear, SystemTimeLocal.wMonth, SystemTimeLocal.wDay, SystemTimeLocal.wHour, SystemTimeLocal.wMinute, SystemTimeLocal.wSecond);
+	return SystemTimeLocal;
+}
+
+CString GetTimeString(SYSTEMTIME SystemTime)
+{
+	CString sShortTime;
+	sShortTime.Format(_T("%d-%d-%d %02d:%02d:%02d"), SystemTime.wYear, SystemTime.wMonth, SystemTime.wDay, SystemTime.wHour, SystemTime.wMinute, SystemTime.wSecond);
 
 	return sShortTime;
 }
@@ -181,4 +185,11 @@ CString ConvertNUMToUft16(CString strNUM)
 	pUtf16[strNUM.GetLength()/5] = '\0';
 	res.ReleaseBuffer();
 	return res;
+}
+
+CString FormatMsgLog(MSGLOGDB * pMsgLog)
+{
+	CString strMsgLog;
+	strMsgLog = pMsgLog->strSender + _T("(") + GetTimeString(pMsgLog->MsgTime) + _T(")\r\n") + pMsgLog->strMsg + _T("\r\n\r\n");
+	return strMsgLog;
 }

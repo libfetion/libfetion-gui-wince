@@ -75,6 +75,7 @@ BEGIN
         POPUP "操作"
         BEGIN
             MENUITEM "给自己发送短信",                     IDM_SEND_MYSELF
+            MENUITEM "更新所有好友资料",                    IDM_UPDATE_ALL_ACCOUNTINFO
         END
         MENUITEM SEPARATOR
         MENUITEM "注销并退出",                       IDM_MAIN_LOGOFF
@@ -88,6 +89,7 @@ BEGIN
     POPUP "选项"
     BEGIN
         MENUITEM "查看资料",                        IDM_BD_VIEWINFO
+        MENUITEM "查看聊天记录",                      IDM_SHOW_MSGLOG
         MENUITEM "切换发送方式",                      IDM_MSG_CHANGE_METHOD
         MENUITEM "下一个对话",                       IDM_NEXT_TALK
         MENUITEM "结束当前对话",                      IDM_END_TALK
@@ -146,6 +148,18 @@ BEGIN
     BEGIN
         MENUITEM "复制",                          IDM_COPY2
         MENUITEM "粘贴",                          IDM_PASTE
+    END
+END
+
+IDR_MSGLOG_MENU MENU 
+BEGIN
+    MENUITEM "返回",                          IDOK
+    POPUP "选项"
+    BEGIN
+        MENUITEM "首页",                          IDC_HEAD_PAGE
+        MENUITEM "上一页",                         IDC_PREV_PAGE
+        MENUITEM "下一页",                         IDC_NEXT_PAGE
+        MENUITEM "尾页",                          IDC_TAIL_PAGE
     END
 END
 
@@ -256,8 +270,9 @@ BEGIN
 END
 
 IDD_WMLF_MSG_VIEW DIALOG  0, 0, 159, 159
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_BORDER
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
 EXSTYLE WS_EX_APPWINDOW | 0x80000000L
+CAPTION "聊天"
 FONT 9, "MS Shell Dlg"
 BEGIN
     CONTROL         "",IDC_TAB_CHAT,"SysTabControl32",TCS_FOCUSONBUTTONDOWN | WS_TABSTOP,0,0,151,148
@@ -270,6 +285,20 @@ BEGIN
     EDITTEXT        IDC_SEND_MSG,0,130,159,39,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_GROUP
     EDITTEXT        IDC_MSG_BROWSER,0,28,159,89,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_GROUP
     LTEXT           "好友",IDC_MSG_INFO,0,1,154,20
+END
+
+IDD_WMLF_MSG_LOG DIALOG  0, 0, 155, 173
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "聊天记录"
+FONT 9, "MS Shell Dlg"
+BEGIN
+    LTEXT           "静态",IDC_STATIC_TITLE,3,2,148,8
+    EDITTEXT        IDC_EDIT_MSG_LOG,0,16,154,135,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
+    PUSHBUTTON      "|<",IDC_HEAD_PAGE,0,159,21,14
+    PUSHBUTTON      "<",IDC_PREV_PAGE,25,159,21,14
+    LTEXT           "静态",IDC_STATIC_PAGENUM,61,163,30,8
+    PUSHBUTTON      ">",IDC_NEXT_PAGE,103,159,21,14
+    PUSHBUTTON      ">|",IDC_TAIL_PAGE,131,159,21,14
 END
 
 
@@ -374,6 +403,14 @@ BEGIN
         RIGHTMARGIN, 159
         BOTTOMMARGIN, 169
     END
+
+    IDD_WMLF_MSG_LOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 148
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 159
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -409,6 +446,15 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\WMLF.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // Bitmap
 //
 
@@ -434,15 +480,6 @@ IDB_BITMAP_FLICK        BITMAP                  "res\\misc\\online_flick.bmp"
 IDB_BITMAP_BIGLOGO      BITMAP                  "res\\misc\\LibFetion_Big.bmp"
 IDB_BITMAP_FIND         BITMAP                  "res\\misc\\find.bmp"
 IDB_BITMAP_NOTREAD      BITMAP                  "res\\NotRead.bmp"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDR_MAINFRAME           ICON                    "res\\WMLF.ico"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

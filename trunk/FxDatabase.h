@@ -10,8 +10,12 @@ public:
 	~CFxDatabase(void);
 	BOOL Init(LPCTSTR szFile);
 	BOOL CheckBuddyInfoTable(CppSQLite3DB &db);
+	BOOL CheckMsgLogTable(CppSQLite3DB &db);
 	BOOL UpdateBuddyInfo(BUDDYINFODB * pBuddyInfo);
 	BOOL ReadBuddyInfo(BUDDYINFODB * pBuddyInfo);
+	BOOL AddMegLog(MSGLOGDB * pMsgLog);
+	DWORD GetMegLogCount(int lID);
+	BOOL ReadMsgLog(MSGLOGFROMDB * pMsgLogFromDB);
 protected:
 	//CppSQLite3DB m_db;
 	CString m_szFile;

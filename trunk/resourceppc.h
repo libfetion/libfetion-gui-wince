@@ -37,12 +37,14 @@
 #define IDD_WMLF_MSG_VIEW               172
 #define IDI_ICON_NOTIFY                 173
 #define IDR_MSG_POP_MENU                174
+#define IDR_MSGLOG_MENU                 175
 #define IDR_ONLINESOUND                 176
 #define IDB_BITMAP_ONLINE_M             177
 #define IDB_BITMAP_AWAY_M               178
 #define IDB_BITMAP_BUSY_M               179
 #define IDD_WMLF_MSG_PAGE               180
 #define IDB_BITMAP_NOTREAD              181
+#define IDD_WMLF_MSG_LOG                182
 #define IDC_BI_CITY                     200
 #define IDC_MOBILE_NO                   1000
 #define IDC_PWD                         1001
@@ -100,6 +102,13 @@
 #define IDC_COMBO_USERS                 1083
 #define IDC_COMBO_NET                   1084
 #define IDC_TAB_CHAT                    1085
+#define IDC_EDIT_MSG_LOG                1086
+#define IDC_STATIC_TITLE                1087
+#define IDC_HEAD_PAGE                   1088
+#define IDC_NEXT_PAGE                   1089
+#define IDC_TAIL_PAGE                   1090
+#define IDC_PREV_PAGE                   1091
+#define IDC_STATIC_PAGENUM              1092
 #define IDC_MENU_STATE_ONLINE           32786
 #define IDC_MENU_STATE_HIDE             32787
 #define IDC_MENU_STATE_BUSY             32788
@@ -169,14 +178,16 @@
 #define IDM_END_TALK                    32880
 #define IDM_NEXT_TALK                   32881
 #define IDM_SEND_MYSELF                 32882
+#define IDM_UPDATE_ALL_ACCOUNTINFO      32883
+#define IDM_SHOW_MSGLOG                 32884
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        182
-#define _APS_NEXT_COMMAND_VALUE         32883
-#define _APS_NEXT_CONTROL_VALUE         1086
+#define _APS_NEXT_RESOURCE_VALUE        183
+#define _APS_NEXT_COMMAND_VALUE         32885
+#define _APS_NEXT_CONTROL_VALUE         1093
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

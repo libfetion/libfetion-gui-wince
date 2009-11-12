@@ -23,9 +23,15 @@ BuddyOpt::BuddyOpt(CTreeCtrl * widget)
 	markedCount = 0;
 	treeWidget = widget;
 	init_icon();
+}
 
+BuddyOpt::~BuddyOpt()
+{
+	freeAllGroupdata();    
+}
 
-	
+void BuddyOpt::addItemToTree()
+{
 #if DEBUG_GUI
 	addGroupToTree();
 #else
@@ -33,23 +39,6 @@ BuddyOpt::BuddyOpt(CTreeCtrl * widget)
 	addAccountToTree();
 	addQunToTree();
 #endif
-	/*
-	http://msdn.microsoft.com/zh-cn/library/7w95665f(VS.80).aspx
-	http://msdn.microsoft.com/zh-cn/library/b9h1bwdk.aspx
-
-	CImageList imaLarge.Create(IDB_IMAGELIST, 32, 0, RGB(0,130,132));
-	imaSmall.Create(IDB_SMALL_IMAGELIST, 16, 0, RGB(0,128,128));
-
-	wndBar.SetImageList(&imaLarge, CGfxOutBarCtrl::fLargeIcon);
-	wndBar.SetImageList(&imaSmall, CGfxOutBarCtrl::fSmallIcon);
-	pmyImageList->Attach(hmyImageList);
-	*/
-}
-
-
-BuddyOpt::~BuddyOpt()
-{
-	freeAllGroupdata();    
 }
 
 void BuddyOpt::freeAllGroupdata()
@@ -460,17 +449,42 @@ HTREEITEM BuddyOpt::findAccountItemFromAllGroup(const Fetion_Account *account)
 	HTREEITEM hGroupItem = treeWidget->GetRootItem();
     while(hGroupItem != NULL)
     {
-        HTREEITEM hItem = treeWidget->GetChildItem(hGroupItem);
-	    while (hItem != NULL)
-	    {
-		    Account_Info *ac_info =(Account_Info*)treeWidget->GetItemData(hItem);
-		    if(ac_info && account_id == ac_info->accountID)
-			    return hItem;
-		    hItem = treeWidget->GetNextSiblingItem(hItem);
-	    }
-        hGroupItem = treeWidget->GetNextSiblingItem(hGroupItem);
+		if (!isQunItem(hGroupItem)) //not the qun item
+		{
+			HTREEITEM hItem = treeWidget->GetChildItem(hGroupItem);
+			while (hItem != NULL)
+			{
+				Account_Info *ac_info =(Account_Info*)treeWidget->GetItemData(hItem);
+				if(ac_info && account_id == ac_info->accountID)
+					return hItem;
+				hItem = treeWidget->GetNextSiblingItem(hItem);
+			}
+			hGroupItem = treeWidget->GetNextSiblingItem(hGroupItem);
+		}
     }
 	return NULL;
+}
+
+void BuddyOpt::WantUpdateAllAccountInfo()
+{
+	HTREEITEM hGroupItem = treeWidget->GetRootItem();
+    while(hGroupItem != NULL)
+    {
+		if (!isQunItem(hGroupItem)) //not the qun item
+		{
+			HTREEITEM hItem = treeWidget->GetChildItem(hGroupItem);
+			while (hItem != NULL)
+			{
+				Account_Info *ac_info =(Account_Info*)treeWidget->GetItemData(hItem);
+				if(ac_info)
+				{
+					ac_info->isUpdate = FALSE;
+				}
+				hItem = treeWidget->GetNextSiblingItem(hItem);
+			}
+			hGroupItem = treeWidget->GetNextSiblingItem(hGroupItem);
+		}
+    }
 }
 
 static BOOL isonline(int state)
