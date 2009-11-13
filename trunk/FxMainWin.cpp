@@ -1600,5 +1600,5 @@ void FxMainWin::OnUpdateAllAccountinfo()
 		return;
 	}
 	m_BuddyOpt->WantUpdateAllAccountInfo();
-	SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*2, NULL);
+	SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*3, NULL);
 }
