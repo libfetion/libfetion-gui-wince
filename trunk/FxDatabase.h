@@ -14,7 +14,7 @@ public:
 	BOOL UpdateBuddyInfo(BUDDYINFODB * pBuddyInfo);
 	BOOL ReadBuddyInfo(BUDDYINFODB * pBuddyInfo);
 	BOOL AddMegLog(MSGLOGDB * pMsgLog);
-	DWORD GetMegLogCount(int lID);
+	DWORD GetMegLogCount(long lID);
 	BOOL ReadMsgLog(MSGLOGFROMDB * pMsgLogFromDB);
 	BOOL DeleteAllMsgLog(long lID);
 protected:
