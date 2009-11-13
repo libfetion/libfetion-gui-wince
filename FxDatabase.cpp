@@ -157,7 +157,7 @@ BOOL CFxDatabase::AddMegLog(MSGLOGDB * pMsgLog)
 	return TRUE;
 }
 
-DWORD CFxDatabase::GetMegLogCount(int lID)
+DWORD CFxDatabase::GetMegLogCount(long lID)
 {
 	try
 	{
@@ -243,7 +243,7 @@ BOOL CFxDatabase::DeleteAllMsgLog(long lID)
 
 		db.open(m_szFile);
 		CheckMsgLogTable(db);
-		sqlStr.Format(_T("delete from MsgLog where id=%d;"), lID);
+		sqlStr.Format(_T("delete from MsgLog where ID=%d;"), lID);
 		db.execDML(sqlStr);
 		db.close();
 	}

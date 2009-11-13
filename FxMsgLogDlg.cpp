@@ -270,7 +270,7 @@ void CFxMsgLogDlg::OnDeleteAllMsglog()
 {
 	// TODO: 在此添加命令处理程序代码
     CString strMessage;
-    strMessage.Format(_T("该操作将删除与此好友的所有的聊天记录，且不可恢复，您确定要如此操作？"));
+    strMessage.Format(_T("该操作将删除与此好友的所有聊天记录，且不可恢复，您确定要如此操作？"));
     if(MessageBox(strMessage, _T("LibFetion"), MB_OKCANCEL | MB_ICONQUESTION | MB_DEFBUTTON2) == IDCANCEL)
 	{
 		return;
