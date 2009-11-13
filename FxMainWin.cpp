@@ -816,7 +816,7 @@ void FxMainWin::OnTimer(UINT_PTR nIDEvent)
 	case TIMER_ADD_ITEM_TO_TREE:
 		KillTimer(TIMER_ADD_ITEM_TO_TREE);
 		m_BuddyOpt->addItemToTree();
-		SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*2, NULL);
+		SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*3, NULL);
 		break;
 	case TIMER_UPDATE_ACCOUNTINFO:
 		update_account_info();
