@@ -219,6 +219,7 @@ void CFxMsgDlgView::ShowChat(CFxMsgDlgPage * pSeekMsgPage)
 			}
 		}
 	}
+	ShowMenuBar();
 }
 
 CFxMsgDlgPage * CFxMsgDlgView::GetCurrentDlgPage()
