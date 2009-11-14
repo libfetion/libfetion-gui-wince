@@ -740,7 +740,6 @@ BOOL FxMainWin::showMsgDlg(long lAccountID)
 	m_pFxMsgDlgView->ShowWindow(SW_SHOW);
 	m_pFxMsgDlgView->m_isShow= TRUE;
 	m_pFxMsgDlgView->ShowChat(m_pFxMsgDlgView->ChatWith(lAccountID));
-	m_pFxMsgDlgView->ShowMenuBar();
 
 	return TRUE;
 }
@@ -1561,7 +1560,6 @@ void FxMainWin::OnSendMyself()
 	m_pFxMsgDlgView->ShowWindow(SW_SHOW);
 	m_pFxMsgDlgView->m_isShow= TRUE;
 	m_pFxMsgDlgView->ShowChat(m_pFxMsgDlgView->ChatWith(strtol(fx_get_usr_uid(), NULL,10), TRUE));
-	m_pFxMsgDlgView->ShowMenuBar();
 }
 
 void FxMainWin::RemoveFilker(long lAccountID)
