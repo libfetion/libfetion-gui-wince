@@ -6,11 +6,12 @@ CFxDatabase * g_pFxDB = NULL;
 CFxDatabase::CFxDatabase(void)
 {
 	m_szFile = _T("");
+	m_pdbReadBuddyInfo = NULL;
 }
 
 CFxDatabase::~CFxDatabase(void)
 {
-	//Close();
+	ReadBuddyInfoEnd();
 }
 
 BOOL CFxDatabase::Init(LPCTSTR szFile)
@@ -30,15 +31,15 @@ BOOL CFxDatabase::Init(LPCTSTR szFile)
 	return TRUE;
 }
 
-BOOL CFxDatabase::CheckBuddyInfoTable(CppSQLite3DB &db)
+BOOL CFxDatabase::CheckBuddyInfoTable(CppSQLite3DB *pdb)
 {
 	try
 	{
-		if(!db.tableExists(_T("BuddyInfo")))
+		if(!pdb->tableExists(_T("BuddyInfo")))
 		{
 			CString sqlStr;
 			sqlStr.Format(_T("create table BuddyInfo(ID int UNIQUE, LocalName char, NickName char, Impresa char);"));
-			db.execDML(sqlStr);
+			pdb->execDML(sqlStr);
 		}
 	}
 	catch(CppSQLite3Exception e)
@@ -77,7 +78,7 @@ BOOL CFxDatabase::UpdateBuddyInfo(BUDDYINFODB * pBuddyInfo)
 		CString sqlStr;
 
 		db.open(m_szFile);
-		CheckBuddyInfoTable(db);
+		CheckBuddyInfoTable(&db);
 		sqlStr.Format(_T("select * from BuddyInfo where ID=%d;"), pBuddyInfo->lID);
 		CppSQLite3Query q = db.execQuery(sqlStr);
 		if(!q.eof())
@@ -110,30 +111,97 @@ BOOL CFxDatabase::ReadBuddyInfo(BUDDYINFODB * pBuddyInfo)
 	pBuddyInfo->strNickName = _T("");
 	pBuddyInfo->strImpresa = _T("");
 
+	CppSQLite3DB * pdb = NULL;
+
 	try
 	{
-		CppSQLite3DB db;
 		CString sqlStr;
-
-		db.open(m_szFile);
-		CheckBuddyInfoTable(db);
 		sqlStr.Format(_T("select * from BuddyInfo where ID=%d;"), pBuddyInfo->lID);
-		CppSQLite3Query q = db.execQuery(sqlStr);
+		if(NULL != m_pdbReadBuddyInfo)
+		{
+			pdb = m_pdbReadBuddyInfo;
+		}
+		else
+		{
+			pdb = new CppSQLite3DB;
+			if(NULL == pdb)
+			{
+				return FALSE;
+			}
+			pdb->open(m_szFile);
+			CheckBuddyInfoTable(pdb);
+		}
+		CppSQLite3Query q = pdb->execQuery(sqlStr);
 		if(!q.eof())
 		{
 			pBuddyInfo->strLocalName = q.getStringField(1);
 			pBuddyInfo->strNickName = q.getStringField(2);
 			pBuddyInfo->strImpresa = q.getStringField(3);
 		}
-		db.close();
+		if(NULL == m_pdbReadBuddyInfo)
+		{
+			pdb->close();
+			delete pdb;
+			pdb = NULL;
+		}
 	}
 	catch(CppSQLite3Exception e)
 	{
+		if(NULL == m_pdbReadBuddyInfo)
+		{
+			if(NULL != pdb)
+			{
+				pdb->close();
+				delete pdb;
+				pdb = NULL;
+			}
+		}
 		TRACE(e.errorMessage());
 		return FALSE;
 	}
 	return TRUE;
 }
+
+BOOL CFxDatabase::ReadBuddyInfoBegin()
+{
+	if(NULL == m_pdbReadBuddyInfo)
+	{
+		m_pdbReadBuddyInfo = new CppSQLite3DB;
+		if(NULL == m_pdbReadBuddyInfo)
+		{
+			return FALSE;
+		}
+		try
+		{
+			m_pdbReadBuddyInfo->open(m_szFile);
+			CheckBuddyInfoTable(m_pdbReadBuddyInfo);
+		}
+		catch(CppSQLite3Exception e)
+		{
+			if(NULL != m_pdbReadBuddyInfo)
+			{
+				m_pdbReadBuddyInfo->close();
+				delete m_pdbReadBuddyInfo;
+				m_pdbReadBuddyInfo = NULL;
+			}
+			TRACE(e.errorMessage());
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+
+BOOL CFxDatabase::ReadBuddyInfoEnd()
+{
+	if(NULL != m_pdbReadBuddyInfo)
+	{
+		m_pdbReadBuddyInfo->close();
+		delete m_pdbReadBuddyInfo;
+		m_pdbReadBuddyInfo = NULL;
+	}
+	return TRUE;
+}
+
 
 BOOL CFxDatabase::AddMegLog(MSGLOGDB * pMsgLog)
 {
