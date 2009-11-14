@@ -461,8 +461,8 @@ HTREEITEM BuddyOpt::findAccountItemFromAllGroup(const Fetion_Account *account)
 					return hItem;
 				hItem = treeWidget->GetNextSiblingItem(hItem);
 			}
-			hGroupItem = treeWidget->GetNextSiblingItem(hGroupItem);
 		}
+		hGroupItem = treeWidget->GetNextSiblingItem(hGroupItem);
     }
 	return NULL;
 }
@@ -484,8 +484,8 @@ void BuddyOpt::WantUpdateAllAccountInfo()
 				}
 				hItem = treeWidget->GetNextSiblingItem(hItem);
 			}
-			hGroupItem = treeWidget->GetNextSiblingItem(hGroupItem);
 		}
+		hGroupItem = treeWidget->GetNextSiblingItem(hGroupItem);
     }
 }
 
@@ -577,7 +577,7 @@ void BuddyOpt::updateAccountInfo(long account_id)
 	}
 	if(!g_pFxDB->UpdateBuddyInfo(&BuddyInfo))
 	{
-		//AfxMessageBox(_T("a"));
+		
 	}
 
 	ac_info->accountName = show_name;
