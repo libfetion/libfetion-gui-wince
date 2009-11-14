@@ -32,6 +32,7 @@ BuddyOpt::~BuddyOpt()
 
 void BuddyOpt::addItemToTree()
 {
+	g_pFxDB->ReadBuddyInfoBegin();
 #if DEBUG_GUI
 	addGroupToTree();
 #else
@@ -39,6 +40,7 @@ void BuddyOpt::addItemToTree()
 	addAccountToTree();
 	addQunToTree();
 #endif
+	g_pFxDB->ReadBuddyInfoEnd();
 }
 
 void BuddyOpt::freeAllGroupdata()
