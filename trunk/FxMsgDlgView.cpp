@@ -262,10 +262,15 @@ void CFxMsgDlgView::OnBdViewinfo()
 	{
 		return;
 	}
+	CWnd * pFocus = GetFocus();
 	((FxMainWin*)m_pParentWnd)->m_BuddyInfoDlg = new CBuddyInfoDlg(GetCurrentDlgPage()->m_lAccountID);
 	((FxMainWin*)m_pParentWnd)->m_BuddyInfoDlg->DoModal();
     delete ((FxMainWin*)m_pParentWnd)->m_BuddyInfoDlg;
 	((FxMainWin*)m_pParentWnd)->m_BuddyInfoDlg = NULL;
+	if(NULL != pFocus)
+	{
+		pFocus->SetFocus();
+	}
 
 }
 
@@ -384,7 +389,12 @@ void CFxMsgDlgView::OnCancel()
 void CFxMsgDlgView::OnShowMsglog()
 {
 	// TODO: 在此添加命令处理程序代码
+	CWnd * pFocus = GetFocus();
 	CFxMsgDlgPage * pMsgPage = GetCurrentDlgPage();
 	CFxMsgLogDlg MsgLogDlg(pMsgPage->m_lAccountID, pMsgPage->m_account_name);
 	MsgLogDlg.DoModal();
+	if(NULL != pFocus)
+	{
+		pFocus->SetFocus();
+	}
 }
