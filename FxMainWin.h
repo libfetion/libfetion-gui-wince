@@ -77,7 +77,6 @@ public:
 public:
 	CList<HTREEITEM> filker;
 	CList<int> timeOutMsgVector;
-	CList<TMPMSG_Info*> tmpMsg;
 public:
 	//当前好友资料对话框
 	CBuddyInfoDlg* m_BuddyInfoDlg;

@@ -963,7 +963,6 @@ void FxMainWin::handle_sendmsg(int msgflag, int fx_msg, long account_id)
 
 void FxMainWin::addNewMessage(long account_id, CString newmsg /* ="" */)
 {
-	TMPMSG_Info * msg_info = NULL;
 	const Fetion_Account * account = fx_get_account_by_id (account_id);
 	if (!account)
 		return;
@@ -987,14 +986,6 @@ void FxMainWin::addNewMessage(long account_id, CString newmsg /* ="" */)
 		RecoveryMenuBar();
 	}
 
-	if (!newmsg.IsEmpty())
-	{
-		msg_info = new TMPMSG_Info;
-		msg_info->accountID = account_id;
-		msg_info->msg = newmsg;
-		tmpMsg.InsertAfter(tmpMsg.GetTailPosition(), msg_info);
-	}
-
 	if (accountItem)
 	{
 		if (filker.GetCount() == 0)
@@ -1009,7 +1000,6 @@ void FxMainWin::addNewMessage(long account_id, CString newmsg /* ="" */)
 
 void FxMainWin::addNewQunMessage(long qun_id,CString newmsg )
 {
-	TMPMSG_Info * msg_info = NULL;
 	const Fetion_Qun * qun = fx_get_qun_by_id(qun_id);
 	if (!qun)
 		return;
@@ -1032,14 +1022,6 @@ void FxMainWin::addNewQunMessage(long qun_id,CString newmsg )
 	if(!m_pFxMsgDlgView->m_isShow)
 	{
 		RecoveryMenuBar();
-	}
-
-	if (!newmsg.IsEmpty())
-	{
-		msg_info = new TMPMSG_Info;
-		msg_info->accountID = qun_id;
-		msg_info->msg = newmsg;
-		tmpMsg.InsertAfter(tmpMsg.GetTailPosition(), msg_info);
 	}
 
 	if (accountItem)

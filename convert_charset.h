@@ -30,5 +30,6 @@ CString ConvertUtf16ToNUM(CString strUtf16);
 CString ConvertNUMToUft16(CString strNUM);
 
 CString FormatMsgLog(MSGLOGDB * pMsgLog);
+void AddReturn(CString &strShow);
 
 #endif
