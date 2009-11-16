@@ -99,13 +99,6 @@ typedef struct _Qun_Info
 	long qunID;
 }Qun_Info;
 
-
-typedef struct _TMPMSG_Info
-{
-	CString msg;
-	long accountID;
-}TMPMSG_Info;
-
 typedef struct _BUDDYINFODB
 {
 	long lID;

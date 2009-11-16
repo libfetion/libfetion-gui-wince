@@ -190,6 +190,14 @@ CString ConvertNUMToUft16(CString strNUM)
 CString FormatMsgLog(MSGLOGDB * pMsgLog)
 {
 	CString strMsgLog;
-	strMsgLog = pMsgLog->strSender + _T("(") + GetTimeString(pMsgLog->MsgTime) + _T(")\r\n") + pMsgLog->strMsg + _T("\r\n\r\n");
+	strMsgLog = pMsgLog->strSender + _T("(") + GetTimeString(pMsgLog->MsgTime) + _T(")\r\n") + pMsgLog->strMsg;
 	return strMsgLog;
+}
+
+void AddReturn(CString &strShow)
+{
+	if(strShow.GetLength() > 0)
+	{
+		strShow += _T("\r\n\r\n");
+	}
 }

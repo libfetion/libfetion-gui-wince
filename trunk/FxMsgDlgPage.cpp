@@ -309,7 +309,8 @@ void CFxMsgDlgPage::OnMsgSend()
 	MsgLog.strMsg = m_msgSend;
 	g_pFxDB->AddMegLog(&MsgLog);
 
-	this->m_msgBrowser += FormatMsgLog(&MsgLog);
+	AddReturn(m_msgBrowser);
+	m_msgBrowser += FormatMsgLog(&MsgLog);
 	//	saveHistroyMsg(strtol(fx_get_usr_uid(), NULL, 10), account_id, show_msg.toUtf8().data(), NULL);
 	//clean the send edit
 	m_msgSend = _T("");
@@ -331,9 +332,15 @@ void CFxMsgDlgPage::addNewMsg(CString msg /*= ""*/)
 
 /*first: we update the data of control val, then we reset then,
 so that, the m_send data will not be losted. */
-	this->UpdateData();
-	this->m_msgBrowser += msg;
-	this->UpdateData(FALSE);
+	UpdateData();
+
+	if (msg.IsEmpty())
+	{
+		return;
+	}
+	AddReturn(m_msgBrowser);
+	m_msgBrowser += msg;
+	UpdateData(FALSE);
 	ScrollToLast();
 }
 
@@ -372,6 +379,7 @@ void CFxMsgDlgPage::getMsg(CString &msg)
 		MsgLog.MsgTime = GetMsgTime(fxMsg->msgtime);
 		MsgLog.strMsg = ConvertUtf8ToUtf16(msg_contain);
 		g_pFxDB->AddMegLog(&MsgLog);
+		AddReturn(msg);
 		msg += FormatMsgLog(&MsgLog);
 		if (msg_contain)
 		{
@@ -380,26 +388,6 @@ void CFxMsgDlgPage::getMsg(CString &msg)
 		}
 		fx_destroy_msg (fxMsg);
 		fxMsg = NULL;
-	}
-
-	//get tmp msg
-	TMPMSG_Info* msg_info = NULL;
-	FxMainWin* parent = (FxMainWin*)((CFxMsgDlgView*)m_pParentWnd)->m_pParentWnd;
-	if (!parent)
-		return;
-	POSITION pos = parent->tmpMsg.GetTailPosition();
-	int count = parent->tmpMsg.GetCount();
-
-	for (int i=0; i <count; i++)
-	{
-		POSITION tmp = pos;
-		msg_info = (TMPMSG_Info*)parent->tmpMsg.GetPrev(pos);
-		if (msg_info->accountID == m_lAccountID)
-		{
-			msg += msg_info->msg;
-			parent->tmpMsg.RemoveAt(tmp);
-			delete msg_info;
-		}
 	}
 }
 

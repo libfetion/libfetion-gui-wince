@@ -287,6 +287,7 @@ BOOL CFxDatabase::ReadMsgLog(MSGLOGFROMDB * pMsgLogFromDB)
 				MsgLog.MsgTime.wSecond = q.getIntField(7);
 				MsgLog.MsgTime.wMilliseconds = 0;
 				MsgLog.strMsg = q.getStringField(8);
+				AddReturn(pMsgLogFromDB->strMsg);
 				pMsgLogFromDB->strMsg += FormatMsgLog(&MsgLog);
 			}
 			q.nextRow();
