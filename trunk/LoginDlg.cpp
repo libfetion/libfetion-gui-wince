@@ -637,7 +637,7 @@ CString CLoginDlg::GetFetionNoFromHttpsWeb(CString strMobileNo, CString strPwd, 
 	int sip;
 	int AtFetion;
 	netflag = 0;
-	Url.Format(_T("https://nav.fetion.com.cn/ssiportal/SSIAppSignIn.aspx?mobileno=%s&pwd=%s"),strMobileNo,strPwd);
+	Url.Format(_T("https://uid.fetion.com.cn/ssiportal/SSIAppSignIn.aspx?mobileno=%s&pwd=%s"),strMobileNo,strPwd);
 	strWeb = GetHttpsWebData(Url);
 	if(strWeb.IsEmpty())
 	{
