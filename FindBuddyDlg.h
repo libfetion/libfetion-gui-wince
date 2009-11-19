@@ -38,7 +38,7 @@ public:
     CString m_strLocalName;
     afx_msg void OnStnClickedFbBtnFind();
 protected:
-//	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 public:
 //	virtual BOOL PreTranslateMessage(MSG* pMsg);
 protected:

@@ -57,6 +57,7 @@ public:
 //	virtual BOOL PreTranslateMessage(MSG* pMsg);
 protected:
 	virtual void OnCancel();
+	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 public:
     // 根据代码获取省份名字
     CString GetProvince(CString strProvinceCode);

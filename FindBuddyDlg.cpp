@@ -158,7 +158,14 @@ BOOL CFindBuddyDlg::OnInitDialog()
 		return FALSE;      // 未能创建
 	}
 #endif
-    InitGroupItem();
+#ifdef WIN32_PLATFORM_WFSP
+    //重写后退键，引发WM_HOTKEY消息
+    (void)::SendMessage(SHFindMenuBar (m_hWnd), SHCMBM_OVERRIDEKEY, VK_TBACK,
+        MAKELPARAM(SHMBOF_NODEFAULT | SHMBOF_NOTIFY,
+        SHMBOF_NODEFAULT | SHMBOF_NOTIFY));
+#endif
+
+	InitGroupItem();
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // 异常: OCX 属性页应返回 FALSE
@@ -257,4 +264,26 @@ void CFindBuddyDlg::OnCancel()
 void CFindBuddyDlg::OnFindcancel()
 {
 	CDialog::OnCancel();
+}
+
+LRESULT CFindBuddyDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch(message)
+	{
+	case WM_CLOSE:
+		break;
+#ifdef WIN32_PLATFORM_WFSP
+		//改变后退键行为
+	case WM_HOTKEY:
+		if ((VK_TBACK == HIWORD(lParam)) && (MOD_KEYUP == LOWORD(lParam)))
+		{
+			SHSendBackToFocusWindow(message, wParam, lParam);
+		}
+		break;
+#endif
+	default:
+		break;
+	}
+
+	return CDialog::WindowProc(message, wParam, lParam);
 }
