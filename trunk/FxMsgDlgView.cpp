@@ -53,6 +53,7 @@ BEGIN_MESSAGE_MAP(CFxMsgDlgView, CDialog)
 	ON_COMMAND(IDM_END_TALK, &CFxMsgDlgView::OnEndTalk)
 	ON_COMMAND(IDM_NEXT_TALK, &CFxMsgDlgView::OnNextTalk)
 	ON_COMMAND(IDM_SHOW_MSGLOG, &CFxMsgDlgView::OnShowMsglog)
+	ON_WM_HOTKEY()
 END_MESSAGE_MAP()
 
 
@@ -90,6 +91,9 @@ void CFxMsgDlgView::OnOK()
 void CFxMsgDlgView::ShowMenuBar()
 {
 	m_dlgCommandBar.InsertMenuBar(IDR_MSG_MENU);
+#ifdef WIN32_PLATFORM_WFSP
+	::SendMessage(SHFindMenuBar(m_hWnd), SHCMBM_OVERRIDEKEY, VK_TBACK, MAKELPARAM(SHMBOF_NODEFAULT | SHMBOF_NOTIFY, SHMBOF_NODEFAULT | SHMBOF_NOTIFY));
+#endif
 }
 void CFxMsgDlgView::OnSize(UINT nType, int cx, int cy)
 {
@@ -376,15 +380,6 @@ void CFxMsgDlgView::LoginOK(BOOL bLoginOK)
 		}
 	}
 }
-void CFxMsgDlgView::OnCancel()
-{
-	// TODO: 在此添加专用代码和/或调用基类
-
-	CFxMsgDlgPage * pMsgPage = GetCurrentDlgPage();
-	pMsgPage->OnTBack();
-	
-	//CDialog::OnCancel();
-}
 
 void CFxMsgDlgView::OnShowMsglog()
 {
@@ -397,4 +392,15 @@ void CFxMsgDlgView::OnShowMsglog()
 	{
 		pFocus->SetFocus();
 	}
+}
+
+void CFxMsgDlgView::OnHotKey(UINT nHotKeyId, UINT nKey1, UINT nKey2)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	if((VK_TBACK == nKey2) && (MOD_KEYUP == nKey1))
+	{
+		CFxMsgDlgPage * pMsgPage = GetCurrentDlgPage();
+		pMsgPage->OnTBack();
+	}
+	CDialog::OnHotKey(nHotKeyId, nKey1, nKey2);
 }

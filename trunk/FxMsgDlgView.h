@@ -49,8 +49,7 @@ public:
     afx_msg void OnBdViewinfo();
 	afx_msg void OnEndTalk();
 	afx_msg void OnNextTalk();
-protected:
-	virtual void OnCancel();
 public:
 	afx_msg void OnShowMsglog();
+	afx_msg void OnHotKey(UINT nHotKeyId, UINT nKey1, UINT nKey2);
 };

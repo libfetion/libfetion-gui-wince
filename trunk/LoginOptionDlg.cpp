@@ -5,6 +5,7 @@
 #include "WMLF.h"
 #include "LoginOptionDlg.h"
 #include "IniWR.h"
+#include <tpcshell.h>
 
 
 // CLoginOptionDlg 对话框
@@ -55,6 +56,12 @@ BOOL CLoginOptionDlg::OnInitDialog()
 		TRACE0("未能创建 CommandBar\n");
 		return FALSE;      // 未能创建
 	}
+#ifdef WIN32_PLATFORM_WFSP
+    //重写后退键，引发WM_HOTKEY消息
+    (void)::SendMessage(SHFindMenuBar (m_hWnd), SHCMBM_OVERRIDEKEY, VK_TBACK,
+        MAKELPARAM(SHMBOF_NODEFAULT | SHMBOF_NOTIFY,
+        SHMBOF_NODEFAULT | SHMBOF_NOTIFY));
+#endif
 
 	InitUsersList();
 	GetSelectedUserOption();
@@ -253,4 +260,26 @@ void CLoginOptionDlg::OnSize(UINT nType, int cx, int cy)
 
 	hwndctl = ::GetDlgItem(this->m_hWnd, IDC_STATIC_INFO);
 	::MoveWindow(hwndctl, xIDC_STATIC_INFO, yIDC_STATIC_INFO, wIDC_STATIC_INFO, hIDC_STATIC_INFO, false);
+}
+
+LRESULT CLoginOptionDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch(message)
+	{
+	case WM_CLOSE:
+		break;
+#ifdef WIN32_PLATFORM_WFSP
+		//改变后退键行为
+	case WM_HOTKEY:
+		if ((VK_TBACK == HIWORD(lParam)) && (MOD_KEYUP == LOWORD(lParam)))
+		{
+			SHSendBackToFocusWindow(message, wParam, lParam);
+		}
+		break;
+#endif
+	default:
+		break;
+	}
+
+	return CDialog::WindowProc(message, wParam, lParam);
 }

@@ -38,5 +38,7 @@ public:
 	afx_msg void OnEdit();
 	CString m_strInfo;
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+protected:
+	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 };
 

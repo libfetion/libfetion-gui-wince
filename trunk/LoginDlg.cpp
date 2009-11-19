@@ -496,7 +496,7 @@ LRESULT CLoginDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 #ifdef WIN32_PLATFORM_WFSP
 		//改变后退键行为
 	case WM_HOTKEY:
-		if (VK_TBACK == HIWORD(lParam))
+		if ((VK_TBACK == HIWORD(lParam)) && (MOD_KEYUP == LOWORD(lParam)))
 		{
 			SHSendBackToFocusWindow (message, wParam, lParam);
 		}

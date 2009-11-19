@@ -81,6 +81,12 @@ BOOL CBuddyInfoDlg::OnInitDialog()
 		return FALSE;      // 未能创建
 	}
 #endif
+#ifdef WIN32_PLATFORM_WFSP
+    //重写后退键，引发WM_HOTKEY消息
+    (void)::SendMessage(SHFindMenuBar (m_hWnd), SHCMBM_OVERRIDEKEY, VK_TBACK,
+        MAKELPARAM(SHMBOF_NODEFAULT | SHMBOF_NOTIFY,
+        SHMBOF_NODEFAULT | SHMBOF_NOTIFY));
+#endif
 
     InitGroupItem();
 	if(fx_is_pc_user_by_id(m_lAccountID))
@@ -459,3 +465,25 @@ void CBuddyInfoDlg::OnCancel2()
 	CDialog::OnCancel();
 }
 #endif
+
+LRESULT CBuddyInfoDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch(message)
+	{
+	case WM_CLOSE:
+		break;
+#ifdef WIN32_PLATFORM_WFSP
+		//改变后退键行为
+	case WM_HOTKEY:
+		if ((VK_TBACK == HIWORD(lParam)) && (MOD_KEYUP == LOWORD(lParam)))
+		{
+			SHSendBackToFocusWindow(message, wParam, lParam);
+		}
+		break;
+#endif
+	default:
+		break;
+	}
+
+	return CDialog::WindowProc(message, wParam, lParam);
+}
