@@ -108,4 +108,5 @@ public:
 	afx_msg void OnCbnSelchangeComboUsers();
 	afx_msg void OnDestroy();
 	void DeleteNetListDataPrt(void);
+	afx_msg void OnLoginOption();
 };

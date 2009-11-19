@@ -45,6 +45,8 @@
 #define IDD_WMLF_MSG_PAGE               180
 #define IDB_BITMAP_NOTREAD              181
 #define IDD_WMLF_MSG_LOG                182
+#define IDD_WMLF_LOGIN_OPTION           183
+#define IDR_LOGIN_OPTION_MENU           184
 #define IDC_BI_CITY                     200
 #define IDC_MOBILE_NO                   1000
 #define IDC_PWD                         1001
@@ -109,6 +111,12 @@
 #define IDC_TAIL_PAGE                   1090
 #define IDC_PREV_PAGE                   1091
 #define IDC_STATIC_PAGENUM              1092
+#define IDC_STATIC_MOBILE               1093
+#define IDC_STATIC_FETION               1094
+#define IDC_STATIC_INFO                 1095
+#define IDC_COMBO_USERS2                1096
+#define IDC_FETION_NO                   1097
+#define IDC_STATIC_AD_TITLE2            1098
 #define IDC_MENU_STATE_ONLINE           32786
 #define IDC_MENU_STATE_HIDE             32787
 #define IDC_MENU_STATE_BUSY             32788
@@ -181,14 +189,16 @@
 #define IDM_UPDATE_ALL_ACCOUNTINFO      32883
 #define IDM_SHOW_MSGLOG                 32884
 #define IDM_DELETE_ALL_MSGLOG           32885
+#define IDM_LOGIN_OPTION                32886
+#define IDM_EDIT                        32887
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        183
-#define _APS_NEXT_COMMAND_VALUE         32886
-#define _APS_NEXT_CONTROL_VALUE         1093
+#define _APS_NEXT_RESOURCE_VALUE        185
+#define _APS_NEXT_COMMAND_VALUE         32888
+#define _APS_NEXT_CONTROL_VALUE         1099
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

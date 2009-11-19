@@ -9,6 +9,7 @@
 #include "stdafx.h"
 #include "WMLF.h"
 #include "LoginDlg.h"
+#include "LoginOptionDlg.h"
 
 #include "convert_charset.h"
 #include "IniWR.h"
@@ -74,6 +75,7 @@ BEGIN_MESSAGE_MAP(CLoginDlg, CDialog)
 ON_CBN_SELCHANGE(IDC_COMBO_USERS, &CLoginDlg::OnCbnSelchangeComboUsers)
     ON_WM_INITMENUPOPUP()
 	ON_WM_DESTROY()
+	ON_COMMAND(IDM_LOGIN_OPTION, &CLoginDlg::OnLoginOption)
 END_MESSAGE_MAP()
 
 // CLoginDlg 消息处理程序
@@ -674,6 +676,7 @@ void CLoginDlg::InitUsersList(void)
 	HANDLE hFind = INVALID_HANDLE_VALUE;
 	
 	m_cboUsersList.LimitText(11);
+	m_cboUsersList.ResetContent();
 	hFind = FindFirstFile(m_strStartupPath + _T("\\Users\\*.*"), &FindFileData);
 
 	if(INVALID_HANDLE_VALUE != hFind)
@@ -894,5 +897,18 @@ void CLoginDlg::DeleteNetListDataPrt(void)
 		delete [] lpDestInfo;
 		lpDestInfo = NULL;
 		m_cboNetList.SetItemDataPtr(i, NULL);
+	}
+}
+
+void CLoginDlg::OnLoginOption()
+{
+	// TODO: 在此添加命令处理程序代码
+	CLoginOptionDlg dlg;
+	dlg.m_strStartupPath = m_strStartupPath;
+	dlg.DoModal();
+	if(dlg.m_bHaveEdit)
+	{
+		InitUsersList();
+		GetSelectedUserOption();
 	}
 }
