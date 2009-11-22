@@ -53,7 +53,6 @@ BEGIN_MESSAGE_MAP(CFxMsgDlgView, CDialog)
 	ON_COMMAND(IDM_END_TALK, &CFxMsgDlgView::OnEndTalk)
 	ON_COMMAND(IDM_NEXT_TALK, &CFxMsgDlgView::OnNextTalk)
 	ON_COMMAND(IDM_SHOW_MSGLOG, &CFxMsgDlgView::OnShowMsglog)
-	ON_WM_HOTKEY()
 END_MESSAGE_MAP()
 
 
@@ -394,13 +393,25 @@ void CFxMsgDlgView::OnShowMsglog()
 	}
 }
 
-void CFxMsgDlgView::OnHotKey(UINT nHotKeyId, UINT nKey1, UINT nKey2)
+LRESULT CFxMsgDlgView::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	if((VK_TBACK == nKey2) && (MOD_KEYUP == nKey1))
+	switch(message)
 	{
-		CFxMsgDlgPage * pMsgPage = GetCurrentDlgPage();
-		pMsgPage->OnTBack();
+	case WM_CLOSE:
+		break;
+#ifdef WIN32_PLATFORM_WFSP
+		//改变后退键行为
+	case WM_HOTKEY:
+		if ((VK_TBACK == HIWORD(lParam)) && (MOD_KEYUP == LOWORD(lParam)))
+		{
+			CFxMsgDlgPage * pMsgPage = GetCurrentDlgPage();
+			pMsgPage->OnTBack();
+		}
+		break;
+#endif
+	default:
+		break;
 	}
-	CDialog::OnHotKey(nHotKeyId, nKey1, nKey2);
+
+	return CDialog::WindowProc(message, wParam, lParam);
 }

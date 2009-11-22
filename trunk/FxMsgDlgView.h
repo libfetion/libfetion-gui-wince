@@ -38,6 +38,7 @@ public:
 	CTabCtrl m_TabChat;
 	virtual BOOL OnInitDialog();
 protected:
+	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 	virtual void OnOK();
 protected:  // 控件条嵌入成员
 	CCommandBar m_dlgCommandBar;
@@ -51,5 +52,4 @@ public:
 	afx_msg void OnNextTalk();
 public:
 	afx_msg void OnShowMsglog();
-	afx_msg void OnHotKey(UINT nHotKeyId, UINT nKey1, UINT nKey2);
 };
