@@ -1072,6 +1072,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\LoginOptionDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\M8Misc.cpp"
 				>
 			</File>
@@ -1315,6 +1319,10 @@
 			</File>
 			<File
 				RelativePath=".\LoginDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LoginOptionDlg.h"
 				>
 			</File>
 			<File
