@@ -46,7 +46,7 @@ BOOL CAbout::OnInitDialog()
 
     CString strAboutMsg = 
 _T("关于LibFetion For Windows Mobile\r\n\
-V0.9.3 Build 20091118\r\n\r\n\
+V1.0.0 Build 20091122\r\n\r\n\
 本程序基于LibFetion库编写，想了解更多\r\n\
 请访问:www.libfetion.cn.\r\n\
 Copyright @ 2009 DDD(dedodong@163.com)\r\n\
