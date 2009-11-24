@@ -51,7 +51,6 @@ BEGIN_MESSAGE_MAP(CFxMsgDlgView, CDialog)
 	ON_COMMAND(IDR_MSG_SEND, &CFxMsgDlgView::OnMsgSend)
     ON_COMMAND(IDM_BD_VIEWINFO, &CFxMsgDlgView::OnBdViewinfo)
 	ON_COMMAND(IDM_END_TALK, &CFxMsgDlgView::OnEndTalk)
-	ON_COMMAND(IDM_PREV_TALK, &CFxMsgDlgView::OnPrevTalk)
 	ON_COMMAND(IDM_NEXT_TALK, &CFxMsgDlgView::OnNextTalk)
 	ON_COMMAND(IDM_SHOW_MSGLOG, &CFxMsgDlgView::OnShowMsglog)
 END_MESSAGE_MAP()
@@ -335,24 +334,6 @@ void CFxMsgDlgView::updateAccountInfo(long lAccountID)
 		m_TabChat.SetItem(nItem, &Item);
 	}
 }
-
-void CFxMsgDlgView::OnPrevTalk()
-{
-	// TODO: 在此添加命令处理程序代码
-	if(m_TabChat.GetItemCount() == 0)
-	{
-		return;
-	}
-	int nItem = m_TabChat.GetCurSel();
-	nItem --;
-	if(nItem < 0)
-	{
-		nItem = m_TabChat.GetItemCount() - 1;
-	}
-	m_TabChat.SetCurSel(nItem);
-	ShowChat(GetCurrentDlgPage());
-}
-
 void CFxMsgDlgView::OnNextTalk()
 {
 	// TODO: 在此添加命令处理程序代码

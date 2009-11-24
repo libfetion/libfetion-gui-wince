@@ -49,7 +49,7 @@ public:
 	afx_msg void OnMsgSend();
     afx_msg void OnBdViewinfo();
 	afx_msg void OnEndTalk();
-	afx_msg void OnPrevTalk();
 	afx_msg void OnNextTalk();
+public:
 	afx_msg void OnShowMsglog();
 };

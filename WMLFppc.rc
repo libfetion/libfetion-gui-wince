@@ -91,7 +91,6 @@ BEGIN
         MENUITEM "查看资料",                        IDM_BD_VIEWINFO
         MENUITEM "查看聊天记录",                      IDM_SHOW_MSGLOG
         MENUITEM "切换发送方式",                      IDM_MSG_CHANGE_METHOD
-        MENUITEM "上一个对话",                       IDM_PREV_TALK
         MENUITEM "下一个对话",                       IDM_NEXT_TALK
         MENUITEM "结束当前对话",                      IDM_END_TALK
         MENUITEM SEPARATOR
