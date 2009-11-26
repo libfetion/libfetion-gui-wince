@@ -307,7 +307,6 @@ void CFxMsgDlgPage::OnMsgSend()
 	MsgLog.strSender = head;
 	MsgLog.MsgTime = GetCurrentTime();
 	MsgLog.strMsg = m_msgSend;
-	g_pFxDB->AddMegLog(&MsgLog);
 
 	AddReturn(m_msgBrowser);
 	m_msgBrowser += FormatMsgLog(&MsgLog);
@@ -317,6 +316,7 @@ void CFxMsgDlgPage::OnMsgSend()
 	//((CEdit*)GetDlgItem(IDC_MSG_BROWSER))->SetSel(dwLen,dwLen,TRUE);
 	this->UpdateData(FALSE);
     ScrollToLast();
+	g_pFxDB->AddMegLog(&MsgLog);
 }
 
 void CFxMsgDlgPage::ScrollToLast(void)
