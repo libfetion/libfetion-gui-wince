@@ -251,7 +251,7 @@ DWORD CFxDatabase::GetMsgLogCount(long lID)
 		CString sqlStr;
 
 		db.open(m_szFile);
-		if(CheckMsgLogTable(db))
+		if(!CheckMsgLogTable(db))
 		{
 			return FALSE;
 		}
