@@ -160,7 +160,7 @@ void CFxMsgLogDlg::OnSize(UINT nType, int cx, int cy)
 
 void CFxMsgLogDlg::LoadMsgLog(void)
 {
-	m_dwCount = g_pFxDB->GetMegLogCount(m_lAccountID);
+	m_dwCount = g_pFxDB->GetMsgLogCount(m_lAccountID);
 
 	MSGLOGFROMDB MsgLogFromDB;
 	MsgLogFromDB.lID = m_lAccountID;

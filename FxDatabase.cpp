@@ -218,7 +218,7 @@ BOOL CFxDatabase::ReadBuddyInfoEnd()
 }
 
 
-BOOL CFxDatabase::AddMegLog(MSGLOGDB * pMsgLog)
+BOOL CFxDatabase::AddMsgLog(MSGLOGDB * pMsgLog)
 {
 
 	try
@@ -243,7 +243,7 @@ BOOL CFxDatabase::AddMegLog(MSGLOGDB * pMsgLog)
 	return TRUE;
 }
 
-DWORD CFxDatabase::GetMegLogCount(long lID)
+DWORD CFxDatabase::GetMsgLogCount(long lID)
 {
 	try
 	{

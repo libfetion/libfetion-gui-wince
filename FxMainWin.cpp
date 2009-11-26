@@ -949,7 +949,7 @@ void FxMainWin::handle_sendmsg(int msgflag, int fx_msg, long account_id)
 		MsgLog.strSender = head;
 		MsgLog.MsgTime = GetCurrentTime();
 		MsgLog.strMsg = ConvertUtf8ToUtf16(msg);
-		g_pFxDB->AddMegLog(&MsgLog);
+		g_pFxDB->AddMsgLog(&MsgLog);
 		newmsg = FormatMsgLog(&MsgLog);
 		addNewMessage(account_id, newmsg);
 	}
