@@ -207,7 +207,7 @@ void CppSQLite3DB::close()
 		if (nRet != SQLITE_OK)
 		{
 			LPCTSTR szError = (LPCTSTR)_sqlite3_errmsg(mpDB);
-			//throw CppSQLite3Exception(nRet, (LPTSTR)szError, DONT_DELETE_MSG);
+			throw CppSQLite3Exception(nRet, (LPTSTR)szError, DONT_DELETE_MSG);
 		}
 
 		mpDB = 0;
