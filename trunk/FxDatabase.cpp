@@ -136,6 +136,9 @@ BOOL CFxDatabase::ReadBuddyInfo(BUDDYINFODB * pBuddyInfo)
 			pdb->open(m_szFile);
 			if(!CheckBuddyInfoTable(pdb))
 			{
+				pdb->close();
+				delete pdb;
+				pdb = NULL;
 				return FALSE;
 			}
 		}
