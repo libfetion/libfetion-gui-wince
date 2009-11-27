@@ -50,21 +50,21 @@ BOOL CWMLFApp::InitInstance()
     // 在应用程序初始化期间，应调用一次 SHInitExtraControls 以初始化
     // 所有 Windows Mobile 特定控件，如 CAPEDIT 和 SIPPREF。
     SHInitExtraControls();
- // WIN32_PLATFORM_PSPC || WIN32_PLATFORM_WFSP
+#endif // WIN32_PLATFORM_PSPC || WIN32_PLATFORM_WFSP
 
     ////If it is already running, then focus on the window, and exit.
-    HWND hWnd = FindWindow(_T("CFxMainWin"), _T("LibFetion"));  
+    //HWND hWnd = FindWindow(_T("CFxMainWin"), _T("LibFetion"));  
 
-    if (hWnd) 
-    {
+    //if (hWnd) 
+    //{
     //    // Set focus to foremost child window.
     //    // The "| 0x00000001" is used to bring any owned windows to the foreground and
     //    // activate them.
-        SetForegroundWindow((HWND)((ULONG) hWnd | 0x00000001));
+    //    SetForegroundWindow((HWND)((ULONG) hWnd | 0x00000001));
 
-        return 0;
-    } 
-#endif
+    //    return 0;
+    //} 
+
 	// 标准初始化
 	// 如果未使用这些功能并希望减小
 	// 最终可执行文件的大小，则应移除下列
