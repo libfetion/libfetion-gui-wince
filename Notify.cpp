@@ -41,7 +41,7 @@ void CNotify::CreateAndAddNotification(HWND hwnd, CString szTitle, CString szNot
         TCHAR szMsgBody[1024];
         wsprintf(szMsgTitle, TEXT("收到来自 %s 的飞信消息"), szTitle);
 #ifndef NOTIF_NUM_SOFTKEYS
-        wsprintf(szMsgBody, TEXT("<html><body><form method=\"POST\" action=>%s <input type=button name='cmd:%u' value='查看'>&nbsp;<input type=button name='cmd:%u' value='取消'></body></html>"), szNotify, IDM_MAIN_SHOWNEWMSG2, IDM_MAIN_DIMISS);
+        wsprintf(szMsgBody, TEXT("<html><body><form method=\"POST\" action=>%s<p><input type=button name='cmd:%u' value='查看'>&nbsp;<input type=button name='cmd:%u' value='取消'></body></html>"), szNotify, IDM_MAIN_SHOWNEWMSG2, IDM_MAIN_DIMISS);
 #else
         wsprintf(szMsgBody, TEXT("<html><body><form method=\"POST\" action=>%s</body></html>"), szNotify);
 #endif
@@ -54,7 +54,11 @@ void CNotify::CreateAndAddNotification(HWND hwnd, CString szTitle, CString szNot
 	    pNotification->hwndSink = hwnd;
 	    pNotification->pszHTML = szMsgBody;
 	    pNotification->hicon = LoadIcon(AfxGetApp()->m_hInstance, MAKEINTRESOURCE(IDI_ICON_NOTIFY));
+#ifndef NOTIF_NUM_SOFTKEYS
+	    pNotification->cbStruct = sizeof(SHNOTIFICATIONDATA);
+#else
 	    pNotification->cbStruct = sizeof(SHNOTIFICATIONDATA2);
+#endif
 	    pNotification->pszTitle = szMsgTitle;
         pNotification->grfFlags = SHNF_ALERTONUPDATE | SHNF_WANTVKTTALK | SHNF_DISPLAYON;
         pNotification->rgskn[0].pszTitle = TEXT("查看");
