@@ -253,6 +253,7 @@ int CppSQLite3DB::execDML(LPCTSTR szSQL)
 		nRet = _sqlite3_finalize(pVM);
 	} 
 	while( nRet == SQLITE_SCHEMA );
+	return nRet;
 }
 
 CppSQLite3Query CppSQLite3DB::execQuery(LPCTSTR szSQL)
