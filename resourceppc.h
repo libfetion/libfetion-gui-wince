@@ -192,13 +192,14 @@
 #define IDM_LOGIN_OPTION                32886
 #define IDM_EDIT                        32887
 #define IDM_PREV_TALK                   32888
+#define IDM_CHANGE_NUM                  32889
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        185
-#define _APS_NEXT_COMMAND_VALUE         32889
+#define _APS_NEXT_COMMAND_VALUE         32890
 #define _APS_NEXT_CONTROL_VALUE         1099
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
