@@ -145,6 +145,8 @@ void CFxMsgDlgPage::ShowOnlineInfo()
 	if (m_lAccountID == SYSTEM_ID)
 	{
 		m_msgBrowser += CString(_T("系统消息")) + CString(_T("\r\n"));
+		UpdateData(FALSE);
+		ScrollToLast();
 		return;
 	}
 
@@ -225,7 +227,7 @@ void CFxMsgDlgPage::OnSize(UINT nType, int cx, int cy)
 
         xIDC_SEND_MSG = xIDC_MSG_INFO;
         hIDC_SEND_MSG = DRA::SCALEY(44);
-		if((rcCtl.bottom - rcCtl.top) < 200)
+		if(iHeight < 200)
 		{
 			hIDC_SEND_MSG = DRA::SCALEY(30);
 		}
