@@ -109,4 +109,8 @@ public:
 	afx_msg void OnDestroy();
 	void DeleteNetListDataPrt(void);
 	afx_msg void OnLoginOption();
+protected:
+	virtual void OnOK();
+public:
+	afx_msg void OnChangeNum();
 };

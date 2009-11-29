@@ -76,6 +76,7 @@ ON_CBN_SELCHANGE(IDC_COMBO_USERS, &CLoginDlg::OnCbnSelchangeComboUsers)
     ON_WM_INITMENUPOPUP()
 	ON_WM_DESTROY()
 	ON_COMMAND(IDM_LOGIN_OPTION, &CLoginDlg::OnLoginOption)
+	ON_COMMAND(IDM_CHANGE_NUM, &CLoginDlg::OnChangeNum)
 END_MESSAGE_MAP()
 
 // CLoginDlg 消息处理程序
@@ -909,6 +910,29 @@ void CLoginDlg::OnLoginOption()
 	if(dlg.m_bHaveEdit)
 	{
 		InitUsersList();
+		GetSelectedUserOption();
+	}
+}
+
+void CLoginDlg::OnOK()
+{
+	// TODO: 在此添加专用代码和/或调用基类
+
+	//CDialog::OnOK();
+}
+
+void CLoginDlg::OnChangeNum()
+{
+	// TODO: 在此添加命令处理程序代码
+	if(m_cboUsersList.GetCount() > 0)
+	{
+		int iSel = m_cboUsersList.GetCurSel();
+		iSel ++;
+		if(iSel >= m_cboUsersList.GetCount())
+		{
+			iSel = 0;
+		}
+		m_cboUsersList.SetCurSel(iSel);
 		GetSelectedUserOption();
 	}
 }
