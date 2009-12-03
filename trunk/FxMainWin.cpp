@@ -1474,7 +1474,10 @@ void FxMainWin::OnCancel()
 	// TODO: 在此添加专用代码和/或调用基类
 	//解决SP手机按CANCEL键后自动退出问题，并改成最小化
 	ShowWindow(SW_MINIMIZE);
-	//CDialog::OnCancel();
+#ifdef WIN32_PLATFORM_PSPC
+	//解决PPC上点X强制关闭程序的工具软件无法彻底关闭本程序的问题
+	CDialog::OnCancel();
+#endif
 }
 
 CString FxMainWin::GetUserStateString(void)
