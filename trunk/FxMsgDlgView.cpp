@@ -304,6 +304,7 @@ void CFxMsgDlgView::OnEndTalk()
 
 BOOL CFxMsgDlgView::addNewMsg(long lAccountID, CString msg)
 {
+	CWnd * pFocus = GetFocus();
 	CFxMsgDlgPage * pMsgPage = ChatWith(lAccountID);
 	if(NULL != pMsgPage)
 	{
@@ -314,6 +315,15 @@ BOOL CFxMsgDlgView::addNewMsg(long lAccountID, CString msg)
 			SeekPage(lAccountID, nItem);
 			pMsgPage->m_bNotReadFlag = TRUE;
 			SetNotReadFlag(nItem, pMsgPage->m_bNotReadFlag);
+
+			if(m_isShow)
+			{
+				if(NULL != pFocus)
+				{
+					pFocus->SetFocus();
+				}
+				ShowMenuBar();
+			}
 			return TRUE;
 		}
 	}
