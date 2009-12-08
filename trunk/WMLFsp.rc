@@ -127,6 +127,7 @@ BEGIN
             MENUITEM "上线提醒",                        IDM_MAIN_SET_ONLINE
             MENUITEM "屏蔽群消息",                       IDM_MAIN_SET_SHIELDQUNMESSAGE
             MENUITEM "关闭提醒",                        IDM_MAIN_SET_SILENCE
+            MENUITEM "使用长短信",                       IDM_MAIN_SET_LONGSMS
             MENUITEM "清除登录密码",                      IDM_MAIN_CLEAN
             MENUITEM "关于",                          IDM_ABOUT
         END

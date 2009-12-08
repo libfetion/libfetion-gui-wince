@@ -268,6 +268,7 @@ ON_COMMAND(IDM_BD_MOVEGROUP, &FxMainWin::OnBdMovegroup)
 ON_COMMAND(IDM_MAIN_CLEAN, &FxMainWin::OnMainClean)
 ON_COMMAND(IDM_SEND_MYSELF, &FxMainWin::OnSendMyself)
 ON_COMMAND(IDM_UPDATE_ALL_ACCOUNTINFO, &FxMainWin::OnUpdateAllAccountinfo)
+ON_COMMAND(IDM_MAIN_SET_LONGSMS, &FxMainWin::OnMainSetLongsms)
 END_MESSAGE_MAP()
 
 #ifdef WIN32_PLATFORM_WFSP
@@ -473,7 +474,10 @@ void FxMainWin::do_login()
 		//无提醒
 		m_bSilence = GetSettingFromIni(_T("Silence"));
 		//屏蔽群消息
-		m_bShieldQunMessage=GetSettingFromIni(_T("ShieldQunMessage"));
+		m_bShieldQunMessage = GetSettingFromIni(_T("ShieldQunMessage"));
+		//使用长短信
+		m_bLongSMS = GetSettingFromIni(_T("LongSMS"));
+		fx_set_longsms(m_bLongSMS);
 	}
 #endif
 }
@@ -1191,8 +1195,15 @@ void FxMainWin::OnUpdateMainSetOnline(CCmdUI *pCmdUI)
 
 void FxMainWin::OnMainShieldQunMessage()
 {
-	m_bShieldQunMessage=!m_bShieldQunMessage;
-	SetSettingToIni(_T("ShieldQunMessage"),m_bShieldQunMessage);
+	m_bShieldQunMessage = !m_bShieldQunMessage;
+	SetSettingToIni(_T("ShieldQunMessage"), m_bShieldQunMessage);
+}
+
+void FxMainWin::OnMainSetLongsms()
+{
+	m_bLongSMS = !m_bLongSMS;
+	SetSettingToIni(_T("LongSMS"), m_bLongSMS);
+	fx_set_longsms(m_bLongSMS);
 }
 
 void FxMainWin::OnUpdateShieldQunMessage(CCmdUI *pCmdUI)
@@ -1251,8 +1262,10 @@ void FxMainWin::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
     pPopupMenu->CheckMenuItem(IDM_MAIN_SET_SILENCE, m_bSilence ? MF_CHECKED : MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_SET_NOSOUND, m_bSound ? MF_CHECKED : MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_SET_VIBR, m_bVibrate ? MF_CHECKED : MF_UNCHECKED);
-    pPopupMenu->CheckMenuItem(IDM_MAIN_SET_ONLINE,m_bOnline ? MF_CHECKED : MF_UNCHECKED);
-	pPopupMenu->CheckMenuItem(IDM_MAIN_SET_SHIELDQUNMESSAGE,m_bShieldQunMessage ? MF_CHECKED:MF_UNCHECKED);
+    pPopupMenu->CheckMenuItem(IDM_MAIN_SET_ONLINE, m_bOnline ? MF_CHECKED : MF_UNCHECKED);
+	pPopupMenu->CheckMenuItem(IDM_MAIN_SET_SHIELDQUNMESSAGE, m_bShieldQunMessage ? MF_CHECKED : MF_UNCHECKED);
+	pPopupMenu->CheckMenuItem(IDM_MAIN_SET_LONGSMS, m_bLongSMS ? MF_CHECKED : MF_UNCHECKED);
+	
     pPopupMenu->CheckMenuItem(IDM_MAIN_STATE_ONLINE, MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_STATE_HIDE, MF_UNCHECKED);
     pPopupMenu->CheckMenuItem(IDM_MAIN_STATE_BUSY, MF_UNCHECKED);

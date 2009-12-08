@@ -121,6 +121,9 @@ public:
 	// 是否屏蔽群消息
 	BOOL m_bShieldQunMessage;
 
+	// 是否使用长短信
+	BOOL m_bLongSMS;
+
     afx_msg void OnMainSetVibr();
     afx_msg void OnUpdateMainSetVibr(CCmdUI *pCmdUI);
 
@@ -182,4 +185,5 @@ public:
 	afx_msg void OnSendMyself();
 	void RemoveFilker(long lAccountID);
 	afx_msg void OnUpdateAllAccountinfo();
+	afx_msg void OnMainSetLongsms();
 };
