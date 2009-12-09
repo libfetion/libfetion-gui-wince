@@ -69,6 +69,8 @@
 #define IDD_WMLF_MSG_LOG                182
 #define IDD_WMLF_LOGIN_OPTION           183
 #define IDR_LOGIN_OPTION_MENU           184
+#define IDD_WMLF_MYSELF_INFO            185
+#define IDR_MENU_MYSELF_INFO            186
 #define IDC_BI_CITY                     200
 #define IDC_MOBILE_NO                   1000
 #define IDC_STATIC_ABOUT                1001
@@ -139,6 +141,40 @@
 #define IDC_COMBO_USERS2                1096
 #define IDC_FETION_NO                   1097
 #define IDC_STATIC_AD_TITLE2            1098
+#define IDC_MI_LB_FETIONNO              1099
+#define IDC_MI_FETIONNO                 1100
+#define IDC_MI_LB_NICKNAME              1101
+#define IDC_MI_LB_SIGN                  1102
+#define IDC_MI_LB_SCORE                 1103
+#define IDC_MI_SCORE                    1104
+#define IDC_MI_LB_BIRTHDAY              1105
+#define IDC_MI_BIRTHDAY                 1106
+#define IDC_MI_LB_LUNAR_ANIMAL          1107
+#define IDC_MI_LUNAR_ANIMAL             1108
+#define IDC_MI_LB_HOROSCOPE             1109
+#define IDC_MI_HOROSCOPE                1110
+#define IDC_MI_LB_PROV                  1111
+#define IDC_MI_LB_CITY                  1112
+#define IDC_MI_PROV                     1113
+#define IDC_MI_CITY                     1114
+#define IDC_MI_LB_SEX                   1115
+#define IDC_MI_SEX                      1116
+#define IDC_MI_LB_BLOOD_TYPE            1117
+#define IDC_MI_BLOOD_TYPE               1118
+#define IDC_MI_GRP_SET                  1119
+#define IDC_MI_GRP_INFO                 1120
+#define IDC_MI_EDIT_NICKNAME            1121
+#define IDC_MI_EDIT_SIGN                1122
+#define IDC_MI_LB_MOBILENO              1123
+#define IDC_MI_MOBILENO                 1124
+#define IDC_BI_LB_BIRTHDAY              1125
+#define IDC_BI_BIRTHDAY                 1126
+#define IDC_BI_LB_LUNAR_ANIMAL          1127
+#define IDC_BI_LUNAR_ANIMAL             1128
+#define IDC_BI_LB_HOROSCOPE             1129
+#define IDC_BI_HOROSCOPE                1130
+#define IDC_BI_LB_BLOOD_TYPE            1131
+#define IDC_BI_BLOOD_TYPE               1132
 #define IDR_MSG_CLOSE                   32783
 #define IDR_MSG_CHANGE                  32784
 #define ID_RIGHT_TESTE                  32785
@@ -192,8 +228,8 @@
 #define IDC_LOGIN_OFFLINE               32870
 #define IDM_MAIN_SET_ONLINE             32872
 #define IDM_MAIN_CLEAN                  32874
-#define IDM_MAIN_SET_SHIELDQUN          32876
-#define IDM_MAIN_SET_SHIELDQUNMESSAGE   32877
+#define IDM_MAIN_SET_SHIELDQUN          32878
+#define IDM_MAIN_SET_SHIELDQUNMESSAGE   32879
 #define IDM_END_TALK                    32880
 #define IDM_NEXT_TALK                   32881
 #define IDM_SEND_MYSELF                 32882
@@ -205,14 +241,15 @@
 #define IDM_PREV_TALK                   32888
 #define IDM_CHANGE_NUM                  32889
 #define IDM_MAIN_SET_LONGSMS            32890
+#define IDM_MYSELF_INFO                 32891
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        185
-#define _APS_NEXT_COMMAND_VALUE         32891
-#define _APS_NEXT_CONTROL_VALUE         1099
-#define _APS_NEXT_SYMED_VALUE           101
+#define _APS_NEXT_RESOURCE_VALUE        187
+#define _APS_NEXT_COMMAND_VALUE         32892
+#define _APS_NEXT_CONTROL_VALUE         1133
+#define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

@@ -27,7 +27,7 @@ public:
 
     virtual BOOL OnInitDialog();
     afx_msg void OnSize(UINT nType, int cx, int cy);
-    void CBuddyInfoDlg::InitScrollInfo();
+    void InitScrollInfo();
 
 	const Fetion_Account *m_account;
     // 屏显名称
@@ -41,30 +41,26 @@ public:
     CString m_strMobileNo;
     // 昵称
     CString m_strNickName;
-    CString m_strName;
-    CString m_strSex;
-    CString m_strProv;
-    CString m_strCity;
     // 签名
     CString m_strSign;
+    CString m_strName;
+	CString m_strBirthday;
+	CString m_strLunarAnimal;
+	CString m_strHoroscope;
+    CString m_strProv;
+    CString m_strCity;
+    CString m_strSex;
+	CString m_strBloodType;
     void InitGroupItem(void);
     CComboBox m_cboGroup;
     afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-    afx_msg void OnOk();
 protected:
 //	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 public:
 //	virtual BOOL PreTranslateMessage(MSG* pMsg);
 protected:
-	virtual void OnCancel();
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 public:
-    // 根据代码获取省份名字
-    CString GetProvince(CString strProvinceCode);
-    CString GetCity(int iCityCode);
     void updateAccountInfo();
-    
-#ifdef WIN32_PLATFORM_WFSP
-    afx_msg void OnCancel2();
-#endif
+	afx_msg void OnEdit();
 };

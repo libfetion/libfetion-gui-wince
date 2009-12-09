@@ -1088,6 +1088,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MyselfInfoDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Notify.cpp"
 				>
 			</File>
@@ -1339,6 +1343,10 @@
 			</File>
 			<File
 				RelativePath=".\Notify.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyselfInfoDlg.h"
 				>
 			</File>
 			<File

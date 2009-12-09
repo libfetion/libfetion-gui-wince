@@ -16,6 +16,7 @@
 #include "About.h"
 #include "IniWR.h"
 #include "FxDatabase.h"
+#include "MyselfInfoDlg.h"
 
 #ifdef M8
 #include "M8Misc.h"
@@ -155,7 +156,20 @@ BOOL FxMainWin::handleFx_Sys_Event(int message, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case FX_SET_NICKNAME_OK:
-		//emit signal_set_nickname_ok();
+		{
+			const Fetion_Personal * pInfo = fx_data_get_PersonalInfo();
+			m_strNickName = ConvertUtf8ToUtf16(pInfo->nickname);
+			m_strNickNameShow = m_strNickName + GetUserStateString();
+			this->UpdateData(FALSE);
+		}
+		return TRUE;
+
+	case FX_SET_IMPRESA_OK:
+		{
+			const Fetion_Personal * pInfo = fx_data_get_PersonalInfo();
+		    m_strSign = ConvertUtf8ToUtf16(pInfo->impresa);
+			this->UpdateData(FALSE);
+		}
 		return TRUE;
 
 #if 0 //follow message is ignored
@@ -269,6 +283,7 @@ ON_COMMAND(IDM_MAIN_CLEAN, &FxMainWin::OnMainClean)
 ON_COMMAND(IDM_SEND_MYSELF, &FxMainWin::OnSendMyself)
 ON_COMMAND(IDM_UPDATE_ALL_ACCOUNTINFO, &FxMainWin::OnUpdateAllAccountinfo)
 ON_COMMAND(IDM_MAIN_SET_LONGSMS, &FxMainWin::OnMainSetLongsms)
+ON_COMMAND(IDM_MYSELF_INFO, &FxMainWin::OnMyselfInfo)
 END_MESSAGE_MAP()
 
 #ifdef WIN32_PLATFORM_WFSP
@@ -460,7 +475,14 @@ void FxMainWin::do_login()
 	m_strNickNameShow = m_strNickName + GetUserStateString();
     m_strSign = ConvertUtf8ToUtf16(pInfo->impresa);
     CStringA tmp_id = ConvertUtf16ToUtf8(loginDlg->m_fetion_id);
-	m_mobile_no = loginDlg->m_mobile_no;
+	if(pInfo->mobile_no)
+	{
+		m_mobile_no = ConvertUtf8ToUtf16(pInfo->mobile_no);
+	}
+	else
+	{
+		m_mobile_no = loginDlg->m_mobile_no;
+	}
 	m_lAccountID = atol(tmp_id.GetBuffer());
 
 	{
@@ -1597,4 +1619,10 @@ void FxMainWin::OnUpdateAllAccountinfo()
 	}
 	m_BuddyOpt->WantUpdateAllAccountInfo();
 	SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*3, NULL);
+}
+
+void FxMainWin::OnMyselfInfo()
+{
+	CMyselfInfoDlg Dlg;
+	Dlg.DoModal();
 }
