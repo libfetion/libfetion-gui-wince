@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "WMLF.h"
 #include "BuddyInfoDlg.h"
-#include "ProvAndCityCode.h"
 
 #ifdef M8
 #include "M8Misc.h"
@@ -45,11 +44,15 @@ void CBuddyInfoDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_BI_FETIONNO, m_strAccountID);
 	DDX_Text(pDX, IDC_BI_MOBILENO, m_strMobileNo);
     DDX_Text(pDX, IDC_BI_NICKNAME, m_strNickName);
+    DDX_Text(pDX, IDC_BI_SIGN, m_strSign);
     DDX_Text(pDX, IDC_BI_NAME, m_strName);
-    DDX_Text(pDX, IDC_BI_SEX, m_strSex);
+	DDX_Text(pDX, IDC_BI_BIRTHDAY, m_strBirthday);
+	DDX_Text(pDX, IDC_BI_LUNAR_ANIMAL, m_strLunarAnimal);
+	DDX_Text(pDX, IDC_BI_HOROSCOPE, m_strHoroscope);
     DDX_Text(pDX, IDC_BI_PROV, m_strProv);
     DDX_Text(pDX, IDC_BI_CITY, m_strCity);
-    DDX_Text(pDX, IDC_BI_SIGN, m_strSign);
+    DDX_Text(pDX, IDC_BI_SEX, m_strSex);
+	DDX_Text(pDX, IDC_BI_BLOOD_TYPE, m_strBloodType);
     DDX_Control(pDX, IDC_BI_CBO_GROUP, m_cboGroup);
 }
 
@@ -57,11 +60,7 @@ void CBuddyInfoDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CBuddyInfoDlg, CDialog)
     ON_WM_SIZE()
     ON_WM_VSCROLL()
-    ON_COMMAND(IDOK, &CBuddyInfoDlg::OnOk)
-    
-#ifdef WIN32_PLATFORM_WFSP
-    ON_COMMAND(IDM_CANCEL, &CBuddyInfoDlg::OnCancel2)
-#endif
+	ON_COMMAND(IDM_EDIT, &CBuddyInfoDlg::OnEdit)
 END_MESSAGE_MAP()
 
 
@@ -101,7 +100,7 @@ BOOL CBuddyInfoDlg::OnInitDialog()
     // 异常: OCX 属性页应返回 FALSE
 }
 
-void CBuddyInfoDlg::InitScrollInfo()   
+void CBuddyInfoDlg::InitScrollInfo()
 {   
     RECT rect;
     this->GetWindowRect(&rect);   
@@ -144,7 +143,7 @@ void CBuddyInfoDlg::OnSize(UINT nType, int cx, int cy)
     
     int iXGroup2, iYGroup2, iWGroup2, iHGroup2; //第二个GROUPBOX根据内容调整大小,变量单独存放
 
-    iWLabel = DRA::SCALEX(70);
+    iWLabel = DRA::SCALEX(60);
     iHLabel = DRA::SCALEX(18);
 
     
@@ -215,6 +214,14 @@ void CBuddyInfoDlg::OnSize(UINT nType, int cx, int cy)
     
     iY = iY + iHValue + iMargin ;
     //
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_LB_SIGN);
+    ::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
+
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_SIGN);
+    ::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue * 3, FALSE);
+
+	iY = iY + iHValue * 3 + iMargin ;
+    //
 
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_LB_NAME);
     ::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
@@ -222,15 +229,30 @@ void CBuddyInfoDlg::OnSize(UINT nType, int cx, int cy)
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_NAME);
     ::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue, FALSE);
     
-    iY = iY + iHValue + iMargin ;
-    //
-
-    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_LB_SEX);
+	iY += iHValue + iMargin;
+	//
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_LB_BIRTHDAY);
     ::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
 
-    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_SEX);
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_BIRTHDAY);
     ::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue, FALSE);
-    
+
+	iY += iHValue + iMargin;
+	//
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_LB_LUNAR_ANIMAL);
+    ::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
+
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_LUNAR_ANIMAL);
+    ::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue, FALSE);
+
+	iY += iHValue + iMargin;
+	//
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_LB_HOROSCOPE);
+    ::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
+
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_HOROSCOPE);
+    ::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue, FALSE);
+
     iY = iY + iHValue + iMargin ;
     //
 
@@ -250,13 +272,22 @@ void CBuddyInfoDlg::OnSize(UINT nType, int cx, int cy)
     
     iY = iY + iHValue + iMargin ;
     //
-    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_LB_SIGN);
+
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_LB_SEX);
     ::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
 
-    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_SIGN);
-    ::MoveWindow(hwndctl,  iXValue, iY, iWValue, DRA::SCALEY(20) * 2, FALSE);
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_SEX);
+    ::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue, FALSE);
     
-    iHGroup2 = iY + DRA::SCALEY(20) * 2 + iMargin - iYGroup2;
+	iY += iHValue + iMargin;
+	//
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_LB_BLOOD_TYPE);
+    ::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
+
+    hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_BLOOD_TYPE);
+    ::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue, FALSE);
+    
+    iHGroup2 = iY + iHValue + iMargin - iYGroup2;
 
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_BI_GRP_INFO);
     ::MoveWindow(hwndctl, iXGroup2, iYGroup2, iWGroup2, iHGroup2, TRUE);
@@ -344,7 +375,7 @@ void CBuddyInfoDlg::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
     CDialog::OnVScroll(nSBCode, nPos, pScrollBar);
 }
 
-void CBuddyInfoDlg::OnOk()
+void CBuddyInfoDlg::OnEdit()
 {
     UpdateData();
     int iNewGroupID = 0;
@@ -363,52 +394,9 @@ void CBuddyInfoDlg::OnOk()
 		fx_set_buddyinfo(m_lAccountID, showName.GetBuffer(), NULL, NULL); 
     }
 
-    CDialog::OnOK();
+    SendMessage(WM_CLOSE,0, 0);
 }
 
-void CBuddyInfoDlg::OnCancel()
-{
-#ifdef WIN32_PLATFORM_WFSP
-	// 在这里修改后退键的行为为删除EditBox中的内容，而不是退出模态对话框
-    if(this->GetFocus() == this->GetDlgItem(IDC_BI_EDT_SHOWNAME))
-    {
-        SHSendBackToFocusWindow(WM_HOTKEY, 2, MAKELPARAM(MOD_KEYUP, VK_TBACK));
-        return;
-    }
-#endif // WIN32_PLATFORM_WFSP
-	CDialog::OnCancel();
-}
-
-// 根据代码获取省份名字
-CString CBuddyInfoDlg::GetProvince(CString strProvinceCode)
-{
-    if(L"" == strProvinceCode)
-        return L"其它";
-    for(int i = 0; i < 34; i ++)
-    {
-        if(strProvinceCode == ProvinceArray[i].ProvinceCode)
-        {
-            return ProvinceArray[i].ProvinceName;
-        }
-    }
-    return L"其它";
-
-}
-
-CString CBuddyInfoDlg::GetCity(int iCityCode)
-{
-    //默认如果是99表示其它
-    if(99 == iCityCode)
-        return L"其它";
-    for(int i = 0; i < 340; i ++)
-    {
-        if(iCityCode == CityArray[i].CityCode)
-        {
-            return CityArray[i].CityName;
-        }
-    }
-    return L"其它";
-}
 void CBuddyInfoDlg::updateAccountInfo()
 {
 	m_account = fx_get_account_by_id(m_lAccountID);
@@ -442,10 +430,18 @@ void CBuddyInfoDlg::updateAccountInfo()
 	if (m_account->personal)
 	{
 		m_strNickName = ConvertUtf8ToUtf16(m_account->personal->nickname);
-		m_strSex = (m_account->personal->gender == 1)? _T("帅哥") : (m_account->personal->gender == 2)? _T("美女") : _T("保密");
+		m_strSign = ConvertUtf8ToUtf16(m_account->personal->impresa);
+		m_strName = ConvertUtf8ToUtf16(m_account->personal->name);
+		if(m_account->personal->birthday_valid)
+		{
+			m_strBirthday = m_account->personal->birth_date;
+		}
+		m_strLunarAnimal = GetLunarAnimal(m_account->personal->lunar_animal);
+		m_strHoroscope = GetHoroscope(m_account->personal->horoscope);
 		m_strProv = GetProvince( ConvertUtf8ToUtf16(m_account->personal->province));
 		m_strCity = GetCity(m_account->personal->city);
-		m_strSign = ConvertUtf8ToUtf16(m_account->personal->impresa);
+		m_strSex = GetSex(m_account->personal->gender);
+		m_strBloodType = GetBloodType(m_account->personal->blood_type);
 	}
 
 	for(int i = 0; i < m_cboGroup.GetCount(); i++)
@@ -458,13 +454,6 @@ void CBuddyInfoDlg::updateAccountInfo()
     }
 	UpdateData(FALSE);
 }
-
-#ifdef WIN32_PLATFORM_WFSP
-void CBuddyInfoDlg::OnCancel2()
-{
-	CDialog::OnCancel();
-}
-#endif
 
 LRESULT CBuddyInfoDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -487,3 +476,4 @@ LRESULT CBuddyInfoDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 
 	return CDialog::WindowProc(message, wParam, lParam);
 }
+

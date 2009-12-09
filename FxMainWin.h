@@ -186,4 +186,5 @@ public:
 	void RemoveFilker(long lAccountID);
 	afx_msg void OnUpdateAllAccountinfo();
 	afx_msg void OnMainSetLongsms();
+	afx_msg void OnMyselfInfo();
 };

@@ -32,4 +32,11 @@ CString ConvertNUMToUft16(CString strNUM);
 CString FormatMsgLog(MSGLOGDB * pMsgLog);
 void AddReturn(CString &strShow);
 
+CString GetLunarAnimal(int iIndex);
+CString GetHoroscope(int iIndex);
+CString GetProvince(CString strProvinceCode);
+CString GetCity(int iCityCode);
+CString GetSex(int iIndex);
+CString GetBloodType(int iIndex);
+
 #endif

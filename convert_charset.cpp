@@ -6,6 +6,7 @@
  ***************************************************************************/
 #include "stdafx.h"
 #include "convert_charset.h"
+#include "ProvAndCityCode.h"
 
 CStringA ConvertUtf16ToUtf8(CString strUtf16) 
 { 
@@ -200,4 +201,120 @@ void AddReturn(CString &strShow)
 	{
 		strShow += _T("\r\n\r\n");
 	}
+}
+
+// 根据代码获取省份名字
+CString GetProvince(CString strProvinceCode)
+{
+    if(L"" == strProvinceCode)
+        return L"其它";
+    for(int i = 0; i < 34; i ++)
+    {
+        if(strProvinceCode == ProvinceArray[i].ProvinceCode)
+        {
+            return ProvinceArray[i].ProvinceName;
+        }
+    }
+    return L"其它";
+
+}
+
+CString GetCity(int iCityCode)
+{
+    //默认如果是99表示其它
+    if(99 == iCityCode)
+        return L"其它";
+    for(int i = 0; i < 340; i ++)
+    {
+        if(iCityCode == CityArray[i].CityCode)
+        {
+            return CityArray[i].CityName;
+        }
+    }
+    return L"其它";
+}
+
+CString LunarAnimal[12] = 
+{
+L"鼠",
+L"牛",
+L"虎",
+L"兔",
+L"龙",
+L"蛇",
+L"马",
+L"羊",
+L"猴",
+L"鸡",
+L"狗",
+L"猪"
+};
+
+CString GetLunarAnimal(int iIndex)
+{
+	if((iIndex < 1) || (iIndex >12))
+	{
+		return L"";
+	}
+	return LunarAnimal[iIndex - 1];
+}
+
+CString Horoscope[12] = 
+{
+L"摩羯座",
+L"水瓶座",
+L"双鱼座",
+L"白羊座",
+L"金牛座",
+L"双子座",
+L"巨蟹座",
+L"狮子座",
+L"处女座",
+L"天秤座",
+L"天蝎座",
+L"射手座"
+};
+
+CString GetHoroscope(int iIndex)
+{
+	if((iIndex < 1) || (iIndex >12))
+	{
+		return L"";
+	}
+	return Horoscope[iIndex - 1];
+}
+
+CString Sex[3] = 
+{
+L"保密",
+L"男",
+L"女"
+};
+
+CString GetSex(int iIndex)
+{
+	if((iIndex < 0) || (iIndex >2))
+	{
+		return L"";
+	}
+	return Sex[iIndex];
+}
+
+CString BloodType[6] = 
+{
+L"未知",
+L"A型",
+L"B型",
+L"AB型",
+L"O型",
+L"其它"
+};
+
+CString GetBloodType(int iIndex)
+{
+	if((iIndex < 0) || (iIndex >5))
+	{
+		return L"";
+	}
+	return BloodType[iIndex];
 }
