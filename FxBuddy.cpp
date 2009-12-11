@@ -592,7 +592,8 @@ void BuddyOpt::updateAccountInfo(long account_id)
 	ac_info->onlinestate = new_online_state;
 
 	CString old_show_name = treeWidget->GetItemText(accountItem);
-	treeWidget->SetItemText(accountItem, show_name + _T("    "));
+	show_name += _T("    ");
+	treeWidget->SetItemText(accountItem, show_name);
 	setOnlineState(accountItem, ac_info->onlinestate);
 
 	if (old_show_name.CompareNoCase(show_name) || (old_online_state != new_online_state))
@@ -610,9 +611,8 @@ void BuddyOpt::updateAccountInfo(long account_id)
 					group_info->online_no ++;
 				else 
 					group_info->online_no --;
+				updateGroupInfo(groupItem, true);
 			}
-
-			updateGroupInfo(groupItem, true);
 		}
 	}
 	//printf("Updata new buddy.... \n");
