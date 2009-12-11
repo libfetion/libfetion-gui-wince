@@ -85,20 +85,6 @@ typedef struct _Group_Info
 	int online_no;
 }Group_Info;
 
-typedef struct _Account_Info
-{
-	CString accountName;
-	long accountID;
-	int onlinestate;
-	BOOL isUpdate;
-}Account_Info;
-
-typedef struct _Qun_Info
-{
-	CString qunName;
-	long qunID;
-}Qun_Info;
-
 typedef struct _BUDDYINFODB
 {
 	long lID;
@@ -106,6 +92,22 @@ typedef struct _BUDDYINFODB
 	CString strNickName;
 	CString strImpresa;
 }BUDDYINFODB;
+
+typedef struct _Account_Info
+{
+	CString accountName;
+	long accountID;
+	int onlinestate;
+	BOOL isUpdate;
+	BOOL bFromDB;
+	BUDDYINFODB BuddyInfo;
+}Account_Info;
+
+typedef struct _Qun_Info
+{
+	CString qunName;
+	long qunID;
+}Qun_Info;
 
 typedef struct _MSGLOGDB
 {
