@@ -379,7 +379,8 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account, CString & name, 
 	Account_Info *ac_info = new Account_Info;
 	ac_info->accountName = name;
 	ac_info->accountID = account->id;
-	
+	ac_info->bFromDB = bFromDB;
+
 	if(bFromDB)
 	{
 		ac_info->isUpdate = TRUE;
@@ -388,7 +389,18 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account, CString & name, 
 	{
 		ac_info->isUpdate = FALSE;
 	}
-
+	ac_info->BuddyInfo.lID = account->id;
+	ac_info->BuddyInfo.strLocalName =  ConvertUtf8ToUtf16(account->local_name);
+	if(account->personal)
+	{
+		ac_info->BuddyInfo.strNickName = ConvertUtf8ToUtf16(account->personal->nickname);
+		ac_info->BuddyInfo.strImpresa = ConvertUtf8ToUtf16(account->personal->impresa);
+	}
+	else
+	{
+		ac_info->BuddyInfo.strNickName = _T("");
+		ac_info->BuddyInfo.strImpresa = _T("");
+	}
     if (fx_islogin_by_mobile(account))
 	{         
 		//mobile login
@@ -575,11 +587,14 @@ void BuddyOpt::updateAccountInfo(long account_id)
 		BuddyInfo.strNickName = _T("");
 		BuddyInfo.strImpresa = _T("");
 	}
-	if(!g_pFxDB->UpdateBuddyInfo(&BuddyInfo))
+	if((!ac_info->bFromDB) || ChangeBuddyInfo(&ac_info->BuddyInfo, &BuddyInfo))
 	{
-		
+		ac_info->bFromDB = TRUE;
+		if(!g_pFxDB->UpdateBuddyInfo(&BuddyInfo))
+		{
+			//假如写失败
+		}
 	}
-
 	ac_info->accountName = show_name;
 
 	int old_online_state = ac_info->onlinestate;
@@ -593,7 +608,10 @@ void BuddyOpt::updateAccountInfo(long account_id)
 
 	CString old_show_name = treeWidget->GetItemText(accountItem);
 	show_name += _T("    ");
-	treeWidget->SetItemText(accountItem, show_name);
+	if (old_show_name.CompareNoCase(show_name))
+	{
+		treeWidget->SetItemText(accountItem, show_name);
+	}
 	setOnlineState(accountItem, ac_info->onlinestate);
 
 	if (old_show_name.CompareNoCase(show_name) || (old_online_state != new_online_state))
@@ -611,8 +629,8 @@ void BuddyOpt::updateAccountInfo(long account_id)
 					group_info->online_no ++;
 				else 
 					group_info->online_no --;
-				updateGroupInfo(groupItem, true);
 			}
+			updateGroupInfo(groupItem, true);
 		}
 	}
 	//printf("Updata new buddy.... \n");
@@ -1091,4 +1109,25 @@ HTREEITEM BuddyOpt::findQunItem(const Fetion_Qun * qun)
 		}
 	}
 	return NULL;
+}
+
+BOOL BuddyOpt::ChangeBuddyInfo(BUDDYINFODB *pBuddyInfoOld, BUDDYINFODB *pBuddyInfoNew)
+{
+	BOOL bChanged = FALSE;
+	if(pBuddyInfoOld->strLocalName != pBuddyInfoNew->strLocalName)
+	{
+		bChanged = TRUE;
+		pBuddyInfoOld->strLocalName == pBuddyInfoNew->strLocalName;
+	}
+	if(pBuddyInfoOld->strNickName != pBuddyInfoNew->strNickName)
+	{
+		bChanged = TRUE;
+		pBuddyInfoOld->strNickName == pBuddyInfoNew->strNickName;
+	}
+	if(pBuddyInfoOld->strImpresa != pBuddyInfoNew->strImpresa)
+	{
+		bChanged = TRUE;
+		pBuddyInfoOld->strImpresa == pBuddyInfoNew->strImpresa;
+	}
+	return bChanged;
 }

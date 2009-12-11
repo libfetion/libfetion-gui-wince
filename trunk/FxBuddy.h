@@ -55,6 +55,7 @@ class BuddyOpt
 		void addAccountToGroup(const Fetion_Account *account, CString & name, int online_state, int group, BOOL bFromDB); 
 
 		void updateAccountInfo(long account_id);
+		BOOL ChangeBuddyInfo(BUDDYINFODB *pBuddyInfoOld, BUDDYINFODB *pBuddyInfoNew);
 		CString createAccountTipsInfo(const Fetion_Account *account);
 		void setTipsOfAccount(HTREEITEM  accountItem, const Fetion_Account *account);
 
