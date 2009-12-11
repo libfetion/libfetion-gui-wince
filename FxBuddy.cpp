@@ -1117,17 +1117,17 @@ BOOL BuddyOpt::ChangeBuddyInfo(BUDDYINFODB *pBuddyInfoOld, BUDDYINFODB *pBuddyIn
 	if(pBuddyInfoOld->strLocalName != pBuddyInfoNew->strLocalName)
 	{
 		bChanged = TRUE;
-		pBuddyInfoOld->strLocalName == pBuddyInfoNew->strLocalName;
+		pBuddyInfoOld->strLocalName = pBuddyInfoNew->strLocalName;
 	}
 	if(pBuddyInfoOld->strNickName != pBuddyInfoNew->strNickName)
 	{
 		bChanged = TRUE;
-		pBuddyInfoOld->strNickName == pBuddyInfoNew->strNickName;
+		pBuddyInfoOld->strNickName = pBuddyInfoNew->strNickName;
 	}
 	if(pBuddyInfoOld->strImpresa != pBuddyInfoNew->strImpresa)
 	{
 		bChanged = TRUE;
-		pBuddyInfoOld->strImpresa == pBuddyInfoNew->strImpresa;
+		pBuddyInfoOld->strImpresa = pBuddyInfoNew->strImpresa;
 	}
 	return bChanged;
 }
