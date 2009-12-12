@@ -395,8 +395,6 @@ BOOL FxMainWin::OnInitDialog()
     fx_init();
 	do_login();
 	CDialog::OnInitDialog();
-	//set the fetion system msg call back function
-	fx_set_system_msg_cb (Sys_EventListener, this);
 
 	::SHDoneButton(this->m_hWnd,SHDB_HIDE);
 
@@ -841,6 +839,10 @@ void FxMainWin::OnTimer(UINT_PTR nIDEvent)
 	case TIMER_ADD_ITEM_TO_TREE:
 		KillTimer(TIMER_ADD_ITEM_TO_TREE);
 		m_BuddyOpt->addItemToTree();
+
+		//set the fetion system msg call back function
+		fx_set_system_msg_cb (Sys_EventListener, this);
+
 		SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*3, NULL);
 		break;
 	case TIMER_UPDATE_ACCOUNTINFO:
