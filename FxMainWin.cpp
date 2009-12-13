@@ -747,13 +747,26 @@ BOOL FxMainWin::showMsgDlg(HTREEITEM hItem)
 	if (!view.GetParentItem(hItem))
 		return FALSE;
 
-	Account_Info *ac_info =(Account_Info*)view.GetItemData(hItem);
-	if (!ac_info)
-		return FALSE;
+	if(!m_BuddyOpt->isQunItem(view.GetParentItem(hItem)))
+	{
+		Account_Info *ac_info =(Account_Info*)view.GetItemData(hItem);
+		if (!ac_info)
+			return FALSE;
 
-	RemoveFilker(ac_info->accountID);
+		RemoveFilker(hItem);
 
-	showMsgDlg(ac_info->accountID);
+		showMsgDlg(ac_info->accountID);
+	}
+	else
+	{
+		Qun_Info *qun_info =(Qun_Info*)view.GetItemData(hItem);
+		if (!qun_info)
+			return FALSE;
+
+		RemoveFilker(hItem);
+
+		showMsgDlg(qun_info->qunID);
+	}
 #endif
 	return TRUE;
 }
@@ -867,8 +880,17 @@ void FxMainWin::filker_newmsg()
 		{
 			view.SetItemImage(hItem, I_FLICK, I_FLICK);
 			view.SetItemImage(view.GetParentItem(hItem), I_FLICK, I_FLICK);
-		} else {
-			m_BuddyOpt->setOnlineState(hItem);
+		}
+		else
+		{
+			if(!m_BuddyOpt->isQunItem(view.GetParentItem(hItem)))
+			{
+				m_BuddyOpt->setOnlineState(hItem);
+			}
+			else
+			{
+				view.SetItemImage(hItem, I_QUN, I_QUN);
+			}
 			view.SetItemImage(view.GetParentItem(hItem), I_QUN, I_QUN);
 		}
 
@@ -1594,14 +1616,30 @@ void FxMainWin::RemoveFilker(long lAccountID)
 
 	HTREEITEM hItem = m_BuddyOpt->findAccountItemFromAllGroup(account);
 
+	RemoveFilker(hItem);
+}
+
+void FxMainWin::RemoveFilker(HTREEITEM hItem)
+{
+	if(NULL == hItem)
+	{
+		return;
+	}
+
 	POSITION pos = filker.Find(hItem);
 	if(pos)
 	{
 		filker.RemoveAt(pos);
 	}
 
-    // 更正点击后头像消息的BUG
-	m_BuddyOpt->setOnlineState(hItem);
+	if(!m_BuddyOpt->isQunItem(view.GetParentItem(hItem)))
+	{
+		m_BuddyOpt->setOnlineState(hItem);
+	}
+	else
+	{
+		view.SetItemImage(hItem, I_QUN, I_QUN);
+	}
 	view.SetItemImage(view.GetParentItem(hItem), I_QUN, I_QUN);
 
 	if (filker.GetCount() == 0)
