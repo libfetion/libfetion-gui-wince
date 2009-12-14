@@ -8,7 +8,7 @@
 #pragma comment(linker, "/nodefaultlib:libcd.lib")
 #pragma comment(lib, "winsock.lib")
 #pragma comment(lib, "cellcore.lib")
-#pragma comment(lib, "./lib/LibFetion.lib") 
+#pragma comment(lib, "./libfetion/lib/LibFetion.lib") 
 
 
 // 注意 - 这个值与作为目标的 Windows CE OS 版本的关联性并不强
@@ -75,7 +75,8 @@
 #define DEBUG_GUI 0
 #include <altcecrt.h>
 
-#include "libfetion/libfetion.h"
+//FIXME: should we set a include PATH here?
+#include "libfetion/include/libfetion/libfetion.h"
 #include "misc.h"
 
 typedef struct _Group_Info
