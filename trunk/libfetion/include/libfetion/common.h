@@ -33,8 +33,8 @@ This file is part of libfetion, a cross-operating-system library to operate Chin
 #endif  //end #ifdef WIN32
 
 #else  // no __LIBFETION_LIB__
-#include "libfetion/fxconfig.h"
-#include "libfetion/event.h"
+#include "fxconfig.h"
+#include "event.h"
 #endif
 
 #ifdef _MSC_VER
