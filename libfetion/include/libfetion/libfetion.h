@@ -23,9 +23,9 @@
 #include "common.h"
 #include "event.h"
 #else
-#include "libfetion/common.h"
-#include "libfetion/event.h"
-#include "libfetion/datastruct.h"
+#include "common.h"
+#include "event.h"
+#include "datastruct.h"
 #endif
 
 #ifdef __cplusplus 
