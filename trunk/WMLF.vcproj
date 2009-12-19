@@ -458,6 +458,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				Optimization="2"
+				AdditionalIncludeDirectories="./libfetion/include"
 				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;$(PLATFORMDEFINES);WINCE;$(ARCHFAM);$(_ARCHFAM_);POCKETPC2003_UI_MODEL;POCKETPC2003_UI_MODEL"
 				MinimalRebuild="false"
 				RuntimeLibrary="0"
@@ -540,6 +541,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				Optimization="2"
+				AdditionalIncludeDirectories="./libfetion/include"
 				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;$(PLATFORMDEFINES);WINCE;$(ARCHFAM);$(_ARCHFAM_);SMARTPHONE2003_UI_MODEL;SMARTPHONE2003_UI_MODEL"
 				MinimalRebuild="false"
 				RuntimeLibrary="0"
@@ -704,6 +706,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				Optimization="2"
+				AdditionalIncludeDirectories="./libfetion/include"
 				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;$(PLATFORMDEFINES);WINCE;$(ARCHFAM);$(_ARCHFAM_);POCKETPC2003_UI_MODEL;POCKETPC2003_UI_MODEL"
 				MinimalRebuild="false"
 				RuntimeLibrary="0"
@@ -789,6 +792,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				Optimization="2"
+				AdditionalIncludeDirectories="./libfetion/include"
 				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;$(PLATFORMDEFINES);WINCE;$(ARCHFAM);$(_ARCHFAM_);SMARTPHONE2003_UI_MODEL;SMARTPHONE2003_UI_MODEL"
 				MinimalRebuild="false"
 				RuntimeLibrary="0"
@@ -1342,11 +1346,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Notify.h"
+				RelativePath=".\MyselfInfoDlg.h"
 				>
 			</File>
 			<File
-				RelativePath=".\MyselfInfoDlg.h"
+				RelativePath=".\Notify.h"
 				>
 			</File>
 			<File
