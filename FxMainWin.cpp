@@ -1276,7 +1276,13 @@ void FxMainWin::OnBdViewinfo()
     HTREEITEM hItem = view.GetSelectedItem();
     if ((hItem != NULL) && !view.ItemHasChildren(hItem))
     {
-        showBuddyInfo(hItem);
+		if(!m_BuddyOpt->isQunItem(view.GetParentItem(hItem)))
+		{
+			showBuddyInfo(hItem);
+		}
+		else
+		{
+		}
     }
 }
 
@@ -1352,6 +1358,11 @@ void FxMainWin::OnBdDelete()
     HTREEITEM hItem = view.GetSelectedItem();
     if ((hItem != NULL) && !view.ItemHasChildren(hItem))
     {
+		if(m_BuddyOpt->isQunItem(view.GetParentItem(hItem)))
+		{
+			//群
+			return;
+		}
 
 	    Account_Info *ac_info =(Account_Info*)view.GetItemData(hItem);
 	    if (!ac_info)
@@ -1371,6 +1382,11 @@ void FxMainWin::OnBdAddblacklist()
     HTREEITEM hItem = view.GetSelectedItem();
     if ((hItem != NULL) && !view.ItemHasChildren(hItem))
     {
+		if(m_BuddyOpt->isQunItem(view.GetParentItem(hItem)))
+		{
+			//群
+			return;
+		}
 
 	    Account_Info *ac_info =(Account_Info*)view.GetItemData(hItem);
 	    if (!ac_info)
