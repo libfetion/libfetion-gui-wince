@@ -729,7 +729,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,4.20 /machine:THUMB /ARMPADCODE "
-				OutputFile="$(OutDir)\LibFetion_WM6.exe"
+				OutputFile="$(OutDir)\LibFetion_WM6_PPC.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="9"
