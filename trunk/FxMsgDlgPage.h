@@ -32,6 +32,7 @@ public:
 	BOOL m_isSendSMS;
 	BOOL m_bMyself;
 	BOOL m_bNotReadFlag;
+	BOOL m_bInit;
 
 // 对话框数据
 	enum { IDD = IDD_WMLF_MSG_PAGE };

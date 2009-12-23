@@ -27,6 +27,7 @@ CFxMsgDlgPage::CFxMsgDlgPage(long lAccountID, CWnd* pParent /*=NULL*/, BOOL bLog
 	, m_bMyself(FALSE)
 	, m_bNotReadFlag(FALSE)
 	, m_isLoginOK(bLoginOK)
+	, m_bInit(FALSE)
 {
 	m_pParentWnd = pParent;
 }
@@ -107,6 +108,7 @@ BOOL CFxMsgDlgPage::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
+	m_bInit = TRUE;
 	// TODO:  在此添加额外的初始化
 	m_browser.SetReadOnly();
 	//begin a dialog init, if the account is mobile, this function will do nothing...
@@ -334,7 +336,10 @@ void CFxMsgDlgPage::addNewMsg(CString msg /*= ""*/)
 
 /*first: we update the data of control val, then we reset then,
 so that, the m_send data will not be losted. */
-	UpdateData();
+	if(m_bInit)
+	{
+		UpdateData();
+	}
 
 	if (msg.IsEmpty())
 	{
@@ -342,8 +347,11 @@ so that, the m_send data will not be losted. */
 	}
 	AddReturn(m_msgBrowser);
 	m_msgBrowser += msg;
-	UpdateData(FALSE);
-	ScrollToLast();
+	if(m_bInit)
+	{
+		UpdateData(FALSE);
+		ScrollToLast();
+	}
 }
 
 void CFxMsgDlgPage::getMsg(CString &msg)

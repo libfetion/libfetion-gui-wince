@@ -14,6 +14,7 @@ public:
 	void ShowMenuBar();
 	CFxMsgDlgPage * ChatWith(long lAccountID, BOOL bMyself = FALSE);
 	CFxMsgDlgPage * SeekPage(long lAccountID, int & nItem);
+	void CreateMsgPage(CFxMsgDlgPage * pMsgPage);
 	CFxMsgDlgPage * AddNewChat(long lAccountID, BOOL bMyself = FALSE);
 	void ShowChat(CFxMsgDlgPage * pSeekMsgPage);
 	CFxMsgDlgPage * GetCurrentDlgPage();
