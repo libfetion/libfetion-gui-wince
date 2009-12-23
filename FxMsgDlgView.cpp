@@ -122,7 +122,10 @@ void CFxMsgDlgView::OnSize(UINT nType, int cx, int cy)
 		pMsgPage = (CFxMsgDlgPage*)Item.lParam;
 		if(NULL != pMsgPage)
 		{
-			pMsgPage->MoveWindow(&rc);
+			if(pMsgPage->m_bInit)
+			{
+				pMsgPage->MoveWindow(&rc);
+			}
 		}
 	}
 }
@@ -160,6 +163,26 @@ CFxMsgDlgPage * CFxMsgDlgView::SeekPage(long lAccountID, int & nItem)
 	return pSeekMsgPage;
 }
 
+void CFxMsgDlgView::CreateMsgPage(CFxMsgDlgPage * pMsgPage)
+{
+	if(NULL == pMsgPage)
+	{
+		return;
+	}
+	int nItem = pMsgPage->Create(IDD_WMLF_MSG_PAGE, &m_TabChat);
+	pMsgPage->ShowWindow(SW_HIDE);
+	CRect rcItem;
+	m_TabChat.GetItemRect(0, &rcItem);
+	CRect rc;
+	m_TabChat.GetClientRect(&rc);
+	rc.top = rcItem.bottom + 2;
+	rc.bottom -= 2;
+	rc.left += 2;
+	rc.right -= 2;
+	pMsgPage->MoveWindow(rc);
+	ShowMenuBar();
+}
+
 CFxMsgDlgPage * CFxMsgDlgView::AddNewChat(long lAccountID, BOOL bMyself)
 {
 	CFxMsgDlgPage * pMsgPage = new CFxMsgDlgPage(lAccountID, this, m_isLoginOK);
@@ -173,17 +196,10 @@ CFxMsgDlgPage * CFxMsgDlgView::AddNewChat(long lAccountID, BOOL bMyself)
 	Item.lParam = (LPARAM)pMsgPage;
 	m_TabChat.InsertItem(m_TabChat.GetItemCount(), &Item);
 
-	int nItem = pMsgPage->Create(IDD_WMLF_MSG_PAGE, &m_TabChat);
-	pMsgPage->ShowWindow(SW_HIDE);
-	CRect rcItem;
-	m_TabChat.GetItemRect(0, &rcItem);
-	CRect rc;
-	m_TabChat.GetClientRect(&rc);
-	rc.top = rcItem.bottom + 2;
-	rc.bottom -= 2;
-	rc.left += 2;
-	rc.right -= 2;
-	pMsgPage->MoveWindow(rc);
+	if(m_isShow)
+	{
+		CreateMsgPage(pMsgPage);
+	}
 	return pMsgPage;
 }
 
@@ -207,6 +223,10 @@ void CFxMsgDlgView::ShowChat(CFxMsgDlgPage * pSeekMsgPage)
 			if(pSeekMsgPage == pMsgPage)
 			{
 				m_TabChat.SetCurSel(i);
+				if(!pMsgPage->m_bInit)
+				{
+					CreateMsgPage(pMsgPage);
+				}
 				if(pMsgPage->m_bNotReadFlag)
 				{
 					pMsgPage->m_bNotReadFlag = FALSE;
@@ -223,7 +243,6 @@ void CFxMsgDlgView::ShowChat(CFxMsgDlgPage * pSeekMsgPage)
 			}
 		}
 	}
-	ShowMenuBar();
 }
 
 CFxMsgDlgPage * CFxMsgDlgView::GetCurrentDlgPage()
@@ -322,7 +341,6 @@ BOOL CFxMsgDlgView::addNewMsg(long lAccountID, CString msg)
 				{
 					pFocus->SetFocus();
 				}
-				ShowMenuBar();
 			}
 			return TRUE;
 		}

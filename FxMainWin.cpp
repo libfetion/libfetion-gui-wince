@@ -1031,10 +1031,6 @@ void FxMainWin::addNewMessage(long account_id, CString newmsg /* ="" */)
 	{
 		return;
 	}
-	if(!m_pFxMsgDlgView->m_isShow)
-	{
-		RecoveryMenuBar();
-	}
 
 	if (accountItem)
 	{
@@ -1068,10 +1064,6 @@ void FxMainWin::addNewQunMessage(long qun_id,CString newmsg )
 	if(FALSE == m_pFxMsgDlgView->addNewMsg(qun_id, newmsg))
 	{
 		return;
-	}
-	if(!m_pFxMsgDlgView->m_isShow)
-	{
-		RecoveryMenuBar();
 	}
 
 	if (accountItem)
