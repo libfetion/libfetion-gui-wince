@@ -169,7 +169,6 @@ protected:
 public:
     void OnMainShownewmsg2(void);
     void OnMainDimiss(void);
-    afx_msg void OnBdMovegroup();
 public:
 	afx_msg void OnMainClean();
 protected:

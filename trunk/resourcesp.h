@@ -206,7 +206,6 @@
 #define IDM_BD_SENDMSG                  32830
 #define IDM_BD_DELETE                   32835
 #define IDM_BD_ADDBLACKLIST             32836
-#define IDM_BD_MOVEGROUP                32838
 #define IDM_MSG_VIEWINFO                32845
 #define IDM_FB_SET_MOBILE               32848
 #define IDM_FB_SET_FXNO                 32849

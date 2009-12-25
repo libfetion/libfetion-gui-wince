@@ -278,7 +278,6 @@ ON_COMMAND(IDM_MAIN_SET_NOSOUND, &FxMainWin::OnMainSetNosound)
 ON_COMMAND(IDM_MAIN_SHOWNEWMSG, &FxMainWin::OnMainShownewmsg)
 ON_COMMAND(IDM_BD_SENDMSG, &FxMainWin::OnBdSendmsg)
 ON_COMMAND(IDM_MAIN_ADDBUDDY, &FxMainWin::OnMainAddbuddy)
-ON_COMMAND(IDM_BD_MOVEGROUP, &FxMainWin::OnBdMovegroup)
 ON_COMMAND(IDM_MAIN_CLEAN, &FxMainWin::OnMainClean)
 ON_COMMAND(IDM_SEND_MYSELF, &FxMainWin::OnSendMyself)
 ON_COMMAND(IDM_UPDATE_ALL_ACCOUNTINFO, &FxMainWin::OnUpdateAllAccountinfo)
@@ -1490,11 +1489,6 @@ void FxMainWin::OnMainDimiss(void)
     CNotify::RemoveNotification();
 }
 
-void FxMainWin::OnBdMovegroup()
-{
-    OnBdViewinfo();
-}
-
 void FxMainWin::OnMainClean()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -1634,7 +1628,7 @@ void FxMainWin::OnUpdateAllAccountinfo()
 {
 	// TODO: 在此添加命令处理程序代码
     CString strMessage;
-    strMessage.Format(_T("当好友较多时，更新所有好友资料将会产生较大网络数据流量，且时间较长。如果只想更新单个好友资料，您可以选择单个好友“查看资料”。是否确定要更新所有好友资料？"));
+    strMessage.Format(_T("当好友较多时，刷新列表将会产生较大网络数据流量，且时间较长。如果只想更新单个好友资料，您可以选择单个好友的“查看资料”。是否确定要刷新列表？"));
     if(MessageBox(strMessage, _T("LibFetion"), MB_OKCANCEL | MB_ICONQUESTION) == IDCANCEL)
 	{
 		return;

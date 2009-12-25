@@ -32,11 +32,9 @@ BEGIN
     BEGIN
         MENUITEM "发送消息",                        IDM_BD_SENDMSG
         MENUITEM "查看资料",                        IDM_BD_VIEWINFO
-        MENUITEM "删除",                          IDM_BD_DELETE
-        MENUITEM "添加到黑名单",                      IDM_BD_ADDBLACKLIST
+        MENUITEM "删除好友",                        IDM_BD_DELETE
+        MENUITEM "加入黑名单",                       IDM_BD_ADDBLACKLIST
         MENUITEM "移出黑名单",                       IDM_BD_RMBLACKLIST
-        MENUITEM SEPARATOR
-        MENUITEM "移动到组",                        IDM_BD_MOVEGROUP
     END
 END
 
@@ -45,39 +43,38 @@ BEGIN
     MENUITEM "提取新消息",                       IDM_MAIN_SHOWNEWMSG
     POPUP "菜单"
     BEGIN
-        POPUP "联系人操作"
+        POPUP "好友管理"
         BEGIN
             MENUITEM "添加好友",                        IDM_MAIN_ADDBUDDY
             MENUITEM "查看资料",                        IDM_BD_VIEWINFO
-            MENUITEM "删除",                          IDM_BD_DELETE
+            MENUITEM "删除好友",                        IDM_BD_DELETE
             MENUITEM "加入黑名单",                       IDM_BD_ADDBLACKLIST
             MENUITEM "移出黑名单",                       IDM_BD_RMBLACKLIST
             MENUITEM SEPARATOR
-            MENUITEM "移动到组",                        IDM_BD_MOVEGROUP
+            MENUITEM "刷新列表",                        IDM_UPDATE_ALL_ACCOUNTINFO
         END
-        POPUP "在线状态"
+        POPUP "我的状态"
         BEGIN
             MENUITEM "在线",                          IDM_MAIN_STATE_ONLINE
             MENUITEM "隐身",                          IDM_MAIN_STATE_HIDE
             MENUITEM "忙碌",                          IDM_MAIN_STATE_BUSY
             MENUITEM "离开",                          IDM_MAIN_STATE_AWAY
-        END
-        POPUP "设置"
-        BEGIN
-            MENUITEM "消息提醒",                        IDM_MAIN_SET_NOSOUND
-            MENUITEM "振动提醒",                        IDM_MAIN_SET_VIBR
-            MENUITEM "上线提醒",                        IDM_MAIN_SET_ONLINE
-            MENUITEM "屏蔽群消息",                       IDM_MAIN_SET_SHIELDQUNMESSAGE
-            MENUITEM "关闭提醒",                        IDM_MAIN_SET_SILENCE
-            MENUITEM "使用长短信",                       IDM_MAIN_SET_LONGSMS
-            MENUITEM "清除登录密码",                      IDM_MAIN_CLEAN
-            MENUITEM "关于",                          IDM_ABOUT
-        END
-        POPUP "操作"
-        BEGIN
+            MENUITEM SEPARATOR
             MENUITEM "给自己发送短信",                     IDM_SEND_MYSELF
             MENUITEM "个人资料",                        IDM_MYSELF_INFO
-            MENUITEM "更新所有好友资料",                    IDM_UPDATE_ALL_ACCOUNTINFO
+        END
+        POPUP "系统设置"
+        BEGIN
+            MENUITEM "上线提醒",                        IDM_MAIN_SET_ONLINE
+            MENUITEM "消息提醒",                        IDM_MAIN_SET_NOSOUND
+            MENUITEM "振动提醒",                        IDM_MAIN_SET_VIBR
+            MENUITEM "关闭提醒",                        IDM_MAIN_SET_SILENCE
+            MENUITEM SEPARATOR
+            MENUITEM "屏蔽群消息",                       IDM_MAIN_SET_SHIELDQUNMESSAGE
+            MENUITEM "使用长短信",                       IDM_MAIN_SET_LONGSMS
+            MENUITEM "清除登录密码",                      IDM_MAIN_CLEAN
+            MENUITEM SEPARATOR
+            MENUITEM "关于",                          IDM_ABOUT
         END
         MENUITEM SEPARATOR
         MENUITEM "注销并退出",                       IDM_MAIN_LOGOFF
