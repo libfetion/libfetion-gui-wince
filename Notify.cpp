@@ -47,7 +47,7 @@ void CNotify::CreateAndAddNotification(HWND hwnd, CString szTitle, CString szNot
 #endif
 	    pNotification =(SHNOTIFICATIONDATA2*)malloc( sizeof(SHNOTIFICATIONDATA2));
         ZeroMemory(pNotification, sizeof(SHNOTIFICATIONDATA2));
-	    pNotification->dwID = ID_NOTIFY;
+	    pNotification->dwID = (DWORD)hwnd;
 	    pNotification->clsid = guidNotifyApp;
 	    pNotification->npPriority = SHNP_INFORM;
 	    pNotification->csDuration = 20;
