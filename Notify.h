@@ -2,7 +2,6 @@
 
 #ifdef WIN32_PLATFORM_PSPC
 
-#define ID_NOTIFY WM_USER+1000
 // 为了与WM2003兼容
 #ifndef NOTIF_NUM_SOFTKEYS
 
