@@ -493,6 +493,10 @@ BOOL CFxMsgDlgPage::PreTranslateMessage(MSG* pMsg)
 void CFxMsgDlgPage::LoginOK(BOOL bLoginOK)
 {
 	m_isLoginOK = bLoginOK;
+	if(!m_bInit)
+	{
+		return;
+	}
 	if(m_isLoginOK)
 	{
 		m_send.SetReadOnly(FALSE);
