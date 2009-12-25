@@ -1412,32 +1412,6 @@ void FxMainWin::OnMainSetNosound()
 	SetSettingToIni(_T("Sound"), m_bSound);
 }
 
-BOOL FxMainWin::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
-{
-#ifdef WIN32_PLATFORM_PSPC
-    switch(wParam)
-    {
-    case ID_NOTIFY:
-        {
-            NMSHN* pnmshn = (NMSHN*)lParam;
-            if (pnmshn->hdr.code == SHNN_ACTIVATE)
-            {
-                //insert code here to handle VK_TTALK
-                //only need to call SetWindowLong if the sinkwindow is a dialog
-                this->SetForegroundWindow();
-                CNotify::RemoveNotification();
-                //return TRUE to inform the Shell that the button was handled
-                return TRUE;
-            }
-            break;
-        }
-    default:
-        break;
-    }
-#endif
-    return CDialog::OnNotify(wParam, lParam, pResult);
-}
-
 /***********************************************************************************
 * 增加在左软键的提取新消息按钮,替代了原先很少用到的发送消息.发送消息更适合用确认键
 * hiizsk 2009.07.14

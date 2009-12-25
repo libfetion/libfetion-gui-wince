@@ -60,7 +60,7 @@ void CNotify::CreateAndAddNotification(HWND hwnd, CString szTitle, CString szNot
 	    pNotification->cbStruct = sizeof(SHNOTIFICATIONDATA2);
 #endif
 	    pNotification->pszTitle = szMsgTitle;
-        pNotification->grfFlags = SHNF_ALERTONUPDATE | SHNF_WANTVKTTALK | SHNF_DISPLAYON;
+        pNotification->grfFlags = SHNF_ALERTONUPDATE | SHNF_DISPLAYON;
         pNotification->rgskn[0].pszTitle = TEXT("查看");
         pNotification->rgskn[0].skc.wpCmd = IDM_MAIN_SHOWNEWMSG2;
         pNotification->rgskn[0].skc.grfFlags = NOTIF_SOFTKEY_FLAGS_DISMISS;

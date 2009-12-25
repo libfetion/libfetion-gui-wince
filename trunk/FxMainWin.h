@@ -157,8 +157,6 @@ public:
     afx_msg void OnMainSetNosound();
     BOOL m_bSound;
     
-protected:
-    virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 public:
     afx_msg void OnMainShownewmsg();
 private:
