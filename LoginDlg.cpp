@@ -307,11 +307,16 @@ void CLoginDlg::OnBnClickedLogin()
 			switch(netflag)
 			{
 			case	404:
-				this->m_login_state = _T("网络错误");
+				this->m_login_state = _T("SSL失败");
 				break;
 			case	301:
+				this->m_login_state = _T("验证用户信息错误");
+				break;
 			case	401:
 				this->m_login_state = _T("验证用户信息失败");
+				break;
+			case	402:
+				this->m_login_state = _T("SSL数据错误");
 				break;
 			default:
 				this->m_login_state = _T("未知错误");
@@ -655,7 +660,7 @@ CString CLoginDlg::GetFetionNoFromHttpsWeb(CString strMobileNo, CString strPwd, 
 		}
 		else
 		{
-			netflag = 404;
+			netflag = 402;
 		}
 		return _T("");
 	}
