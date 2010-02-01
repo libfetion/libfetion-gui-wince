@@ -57,4 +57,5 @@ public:
 	CString m_msgBrowser;
 	CString m_msgSend;
     CString m_strInfo;
+	CStatic m_stMsgInfo;
 };
