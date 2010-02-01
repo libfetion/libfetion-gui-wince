@@ -39,11 +39,12 @@ CFxMsgDlgPage::~CFxMsgDlgPage()
 void CFxMsgDlgPage::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-    DDX_Text(pDX, IDC_MSG_BROWSER, m_msgBrowser);
-    DDX_Text(pDX, IDC_SEND_MSG, m_msgSend);
-    DDX_Control(pDX, IDC_MSG_BROWSER, m_browser);
-    DDX_Control(pDX, IDC_SEND_MSG, m_send);
-    DDX_Text(pDX, IDC_MSG_INFO, m_strInfo);
+	DDX_Text(pDX, IDC_MSG_BROWSER, m_msgBrowser);
+	DDX_Text(pDX, IDC_SEND_MSG, m_msgSend);
+	DDX_Control(pDX, IDC_MSG_BROWSER, m_browser);
+	DDX_Control(pDX, IDC_SEND_MSG, m_send);
+	DDX_Text(pDX, IDC_MSG_INFO, m_strInfo);
+	DDX_Control(pDX, IDC_MSG_INFO, m_stMsgInfo);
 }
 
 
@@ -132,14 +133,14 @@ void CFxMsgDlgPage::ShowOnlineInfo()
 	if(!m_isLoginOK)
 	{
 		m_strInfo.Format(_T("您已脱机，正在重新连接..."));
-		UpdateData(FALSE);
+		m_stMsgInfo.SetWindowText(m_strInfo);
 		return;
 	}
 
 	if(m_bMyself)
 	{
 		m_strInfo.Format(_T("自言自语中..."));
-		UpdateData(FALSE);
+		m_stMsgInfo.SetWindowText(m_strInfo);
 		return;
 	}
 
@@ -203,7 +204,7 @@ void CFxMsgDlgPage::ShowOnlineInfo()
     m_strInfo.Format(_T("与 %s 聊天中，%s"), m_account_name, status);
 	//this->m_msgBrowser += status + _T("\r\n");
 out:
-	UpdateData(FALSE);
+	m_stMsgInfo.SetWindowText(m_strInfo);
 	addNewMsg();
 }
 
