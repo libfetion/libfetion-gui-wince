@@ -1079,6 +1079,7 @@ void FxMainWin::addNewQunMessage(long qun_id,CString newmsg )
 void FxMainWin::OnStnClickedBtnAdd()
 {
     CFindBuddyDlg* dlg = new CFindBuddyDlg();
+	dlg->m_strUserName = m_strNickName;
     dlg->DoModal();
     delete dlg;
 }
