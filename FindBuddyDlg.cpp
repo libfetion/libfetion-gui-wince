@@ -92,14 +92,14 @@ void CFindBuddyDlg::OnSize(UINT nType, int cx, int cy)
     hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_EDIT_NO);
     ::MoveWindow(hwndCtl, iX, iY, 
 #if !defined(WIN32_PLATFORM_WFSP)
-        iW - DRA::SCALEX(16),
+        iW - DRA::SCALEX(0),
 #else
         iW,
 #endif
         iH, false);
 
     hwndCtl = ::GetDlgItem(hwndDlg, IDC_FB_BTN_FIND);
-    ::MoveWindow(hwndCtl, iX + iW - DRA::SCALEX(16) + iMargin, iY, 
+    ::MoveWindow(hwndCtl, iX + iW - DRA::SCALEX(0) + iMargin, iY, 
 #if !defined(WIN32_PLATFORM_WFSP)
     DRA::SCALEX(16), DRA::SCALEY(16),
 #else
@@ -142,10 +142,7 @@ BOOL CFindBuddyDlg::OnInitDialog()
 {
     CDialog::OnInitDialog();
 
-#ifdef WIN32_PLATFORM_WFSP
-	//SP 2003SDK不支持Radio Button，隐藏掉，改用Combo Box
-	((CComboBox*)GetDlgItem(IDC_FB_CBO_NUMTYPE))->SetCurSel(0);
-#endif
+	OnFbSetMobile();
 
 #ifdef M8
     AddMenuBarForM8(this->GetSafeHwnd(), IDR_MENU_BUDDYINFO);
@@ -197,6 +194,7 @@ void CFindBuddyDlg::OnFbSetMobile()
     ((CButton*)GetDlgItem(IDC_FB_RD_FXNO))->SetCheck(BST_UNCHECKED);
 #endif
 #ifdef WIN32_PLATFORM_WFSP
+	//SP 2003SDK不支持Radio Button，隐藏掉，改用Combo Box
 	((CComboBox*)GetDlgItem(IDC_FB_CBO_NUMTYPE))->SetCurSel(0);
 #endif
 }
