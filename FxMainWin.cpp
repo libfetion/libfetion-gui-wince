@@ -1361,7 +1361,14 @@ void FxMainWin::OnBdDelete()
 		    return;
 
         CString strMessage;
-        strMessage.Format(_T("是否确定要删除 %s？删除后对方仍能发送消息给你，如果不希望收到对方的消息请将其加入黑名单。"), ac_info->accountName);
+		const Fetion_Account * fetion_account = fx_get_account_by_id(ac_info->accountID);
+		char * showname = fx_get_account_show_name(fetion_account, FALSE);
+        strMessage.Format(_T("是否确定要删除 %s？删除后对方仍能发送消息给你，如果不希望收到对方的消息请将其加入黑名单。"), ConvertUtf8ToUtf16(showname));
+		if(showname)
+		{
+			free(showname);
+			showname = NULL;
+		}
         if(AfxMessageBox(strMessage, MB_YESNO) == IDNO)
             return;
 
