@@ -1564,9 +1564,14 @@ void FxMainWin::handle_AddAccountApp(char* uri, char* showname)
     CString strMessage;
     strMessage.Format(_T("%s 想添加你为好友，是否同意？"), ConvertUtf8ToUtf16(showname));
 
-    if(AfxMessageBox(strMessage, MB_YESNO | MB_ICONQUESTION | MB_APPLMODAL) == IDYES)
+	int iReturn = AfxMessageBox(strMessage, MB_YESNOCANCEL | MB_ICONQUESTION | MB_APPLMODAL);
+    if(IDYES == iReturn)
     {
         fx_handleContactRequest(uri, 1, 0, showname);
+    }
+    if(IDNO == iReturn)
+    {
+        fx_handleContactRequest(uri, 0, 0, showname);
     }
 }
 void FxMainWin::RecoveryMenuBar()
