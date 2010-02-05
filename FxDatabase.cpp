@@ -23,7 +23,7 @@ BOOL CFxDatabase::Init(LPCTSTR szFile)
 		db.open(m_szFile);
 		CheckBuddyInfoTable(&db);
 		CheckMsgLogTable(db);
-		db.close();
+		//db.close();
 	}
 	catch(CppSQLite3Exception e)
 	{
@@ -95,7 +95,7 @@ BOOL CFxDatabase::UpdateBuddyInfo(BUDDYINFODB * pBuddyInfo)
 			sqlStr.Format(_T("insert into BuddyInfo VALUES(%d, '%s', '%s', '%s')"), pBuddyInfo->lID, pBuddyInfo->strLocalName, pBuddyInfo->strNickName, pBuddyInfo->strImpresa);
 		}
 		db.execDML(sqlStr);
-		db.close();
+		//db.close();
 	}
 	catch(CppSQLite3Exception e)
 	{
@@ -136,7 +136,7 @@ BOOL CFxDatabase::ReadBuddyInfo(BUDDYINFODB * pBuddyInfo)
 			pdb->open(m_szFile);
 			if(!CheckBuddyInfoTable(pdb))
 			{
-				pdb->close();
+				//pdb->close();
 				delete pdb;
 				pdb = NULL;
 				return FALSE;
@@ -151,7 +151,7 @@ BOOL CFxDatabase::ReadBuddyInfo(BUDDYINFODB * pBuddyInfo)
 		}
 		if(NULL == m_pdbReadBuddyInfo)
 		{
-			pdb->close();
+			//pdb->close();
 			delete pdb;
 			pdb = NULL;
 		}
@@ -162,7 +162,7 @@ BOOL CFxDatabase::ReadBuddyInfo(BUDDYINFODB * pBuddyInfo)
 		{
 			if(NULL != pdb)
 			{
-				pdb->close();
+				//pdb->close();
 				delete pdb;
 				pdb = NULL;
 			}
@@ -210,7 +210,7 @@ BOOL CFxDatabase::ReadBuddyInfoEnd()
 {
 	if(NULL != m_pdbReadBuddyInfo)
 	{
-		m_pdbReadBuddyInfo->close();
+		//m_pdbReadBuddyInfo->close();
 		delete m_pdbReadBuddyInfo;
 		m_pdbReadBuddyInfo = NULL;
 	}
@@ -233,7 +233,7 @@ BOOL CFxDatabase::AddMsgLog(MSGLOGDB * pMsgLog)
 		}
 		sqlStr.Format(_T("insert into MsgLog VALUES(%d, '%s', %d, %d, %d, %d, %d, %d, '%s');"), pMsgLog->lID, pMsgLog->strSender, pMsgLog->MsgTime.wYear, pMsgLog->MsgTime.wMonth, pMsgLog->MsgTime.wDay, pMsgLog->MsgTime.wHour, pMsgLog->MsgTime.wMinute, pMsgLog->MsgTime.wSecond, pMsgLog->strMsg);
 		db.execDML(sqlStr);
-		db.close();
+		//db.close();
 	}
 	catch(CppSQLite3Exception e)
 	{
@@ -257,7 +257,7 @@ DWORD CFxDatabase::GetMsgLogCount(long lID)
 		}
 		sqlStr.Format(_T("select count(*) from MsgLog where ID=%d;"), lID);
 		DWORD dwCount = db.execScalar(sqlStr);
-		db.close();
+		//db.close();
 		return dwCount;
 	}
 	catch(CppSQLite3Exception e)
@@ -317,7 +317,7 @@ BOOL CFxDatabase::ReadMsgLog(MSGLOGFROMDB * pMsgLogFromDB)
 			q.nextRow();
 		}
 		pMsgLogFromDB->dwCount = dwCount;
-		db.close();
+		//db.close();
 	}
 	catch(CppSQLite3Exception e)
 	{
@@ -341,7 +341,7 @@ BOOL CFxDatabase::DeleteAllMsgLog(long lID)
 		}
 		sqlStr.Format(_T("delete from MsgLog where ID=%d;"), lID);
 		db.execDML(sqlStr);
-		db.close();
+		//db.close();
 	}
 	catch(CppSQLite3Exception e)
 	{
