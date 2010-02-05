@@ -247,8 +247,9 @@ int CppSQLite3DB::execDML(LPCTSTR szSQL)
 	
 		if (nRet == SQLITE_ERROR)
 		{
-			LPCTSTR szError = (LPCTSTR) _sqlite3_errmsg(mpDB);
-			throw CppSQLite3Exception(nRet, (LPTSTR)szError, DONT_DELETE_MSG);
+			//注释掉这个代码，好像能避免在卡上时异常退出，但不是根本方法
+			//LPCTSTR szError = (LPCTSTR) _sqlite3_errmsg(mpDB);
+			//throw CppSQLite3Exception(nRet, (LPTSTR)szError, DONT_DELETE_MSG);
 		}
 		nRet = _sqlite3_finalize(pVM);
 	} 
