@@ -107,6 +107,7 @@ BEGIN
         MENUITEM "隐身登录",                        IDM_LOGIN_OFFLINE
         MENUITEM "高级设置",                        IDM_LOGIN_OPTION
         MENUITEM SEPARATOR
+        MENUITEM "关于",                          IDM_ABOUT
         MENUITEM "退出",                          IDM_CANCEL
     END
 END

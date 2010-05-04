@@ -113,4 +113,5 @@ protected:
 	virtual void OnOK();
 public:
 	afx_msg void OnChangeNum();
+	afx_msg void OnAbout();
 };

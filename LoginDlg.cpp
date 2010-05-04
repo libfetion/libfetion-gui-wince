@@ -10,6 +10,7 @@
 #include "WMLF.h"
 #include "LoginDlg.h"
 #include "LoginOptionDlg.h"
+#include "About.h"
 
 #include "convert_charset.h"
 #include "IniWR.h"
@@ -77,6 +78,7 @@ ON_CBN_SELCHANGE(IDC_COMBO_USERS, &CLoginDlg::OnCbnSelchangeComboUsers)
 	ON_WM_DESTROY()
 	ON_COMMAND(IDM_LOGIN_OPTION, &CLoginDlg::OnLoginOption)
 	ON_COMMAND(IDM_CHANGE_NUM, &CLoginDlg::OnChangeNum)
+	ON_COMMAND(IDM_ABOUT, &CLoginDlg::OnAbout)
 END_MESSAGE_MAP()
 
 // CLoginDlg 消息处理程序
@@ -940,4 +942,11 @@ void CLoginDlg::OnChangeNum()
 		m_cboUsersList.SetCurSel(iSel);
 		GetSelectedUserOption();
 	}
+}
+
+void CLoginDlg::OnAbout()
+{
+	// TODO: 在此添加命令处理程序代码
+    CAbout dlg;
+    dlg.DoModal();
 }

@@ -36,6 +36,7 @@ BEGIN
         MENUITEM "隐身登录",                        IDM_LOGIN_OFFLINE
         MENUITEM "高级设置",                        IDM_LOGIN_OPTION
         MENUITEM SEPARATOR
+        MENUITEM "关于",                          IDM_ABOUT
         MENUITEM "退出",                          IDM_CANCEL
     END
 END
@@ -566,6 +567,11 @@ BEGIN
     IDS_MAIN_SET_VIBR       "振动"
     IDS_MAIN_MINIMAL        "最小化"
     IDS_MAIN_LOGOFF         "注销并退出"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_EDIT                "修改"
 END
 
 #endif    // 中文(中华人民共和国) resources
