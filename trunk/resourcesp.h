@@ -71,6 +71,7 @@
 #define IDR_LOGIN_OPTION_MENU           184
 #define IDD_WMLF_MYSELF_INFO            185
 #define IDR_MENU_MYSELF_INFO            186
+#define IDS_EDIT                        187
 #define IDC_BI_CITY                     200
 #define IDC_MOBILE_NO                   1000
 #define IDC_STATIC_ABOUT                1001
@@ -193,10 +194,8 @@
 #define IDM_MAIN_MINIMAL                32809
 #define IDM_MAIN_LOGOFF                 32810
 #define IDR_MSG_SEND                    32812
-#define IDM_LOGIN_LOGIN                 32817
 #define IDM_LOGIN_REMPASS               32818
 #define IDM_LOGIN_OFFLINE               32819
-#define IDM_LOGIN_EXIT                  32820
 #define IDM_CANCEL                      32821
 #define IDM_LOGIN                       32822
 #define IDM_FB_ADD                      32824
@@ -206,13 +205,10 @@
 #define IDM_BD_SENDMSG                  32830
 #define IDM_BD_DELETE                   32835
 #define IDM_BD_ADDBLACKLIST             32836
-#define IDM_MSG_VIEWINFO                32845
 #define IDM_FB_SET_MOBILE               32848
 #define IDM_FB_SET_FXNO                 32849
 #define IDM_ABOUT                       32851
-#define IDM_BD_REMOVEBLACK              32853
 #define IDM_BD_RMBLACKLIST              32854
-#define IDM_MAIN_NOSOUND                32856
 #define IDM_MAIN_SET_NOSOUND            32857
 #define IDM_MAIN_SHOWNEWMSG             32860
 #define IDM_MAIN_DIMISS                 32861
@@ -227,7 +223,6 @@
 #define IDC_LOGIN_OFFLINE               32870
 #define IDM_MAIN_SET_ONLINE             32872
 #define IDM_MAIN_CLEAN                  32874
-#define IDM_MAIN_SET_SHIELDQUN          32878
 #define IDM_MAIN_SET_SHIELDQUNMESSAGE   32879
 #define IDM_END_TALK                    32880
 #define IDM_NEXT_TALK                   32881
@@ -246,7 +241,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        187
+#define _APS_NEXT_RESOURCE_VALUE        188
 #define _APS_NEXT_COMMAND_VALUE         32892
 #define _APS_NEXT_CONTROL_VALUE         1133
 #define _APS_NEXT_SYMED_VALUE           104
