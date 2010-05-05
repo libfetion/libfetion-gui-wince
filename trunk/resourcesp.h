@@ -20,6 +20,7 @@
 #define IDS_MAIN_STATE_HIDE             18
 #define IDS_MAIN_STATE_BUSY             19
 #define IDS_MAIN_SHOWNEWMSG             20
+#define IDS_RETURN                      21
 #define IDD_WMLF_DIALOG                 102
 #define IDD_WMLF_MAIN                   104
 #define IDR_MAINFRAME                   128
