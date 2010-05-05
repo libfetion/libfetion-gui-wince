@@ -290,7 +290,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_VSCROLL | WS_SYSMENU
 CAPTION "关于"
 FONT 9, "MS Shell Dlg"
 BEGIN
-    LTEXT           "LibFetion For Windows Mobile\r\nV1.1.0 Build 20091225\r\n\r\n本程序基于LibFetion库编写，\r\n想了解更多请访问:\r\nwww.libfetion.cn.\r\nCopyright @ 2009 DDD(dedodong@163.com)\r\nAll Rights Reserved.\r\n\r\n本程序由以下人员开发:\r\n\tgladyeti\r\n\tBabylon\r\n\tEric\r\n\tdaviyang35\r\n\tlionlee\r\nLibFetion库:\r\n\tDDD\r\n如有问题欢迎到论坛反馈。",IDC_STATIC_ABOUT,0,0,138,162
+    LTEXT           "LibFetion For Windows Mobile\r\nV1.1.0 Build 20091225\r\n\r\n本程序基于LibFetion库编写，\r\n想了解更多请访问:\r\nwww.libfetion.org\r\nCopyright @ 2009 DDD(dedodong@163.com)\r\nAll Rights Reserved.\r\n\r\n本程序由以下人员开发:\r\n\tgladyeti\r\n\tBabylon\r\n\tEric\r\n\tdaviyang35\r\n\tlionlee\r\nLibFetion库:\r\n\tDDD",IDC_STATIC_ABOUT,0,0,138,162
 END
 
 IDD_WMLF_MSG_VIEW DIALOG  0, 0, 159, 159
@@ -554,6 +554,7 @@ BEGIN
     IDS_MAIN_STATE_HIDE     "隐身"
     IDS_MAIN_STATE_BUSY     "忙碌"
     IDS_MAIN_SHOWNEWMSG     "提取新消息"
+    IDS_RETURN              "返回"
 END
 
 STRINGTABLE 
