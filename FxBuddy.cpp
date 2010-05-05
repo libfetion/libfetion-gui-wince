@@ -558,7 +558,12 @@ void BuddyOpt::updateAccountInfo(long account_id)
 	{
 		printf("not find the item , i will add to the group\n");
 		addAccountToGroup (account);
-		//return;
+
+		accountItem = findAccountItemFromAllGroup(account);
+		if (!accountItem) 
+		{
+			return;
+		}
 	}
 
 	//update the account info
