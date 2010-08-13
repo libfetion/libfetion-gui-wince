@@ -277,6 +277,7 @@ ON_COMMAND(IDM_BD_RMBLACKLIST, &FxMainWin::OnBdRmblacklist)
 ON_COMMAND(IDM_MAIN_SET_NOSOUND, &FxMainWin::OnMainSetNosound)
 ON_COMMAND(IDM_MAIN_SHOWNEWMSG, &FxMainWin::OnMainShownewmsg)
 ON_COMMAND(IDM_BD_SENDMSG, &FxMainWin::OnBdSendmsg)
+ON_COMMAND(IDM_BD_READDBUDDY, &FxMainWin::OnBdReAddbuddy)
 ON_COMMAND(IDM_MAIN_ADDBUDDY, &FxMainWin::OnMainAddbuddy)
 ON_COMMAND(IDM_MAIN_CLEAN, &FxMainWin::OnMainClean)
 ON_COMMAND(IDM_SEND_MYSELF, &FxMainWin::OnSendMyself)
@@ -705,6 +706,38 @@ BOOL FxMainWin::showBuddyMenu(HTREEITEM hItem)
 		return FALSE;
 
 	CMenu *pPopupMenu = menu.GetSubMenu(0);
+
+	if(!m_BuddyOpt->isQunItem(view.GetParentItem(hItem)))
+	{
+		Account_Info *ac_info =(Account_Info*)view.GetItemData(hItem);
+		if (ac_info)
+		{
+			if( (FX_STATUS_WAITING_AUTH == ac_info->onlinestate) ||
+				(FX_STATUS_REFUSE == ac_info->onlinestate))
+			{
+				pPopupMenu->RemoveMenu(IDM_BD_SENDMSG, MF_BYCOMMAND);
+			}
+			else
+			{
+				pPopupMenu->RemoveMenu(IDM_BD_READDBUDDY, MF_BYCOMMAND);
+			}
+			if(FX_STATUS_BLACK == ac_info->onlinestate)
+			{
+				pPopupMenu->RemoveMenu(IDM_BD_ADDBLACKLIST, MF_BYCOMMAND);
+			}
+			else
+			{
+				pPopupMenu->RemoveMenu(IDM_BD_RMBLACKLIST, MF_BYCOMMAND);
+			}
+
+		}
+		ac_info = NULL;
+	}
+	else
+	{
+		pPopupMenu->RemoveMenu(IDM_BD_READDBUDDY, MF_BYCOMMAND);
+	}
+
     view.ClientToScreen(&point);
 	pPopupMenu->TrackPopupMenu(TPM_LEFTALIGN,point.x,point.y + (r.bottom - r.top),this);
 
@@ -1083,6 +1116,73 @@ void FxMainWin::OnStnClickedBtnAdd()
     dlg->DoModal();
     delete dlg;
 }
+
+void FxMainWin::OnBdReAddbuddy()
+{
+	HTREEITEM hItem = view.GetSelectedItem();
+	if((NULL == hItem) || (NULL == view.GetParentItem(hItem)))
+	{
+		return;
+	}
+
+	Account_Info *ac_info =(Account_Info*)view.GetItemData(hItem);
+	if (ac_info)
+	{
+		const Fetion_Account * account = fx_get_account_by_id(ac_info->accountID);
+		if(NULL == account)
+		{
+			return;
+		}
+
+		CFindBuddyDlg* dlg = new CFindBuddyDlg();
+
+		CString strAccountID;
+		CString strMobileNo;
+		if(fx_is_pc_user_by_id(ac_info->accountID))
+		{
+			//飞信用户
+			strAccountID.Format(_T("%d"), ac_info->accountID);
+			if (account->personal)
+			{
+				strMobileNo = ConvertUtf8ToUtf16(account->personal->mobile_no);
+			}
+			else
+			{
+				strMobileNo = _T("");
+			}
+		}
+		else
+		{
+			//手机用户
+			strAccountID = _T("");
+			//获取显示正确的号码，如果是手机用户，则返回手机号码，其它返回飞信号
+			char* original = fx_get_original_ID(ac_info->accountID);
+			strMobileNo =  ConvertUtf8ToUtf16(original);
+			free(original);
+		}
+		if(strMobileNo.IsEmpty())
+		{
+			dlg->m_bAddByMobileNo = FALSE;
+			dlg->m_strBuddyID = strAccountID;
+		}
+		else
+		{
+			dlg->m_bAddByMobileNo = TRUE;
+			dlg->m_strBuddyID = strMobileNo;
+		}
+
+		dlg->m_strUserName = m_strNickName;
+		Group_Info *group_info = (Group_Info *)view.GetItemData(view.GetParentItem(hItem));
+		if (group_info)
+		{
+			dlg->m_iGroupID = group_info->groupID;
+		}
+		
+		dlg->DoModal();
+		delete dlg;
+	}
+}
+
 void FxMainWin::OnSendMsg()
 {
     this->showMsgDlg();
@@ -1331,6 +1431,40 @@ void FxMainWin::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
         pPopupMenu->CheckMenuItem(IDM_MAIN_STATE_AWAY, MF_CHECKED);
         break;
     }
+
+	pPopupMenu->EnableMenuItem(IDM_BD_READDBUDDY, MF_GRAYED);
+	pPopupMenu->EnableMenuItem(IDM_BD_VIEWINFO, MF_GRAYED);
+	pPopupMenu->EnableMenuItem(IDM_BD_DELETE, MF_GRAYED);
+	pPopupMenu->EnableMenuItem(IDM_BD_ADDBLACKLIST, MF_GRAYED);
+	pPopupMenu->EnableMenuItem(IDM_BD_RMBLACKLIST, MF_GRAYED);
+
+	HTREEITEM hItem = view.GetSelectedItem();
+	if((NULL != hItem) && (NULL != view.GetParentItem(hItem)))
+	{
+		if(!m_BuddyOpt->isQunItem(view.GetParentItem(hItem)))
+		{
+			Account_Info *ac_info =(Account_Info*)view.GetItemData(hItem);
+			if (ac_info)
+			{
+				if( (FX_STATUS_WAITING_AUTH == ac_info->onlinestate) ||
+					(FX_STATUS_REFUSE == ac_info->onlinestate))
+				{
+					pPopupMenu->EnableMenuItem(IDM_BD_READDBUDDY, MF_ENABLED);
+				}
+			}
+			pPopupMenu->EnableMenuItem(IDM_BD_VIEWINFO, MF_ENABLED);
+			pPopupMenu->EnableMenuItem(IDM_BD_DELETE, MF_ENABLED);
+			if(FX_STATUS_BLACK == ac_info->onlinestate)
+			{
+				pPopupMenu->EnableMenuItem(IDM_BD_RMBLACKLIST, MF_ENABLED);
+			}
+			else
+			{
+				pPopupMenu->EnableMenuItem(IDM_BD_ADDBLACKLIST, MF_ENABLED);
+			}
+			ac_info = NULL;
+		}
+	}
 }
 
 // 处理移动组成功的消息

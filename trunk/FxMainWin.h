@@ -106,6 +106,7 @@ public:
     // 用户签名
     CString m_strSign;
     afx_msg void OnStnClickedBtnAdd();
+	afx_msg void OnBdReAddbuddy();
     // 聊天记录处理
     CMessageLog m_MessageLog;
     // 消息提示

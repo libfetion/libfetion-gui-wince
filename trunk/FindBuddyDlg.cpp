@@ -22,6 +22,8 @@ CFindBuddyDlg::CFindBuddyDlg(CWnd* pParent /*=NULL*/)
     , m_strUserName(_T(""))
     , m_strInfo(_T(""))
     , m_strLocalName(_T(""))
+	, m_bAddByMobileNo(TRUE)
+	, m_iGroupID(-1)
 {
 
 }
@@ -142,7 +144,14 @@ BOOL CFindBuddyDlg::OnInitDialog()
 {
     CDialog::OnInitDialog();
 
-	OnFbSetMobile();
+	if(m_bAddByMobileNo)
+	{
+		OnFbSetMobile();
+	}
+	else
+	{
+		OnFbSetFxno();
+	}
 
 #ifdef M8
     AddMenuBarForM8(this->GetSafeHwnd(), IDR_MENU_BUDDYINFO);
@@ -182,6 +191,10 @@ void CFindBuddyDlg::InitGroupItem(void)
 			if(nIndex >= 0)
 			{
 				m_cboGroup.SetItemData(nIndex, group->id);
+				if((m_iGroupID > 0) && (m_iGroupID == group->id))
+				{
+					m_cboGroup.SetCurSel(nIndex);
+				}
 			}
 		}
 		tmp_group = d_list_next(tmp_group);
