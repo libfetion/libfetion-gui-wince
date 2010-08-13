@@ -31,6 +31,7 @@ BEGIN
     POPUP "Menu"
     BEGIN
         MENUITEM "发送消息",                        IDM_BD_SENDMSG
+        MENUITEM "重加该好友",                       IDM_BD_READDBUDDY
         MENUITEM "查看资料",                        IDM_BD_VIEWINFO
         MENUITEM "删除好友",                        IDM_BD_DELETE
         MENUITEM "加入黑名单",                       IDM_BD_ADDBLACKLIST
@@ -46,6 +47,7 @@ BEGIN
         POPUP "好友管理"
         BEGIN
             MENUITEM "添加好友",                        IDM_MAIN_ADDBUDDY
+            MENUITEM "重加该好友",                       IDM_BD_READDBUDDY
             MENUITEM "查看资料",                        IDM_BD_VIEWINFO
             MENUITEM "删除好友",                        IDM_BD_DELETE
             MENUITEM "加入黑名单",                       IDM_BD_ADDBLACKLIST

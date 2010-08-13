@@ -237,13 +237,14 @@
 #define IDM_CHANGE_NUM                  32889
 #define IDM_MAIN_SET_LONGSMS            32890
 #define IDM_MYSELF_INFO                 32891
+#define IDM_BD_READDBUDDY               32892
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        188
-#define _APS_NEXT_COMMAND_VALUE         32892
+#define _APS_NEXT_COMMAND_VALUE         32893
 #define _APS_NEXT_CONTROL_VALUE         1133
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
