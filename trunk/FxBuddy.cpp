@@ -411,7 +411,7 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account, CString & name, 
 		ac_info->onlinestate = online_state;
 	} 
 	//notify: set the group icon
-	HTREEITEM accountItem = treeWidget->InsertItem(name + _T("    "), 0, 0, groupItem);
+	HTREEITEM accountItem = treeWidget->InsertItem(name + _T("  "), 0, 0, groupItem);
 	treeWidget->SetItemData(accountItem,(DWORD)ac_info); 
 	setOnlineState(accountItem, ac_info->onlinestate);
 
@@ -612,7 +612,7 @@ void BuddyOpt::updateAccountInfo(long account_id)
 	ac_info->onlinestate = new_online_state;
 
 	CString old_show_name = treeWidget->GetItemText(accountItem);
-	show_name += _T("    ");
+	show_name += _T("  ");
 	if (old_show_name.CompareNoCase(show_name))
 	{
 		treeWidget->SetItemText(accountItem, show_name);
@@ -756,7 +756,7 @@ int BuddyOpt::init_icon(void)
 	//m_imagelist.Create(16,16,0,13,18); 
 	//m_imagelist.SetBkColor (RGB(1,1,1));
 
-	m_imagelist.Create(20,20,0,20,21);
+	m_imagelist.Create(16,16,0,20,21);
 	pBitmap[I_OFFLINE].LoadBitmapW(IDB_BITMAP_OFFLINE);
 	pBitmap[I_BLACK].LoadBitmapW(IDB_BITMAP_BLACK);
 	pBitmap[I_MOBILE].LoadBitmapW(IDB_BITMAP_MOBILE);
@@ -1011,7 +1011,7 @@ void BuddyOpt::updateGroupInfo(HTREEITEM hGroupItem, bool bAnyway)
         CString BuddyCount;
         BuddyCount.Format(_T("/%d)"), GetChildCount(hGroupItem));
         CString groupShowName = group_info->groupName + online + BuddyCount;
-        treeWidget->SetItemText(hGroupItem, groupShowName + _T("    "));
+        treeWidget->SetItemText(hGroupItem, groupShowName + _T("  "));
 
         SortBuddy(hGroupItem);
     }
