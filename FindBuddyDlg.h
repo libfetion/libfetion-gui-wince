@@ -36,6 +36,8 @@ public:
     CString m_strInfo;
     // 对方的屏显名称
     CString m_strLocalName;
+	BOOL	m_bAddByMobileNo;
+	int		m_iGroupID;
     afx_msg void OnStnClickedFbBtnFind();
 protected:
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
