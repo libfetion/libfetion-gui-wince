@@ -62,6 +62,6 @@ void CFontSetting::OnEdit()
 {
     UpdateData();
 
-    SendMessage(WM_CLOSE,0, 0);
+	CDialog::OnOK();
 }
 
