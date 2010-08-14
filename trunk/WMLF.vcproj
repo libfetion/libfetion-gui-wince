@@ -1044,6 +1044,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FontSetting.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\FxBuddy.cpp"
 				>
 			</File>
@@ -1299,6 +1303,10 @@
 			</File>
 			<File
 				RelativePath=".\FindBuddyDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FontSetting.h"
 				>
 			</File>
 			<File

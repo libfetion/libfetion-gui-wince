@@ -74,6 +74,8 @@ public:
 	BOOL showMsgDlg(HTREEITEM hItem);
     
 	BOOL showBuddyInfo(HTREEITEM hItem);
+
+	void SetTreeBuddyFontSize(int nSize);
 public:
 	CList<HTREEITEM> filker;
 	CList<int> timeOutMsgVector;
@@ -124,6 +126,10 @@ public:
 
 	// 是否使用长短信
 	BOOL m_bLongSMS;
+	
+	//好友列表字体
+	CFont	*m_pTreeFont;
+	UINT	m_nTreeFontSize;
 
     afx_msg void OnMainSetVibr();
     afx_msg void OnUpdateMainSetVibr(CCmdUI *pCmdUI);
@@ -136,6 +142,7 @@ public:
 
 	afx_msg void OnMainShieldQunMessage();
 	afx_msg void OnUpdateShieldQunMessage(CCmdUI *pCmdUI);
+
     // 程序启动路径
     CString m_strStartupPath;
     // 获取启动路径
@@ -186,4 +193,5 @@ public:
 	afx_msg void OnUpdateAllAccountinfo();
 	afx_msg void OnMainSetLongsms();
 	afx_msg void OnMyselfInfo();
+	afx_msg void OnMainFontSetting();
 };

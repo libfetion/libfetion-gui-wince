@@ -73,6 +73,7 @@
 #define IDD_WMLF_MYSELF_INFO            185
 #define IDR_MENU_MYSELF_INFO            186
 #define IDS_EDIT                        187
+#define IDD_WMLF_FONT_SETTING           188
 #define IDC_BI_CITY                     200
 #define IDC_MOBILE_NO                   1000
 #define IDC_STATIC_ABOUT                1001
@@ -177,6 +178,8 @@
 #define IDC_BI_HOROSCOPE                1130
 #define IDC_BI_LB_BLOOD_TYPE            1131
 #define IDC_BI_BLOOD_TYPE               1132
+#define IDC_EDIT_TREEFONTSIZE           1133
+#define IDC_SPIN_TREEFONTSIZE           1134
 #define IDR_MSG_CLOSE                   32783
 #define IDR_MSG_CHANGE                  32784
 #define ID_RIGHT_TESTE                  32785
@@ -238,14 +241,15 @@
 #define IDM_MAIN_SET_LONGSMS            32890
 #define IDM_MYSELF_INFO                 32891
 #define IDM_BD_READDBUDDY               32892
+#define IDM_MAIN_FONT_SETTING           32893
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        188
-#define _APS_NEXT_COMMAND_VALUE         32893
-#define _APS_NEXT_CONTROL_VALUE         1133
+#define _APS_NEXT_RESOURCE_VALUE        189
+#define _APS_NEXT_COMMAND_VALUE         32894
+#define _APS_NEXT_CONTROL_VALUE         1135
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif
