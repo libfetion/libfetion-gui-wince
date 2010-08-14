@@ -1819,8 +1819,8 @@ void FxMainWin::OnMainFontSetting()
 {
 	CFontSetting Dlg;
 	Dlg.m_nTreeFontSize = m_nTreeFontSize;
-	Dlg.DoModal();
-	if((Dlg.m_nTreeFontSize >= 1) && (Dlg.m_nTreeFontSize <= 100))
+	INT_PTR nResponse = Dlg.DoModal();
+	if((IDOK == nResponse) &&(Dlg.m_nTreeFontSize >= 1) && (Dlg.m_nTreeFontSize <= 100))
 	{
 		m_nTreeFontSize = Dlg.m_nTreeFontSize;
 		SetTreeBuddyFontSize(m_nTreeFontSize);
