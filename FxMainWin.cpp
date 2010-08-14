@@ -17,6 +17,7 @@
 #include "IniWR.h"
 #include "FxDatabase.h"
 #include "MyselfInfoDlg.h"
+#include "FontSetting.h"
 
 #ifdef M8
 #include "M8Misc.h"
@@ -221,6 +222,8 @@ FxMainWin::FxMainWin(CWnd* pParent /*=NULL*/)
     , m_lAccountID(0)
 	, m_mobile_no(_T(""))
 	, m_pFxMsgDlgView(NULL)
+	, m_pTreeFont(NULL)
+	, m_nTreeFontSize(9)
 	//, m_pFxDB(NULL)
 {
 }
@@ -237,7 +240,11 @@ FxMainWin::~FxMainWin()
 		delete g_pFxDB;
 		g_pFxDB = NULL;
 	}
-
+	if(NULL != m_pTreeFont)
+	{
+		delete m_pTreeFont;
+		m_pTreeFont = NULL;
+	}
 }
 
 void FxMainWin::DoDataExchange(CDataExchange* pDX)
@@ -284,6 +291,7 @@ ON_COMMAND(IDM_SEND_MYSELF, &FxMainWin::OnSendMyself)
 ON_COMMAND(IDM_UPDATE_ALL_ACCOUNTINFO, &FxMainWin::OnUpdateAllAccountinfo)
 ON_COMMAND(IDM_MAIN_SET_LONGSMS, &FxMainWin::OnMainSetLongsms)
 ON_COMMAND(IDM_MYSELF_INFO, &FxMainWin::OnMyselfInfo)
+ON_COMMAND(IDM_MAIN_FONT_SETTING, &FxMainWin::OnMainFontSetting)
 END_MESSAGE_MAP()
 
 #ifdef WIN32_PLATFORM_WFSP
@@ -436,6 +444,9 @@ BOOL FxMainWin::OnInitDialog()
 	// TODO: 在此添加额外的初始化代码
 	SetTimer(TIMER_ADD_ITEM_TO_TREE, 1, NULL);
 
+	//设置好友列表的字体大小
+	SetTreeBuddyFontSize(m_nTreeFontSize);
+
     return TRUE;  // return TRUE unless you set the focus to a control
 }
 
@@ -498,6 +509,8 @@ void FxMainWin::do_login()
 		//使用长短信
 		m_bLongSMS = GetSettingFromIni(_T("LongSMS"));
 		fx_set_longsms(m_bLongSMS);
+		//好友列表字体大小
+		m_nTreeFontSize = GetSettingFromIni(_T("TreeFontSize"), 9);
 	}
 #endif
 }
@@ -1788,4 +1801,29 @@ void FxMainWin::OnMyselfInfo()
 {
 	CMyselfInfoDlg Dlg;
 	Dlg.DoModal();
+}
+
+void FxMainWin::SetTreeBuddyFontSize(int nSize)
+{
+	if(NULL != m_pTreeFont)
+	{
+		delete m_pTreeFont;
+		m_pTreeFont = NULL;
+	}
+	m_pTreeFont = new CFont;
+	m_pTreeFont->CreatePointFont(nSize*10, _T("MS Shell Dlg"));
+	view.SetFont(m_pTreeFont);
+}
+
+void FxMainWin::OnMainFontSetting()
+{
+	CFontSetting Dlg;
+	Dlg.m_nTreeFontSize = m_nTreeFontSize;
+	Dlg.DoModal();
+	if((Dlg.m_nTreeFontSize >= 1) && (Dlg.m_nTreeFontSize <= 100))
+	{
+		m_nTreeFontSize = Dlg.m_nTreeFontSize;
+		SetTreeBuddyFontSize(m_nTreeFontSize);
+		SetSettingToIni(_T("TreeFontSize"), m_nTreeFontSize);
+	}
 }
