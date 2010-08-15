@@ -45,12 +45,6 @@ BOOL CFontSetting::OnInitDialog()
 		TRACE0("未能创建 CommandBar\n");
 		return FALSE;      // 未能创建
 	}
-#ifdef WIN32_PLATFORM_WFSP
-    //重写后退键，引发WM_HOTKEY消息
-    (void)::SendMessage(SHFindMenuBar (m_hWnd), SHCMBM_OVERRIDEKEY, VK_TBACK,
-        MAKELPARAM(SHMBOF_NODEFAULT | SHMBOF_NOTIFY,
-        SHMBOF_NODEFAULT | SHMBOF_NOTIFY));
-#endif
 
 	((CSpinButtonCtrl*)GetDlgItem(IDC_SPIN_TREEFONTSIZE))->SetRange(1,100);
 
