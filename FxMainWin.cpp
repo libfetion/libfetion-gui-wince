@@ -292,6 +292,7 @@ ON_COMMAND(IDM_UPDATE_ALL_ACCOUNTINFO, &FxMainWin::OnUpdateAllAccountinfo)
 ON_COMMAND(IDM_MAIN_SET_LONGSMS, &FxMainWin::OnMainSetLongsms)
 ON_COMMAND(IDM_MYSELF_INFO, &FxMainWin::OnMyselfInfo)
 ON_COMMAND(IDM_MAIN_FONT_SETTING, &FxMainWin::OnMainFontSetting)
+ON_WM_ACTIVATE()
 END_MESSAGE_MAP()
 
 #ifdef WIN32_PLATFORM_WFSP
@@ -1635,12 +1636,14 @@ void FxMainWin::OnMainShownewmsg2(void)
 {
 	this->SetForegroundWindow();
 	OnMainShownewmsg();
-    CNotify::RemoveNotification();
+	//OnActivate那处理了，此处代码无须保留
+    //CNotify::RemoveNotification();
 }
 
 // 通过桌面提醒进来的时候,需要移除提醒图标
 void FxMainWin::OnMainDimiss(void)
 {
+	//虽然OnActivate那处理了，但此处代码要保留
     CNotify::RemoveNotification();
 }
 
@@ -1825,5 +1828,15 @@ void FxMainWin::OnMainFontSetting()
 		m_nTreeFontSize = Dlg.m_nTreeFontSize;
 		SetTreeBuddyFontSize(m_nTreeFontSize);
 		SetSettingToIni(_T("TreeFontSize"), m_nTreeFontSize);
+	}
+}
+
+void FxMainWin::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
+{
+	CDialog::OnActivate(nState, pWndOther, bMinimized);
+
+	if(WA_ACTIVE == nState)
+	{
+		CNotify::RemoveNotification();
 	}
 }

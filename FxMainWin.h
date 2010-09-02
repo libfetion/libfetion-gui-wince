@@ -194,4 +194,5 @@ public:
 	afx_msg void OnMainSetLongsms();
 	afx_msg void OnMyselfInfo();
 	afx_msg void OnMainFontSetting();
+	afx_msg void OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized);
 };
