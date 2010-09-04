@@ -323,10 +323,10 @@ typedef long            LONG;
 * \var typedef unsigned int WPARAM
 * \brief A type definition for the first message paramter.
 */
-#if defined(_64BIT_)
-typedef unsigned long    WPARAM;
-#else
+#ifdef WIN32
 typedef unsigned int    WPARAM;
+#else
+typedef unsigned long    WPARAM;
 #endif
 
 
@@ -528,6 +528,9 @@ struct tm {
 
 typedef void (*EventListener) (int message, WPARAM wParam, LPARAM lParam, void* args);
 
+#ifdef _WIN32_WCE
+typedef char* (*Https_CB) (char* url, int* net_flag);
+#endif
 /** @} end of cb_func */
 
 
