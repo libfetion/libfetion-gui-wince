@@ -23,9 +23,15 @@
 #include "common.h"
 #include "event.h"
 #else
+#ifdef _WIN32_WCE
 #include "common.h"
 #include "event.h"
 #include "datastruct.h"
+#else
+#include "libfetion/common.h"
+#include "libfetion/event.h"
+#include "libfetion/datastruct.h"
+#endif
 #endif
 
 #ifdef __cplusplus 
@@ -223,33 +229,6 @@ FX_EXPORT BOOL fx_close_network();
  */
 
 /**
- * \addtogroup  simple_fetion_login  
- * @{
- */
-
-/**
-  * \fn BOOL fs_login(const char *uid, const char *password)
-  * \brief login fetion.
-  *
-  * This function contain all the fetion login operates. 
-  * and without callback function, when it return show login is finished.  
-  * this function implement login,  get contact list and get presence operates.
-  *
-  * \param uid The login info of the usr fetion uid or mobile_no .
-  * \param password The login info of the usr password.
-  *
-  * \return TRUE if login successfully, otherwise return FALSE.fx_get_error();...
-  *
-  * \sa fx_login
-  */
-FX_EXPORT BOOL fs_login(const char *uid, const char *password);
-
-
-
-/** @} end of  simple_fetion_login */
-
-
-/**
  * \addtogroup  generic_fetion_login_functions  
  * @{
  */
@@ -261,8 +240,6 @@ FX_EXPORT BOOL fs_login(const char *uid, const char *password);
   * This function will set the user login status. 
   *
   * \param login_status The login status of you want to set.
-  *
-  * \sa fs_login
   */
 FX_EXPORT void fx_set_login_status(int longin_status);
 
@@ -293,8 +270,6 @@ FX_EXPORT void fx_cancel_login();
   *
   * \sa EventListener 
   *
-  *
-  * \sa fs_login
   */
 FX_EXPORT int fx_login(const char *uid, const char *password, EventListener func, void *args);
 
@@ -314,6 +289,33 @@ FX_EXPORT int fx_relogin(EventListener func, void *args, const char* uid, const 
   * \sa fx_login
 */
 FX_EXPORT void fx_loginout();
+
+/**
+  * \fn Fetion_Verfy *fx_get_auth_code()
+  * \brief get the verfy info.
+  *
+  * This function will get all the verfy info. 
+  *
+  * \param guid The guid of the wanted Fetion_Verfy.
+  *
+  * \sa Fetion_Verfy
+  * \sa fx_set_auth_code
+*/
+FX_EXPORT Fetion_Verfy *fx_get_auth_code(char* guid);
+
+/**
+  * \fn int fx_set_auth_code(const char* authcode)
+  * \brief set the auth code to libfetion.
+  *
+  * This function will set the auth code to libfetion. 
+  * \param authcode The auth code valut of setting.
+  * \param verfy The opted Fetion_Verfy.
+  *
+  * \sa Fetion_Verfy
+  * \sa fx_set_auth_code
+*/
+FX_EXPORT int fx_set_auth_code(const char* authcode, Fetion_Verfy *verfy);
+
 
 #if 0
 /**
@@ -348,6 +350,29 @@ FX_EXPORT int fs_keep_alive();
   * \sa ...
 */
 FX_EXPORT void fx_set_system_msg_cb(EventListener func, void* args);
+
+/**
+  * \fn void fx_enable_emit_receive_msg()
+  * \brief enable to libfetion to send out new chat message. 
+  *
+  * This function will enable to libfetion to send out new chat message..
+  * like ....
+  *
+  * \sa ...
+*/
+FX_EXPORT void fx_enable_emit_receive_msg();
+
+/**
+  * \fn void fx_disable_emit_receive_msg()
+  * \brief disable emit the new chat message . 
+  *
+  * This function will let libfetio don't emit the new chat message, those message will be stored
+  * and send out after enable the emit_receive_msg.
+  * like ....
+  *
+  * \sa ...
+*/
+FX_EXPORT void fx_disable_emit_receive_msg();
 
 /** @} end of system_msg_cb */
 
@@ -519,53 +544,6 @@ FX_EXPORT void fx_set_longsms(BOOL bl);
  * \addtogroup send_dialog_fetion_functions  
  * @{
  */
-
-/**
- * \addtogroup simple_send_dialog_fetion_functions  
- * @{
- */
-
-/**
-  * \fn BOOL fs_begin_dialog(long who)
-  * \brief begin the dialog function
-  *
-  * if you want to have a dialog with somebody. invoke this function first,
-  * of course, if you not invoke this function to send a dialog, it will invoked by itself.
-  * if you will not have a dialog with somebody, you should invoke fetion_end_dialog
-  * advise: invoke this function before send a dialog to somebody,
-  * \sa fetion_end_dialog
-  *
-  * \param who The somebody who you want to have a dialog
-  *
-  * \return non zero if init successfully, otherwise if fail return 0.( this function will not return 0)
-  *
-*/
-FX_EXPORT BOOL fs_begin_dialog(long who);
-
-
-/**
-  * \fn BOOL fs_dialog_send(long who, const char *message)
-  * \brief send a message to somebody in a dialog 
-  *
-  * \param who The somebody who you want to send
-  * \param message The content which you want to send.
-  *
-  * \return TRUE if init successfully, otherwise return FALSE..
-*/
-FX_EXPORT BOOL fs_dialog_send(long who, const char *message);
-
-/**
-  * \fn void fs_end_dialog(long who)
-  * \brief end a dialog with somebody
-  *
-  * if you will not have a dialog with somebody, you should invoke this function
-  *
-  * \param who The somebody who you want to end a dialog
-  *
-*/
-void fs_end_dialog(long who);
-
-/** @} end of simple_send_dialog_fetion_functions */
 
 /**
  * \addtogroup generic_send_dialog_fetion_functions 
@@ -1151,6 +1129,33 @@ FX_EXPORT BOOL fx_is_on_line_by_account(const Fetion_Account *account);
 FX_EXPORT int fx_get_online_status_by_id(const long uid);
 
 /**
+  * \fn BOOL fx_is_online_status(int online_status)
+  * \brief judge the status is online or not.  
+  *
+  * \return TRUE when it is online status, or return FALSE.
+*/
+FX_EXPORT BOOL fx_is_online_status(int online_status);
+
+/**
+  * \fn BOOL fx_is_receive_sms_by_account(const Fetion_Account *account)
+  * \brief judge this account could receive SMS or not
+  *
+  * \return FALSE if this account couldn't sms or return TRUE.
+*/
+FX_EXPORT BOOL fx_is_receive_sms_by_account(const Fetion_Account *account);
+
+/**
+  * \fn BOOL fx_is_auth_chat_by_account(const Fetion_Account *account)
+  * \brief judge this account could char or not
+  *
+  * \return FALSE if this account couldn't char or return TRUE.
+*/
+FX_EXPORT BOOL fx_is_auth_chat_by_account(const Fetion_Account *account);
+
+
+
+
+/**
   * \fn int fx_get_online_status_by_account(const Fetion_Account * account)
   * \brief return fetion account's online status.  
   *
@@ -1197,10 +1202,28 @@ FX_EXPORT void fx_update_account_info_by_id(long id);
   * \param needImpresa Is need the impresa in showname 
   *
   * \sa Fetion_Account
+  * \sa fx_get_account_show_name_with_state
   *
   * \return the show name of account
 */
 FX_EXPORT char *fx_get_account_show_name(const Fetion_Account *account, BOOL needImpresa);
+
+/**
+  * \fn char *fx_get_account_show_name_with_state(const Fetion_Account *account, BOOL needImpresa, BOOL needSState)
+  * \brief get the show name of the account
+  *
+  * note: this function maybe modify at late version....
+  *
+  * \param account The Fetion_Account which you want to get showname. 
+  * \param needImpresa Is need the impresa in showname 
+  * \param needAccountStatue Is need the AccountStatue in showname 
+  *
+  * \sa Fetion_Account
+  * \sa fx_get_account_show_name
+  *
+  * \return the show name of account
+*/
+FX_EXPORT char *fx_get_account_show_name_with_state(const Fetion_Account *account, BOOL needImpresa, BOOL needSState);
 
 /**
   * \fn char *fx_get_qun_show_name(Fetion_Qun *qun)
@@ -1650,6 +1673,13 @@ FX_EXPORT void fx_set_buddy_nickname_ex(long uid, const char *nickname);
 */
 FX_EXPORT void fx_set_buddy_impresa_ex(long uid, const char *impresa);
 /** @} end of fetion_misc */
+
+#ifdef _WIN32_WCE
+
+FX_EXPORT void fx_set_Https_CB(Https_CB func);
+FX_EXPORT Https_CB fx_get_Https_CB(void);
+
+#endif
 
 #ifdef __cplusplus 
 }
