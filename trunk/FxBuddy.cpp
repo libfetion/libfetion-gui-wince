@@ -401,15 +401,9 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account, CString & name, 
 		ac_info->BuddyInfo.strNickName = _T("");
 		ac_info->BuddyInfo.strImpresa = _T("");
 	}
-    if (fx_islogin_by_mobile(account))
-	{         
-		//mobile login
-		ac_info->onlinestate = online_state + MOBILE_LOGIN;
-	}
-	else
-	{        
-		ac_info->onlinestate = online_state;
-	} 
+     
+	ac_info->onlinestate = online_state;
+
 	//notify: set the group icon
 	HTREEITEM accountItem = treeWidget->InsertItem(name + _T("  "), 0, 0, groupItem);
 	treeWidget->SetItemData(accountItem,(DWORD)ac_info); 
@@ -829,19 +823,23 @@ int BuddyOpt::getOnlineIcon(int flag)
 	case FX_STATUS_NUM_PRIMITIVES:
 		res = I_NUM_PRIMITIVES;
 		break;
-	case FX_STATUS_ONLINE + MOBILE_LOGIN:
+
+	case FX_STATUS_MOBILE_OUT_OF_SERIVCE:
+	case FX_STATUS_CLOSE_FETION_SERIVCE:
+		res = I_REFUSE;
+		break;
+	case FX_STATUS_MOBILE_ONLINE:
 		res = I_ONLINE_M;
 		break;
-	case FX_STATUS_DINNER + MOBILE_LOGIN:
-	case FX_STATUS_AWAY + MOBILE_LOGIN:
-	case FX_STATUS_EXTENDED_AWAY + MOBILE_LOGIN:
-	case FX_STATUS_NUM_PRIMITIVES + MOBILE_LOGIN:
-    case FX_STATUS_UNSET + MOBILE_LOGIN:
+	case FX_STATUS_MOBILE_DINNER:
+	case FX_STATUS_MOBILE_AWAY:
+	case FX_STATUS_MOBILE_EXTENDED_AWAY:
+	case FX_STATUS_MOBILE_NUM_PRIMITIVES:
 		res = I_AWAY_M;
 		break;
-	case FX_STATUS_PHONE + MOBILE_LOGIN:
-	case FX_STATUS_MEETING + MOBILE_LOGIN:
-	case FX_STATUS_BUSY + MOBILE_LOGIN:
+	case FX_STATUS_MOBILE_PHONE:
+	case FX_STATUS_MOBILE_MEETING:
+	case FX_STATUS_MOBILE_BUSY:
 		res = I_BUSY_M;
 		break;
 	}
