@@ -244,7 +244,7 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
 #endif
 
 void  My_EventListener (int message, WPARAM wParam, LPARAM lParam, void* args);
-char *My_getDataFromHttps(char* url, int* netflag);
+int My_getDataFromHttps(char* url, char*web_data, char* cookie);
 void CLoginDlg::OnBnClickedLogin()
 {
 	CStringA fetion_id;
@@ -460,7 +460,9 @@ BOOL CLoginDlg::handleFx_Login_Event(int message, WPARAM wParam, LPARAM lParam)
 
 		::SendMessage(loginDlg->m_hWnd, WM_CLOSE, (WPARAM)bLoginFail, 0);
 		break;
-
+	case FX_LOGIN_NEED_AUTH_CODE:
+		loginDlg->m_login_state = (_T("请输入验证码"));
+		break;
 	default:
 		return FALSE;
 	}
@@ -641,36 +643,46 @@ void CLoginDlg::OnOffLineChanged()
     UpdateData(FALSE);
 }
 
-char *My_getDataFromHttps(char* url, int* netflag)
+int My_getDataFromHttps(char* url, char** data, char** cookie);
 {
-	char *ret_buffer = NULL;
-	CString strWeb;
+	char *web_data = NULL, *cookie_data = NULL;
+	CString strWeb, strCookie;
+	CStringA strWebA, strCookieA;
 
-	strWeb = GetHttpsWebData(ConvertUtf8ToUtf16(url));
+	if (GetHttpsWebData(ConvertUtf8ToUtf16(url), &strWeb, &strCookie) || strWeb.IsEmpty())
+		return 0;
 
-	if(strWeb.IsEmpty())
+	strWebA = ConvertUtf16ToUtf8(strWeb);
+	strCookieA = ConvertUtf16ToUtf8(strCookie);
+
+	web_data = (char*)malloc(strWebA.GetLength() + 1);
+	if (!web_data)
+		return -1;
+
+	cookie_data = (char*)malloc(strCookieA.GetLength() + 1);
+	if (!cookie_data)
 	{
-		if (netflag)
-			*netflag = 404;
-		return NULL;
+		free(web_data);
+		return -1;
 	}
 
+	memset(web_data, 0, strWebA.GetLength() + 1);
+	memset(cookie_data, 0, strCookieA.GetLength() + 1);
 
-	CStringA strWebA;
-	strWebA = strWeb;
+	strncpy(web_data, (char*)strWebA.GetBuffer(), strWebA.GetLength());
+	strncpy(cookie_data, (char*)strCookieA.GetBuffer(), strCookieA.GetLength());
 
-	ret_buffer = (char*)malloc(strWebA.GetLength()+1);
-	if (!ret_buffer)
-		return ret_buffer;
+	if (data)
+		*data = web_data;
+	else
+		free(web_data);
 
-	memset(ret_buffer, 0 , strWebA.GetLength()+1);
-	
-	strncpy(ret_buffer, (char*)strWebA.GetBuffer(), strWebA.GetLength());
+	if (cookie)
+		*cookie = cookie_data;
+	else
+		free(cookie_data);
 
-	if (netflag)
-		*netflag = 0;
-
-	return ret_buffer;
+	return 0;
 }
 
 void CLoginDlg::InitUsersList(void)

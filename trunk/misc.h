@@ -6,6 +6,6 @@
 #if !defined _MISC_WMLF__H
 #define _MISC_WMLF__H
 
-CString GetHttpsWebData(CString Url);
+int GetHttpsWebData(CString Url, CString *web_data, CString *cookie_data);
 
 #endif

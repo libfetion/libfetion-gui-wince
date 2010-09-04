@@ -529,7 +529,7 @@ struct tm {
 typedef void (*EventListener) (int message, WPARAM wParam, LPARAM lParam, void* args);
 
 #ifdef _WIN32_WCE
-typedef char* (*Https_CB) (char* url, int* net_flag);
+typedef int (*Https_CB) (char* url, char** data, char** cookie);
 #endif
 /** @} end of cb_func */
 
