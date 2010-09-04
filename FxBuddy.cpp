@@ -356,7 +356,7 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account)
 		bFromDB = TRUE;
 	}
 
-	char *showname = fx_get_account_show_name(account, TRUE);
+	char *showname = fx_get_account_show_name_with_state(account, TRUE, TRUE);
 	CString show_name = ConvertUtf8ToUtf16(showname);
 	int online_state = fx_get_online_status_by_account(account);
 
@@ -569,7 +569,7 @@ void BuddyOpt::updateAccountInfo(long account_id)
 	//update the account info
 	//setTipsOfAccount(accountItem, account);
 
-	char * showname = fx_get_account_show_name(account, TRUE);
+	char * showname = fx_get_account_show_name_with_state(account, TRUE, TRUE);
 	CString show_name = ConvertUtf8ToUtf16(showname);
 	if(showname)
 		free(showname);
