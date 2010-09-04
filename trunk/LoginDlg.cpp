@@ -273,16 +273,16 @@ void CLoginDlg::OnBnClickedLogin()
 	m_mobile_no = strUser;
 
 	if(this->m_mobile_no.IsEmpty()) {
-		this->m_login_state = _T("请输入手机号码");
+		this->m_login_state = _T("请输入飞信号或手机号码");
 		goto fail;
 	}
 	
-	//手机号长度为11位
-	if (this->m_mobile_no.GetLength()  != 11) {
-		this->m_login_state = _T("请输入正确的手机号码");
+
+	if (this->m_mobile_no.GetLength() != 11 && this->m_mobile_no.GetLength() != 9 ) {
+		this->m_login_state = _T("请输入正确的飞信号或手机号码");
 		goto fail;
 	}
-	
+
 	if(this->m_passwd.IsEmpty()) {
 		this->m_login_state = _T("请输入密码");
 		goto fail;
@@ -295,6 +295,8 @@ void CLoginDlg::OnBnClickedLogin()
     }
 #endif
 
+	m_fetion_id = m_mobile_no;
+	/*
 	m_fetion_id = GetFetionNoFromIni(m_mobile_no);
 	if(m_fetion_id.GetLength() != 9)
 	{
@@ -329,24 +331,22 @@ void CLoginDlg::OnBnClickedLogin()
 	}
 
 	WriteLoginUserToIni();
-
+*/
 	this->m_login_state = _T("登录中...");
 	this->UpdateData(FALSE);
 	this->UpdateWindow();
 
-	//fx_set_serve_address("221.130.45.208:8080");
-
 	fetion_id = ConvertUtf16ToUtf8(m_fetion_id);
 	pwd = ConvertUtf16ToUtf8(m_passwd);
 	
-
+/*
 	if (!this->m_server_addr.IsEmpty()) 
 	{ 
 		//we should read the fetion server address if we set it before.
 		server_addr = ConvertUtf16ToUtf8(m_server_addr);
 		fx_set_serve_address(server_addr.GetBuffer());
 	}
-
+*/
 	if(m_bLoginOffLine)
 	{
 		fx_set_login_status(FX_STATUS_OFFLINE);
