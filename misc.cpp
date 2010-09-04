@@ -9,7 +9,7 @@
 #include <afxinet.h>
 
 #define BUFFER_SIZE 1024
-CString GetHttpsWebData(CString Url)
+int GetHttpsWebData(CString Url, CString *web_data, CString *cookie_data)
 {
 	CString sContent;
 	CString strHeaders = _T("Content-Type: application/x-www-form-urlencoded"); 
@@ -21,7 +21,7 @@ CString GetHttpsWebData(CString Url)
 	if (!AfxParseURL(Url, dwServiceType, strServerName, strObject, nPort) || (dwServiceType != AFX_INET_SERVICE_HTTPS))
 	{
 		BOOL bS = FALSE;
-		return _T("");
+		return -1;
 	}
 	session.EnableStatusCallback(TRUE);
 	CHttpConnection* pServer = session.GetHttpConnection(strServerName, nPort);
@@ -62,9 +62,18 @@ CString GetHttpsWebData(CString Url)
 		sz = NULL;
 		delete [] szwBuf;
 		szwBuf = NULL;
+		
+		CString strcookie;
+		DWORD dw = 0;
+		pFile->QueryInfo(HTTP_QUERY_SET_COOKIE, strcookie, &dw);
+		if (cookie_data)
+			*cookie_data = strcookie;
 	}
 	strGetData = szWEBPage;
 	delete [] szWEBPage;
 	szWEBPage = NULL;
-	return strGetData;
+
+	if (web_data)
+		*web_data = strGetData;
+	return 0;
 }
