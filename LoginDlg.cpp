@@ -244,7 +244,7 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
 #endif
 
 void  My_EventListener (int message, WPARAM wParam, LPARAM lParam, void* args);
-int My_getDataFromHttps(char* url, char*web_data, char* cookie);
+int My_getDataFromHttps(char* url, char** web_data, char** cookie);
 void CLoginDlg::OnBnClickedLogin()
 {
 	CStringA fetion_id;
@@ -643,14 +643,14 @@ void CLoginDlg::OnOffLineChanged()
     UpdateData(FALSE);
 }
 
-int My_getDataFromHttps(char* url, char** data, char** cookie);
+int My_getDataFromHttps(char* url, char** data, char** cookie)
 {
 	char *web_data = NULL, *cookie_data = NULL;
 	CString strWeb, strCookie;
 	CStringA strWebA, strCookieA;
 
 	if (GetHttpsWebData(ConvertUtf8ToUtf16(url), &strWeb, &strCookie) || strWeb.IsEmpty())
-		return 0;
+		return -1;
 
 	strWebA = ConvertUtf16ToUtf8(strWeb);
 	strCookieA = ConvertUtf16ToUtf8(strCookie);
