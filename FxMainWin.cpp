@@ -191,6 +191,7 @@ BOOL FxMainWin::handleFx_Sys_Event(int message, WPARAM wParam, LPARAM lParam)
 	case FX_LOGIN_UNKOWN_ERROR :   
 	case FX_LOGIN_UNKOWN_USR:
 	case FX_LOGIN_GP_FAIL:
+		fx_disable_emit_receive_msg();
 		relogin_fetion();
 		break;
 	case FX_LOGIN_OK :
@@ -843,6 +844,7 @@ void FxMainWin::relogin_ok()
 	
 	//set the fetion system msg call back function
 	fx_set_system_msg_cb (Sys_EventListener, this);
+	fx_enable_emit_receive_msg();
 
 	GetDlgItem(IDC_NET_STATE)->ShowWindow(SW_HIDE);
 	m_strNickNameShow = m_strNickName + GetUserStateString();
@@ -900,6 +902,7 @@ void FxMainWin::OnTimer(UINT_PTR nIDEvent)
 
 		//set the fetion system msg call back function
 		fx_set_system_msg_cb (Sys_EventListener, this);
+		fx_enable_emit_receive_msg();
 
 		SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*3, NULL);
 		break;
