@@ -495,25 +495,6 @@ void BuddyOpt::WantUpdateAllAccountInfo()
     }
 }
 
-static BOOL isonline(int state)
-{
-	if (state != FX_STATUS_OFFLINE && 
-			state != 0 &&
-			state != FX_STATUS_WAITING_AUTH &&
-			state != FX_STATUS_REFUSE &&
-			state != FX_STATUS_BLACK &&
-			state != FX_STATUS_MOBILE &&
-			state != FX_STATUS_OFFLINE + MOBILE_LOGIN && 
-			state != 0  + MOBILE_LOGIN&&
-			state != FX_STATUS_WAITING_AUTH + MOBILE_LOGIN &&
-			state != FX_STATUS_REFUSE + MOBILE_LOGIN &&
-			state != FX_STATUS_BLACK + MOBILE_LOGIN &&
-			state != FX_STATUS_MOBILE + MOBILE_LOGIN ) 
-		return true;
-	else
-		return false;
-
-}
 //this function will add to libfetion impl...
 // return false should not changed
 // true should changed
@@ -524,14 +505,14 @@ BOOL BuddyOpt::isOnlineStateChanged(int old_state, int new_state, int* state)
 	if(old_state == new_state)
 		return false;
 
-	if( isonline(old_state))  //old_state is online state
+	if (fx_is_online_status(old_state))//old_state is online state
 	{
-		if( !isonline(new_state)) { //new state is offline state
+		if( !fx_is_online_status(new_state)) { //new state is offline state
 			*state = 0;
 			return true;
 		}
 	} else { //old_state is offline state
-		if( isonline(new_state)) { //new state is online state
+		if( fx_is_online_status(new_state)) { //new state is online state
 			*state = 1;
 			return true;
 		}
@@ -598,11 +579,7 @@ void BuddyOpt::updateAccountInfo(long account_id)
 
 	int old_online_state = ac_info->onlinestate;
 	int new_online_state = fx_get_online_status_by_account(account);
-    if (fx_islogin_by_mobile(account))
-	{         
-		//mobile login
-		new_online_state = new_online_state + MOBILE_LOGIN;
-	} 
+    
 	ac_info->onlinestate = new_online_state;
 
 	CString old_show_name = treeWidget->GetItemText(accountItem);
@@ -1022,16 +999,16 @@ static int GetSortValue(int iOnlineState)
     {
     case FX_STATUS_ONLINE:
         return 0;
-	case FX_STATUS_ONLINE + MOBILE_LOGIN:
+	case FX_STATUS_MOBILE_ONLINE:
 		return 5;
     case FX_STATUS_PHONE:
         return 10;
     case FX_STATUS_BUSY:
     case FX_STATUS_MEETING:
         return 20;
-	case FX_STATUS_PHONE + MOBILE_LOGIN:
-	case FX_STATUS_MEETING + MOBILE_LOGIN:
-	case FX_STATUS_BUSY + MOBILE_LOGIN:
+	case FX_STATUS_MOBILE_PHONE:
+	case FX_STATUS_MOBILE_MEETING:
+	case FX_STATUS_MOBILE_BUSY:	
 		return 25;
 	case FX_STATUS_AWAY:
     case FX_STATUS_EXTENDED_AWAY:
@@ -1040,14 +1017,12 @@ static int GetSortValue(int iOnlineState)
     case FX_STATUS_UNSET:
     case FX_STATUS_NUM_PRIMITIVES:
         return 40;
-	case FX_STATUS_DINNER + MOBILE_LOGIN:
-	case FX_STATUS_AWAY + MOBILE_LOGIN:
-	case FX_STATUS_EXTENDED_AWAY + MOBILE_LOGIN:
-    case FX_STATUS_UNSET + MOBILE_LOGIN:
-	case FX_STATUS_NUM_PRIMITIVES + MOBILE_LOGIN:
+	case FX_STATUS_MOBILE_DINNER:
+	case FX_STATUS_MOBILE_AWAY:
+	case FX_STATUS_MOBILE_EXTENDED_AWAY:
+	case FX_STATUS_MOBILE_NUM_PRIMITIVES:
 		return 45;
 	case FX_STATUS_OFFLINE:
-	case FX_STATUS_OFFLINE + MOBILE_LOGIN:
         return 50;
     case FX_STATUS_MOBILE:
         return 60;
