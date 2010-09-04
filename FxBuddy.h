@@ -25,8 +25,6 @@
 #define I_FLICK 17
 #define I_END 18
 
-#define	MOBILE_LOGIN	0x020
-
 class BuddyOpt
 {
 	public:
