@@ -244,7 +244,7 @@ void CLoginDlg::OnSize(UINT nType, int cx, int cy)
 #endif
 
 void  My_EventListener (int message, WPARAM wParam, LPARAM lParam, void* args);
-
+char *My_getDataFromHttps(char* url, int* netflag);
 void CLoginDlg::OnBnClickedLogin()
 {
 	CStringA fetion_id;
@@ -351,6 +351,8 @@ void CLoginDlg::OnBnClickedLogin()
 	{
 		fx_set_login_status(FX_STATUS_OFFLINE);
 	}
+
+	fx_set_Https_CB(My_getDataFromHttps);
 	fx_login(fetion_id.GetBuffer(), pwd.GetBuffer(),(My_EventListener), this);
 
 	m_dlgCommandBar.InsertMenuBar(IDR_LOGIN_CANCEL_MENU);
@@ -639,43 +641,37 @@ void CLoginDlg::OnOffLineChanged()
     UpdateData(FALSE);
 }
 
-CString CLoginDlg::GetFetionNoFromHttpsWeb(CString strMobileNo, CString strPwd, int& netflag)
+char *My_getDataFromHttps(char* url, int* netflag)
 {
-	CString Url;
+	char *ret_buffer = NULL;
 	CString strWeb;
-	CString FetionNo = _T("");
-	int sip;
-	int AtFetion;
-	netflag = 0;
-	Url.Format(_T("https://uid.fetion.com.cn/ssiportal/SSIAppSignIn.aspx?mobileno=%s&pwd=%s"),strMobileNo,strPwd);
-	strWeb = GetHttpsWebData(Url);
+
+	strWeb = GetHttpsWebData(ConvertUtf8ToUtf16(url));
+
 	if(strWeb.IsEmpty())
 	{
-		netflag = 404;
-		return _T("");
+		if (netflag)
+			*netflag = 404;
+		return NULL;
 	}
-	if(strWeb.Find(_T("results status-code=\"200\"")) < 0)
-	{
-		if(strWeb.Find(_T("results status-code=")) >= 0)
-		{
-			netflag = 401;
-		}
-		else
-		{
-			netflag = 402;
-		}
-		return _T("");
-	}
-	sip = strWeb.Find(_T("sip:"));
-	AtFetion = strWeb.Find(_T("@fetion.com.cn"));
-	if((sip < 0) || (AtFetion < 0) || (sip > AtFetion))
-	{
-		netflag = 301;
-		return _T("");
-	}
-	FetionNo = strWeb.Mid(sip + 4, AtFetion - sip - 4);
-	netflag = 0;
-	return FetionNo;
+
+	CStringA strWebA;
+	strWebA = strWeb;
+
+	ret_buffer = (char*)malloc(strWebA.GetLength()+1);
+
+	memset(ret_buffer, 0 , strWebA.GetLength()+1);
+
+	if (!ret_buffer)
+		return ret_buffer;
+
+	//AfxMessageBox(strWeb);
+	strncpy(ret_buffer, (char*)strWebA.GetBuffer(), strWebA.GetLength());
+
+	if (netflag)
+		*netflag = 0;
+
+	return ret_buffer;
 }
 
 void CLoginDlg::InitUsersList(void)
