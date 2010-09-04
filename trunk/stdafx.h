@@ -8,7 +8,9 @@
 #pragma comment(linker, "/nodefaultlib:libcd.lib")
 #pragma comment(lib, "winsock.lib")
 #pragma comment(lib, "cellcore.lib")
-#pragma comment(lib, "./libfetion/lib/LibFetion.lib") 
+#pragma comment(lib, "./libfetion/lib/LibFetion.lib")
+#pragma comment(lib, "./libfetion/lib/ssleay32_armv4.lib") 
+#pragma comment(lib, "./libfetion/lib/libeay32_armv4.lib")
 
 
 // 注意 - 这个值与作为目标的 Windows CE OS 版本的关联性并不强
