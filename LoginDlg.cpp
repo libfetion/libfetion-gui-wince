@@ -657,7 +657,9 @@ int My_getDataFromHttps(char* url, char** data, char** cookie)
 
 	web_data = (char*)malloc(strWebA.GetLength() + 1);
 	if (!web_data)
+	{
 		return -1;
+	}
 
 	cookie_data = (char*)malloc(strCookieA.GetLength() + 1);
 	if (!cookie_data)
@@ -673,14 +675,18 @@ int My_getDataFromHttps(char* url, char** data, char** cookie)
 	strncpy(cookie_data, (char*)strCookieA.GetBuffer(), strCookieA.GetLength());
 
 	if (data)
+	{
 		*data = web_data;
-	else
+	} else {
 		free(web_data);
+	}
 
 	if (cookie)
+	{
 		*cookie = cookie_data;
-	else
+	} else {
 		free(cookie_data);
+	}
 
 	return 0;
 }
