@@ -655,17 +655,16 @@ char *My_getDataFromHttps(char* url, int* netflag)
 		return NULL;
 	}
 
+
 	CStringA strWebA;
 	strWebA = strWeb;
 
 	ret_buffer = (char*)malloc(strWebA.GetLength()+1);
-
-	memset(ret_buffer, 0 , strWebA.GetLength()+1);
-
 	if (!ret_buffer)
 		return ret_buffer;
 
-	//AfxMessageBox(strWeb);
+	memset(ret_buffer, 0 , strWebA.GetLength()+1);
+	
 	strncpy(ret_buffer, (char*)strWebA.GetBuffer(), strWebA.GetLength());
 
 	if (netflag)
