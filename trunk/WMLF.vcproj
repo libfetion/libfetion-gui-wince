@@ -1076,6 +1076,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\link_openssl.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\LoginDlg.cpp"
 				>
 			</File>
@@ -1331,6 +1335,10 @@
 			</File>
 			<File
 				RelativePath=".\FxMsgLogDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\link_openssl.h"
 				>
 			</File>
 			<File
