@@ -401,7 +401,6 @@ LRESULT CALLBACK MyTreeProc(
 
 BOOL FxMainWin::OnInitDialog()
 {
-    fx_init();
 	do_login();
 	CDialog::OnInitDialog();
 
