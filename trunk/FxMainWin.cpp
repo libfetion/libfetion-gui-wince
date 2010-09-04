@@ -436,7 +436,7 @@ BOOL FxMainWin::OnInitDialog()
 	if(!g_pFxDB->Init(m_strStartupPath + _T("\\Users\\") + m_mobile_no + _T("\\") + m_mobile_no + _T(".db")))
 	//if(!g_pFxDB->Init(_T("\\") + m_mobile_no + _T(".db")))
 	{
-		MessageBox(_T("打开数据库文件失败，程序将退出！"), _T("LibFetion"), MB_ICONSTOP);
+		MessageBox(_T("打开数据库文件失败"), _T("LibFetion"), MB_ICONSTOP);
 		//::exit(0);
 	}
 
@@ -831,7 +831,7 @@ BOOL FxMainWin::showMsgDlg(long lAccountID)
 		switch (status)
 		{
 		case FX_STATUS_BLACK:
-			MessageBox(_T("不能和别你加入黑名单的好友聊天"), _T("LibFetion"), MB_ICONSTOP);
+			MessageBox(_T("不能和被你加入黑名单的好友聊天"), _T("LibFetion"), MB_ICONSTOP);
 	        return TRUE;
 		case FX_STATUS_WAITING_AUTH:
 			MessageBox(_T("对方不是你的好友，等待对方认证"), _T("LibFetion"), MB_ICONSTOP);
