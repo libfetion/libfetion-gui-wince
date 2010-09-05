@@ -101,10 +101,7 @@ BOOL CMyselfInfoDlg::OnInitDialog()
 		m_strNickNameBackup = m_strNickName;
 		m_strSign = ConvertUtf8ToUtf16(pInfo->impresa);
 		m_strSignBackup = m_strSign;
-		if(pInfo->mobile_no)
-		{
-			m_strMobileNo = ConvertUtf8ToUtf16(pInfo->mobile_no);
-		}
+		m_strMobileNo = ConvertUtf8ToUtf16(fx_get_usr_mobilenum());
 		if(pInfo->birthday_valid)
 		{
 			m_strBirthday = pInfo->birth_date;
