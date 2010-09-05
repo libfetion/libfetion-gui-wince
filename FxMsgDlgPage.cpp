@@ -280,7 +280,7 @@ void CFxMsgDlgPage::OnMsgSend()
 
 	if(m_bMyself)
 	{
-		CStringA mobile_no = ConvertUtf16ToUtf8(((FxMainWin*)((CFxMsgDlgView*)m_pParentWnd)->m_pParentWnd)->m_mobile_no);
+		CStringA mobile_no = ConvertUtf16ToUtf8(((FxMainWin*)((CFxMsgDlgView*)m_pParentWnd)->m_pParentWnd)->m_strMobileNo);
 		sendFlag = fx_send_sms_by_mobile_no(mobile_no.GetBuffer(), content.GetBuffer(), NULL, NULL); 
 	}
 	//fixme: offline usr can send offline dialog

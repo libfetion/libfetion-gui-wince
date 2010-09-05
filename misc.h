@@ -7,5 +7,6 @@
 #define _MISC_WMLF__H
 
 int GetHttpsWebData(CString Url, CString *web_data, CString *cookie_data);
+BOOL IsNumber(CString strInput, int iLength);
 
 #endif

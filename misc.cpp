@@ -96,3 +96,28 @@ int GetHttpsWebData(CString Url, CString *web_data, CString *cookie_data)
 	session.Close();
 	return 0;
 }
+
+BOOL IsNumber(CString strInput, int iLength)
+{
+	if(iLength > 0)
+	{
+		if(strInput.GetLength() != iLength)
+		{
+			return FALSE;
+		}
+	}
+	CStringA strConvertA = ConvertUtf16ToUtf8(strInput);
+	int iPosition = iLength - 1;
+	char tempchar;
+	while(iPosition >= 0)
+	{
+		tempchar = (strConvertA.GetAt(iPosition));
+		iPosition--;
+		if((tempchar < '0') || (tempchar > '9'))
+		{
+			return FALSE;
+		}
+	}
+
+	return TRUE;
+}
