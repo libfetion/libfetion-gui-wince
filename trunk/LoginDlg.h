@@ -23,6 +23,7 @@ class CLoginDlg : public CDialog
 // 构造
 public:
 	CLoginDlg(CWnd* pParent = NULL);	// 标准构造函数
+	virtual ~CLoginDlg();
 
 // 对话框数据
 	enum { IDD = IDD_WMLF_DIALOG };
@@ -84,7 +85,7 @@ public:
 	BOOL handleFx_Login_Event(int message, WPARAM wParam, LPARAM lParam);
     // 自动连接网络
     BOOL EstablishConnection(void);
-	CString GetFetionNoFromIni(CString strMobileNo);
+	CString GetMobileNoFromIni(CString strFetionNo);
 	void WriteLoginUserToIni();
 protected:
     void OnRemPassChanged();

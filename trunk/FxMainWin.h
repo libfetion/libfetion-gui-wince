@@ -149,7 +149,8 @@ public:
     CString GetStartupPath(void);
     // 当前登录用户的ID
     long m_lAccountID;
-	CString m_mobile_no;
+	CString m_strAccountID;
+	CString m_strMobileNo;
     afx_msg void OnBdViewinfo();
     afx_msg void OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu);
 private:

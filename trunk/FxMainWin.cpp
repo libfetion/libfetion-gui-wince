@@ -221,11 +221,12 @@ FxMainWin::FxMainWin(CWnd* pParent /*=NULL*/)
     , m_strSign(_T(""))
     , m_strStartupPath(_T(""))
     , m_lAccountID(0)
-	, m_mobile_no(_T(""))
+	, m_strMobileNo(_T(""))
 	, m_pFxMsgDlgView(NULL)
 	, m_pTreeFont(NULL)
 	, m_nTreeFontSize(9)
 	//, m_pFxDB(NULL)
+	, m_strAccountID(_T(""))
 {
 }
 
@@ -245,6 +246,11 @@ FxMainWin::~FxMainWin()
 	{
 		delete m_pTreeFont;
 		m_pTreeFont = NULL;
+	}
+	if(NULL != loginDlg)
+	{
+		delete loginDlg;
+		loginDlg = NULL;
 	}
 }
 
@@ -433,7 +439,7 @@ BOOL FxMainWin::OnInitDialog()
 	UpdateData(FALSE);
 
 	g_pFxDB = new CFxDatabase;
-	if(!g_pFxDB->Init(m_strStartupPath + _T("\\Users\\") + m_mobile_no + _T("\\") + m_mobile_no + _T(".db")))
+	if(!g_pFxDB->Init(m_strStartupPath + _T("\\Users\\") + m_strAccountID + _T("\\") + m_strAccountID + _T(".db")))
 	//if(!g_pFxDB->Init(_T("\\") + m_mobile_no + _T(".db")))
 	{
 		MessageBox(_T("打开数据库文件失败"), _T("LibFetion"), MB_ICONSTOP);
@@ -484,16 +490,9 @@ void FxMainWin::do_login()
     m_strNickName = ConvertUtf8ToUtf16(pInfo->nickname);
 	m_strNickNameShow = m_strNickName + GetUserStateString();
     m_strSign = ConvertUtf8ToUtf16(pInfo->impresa);
-    CStringA tmp_id = ConvertUtf16ToUtf8(loginDlg->m_fetion_id);
-	if(pInfo->mobile_no)
-	{
-		m_mobile_no = ConvertUtf8ToUtf16(pInfo->mobile_no);
-	}
-	else
-	{
-		m_mobile_no = loginDlg->m_mobile_no;
-	}
-	m_lAccountID = atol(tmp_id.GetBuffer());
+	m_strAccountID = ConvertUtf8ToUtf16(fx_get_usr_uid());
+	m_strMobileNo = ConvertUtf8ToUtf16(fx_get_usr_mobilenum());
+	m_lAccountID = strtol(fx_get_usr_uid(), NULL,10);
 
 	{
 		//读取设置信息
@@ -1682,7 +1681,7 @@ void FxMainWin::OnMainClean()
 {
 	// TODO: 在此添加命令处理程序代码
 	CIniWR hIni;
-	hIni.WritePrivateProfileString(m_mobile_no, _T("PassWord"), _T(""), m_strStartupPath + _T("\\Users\\") + m_mobile_no + _T("\\") + m_mobile_no + _T(".ini"));
+	hIni.WritePrivateProfileString(m_strAccountID, _T("PassWord"), _T(""), m_strStartupPath + _T("\\Users\\") + m_strAccountID + _T("\\") + m_strAccountID + _T(".ini"));
 }
 
 void FxMainWin::OnOK()
@@ -1737,13 +1736,13 @@ CString FxMainWin::GetUserStateString(void)
 UINT FxMainWin::GetSettingFromIni(LPCTSTR lpKeyName, int nDefault)
 {
 	CIniWR hIni;
-	return hIni.GetPrivateProfileInt(_T("OPTION"), lpKeyName, nDefault, m_strStartupPath + _T("\\Users\\") + m_mobile_no + _T("\\") + m_mobile_no + _T(".ini"));
+	return hIni.GetPrivateProfileInt(_T("OPTION"), lpKeyName, nDefault, m_strStartupPath + _T("\\Users\\") + m_strAccountID + _T("\\") + m_strAccountID + _T(".ini"));
 }
 
 BOOL FxMainWin::SetSettingToIni(LPCTSTR lpKeyName, UINT uValue)
 {
 	CIniWR hIni;
-	return hIni.WritePrivateProfileInt(_T("OPTION"), lpKeyName, uValue, m_strStartupPath + _T("\\Users\\") + m_mobile_no + _T("\\") + m_mobile_no + _T(".ini"));
+	return hIni.WritePrivateProfileInt(_T("OPTION"), lpKeyName, uValue, m_strStartupPath + _T("\\Users\\") + m_strAccountID + _T("\\") + m_strAccountID + _T(".ini"));
 }
 
 

@@ -46,6 +46,21 @@ CLoginDlg::CLoginDlg(CWnd* pParent /*=NULL*/)
 	m_pConnInfo = NULL;
 }
 
+CLoginDlg::~CLoginDlg()
+{
+	CString * pstrAccountID = NULL;
+	int nCount = m_cboUsersList.GetCount();
+	while(nCount > 0)
+	{
+		pstrAccountID = (CString *)m_cboUsersList.GetItemDataPtr(nCount - 1);
+		if(NULL != pstrAccountID)
+		{
+			delete pstrAccountID;
+			pstrAccountID = NULL;
+		}
+	}
+}
+
 void CLoginDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -330,7 +345,6 @@ void CLoginDlg::OnBnClickedLogin()
 		}
 	}
 
-	WriteLoginUserToIni();
 */
 	this->m_login_state = _T("登录中...");
 	this->UpdateData(FALSE);
@@ -454,6 +468,7 @@ BOOL CLoginDlg::handleFx_Login_Event(int message, WPARAM wParam, LPARAM lParam)
 	case FX_LOGIN_OK :
 		loginDlg->m_login_state = (_T("登陆成功"));
 		loginDlg->m_LoginFlag = TRUE;
+		WriteLoginUserToIni();
 		//after login success, we should save the fetion server address.
 		loginDlg->m_server_addr = ConvertUtf8ToUtf16(fx_get_serve_address());
 		hIni.WritePrivateProfileString(_T("OPTION"), _T("ServerAddress"), loginDlg->m_server_addr, loginDlg->m_strStartupPath + _T("\\LibFetion.ini"));
@@ -708,9 +723,24 @@ void CLoginDlg::InitUsersList(void)
 			
 			if(FindFileData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
 			{
-				if(strFileName.GetLength() == 11)
+				if(IsNumber(strFileName, 9))
 				{
-					m_cboUsersList.AddString(strFileName);
+					CString strMobileNo = GetMobileNoFromIni(strFileName);
+					int nIndex = 0;
+					if(IsNumber(strMobileNo, 11))
+					{
+						nIndex = m_cboUsersList.AddString(strMobileNo);
+					}
+					else
+					{
+						nIndex = m_cboUsersList.AddString(strFileName);
+					}
+					if(nIndex >= 0)
+					{
+						CString * pstrAccountID = new CString;
+						*pstrAccountID = strFileName;
+						m_cboUsersList.SetItemDataPtr(nIndex, pstrAccountID);
+					}
 				}
 			}
 			if(!FindNextFile(hFind, &FindFileData))
@@ -755,10 +785,9 @@ void CLoginDlg::GetSelectedUserOption(void)
 		return;
 	}
 	
-	CString strMobileNo;
-
-	m_cboUsersList.GetLBText(m_cboUsersList.GetCurSel(), strMobileNo);
-	if(strMobileNo.GetLength() != 11)
+	CString * pstrAccountID = NULL;
+	pstrAccountID = (CString *)m_cboUsersList.GetItemDataPtr(m_cboUsersList.GetCurSel());
+	if(NULL == pstrAccountID)
 	{
 		return;
 	}
@@ -766,12 +795,12 @@ void CLoginDlg::GetSelectedUserOption(void)
 	CIniWR hIni;
 	int nDefault = 0;
 
-	m_bRemPass = hIni.GetPrivateProfileInt(_T("OPTION"), _T("RemberPassWord"), nDefault, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
-	m_bLoginOffLine = hIni.GetPrivateProfileInt(_T("OPTION"), _T("LoginOffLine"), nDefault, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
+	m_bRemPass = hIni.GetPrivateProfileInt(_T("OPTION"), _T("RemberPassWord"), nDefault, m_strStartupPath + _T("\\Users\\") + *pstrAccountID + _T("\\") + *pstrAccountID + _T(".ini"));
+	m_bLoginOffLine = hIni.GetPrivateProfileInt(_T("OPTION"), _T("LoginOffLine"), nDefault, m_strStartupPath + _T("\\Users\\") + *pstrAccountID + _T("\\") + *pstrAccountID + _T(".ini"));
 	if(m_bRemPass)
 	{
 		CString strRead;
-		hIni.GetString(strMobileNo, _T("PassWord"), strRead.GetBuffer(MAX_PATH), MAX_PATH, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
+		hIni.GetString(*pstrAccountID, _T("PassWord"), strRead.GetBuffer(MAX_PATH), MAX_PATH, m_strStartupPath + _T("\\Users\\") + *pstrAccountID + _T("\\") + *pstrAccountID + _T(".ini"));
 		strRead.ReleaseBuffer();
 		m_passwd = ConvertNUMToUft16(strRead);
 	}
@@ -789,14 +818,14 @@ void CLoginDlg::OnCbnSelchangeComboUsers()
 	GetSelectedUserOption();
 }
 
-CString CLoginDlg::GetFetionNoFromIni(CString strMobileNo)
+CString CLoginDlg::GetMobileNoFromIni(CString strFetionNo)
 {
 	CIniWR hIni;
 	CString strRead;
 
-	hIni.GetString(strMobileNo, _T("FetionID"), strRead.GetBuffer(MAX_PATH), MAX_PATH, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
+	hIni.GetString(strFetionNo, _T("MobileNumber"), strRead.GetBuffer(MAX_PATH), MAX_PATH, m_strStartupPath + _T("\\Users\\") + strFetionNo + _T("\\") + strFetionNo + _T(".ini"));
 	strRead.ReleaseBuffer();
-	if(strRead.GetLength() == 9)
+	if(strRead.GetLength() == 11)
 	{
 		return strRead;
 	}
@@ -808,18 +837,23 @@ CString CLoginDlg::GetFetionNoFromIni(CString strMobileNo)
 
 void CLoginDlg::WriteLoginUserToIni()
 {
-	CString strMobileNo = m_mobile_no;
+	CString strMobileNo = ConvertUtf8ToUtf16(fx_get_usr_mobilenum());;
+	CString strAccountID = ConvertUtf8ToUtf16(fx_get_usr_uid());
 	CIniWR hIni;
-	hIni.WritePrivateProfileString(_T("OPTION"), _T("LastUser"), strMobileNo, m_strStartupPath + _T("\\LibFetion.ini"));
+
+	hIni.WritePrivateProfileString(_T("OPTION"), _T("LastUser"), strAccountID, m_strStartupPath + _T("\\LibFetion.ini"));
 	CString strNet;
 	m_cboNetList.GetLBText(m_cboNetList.GetCurSel(), strNet);
 	hIni.WritePrivateProfileString(_T("OPTION"), _T("Network"), strNet, m_strStartupPath + _T("\\LibFetion.ini"));
 
 	CreateDirectory(m_strStartupPath + _T("\\Users"), NULL);
-	CreateDirectory(m_strStartupPath + _T("\\Users\\") + strMobileNo, NULL);
+	CreateDirectory(m_strStartupPath + _T("\\Users\\") + strAccountID, NULL);
 
-	hIni.WritePrivateProfileString(strMobileNo, _T("FetionID"), m_fetion_id, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
-	hIni.WritePrivateProfileInt(_T("OPTION"), _T("RemberPassWord"), m_bRemPass, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
+	if(!strMobileNo.IsEmpty())
+	{
+		hIni.WritePrivateProfileString(strAccountID, _T("MobileNumber"), strMobileNo, m_strStartupPath + _T("\\Users\\") + strAccountID + _T("\\") + strAccountID + _T(".ini"));
+	}
+	hIni.WritePrivateProfileInt(_T("OPTION"), _T("RemberPassWord"), m_bRemPass, m_strStartupPath + _T("\\Users\\") + strAccountID + _T("\\") + strAccountID + _T(".ini"));
 	
 	CString strWrite;
 	if(m_bRemPass)
@@ -830,9 +864,9 @@ void CLoginDlg::WriteLoginUserToIni()
 	{
 		strWrite = _T("");
 	}
-	hIni.WritePrivateProfileString(strMobileNo, _T("PassWord"), strWrite, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
+	hIni.WritePrivateProfileString(strAccountID, _T("PassWord"), strWrite, m_strStartupPath + _T("\\Users\\") + strAccountID + _T("\\") + strAccountID + _T(".ini"));
 
-	hIni.WritePrivateProfileInt(_T("OPTION"), _T("LoginOffLine"), m_bLoginOffLine, m_strStartupPath + _T("\\Users\\") + strMobileNo + _T("\\") + strMobileNo + _T(".ini"));
+	hIni.WritePrivateProfileInt(_T("OPTION"), _T("LoginOffLine"), m_bLoginOffLine, m_strStartupPath + _T("\\Users\\") + strAccountID + _T("\\") + strAccountID + _T(".ini"));
 }
 
 void CLoginDlg::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
