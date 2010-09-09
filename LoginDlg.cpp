@@ -9,11 +9,11 @@
 #include "stdafx.h"
 #include "WMLF.h"
 #include "LoginDlg.h"
-#include "LoginOptionDlg.h"
 #include "About.h"
 
 #include "convert_charset.h"
 #include "IniWR.h"
+#include "AuthCodeDlg.h"
 
 #ifdef M8
 #include "M8Misc.h"
@@ -40,6 +40,7 @@ CLoginDlg::CLoginDlg(CWnd* pParent /*=NULL*/)
     , m_bRemPass(FALSE)
 	, m_bLoginOffLine(FALSE)
     , m_bIsLoging(false)
+	, m_verfy(NULL)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	//fx_set_https_func(WINCE_https);
@@ -91,7 +92,6 @@ BEGIN_MESSAGE_MAP(CLoginDlg, CDialog)
 ON_CBN_SELCHANGE(IDC_COMBO_USERS, &CLoginDlg::OnCbnSelchangeComboUsers)
     ON_WM_INITMENUPOPUP()
 	ON_WM_DESTROY()
-	ON_COMMAND(IDM_LOGIN_OPTION, &CLoginDlg::OnLoginOption)
 	ON_COMMAND(IDM_CHANGE_NUM, &CLoginDlg::OnChangeNum)
 	ON_COMMAND(IDM_ABOUT, &CLoginDlg::OnAbout)
 END_MESSAGE_MAP()
@@ -465,6 +465,16 @@ BOOL CLoginDlg::handleFx_Login_Event(int message, WPARAM wParam, LPARAM lParam)
         bLoginFail = true;
 		break;
 		
+	case FX_LOGIN_NEED_AUTH_CODE:
+		//loginDlg->m_login_state = (_T("请输入验证码"));
+		m_verfy = fx_get_auth_code((char *)wParam);
+		if(m_verfy && m_verfy->pic)
+		{
+			PostMessage(WM_NEED_AUTH_CODE, 0, 0);
+		}
+		//fx_set_auth_code(data(), verfy);
+		break;
+
 	case FX_LOGIN_OK :
 		loginDlg->m_login_state = (_T("登陆成功"));
 		loginDlg->m_LoginFlag = TRUE;
@@ -475,9 +485,7 @@ BOOL CLoginDlg::handleFx_Login_Event(int message, WPARAM wParam, LPARAM lParam)
 
 		::SendMessage(loginDlg->m_hWnd, WM_CLOSE, (WPARAM)bLoginFail, 0);
 		break;
-	case FX_LOGIN_NEED_AUTH_CODE:
-		loginDlg->m_login_state = (_T("请输入验证码"));
-		break;
+
 	default:
 		return FALSE;
 	}
@@ -520,6 +528,25 @@ LRESULT CLoginDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 			::exit(0);
 		}
 		break;
+
+	case WM_NEED_AUTH_CODE:
+		if(m_verfy)
+		{
+			CAuthCodeDlg dlg;
+			dlg.m_verfy = m_verfy;
+			INT_PTR nResponse = dlg.DoModal();
+			UpdateWindow();
+			if(IDOK == nResponse)
+			{
+				fx_set_auth_code(ConvertUtf16ToUtf8(dlg.m_strInputAuthCode).GetBuffer(), m_verfy);
+			}
+			else
+			{
+				OnLoginCancel();
+			}
+		}
+		break;
+
 #ifdef WIN32_PLATFORM_WFSP
 		//改变后退键行为
 	case WM_HOTKEY:
@@ -766,9 +793,9 @@ void CLoginDlg::InitUsersList(void)
 	
 	for(int i = 0; i < m_cboUsersList.GetCount(); i++)
 	{
-		CString strMobileNo;
-		m_cboUsersList.GetLBText(i, strMobileNo);
-		if(0 == strLastUser.Compare(strMobileNo))
+		CString * pstrAccountID = NULL;
+		pstrAccountID = (CString *)m_cboUsersList.GetItemDataPtr(i);
+		if((NULL != pstrAccountID) && (0 == strLastUser.Compare(*pstrAccountID)))
 		{
 			m_cboUsersList.SetCurSel(i);
 			break;
@@ -952,19 +979,6 @@ void CLoginDlg::DeleteNetListDataPrt(void)
 		delete [] lpDestInfo;
 		lpDestInfo = NULL;
 		m_cboNetList.SetItemDataPtr(i, NULL);
-	}
-}
-
-void CLoginDlg::OnLoginOption()
-{
-	// TODO: 在此添加命令处理程序代码
-	CLoginOptionDlg dlg;
-	dlg.m_strStartupPath = m_strStartupPath;
-	dlg.DoModal();
-	if(dlg.m_bHaveEdit)
-	{
-		InitUsersList();
-		GetSelectedUserOption();
 	}
 }
 
