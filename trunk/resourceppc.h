@@ -45,11 +45,11 @@
 #define IDD_WMLF_MSG_PAGE               180
 #define IDB_BITMAP_NOTREAD              181
 #define IDD_WMLF_MSG_LOG                182
-#define IDD_WMLF_LOGIN_OPTION           183
-#define IDR_LOGIN_OPTION_MENU           184
 #define IDD_WMLF_MYSELF_INFO            185
 #define IDR_MENU_MYSELF_INFO            186
 #define IDD_WMLF_FONT_SETTING           187
+#define IDD_WMLF_AUTH_CODE              188
+#define IDR_MENU_AUTH_CODE              189
 #define IDC_BI_CITY                     200
 #define IDC_MOBILE_NO                   1000
 #define IDC_PWD                         1001
@@ -113,12 +113,6 @@
 #define IDC_TAIL_PAGE                   1090
 #define IDC_PREV_PAGE                   1091
 #define IDC_STATIC_PAGENUM              1092
-#define IDC_STATIC_MOBILE               1093
-#define IDC_STATIC_FETION               1094
-#define IDC_STATIC_INFO                 1095
-#define IDC_COMBO_USERS2                1096
-#define IDC_FETION_NO                   1097
-#define IDC_STATIC_AD_TITLE2            1098
 #define IDC_MI_LB_FETIONNO              1099
 #define IDC_MI_FETIONNO                 1100
 #define IDC_MI_LB_NICKNAME              1101
@@ -155,6 +149,8 @@
 #define IDC_BI_BLOOD_TYPE               1132
 #define IDC_EDIT_TREEFONTSIZE           1133
 #define IDC_SPIN_TREEFONTSIZE           1134
+#define IDC_STATIC_AUTH_TEXT            1135
+#define IDC_EDIT_INPUT_AUTH_CODE        1136
 #define IDM_MSG_CHANGE_METHOD           32790
 #define IDM_MAIN_STATE_ONLINE           32802
 #define IDM_MAIN_STATE_HIDE             32803
@@ -202,7 +198,6 @@
 #define IDM_UPDATE_ALL_ACCOUNTINFO      32883
 #define IDM_SHOW_MSGLOG                 32884
 #define IDM_DELETE_ALL_MSGLOG           32885
-#define IDM_LOGIN_OPTION                32886
 #define IDM_EDIT                        32887
 #define IDM_PREV_TALK                   32888
 #define IDM_CHANGE_NUM                  32889
@@ -215,9 +210,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        188
+#define _APS_NEXT_RESOURCE_VALUE        190
 #define _APS_NEXT_COMMAND_VALUE         32894
-#define _APS_NEXT_CONTROL_VALUE         1135
+#define _APS_NEXT_CONTROL_VALUE         1137
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

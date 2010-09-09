@@ -52,6 +52,9 @@ public:
 	CString m_mobile_no;
 	// 飞信ID
 	CString m_fetion_id;
+
+	//验证码信息
+	Fetion_Verfy * m_verfy;
 public:
 	// 飞信登录密码
 	CString m_passwd;
@@ -108,7 +111,6 @@ public:
 	afx_msg void OnCbnSelchangeComboUsers();
 	afx_msg void OnDestroy();
 	void DeleteNetListDataPrt(void);
-	afx_msg void OnLoginOption();
 protected:
 	virtual void OnOK();
 public:
