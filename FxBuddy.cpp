@@ -337,6 +337,7 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account)
 			groupinfo->online_no = 0;
 			HTREEITEM item = treeWidget->InsertItem(str, I_QUN, I_QUN);
 			treeWidget->SetItemData(item,(DWORD)groupinfo); 
+			treeWidget->SortChildren(TVI_ROOT);
 			have_zero_group = true;
 		}
 	}
