@@ -1029,6 +1029,10 @@ static int GetSortValue(int iOnlineState)
         return 60;
     case FX_STATUS_WAITING_AUTH:
         return 70;
+	case FX_STATUS_MOBILE_OUT_OF_SERIVCE:
+        return 85;
+	case FX_STATUS_CLOSE_FETION_SERIVCE:
+        return 86;
     case FX_STATUS_REFUSE:
         return 90;
     case FX_STATUS_BLACK:
