@@ -1028,6 +1028,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\AuthCodeDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\BuddyInfoDlg.cpp"
 				>
 			</File>
@@ -1081,10 +1085,6 @@
 			</File>
 			<File
 				RelativePath=".\LoginDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LoginOptionDlg.cpp"
 				>
 			</File>
 			<File
@@ -1290,6 +1290,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\AuthCodeDlg.h"
+				>
+			</File>
+			<File
 				RelativePath=".\BuddyInfoDlg.h"
 				>
 			</File>
@@ -1343,10 +1347,6 @@
 			</File>
 			<File
 				RelativePath=".\LoginDlg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LoginOptionDlg.h"
 				>
 			</File>
 			<File
