@@ -991,6 +991,18 @@ void BuddyOpt::updateGroupInfo(HTREEITEM hGroupItem, bool bAnyway)
 
         SortBuddy(hGroupItem);
     }
+	if(!treeWidget->ItemHasChildren(hGroupItem))
+	{
+		Group_Info *group_info =(Group_Info *)treeWidget->GetItemData(hGroupItem);
+
+		if(!group_info)
+			return;
+		if(0 == group_info->groupID)
+		{
+			treeWidget->DeleteItem(hGroupItem);
+			have_zero_group = FALSE;
+		}
+	}
 }
 
 // 做排序用，值越小则应该排的越前
