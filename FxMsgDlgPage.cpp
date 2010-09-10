@@ -128,6 +128,11 @@ BOOL CFxMsgDlgPage::OnInitDialog()
 
 void CFxMsgDlgPage::ShowOnlineInfo()
 {
+	if(!m_bInit)
+	{
+		return;
+	}
+
 	UpdateData();
 
 	if(!m_isLoginOK)
