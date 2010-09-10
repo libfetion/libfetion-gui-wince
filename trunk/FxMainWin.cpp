@@ -798,6 +798,35 @@ BOOL FxMainWin::showMsgDlg(HTREEITEM hItem)
 		if (!ac_info)
 			return FALSE;
 
+		/* add a checking for the account state */
+		const Fetion_Account *account = fx_get_account_by_id(ac_info->accountID);
+		
+		if (!account)
+			return FALSE;
+		//check the account could chat or not.
+		if (!fx_is_auth_chat_by_account(account))
+		{
+			int status = fx_get_online_status_by_account(account);
+			switch (status)
+			{
+			case FX_STATUS_BLACK:
+				MessageBox(_T("不能和被你加入黑名单的好友聊天"), _T("LibFetion"), MB_ICONSTOP);
+				return FALSE;
+			case FX_STATUS_WAITING_AUTH:
+				MessageBox(_T("对方不是你的好友，等待对方认证"), _T("LibFetion"), MB_ICONSTOP);
+				return FALSE;
+			case FX_STATUS_REFUSE:
+				MessageBox(_T("对方拒绝添加你为好友"), _T("LibFetion"), MB_ICONSTOP);
+				return FALSE;
+			case FX_STATUS_CLOSE_FETION_SERIVCE:
+				MessageBox(_T("对方已关闭飞信服务"), _T("LibFetion"), MB_ICONSTOP);
+				return FALSE;
+			case FX_STATUS_MOBILE_OUT_OF_SERIVCE:
+				MessageBox(_T("对方已停机"), _T("LibFetion"), MB_ICONSTOP);
+				return FALSE;
+			}
+		}
+
 		RemoveFilker(hItem);
 
 		showMsgDlg(ac_info->accountID);
@@ -818,35 +847,6 @@ BOOL FxMainWin::showMsgDlg(HTREEITEM hItem)
 
 BOOL FxMainWin::showMsgDlg(long lAccountID)
 {	
-	/* add a checking for the account state */
-	const Fetion_Account *account = fx_get_account_by_id(lAccountID);
-	
-	if (!account)
-		return TRUE;
-	//check the account could chat or not.
-	if (!fx_is_auth_chat_by_account(account))
-	{
-		int status = fx_get_online_status_by_account(account);
-		switch (status)
-		{
-		case FX_STATUS_BLACK:
-			MessageBox(_T("不能和被你加入黑名单的好友聊天"), _T("LibFetion"), MB_ICONSTOP);
-	        return TRUE;
-		case FX_STATUS_WAITING_AUTH:
-			MessageBox(_T("对方不是你的好友，等待对方认证"), _T("LibFetion"), MB_ICONSTOP);
-			return TRUE;
-		case FX_STATUS_REFUSE:
-			MessageBox(_T("对方拒绝添加你为好友"), _T("LibFetion"), MB_ICONSTOP);
-			return TRUE;
-		case FX_STATUS_CLOSE_FETION_SERIVCE:
-			MessageBox(_T("对方已关闭飞信服务"), _T("LibFetion"), MB_ICONSTOP);
-	        return TRUE;
-		case FX_STATUS_MOBILE_OUT_OF_SERIVCE:
-			MessageBox(_T("对方已停机"), _T("LibFetion"), MB_ICONSTOP);
-	        return TRUE;
-		}
-	}
-
 	m_pFxMsgDlgView->LoginOK(m_isLoginOK);
 	m_pFxMsgDlgView->ShowWindow(SW_SHOW);
 	m_pFxMsgDlgView->m_isShow= TRUE;
@@ -1508,6 +1508,10 @@ void FxMainWin::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 			}
 			ac_info = NULL;
 		}
+	}
+	if(m_strMobileNo.IsEmpty())
+	{
+		pPopupMenu->EnableMenuItem(IDM_SEND_MYSELF, MF_GRAYED);
 	}
 }
 
