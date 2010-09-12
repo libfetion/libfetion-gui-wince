@@ -315,7 +315,7 @@ void CLoginDlg::OnBnClickedLogin()
 	m_fetion_id = GetFetionNoFromIni(m_mobile_no);
 	if(m_fetion_id.GetLength() != 9)
 	{
-		this->m_login_state = _T("从服务器获取登陆信息...");
+		this->m_login_state = _T("从服务器获取登录信息...");
 		this->UpdateData(FALSE);
 		this->UpdateWindow();
 
@@ -420,7 +420,7 @@ BOOL CLoginDlg::handleFx_Login_Event(int message, WPARAM wParam, LPARAM lParam)
 		break;
 		
 	case FX_LOGIN_FAIL:
-		loginDlg->m_login_state = (_T("登陆失败"));
+		loginDlg->m_login_state = (_T("登录失败"));
         bLoginFail = true;
 		break;
 
@@ -430,7 +430,7 @@ BOOL CLoginDlg::handleFx_Login_Event(int message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case FX_LOGIN_UNKOWN_ERROR :   
-		loginDlg->m_login_state = (_T("登陆出现未知错误"));
+		loginDlg->m_login_state = (_T("登录出现未知错误"));
         bLoginFail = true;
 		break;
 		
@@ -476,7 +476,7 @@ BOOL CLoginDlg::handleFx_Login_Event(int message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case FX_LOGIN_OK :
-		loginDlg->m_login_state = (_T("登陆成功"));
+		loginDlg->m_login_state = (_T("登录成功"));
 		loginDlg->m_LoginFlag = TRUE;
 		WriteLoginUserToIni();
 		//after login success, we should save the fetion server address.
