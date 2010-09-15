@@ -700,14 +700,14 @@ int My_getDataFromHttps(char* url, char** data, char** cookie)
 	web_data = (char*)malloc(strWebA.GetLength() + 1);
 	if (!web_data)
 	{
-		return -1;
+		return -2;
 	}
 
 	cookie_data = (char*)malloc(strCookieA.GetLength() + 1);
 	if (!cookie_data)
 	{
 		free(web_data);
-		return -1;
+		return -2;
 	}
 
 	memset(web_data, 0, strWebA.GetLength() + 1);
