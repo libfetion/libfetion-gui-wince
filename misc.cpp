@@ -24,6 +24,7 @@ int GetHttpsWebData(CString Url, CString *web_data, CString *cookie_data)
 		return -1;
 	}
 
+	session.SetOption(INTERNET_OPTION_CONNECT_TIMEOUT, 1000 * 20);
 	session.EnableStatusCallback(TRUE);
 	CHttpConnection* pServer = session.GetHttpConnection(strServerName, nPort);
 	if (!pServer)
@@ -50,7 +51,7 @@ int GetHttpsWebData(CString Url, CString *web_data, CString *cookie_data)
 		CString strGetData;
 		CString strsz;
 
-		result = pFile->SendRequest(strHeaders, (LPVOID)(LPCTSTR)Url, Url.GetLength()); 
+		result = pFile->SendRequest(strHeaders); 
 		if (result == FALSE)
 		{
 			pFile->Close();
