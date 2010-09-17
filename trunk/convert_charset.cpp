@@ -179,7 +179,7 @@ CString ConvertNUMToUft16(CString strNUM)
 	for(int i = 0; i<(strNUM.GetLength()/5); i++)
 	{
 		wmemcpy(tc5c, pNUM + i * 5, 5);
-		tc5c[6] = '\0';
+		tc5c[5] = '\0';
 		str5c = tc5c;
 		pUtf16[i] = (TCHAR)_wtol(str5c);
 	}
