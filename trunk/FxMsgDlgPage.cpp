@@ -170,7 +170,7 @@ void CFxMsgDlgPage::ShowOnlineInfo()
 	}
 
 	if (!fx_is_pc_user_by_account (m_account)) {
-        m_strInfo.Format(_T("与 %s 聊天中，他/她是短信用户"), m_account_name);
+        m_strInfo.Format(_T("与 %s 聊天中，对方是短信用户"), m_account_name);
 		//this->m_msgBrowser += _T("他/她是手机用户，你的消息将发送到对方手机上") + CString(_T("\r\n"));
 		m_isSendSMS = TRUE;
 		goto out;
@@ -179,7 +179,7 @@ void CFxMsgDlgPage::ShowOnlineInfo()
 	if(m_isSendSMS)
 	{
 		if(fx_get_refuse_sms_day(m_account) > 0)
-            status = _T("他/她已离线。");
+            status = _T("对方已离线。");
 			//status =_T("他/她已离线,不能立即收到你的消息。你发送的消息将被保存下来并延迟发送");
 		else
             status = _T("将通过短信发送您的消息。");
@@ -189,19 +189,19 @@ void CFxMsgDlgPage::ShowOnlineInfo()
 	{
 		if(fx_is_on_line_by_account (m_account))
 		{
-            status = _T("他/她在线。");
+            status = _T("对方在线。");
 			//status = _T("他/她在线，你的消息将发送到电脑上");
 		}
 		else
 		{
 			if(fx_get_refuse_sms_day(m_account) > 0)
 			{
-                status = _T("他/她已离线，将延迟发送您的消息。");
+                status = _T("对方已离线，系统将延迟发送您的消息。");
 				//status = _T("他/她已离线,不能立即收到你的消息。你发送的消息将被保存下来并延迟发送");
 			}
 			else
 			{
-                status = _T("他/她已离线，将通过短信发送您的消息。");
+                status = _T("对方短信在线或隐身，将通过短信发送您的消息。");
 				//status = _T("他/她已离线,你的信息将发生到对方的手机上"); 
 			}
 		} //end of !fx_is_on_line_by_account (m_account)) 

@@ -54,7 +54,15 @@ int CIniWR::ReadIniFile(LPCWSTR lpFileName)
 
 	if (hfile == INVALID_HANDLE_VALUE)
 	{
-		ERRORMSG(1, (_T("ReadIniFile, CreateFile failed on INI file: %s, err %d\n"), szFileName, GetLastError()));
+		DWORD dwError = GetLastError();
+		if(ERROR_FILE_NOT_FOUND == dwError)
+		{
+			ERRORMSG(1, (_T("ReadIniFile, %s not found\n"), szFileName, GetLastError()));
+		}
+		else
+		{
+			ERRORMSG(1, (_T("ReadIniFile, CreateFile failed on INI file: %s, err %d\n"), szFileName, GetLastError()));
+		}
 		nReturn = 0;
 		goto exit;
 	}
