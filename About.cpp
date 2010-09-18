@@ -44,9 +44,16 @@ BOOL CAbout::OnInitDialog()
 		return FALSE;      // 未能创建
 	}
 
-    CString strAboutMsg = 
+    CString strAboutMsg;
+
+	COleDateTime BuildDate;
+	COleDateTime BuildTime;
+	BuildDate.ParseDateTime(ConvertUtf8ToUtf16(__DATE__));
+	BuildTime.ParseDateTime(ConvertUtf8ToUtf16(__TIME__));
+
+	strAboutMsg.Format( 
 _T("LibFetion For Windows Mobile\r\n\
-V1.2.0 Build 20100909\r\n\r\n\
+V1.2.1 Build %s %s\r\n\r\n\
 本程序基于LibFetion库编写，\r\n\
 想了解更多请访问:\r\n\
 www.libfetion.org.\r\n\
@@ -61,7 +68,10 @@ All Rights Reserved.\r\n\r\n\
 \tlionlee\r\n\
 LibFetion库:\r\n\
 \tDDD\r\n\
-如有问题欢迎到论坛反馈。");
+如有问题欢迎到论坛反馈。"),
+BuildDate.Format(_T("%Y-%m-%d")),
+BuildTime.Format(_T("%H:%M:%S"))
+);
     
     ((CStatic*)this->GetDlgItem(IDC_STATIC_ABOUT))->SetWindowTextW(strAboutMsg);
     return TRUE;  // return TRUE unless you set the focus to a control
