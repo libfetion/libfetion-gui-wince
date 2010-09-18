@@ -44,6 +44,7 @@
 #define IDS_MAIN_LOGOFF                 148
 #define IDB_BITMAP_REFUSE               149
 #define IDB_BITMAP_WAIT                 150
+#define IDB_BITMAP_REFUSE_SMS           151
 #define IDR_MSGSOUND                    152
 #define IDB_BITMAP_QUN                  153
 #define IDB_BITMAP_FLICK                159

@@ -21,6 +21,7 @@
 #define IDB_BITMAP_REFUSE               144
 #define IDB_BITMAP_WAIT                 145
 #define IDB_BITMAP_QUN                  149
+#define IDB_BITMAP_REFUSE_SMS           151
 #define IDB_BITMAP_FLICK                159
 #define IDR_MAIN_MENU                   160
 #define IDR_LOGIN_MENU                  161
