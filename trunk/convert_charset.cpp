@@ -46,17 +46,17 @@ CString ConvertUtf8ToUtf16(const char * utf8)
 	return res;
 }
 
-char* ConvertUtf8ToGBK( char* strUtf8)
+char* ConvertUtf8ToGBK(char* strUtf8)
 {
 	if(!strUtf8)
 		return NULL;
 	int len=MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)strUtf8, -1, NULL,0); 
 	unsigned short * wszGBK = new unsigned short[len+1]; 
-	memset(wszGBK, 0, len * 2 + 2); 
+	memset(wszGBK, 0, sizeof(unsigned short) * (len + 1)); 
 	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)strUtf8, -1, (LPWSTR)wszGBK, len); 
 	len = WideCharToMultiByte(CP_ACP, 0, (LPWSTR)wszGBK, -1, NULL, 0, NULL, NULL); 
 	char *szGBK=new char[len + 1]; 
-	memset(szGBK, 0, len + 1); 
+	memset(szGBK, 0, sizeof(char) * (len + 1));
 	WideCharToMultiByte (CP_ACP, 0, (LPCWSTR)wszGBK, -1, szGBK, len, NULL,NULL); 
 	
 	delete[] wszGBK; 
@@ -65,22 +65,19 @@ char* ConvertUtf8ToGBK( char* strUtf8)
 
 char* ConvertGBKToUtf8(char* strGBK) 
 { 
-#if 1
-int len=MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strGBK, -1, NULL,0); 
-unsigned short * wszUtf8 = new unsigned short[len+1]; 
-memset(wszUtf8, 0, len * 2 + 2); 
-MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strGBK, -1, (LPWSTR)wszUtf8, len); 
-len = WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)wszUtf8, -1, NULL, 0, NULL, NULL); 
-char *szUtf8=new char[len + 1]; 
-memset(szUtf8, 0, len + 1); 
-WideCharToMultiByte (CP_UTF8, 0, (LPCWSTR)wszUtf8, -1, szUtf8, len, NULL,NULL); 
+	if(!strGBK)
+		return NULL;
+	int len=MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strGBK, -1, NULL,0); 
+	unsigned short * wszUtf8 = new unsigned short[len+1]; 
+	memset(wszUtf8, 0, sizeof(unsigned short) * (len + 1)); 
+	MultiByteToWideChar(CP_ACP, 0, (LPCSTR)strGBK, -1, (LPWSTR)wszUtf8, len); 
+	len = WideCharToMultiByte(CP_UTF8, 0, (LPCWSTR)wszUtf8, -1, NULL, 0, NULL, NULL); 
+	char *szUtf8=new char[len + 1]; 
+	memset(szUtf8, 0, sizeof(char) * (len + 1)); 
+	WideCharToMultiByte (CP_UTF8, 0, (LPCWSTR)wszUtf8, -1, szUtf8, len, NULL,NULL); 
 
-delete[] wszUtf8; 
-
-return szUtf8; 
-#endif
-	return NULL;
-//delete[] szUtf8; 
+	delete[] wszUtf8; 
+	return szUtf8; 
 } 
 
 SYSTEMTIME GetCurrentTime()

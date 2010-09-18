@@ -15,8 +15,7 @@ extern "C" {
 } 
 #endif 
 
-char* ConvertUtf8ToGBK( char* strUtf8);
-
+char* ConvertUtf8ToGBK(char* strUtf8);
 char* ConvertGBKToUtf8(char* strGBK) ;
 
 CString ConvertUtf8ToUtf16(const char * utf8);
