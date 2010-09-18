@@ -542,6 +542,7 @@ LRESULT CLoginDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 			}
 			else
 			{
+				fx_set_auth_code(NULL, m_verfy);
 				OnLoginCancel();
 			}
 		}
