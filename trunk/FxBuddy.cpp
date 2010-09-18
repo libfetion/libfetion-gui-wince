@@ -747,6 +747,7 @@ int BuddyOpt::init_icon(void)
 	pBitmap[I_BUSY_M].LoadBitmapW(IDB_BITMAP_BUSY_M);
 	pBitmap[I_QUN].LoadBitmapW(IDB_BITMAP_QUN);
 	pBitmap[I_FLICK].LoadBitmapW(IDB_BITMAP_FLICK);
+	pBitmap[I_REFUSE_SMS].LoadBitmapW(IDB_BITMAP_REFUSE_SMS);
 	
 	for(int i = 0; i < I_END; i++) 
 		m_imagelist.Add(&pBitmap[i], RGB(255,255,255)); 
@@ -819,6 +820,11 @@ int BuddyOpt::getOnlineIcon(int flag)
 	case FX_STATUS_MOBILE_MEETING:
 	case FX_STATUS_MOBILE_BUSY:
 		res = I_BUSY_M;
+		break;
+	case FX_STATUS_REFUSE_SMS:
+		res = I_REFUSE_SMS;
+		break;
+	default:
 		break;
 	}
 	return res;
@@ -1039,6 +1045,8 @@ static int GetSortValue(int iOnlineState)
         return 50;
     case FX_STATUS_MOBILE:
         return 60;
+	case FX_STATUS_REFUSE_SMS:
+		return 65;
     case FX_STATUS_WAITING_AUTH:
         return 70;
 	case FX_STATUS_MOBILE_OUT_OF_SERIVCE:

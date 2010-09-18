@@ -23,7 +23,8 @@
 #define I_BUSY_M 15
 #define I_QUN 16
 #define I_FLICK 17
-#define I_END 18
+#define I_REFUSE_SMS 18
+#define I_END 19
 
 class BuddyOpt
 {
