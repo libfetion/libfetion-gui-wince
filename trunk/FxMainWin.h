@@ -131,6 +131,9 @@ public:
 	CFont	*m_pTreeFont;
 	UINT	m_nTreeFontSize;
 
+	//验证码信息
+	Fetion_Verfy * m_verfy;
+
     afx_msg void OnMainSetVibr();
     afx_msg void OnUpdateMainSetVibr(CCmdUI *pCmdUI);
 

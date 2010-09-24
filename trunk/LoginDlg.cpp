@@ -473,7 +473,7 @@ BOOL CLoginDlg::handleFx_Login_Event(int message, WPARAM wParam, LPARAM lParam)
 		m_verfy = fx_get_auth_code((char *)wParam);
 		if(m_verfy && m_verfy->pic)
 		{
-			PostMessage(WM_NEED_AUTH_CODE, 0, 0);
+			PostMessage(WM_USER_NEED_AUTH_CODE, 0, 0);
 		}
 		//fx_set_auth_code(data(), verfy);
 		break;
@@ -532,7 +532,7 @@ LRESULT CLoginDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case WM_NEED_AUTH_CODE:
+	case WM_USER_NEED_AUTH_CODE:
 		if(m_verfy)
 		{
 			CAuthCodeDlg dlg;

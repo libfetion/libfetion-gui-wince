@@ -18,6 +18,7 @@
 #include "FxDatabase.h"
 #include "MyselfInfoDlg.h"
 #include "FontSetting.h"
+#include "AuthCodeDlg.h"
 
 #ifdef M8
 #include "M8Misc.h"
@@ -200,6 +201,25 @@ BOOL FxMainWin::handleFx_Sys_Event(int message, WPARAM wParam, LPARAM lParam)
 		break;
 //for relogin message. note: not for login
 
+	case FX_LOGIN_NEED_AUTH_CODE:
+		m_verfy = fx_get_auth_code((char *)wParam);
+		if(m_verfy && m_verfy->pic)
+		{
+			CAuthCodeDlg dlg;
+			dlg.m_verfy = m_verfy;
+			INT_PTR nResponse = dlg.DoModal();
+			UpdateWindow();
+			if(IDOK == nResponse)
+			{
+				fx_set_auth_code(ConvertUtf16ToUtf8(dlg.m_strInputAuthCode).GetBuffer(), m_verfy);
+			}
+			else
+			{
+				fx_set_auth_code(NULL, m_verfy);
+			}
+		}
+		break;
+
 	default:
 		break;
 	}
@@ -227,6 +247,7 @@ FxMainWin::FxMainWin(CWnd* pParent /*=NULL*/)
 	, m_nTreeFontSize(9)
 	//, m_pFxDB(NULL)
 	, m_strAccountID(_T(""))
+	, m_verfy(NULL)
 {
 }
 
