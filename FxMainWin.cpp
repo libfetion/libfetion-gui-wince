@@ -744,24 +744,34 @@ BOOL FxMainWin::showBuddyMenu(HTREEITEM hItem)
 	if(!m_BuddyOpt->isQunItem(view.GetParentItem(hItem)))
 	{
 		Account_Info *ac_info =(Account_Info*)view.GetItemData(hItem);
-		if (ac_info)
+		if(ac_info)
 		{
-			if( (FX_STATUS_WAITING_AUTH == ac_info->onlinestate) ||
-				(FX_STATUS_REFUSE == ac_info->onlinestate))
+			/* add a checking for the account state */
+			const Fetion_Account *account = fx_get_account_by_id(ac_info->accountID);
+			
+			if(account)
 			{
-				pPopupMenu->RemoveMenu(IDM_BD_SENDMSG, MF_BYCOMMAND);
-			}
-			else
-			{
-				pPopupMenu->RemoveMenu(IDM_BD_READDBUDDY, MF_BYCOMMAND);
-			}
-			if(FX_STATUS_BLACK == ac_info->onlinestate)
-			{
-				pPopupMenu->RemoveMenu(IDM_BD_ADDBLACKLIST, MF_BYCOMMAND);
-			}
-			else
-			{
-				pPopupMenu->RemoveMenu(IDM_BD_RMBLACKLIST, MF_BYCOMMAND);
+				int status = fx_get_online_status_by_account(account);
+				//check the account could chat or not.
+				if(!fx_is_auth_chat_by_account(account))
+				{
+					pPopupMenu->RemoveMenu(IDM_BD_SENDMSG, MF_BYCOMMAND);
+				}
+
+				if( (FX_STATUS_WAITING_AUTH != status) &&
+					(FX_STATUS_REFUSE != status))
+				{
+					pPopupMenu->RemoveMenu(IDM_BD_READDBUDDY, MF_BYCOMMAND);
+				}
+				
+				if(fx_is_InBlacklist_by_account(account))
+				{
+					pPopupMenu->RemoveMenu(IDM_BD_ADDBLACKLIST, MF_BYCOMMAND);
+				}
+				else
+				{
+					pPopupMenu->RemoveMenu(IDM_BD_RMBLACKLIST, MF_BYCOMMAND);
+				}
 			}
 
 		}
@@ -831,19 +841,19 @@ BOOL FxMainWin::showMsgDlg(HTREEITEM hItem)
 			switch (status)
 			{
 			case FX_STATUS_BLACK:
-				MessageBox(_T("不能和被你加入黑名单的好友聊天"), _T("LibFetion"), MB_ICONSTOP);
+				MessageBox(_T("不能和被您加入黑名单的好友聊天。"), _T("LibFetion"), MB_ICONINFORMATION);
 				return FALSE;
 			case FX_STATUS_WAITING_AUTH:
-				MessageBox(_T("对方不是你的好友，等待对方认证"), _T("LibFetion"), MB_ICONSTOP);
+				MessageBox(_T("对方不是您的好友，等待对方认证。"), _T("LibFetion"), MB_ICONINFORMATION);
 				return FALSE;
 			case FX_STATUS_REFUSE:
-				MessageBox(_T("对方拒绝添加你为好友"), _T("LibFetion"), MB_ICONSTOP);
+				MessageBox(_T("对方拒绝添加您为好友。"), _T("LibFetion"), MB_ICONINFORMATION);
 				return FALSE;
 			case FX_STATUS_CLOSE_FETION_SERIVCE:
-				MessageBox(_T("对方已关闭飞信服务"), _T("LibFetion"), MB_ICONSTOP);
+				MessageBox(_T("对方已关闭飞信服务。"), _T("LibFetion"), MB_ICONINFORMATION);
 				return FALSE;
 			case FX_STATUS_MOBILE_OUT_OF_SERIVCE:
-				MessageBox(_T("对方已停机"), _T("LibFetion"), MB_ICONSTOP);
+				MessageBox(_T("对方已停机。"), _T("LibFetion"), MB_ICONINFORMATION);
 				return FALSE;
 			}
 		}
@@ -953,7 +963,7 @@ void FxMainWin::OnTimer(UINT_PTR nIDEvent)
 		fx_set_system_msg_cb (Sys_EventListener, this);
 		fx_enable_emit_receive_msg();
 
-		SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*3, NULL);
+		//SetTimer(TIMER_UPDATE_ACCOUNTINFO, 1000*3, NULL);
 		break;
 	case TIMER_UPDATE_ACCOUNTINFO:
 		update_account_info();
@@ -1509,25 +1519,33 @@ void FxMainWin::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 		if(!m_BuddyOpt->isQunItem(view.GetParentItem(hItem)))
 		{
 			Account_Info *ac_info =(Account_Info*)view.GetItemData(hItem);
-			if (ac_info)
+			if(ac_info)
 			{
-				if( (FX_STATUS_WAITING_AUTH == ac_info->onlinestate) ||
-					(FX_STATUS_REFUSE == ac_info->onlinestate))
+				/* add a checking for the account state */
+				const Fetion_Account *account = fx_get_account_by_id(ac_info->accountID);
+				
+				if(account)
 				{
-					pPopupMenu->EnableMenuItem(IDM_BD_READDBUDDY, MF_ENABLED);
+					int status = fx_get_online_status_by_account(account);
+					if( (FX_STATUS_WAITING_AUTH == status) ||
+						(FX_STATUS_REFUSE == status))
+					{
+						pPopupMenu->EnableMenuItem(IDM_BD_READDBUDDY, MF_ENABLED);
+					}
+					if(fx_is_InBlacklist_by_account(account))
+					{
+						pPopupMenu->EnableMenuItem(IDM_BD_RMBLACKLIST, MF_ENABLED);
+					}
+					else
+					{
+						pPopupMenu->EnableMenuItem(IDM_BD_ADDBLACKLIST, MF_ENABLED);
+					}
+					account = NULL;
 				}
+				ac_info = NULL;
 			}
 			pPopupMenu->EnableMenuItem(IDM_BD_VIEWINFO, MF_ENABLED);
 			pPopupMenu->EnableMenuItem(IDM_BD_DELETE, MF_ENABLED);
-			if(FX_STATUS_BLACK == ac_info->onlinestate)
-			{
-				pPopupMenu->EnableMenuItem(IDM_BD_RMBLACKLIST, MF_ENABLED);
-			}
-			else
-			{
-				pPopupMenu->EnableMenuItem(IDM_BD_ADDBLACKLIST, MF_ENABLED);
-			}
-			ac_info = NULL;
 		}
 	}
 	if(m_strMobileNo.IsEmpty())
