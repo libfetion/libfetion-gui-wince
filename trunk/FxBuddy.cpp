@@ -14,7 +14,7 @@
 #include "Resourceppc.h"
 #endif
 
-#if 0
+#ifdef BUDDY_INFO_TABLE
 extern CFxDatabase * g_pFxDB;
 #endif
 
@@ -34,7 +34,7 @@ BuddyOpt::~BuddyOpt()
 
 void BuddyOpt::addItemToTree()
 {
-#if 0
+#ifdef BUDDY_INFO_TABLE
 	g_pFxDB->ReadBuddyInfoBegin();
 #endif
 #if DEBUG_GUI
@@ -44,7 +44,7 @@ void BuddyOpt::addItemToTree()
 	addAccountToTree();
 	addQunToTree();
 #endif
-#if 0
+#ifdef BUDDY_INFO_TABLE
 	g_pFxDB->ReadBuddyInfoEnd();
 #endif
 }
@@ -349,7 +349,7 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account)
 	}
 
 	BOOL bFromDB = FALSE;
-#if 0
+#ifdef BUDDY_INFO_TABLE
 	BUDDYINFODB BuddyInfo;
 	BuddyInfo.lID = account->id;
 	g_pFxDB->ReadBuddyInfo(&BuddyInfo);
@@ -581,7 +581,7 @@ void BuddyOpt::updateAccountInfo(long account_id)
 	if((!ac_info->bFromDB) || ChangeBuddyInfo(&ac_info->BuddyInfo, &BuddyInfo))
 	{
 		ac_info->bFromDB = TRUE;
-#if 0
+#ifdef BUDDY_INFO_TABLE
 		if(!g_pFxDB->UpdateBuddyInfo(&BuddyInfo))
 		{
 			//假如写失败
