@@ -604,6 +604,9 @@ void CLoginDlg::OnLoginCancel()
 		Sleep(500);
         /* 最近的库里增加了取消登录的函数，所以我们可以在这里调用它*/
 	    m_bIsLoging = FALSE;
+		this->m_login_state = _T("取消登录中...");
+		this->UpdateData(FALSE);
+		this->UpdateWindow();
         fx_cancel_login();
 		this->m_login_state = _T("登录被取消");
 		m_dlgCommandBar.InsertMenuBar(IDR_LOGIN_MENU);
