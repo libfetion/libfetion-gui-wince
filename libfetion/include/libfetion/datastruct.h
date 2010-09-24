@@ -328,20 +328,6 @@ typedef enum
 		int serviceStatus; // 
 	}Fetion_Account;
 
-/**
- * The fetion black buddies list structure.
- *
- * \sa fx_get_blacklist
- */
-	typedef struct _fetion_black  {  
-    /** account uri. */
-		char *uri;         
-    /** account local_name. */
-		char *local_name;
-
-		unsigned long user_id; // add by V4 2010
-	}Fetion_Black;
-
 	typedef struct _fetion_qun_member Fetion_QunMember;
 	struct _fetion_qun_member {  
 		char *uri;
@@ -395,7 +381,7 @@ typedef struct _fetion_blist {
 	DList* account;
 	/** store blacked account infos.
 	 *
-	 * \sa Fetion_Black  DList  fx_get_blacklist
+	 * \sa Fetion_Account  DList  fx_get_blacklist
 	 */
 	DList* blacklist;
 

@@ -34,6 +34,7 @@
 #endif
 #endif
 
+
 #ifdef __cplusplus 
 extern "C" {
 #endif
@@ -941,11 +942,11 @@ FX_EXPORT const Fetion_Account *fx_get_next_account(const Fetion_Account *accoun
   * A template to get all blacks account info from the dlis struct
   * \code
   * 
-  * Fetion_Black *black = NULL;
+  * Fetion_Account *black = NULL;
   *	DList *tmp = (DList *)fx_get_blacklist();
   *	while(tmp) 
   *	{
-  *		if(	black =(Fetion_Black *)tmp->data ) {
+  *		if(	black =(Fetion_Account *)tmp->data ) {
   *         // do something to access this account...
   *        }
   *
@@ -954,9 +955,39 @@ FX_EXPORT const Fetion_Account *fx_get_next_account(const Fetion_Account *accoun
   * \endcode
   *
   *
-  * \sa Fetion_Black DList 
+  * \sa Fetion_Account DList 
 */
 FX_EXPORT const DList *fx_get_blacklist();
+
+/**
+  * \fn const DList *fx_get_chatlist()
+  * \brief get the fetion's all chat's accounts info
+  *
+  * this function will return a list which store all chat's account info
+  *
+  * \return a dlist value if successfully, otherwise return NULL..
+  *
+  *
+  *
+  * A template to get all chat account info from the dlis struct
+  * \code
+  * 
+  * Fetion_Account *chat = NULL;
+  *	DList *tmp = (DList *)fx_get_chatlist();
+  *	while(tmp) 
+  *	{
+  *		if (chat =(Fetion_Account *)tmp->data) {
+  *         // do something to access this account...
+  *        }
+  *
+  *		tmp = d_list_next(tmp);
+  *	}
+  * \endcode
+  *
+  *
+  * \sa Fetion_Account DList 
+*/
+FX_EXPORT const DList *fx_get_chatlist();
 
 /**
   * \fn const DList *fx_get_qun()
@@ -1077,6 +1108,25 @@ FX_EXPORT BOOL fx_is_InBlacklist_by_id(const long id);
 */
 FX_EXPORT BOOL fx_is_InBlacklist_by_account(const Fetion_Account * account);
 
+/**
+  * \fn BOOL fx_is_InChatlist_by_id(const long id)
+  * \brief judge this account is in the chatlist
+  *
+  * if id is not correct, it will return FALSE 
+  *
+  * \return TRUE if account is in chatlist,  FALSE if not in, 
+*/
+FX_EXPORT BOOL fx_is_InChatlist_by_id(const long id);
+
+/**
+  * \fn BOOL fx_is_InChatlist_by_account(const Fetion_Account * account)
+  * \brief judge this account is in the chatlist
+  *
+  * if id is not correct, it will return FALSE 
+  *
+  * \return TRUE if account is in chatlist,  FALSE if not in, 
+*/
+FX_EXPORT BOOL fx_is_InChatlist_by_account(const Fetion_Account * account);
 
 /**
  * \fn int fx_move_group_buddy_by_id(long uid, int group_id, EventListener func, void *args)
@@ -1489,15 +1539,6 @@ FX_EXPORT int fx_removefrom_blacklist_by_id(const long uid, EventListener func, 
   * \return 0 if fail immediately, or can get the result from func.
 */
 FX_EXPORT int fx_removefrom_blacklist_by_account(Fetion_Account *account, EventListener func, void *args);
-/**
-  * \fn int fx_removefrom_blacklist_by_uri(const char* uri, EventListener func, void *args)
-  * \brief remove the uri user frome blacklist 
-  *
-  * \param uri The uri of account which you want to remove.
-  *
-  * \return 0 if fail immediately, or can get the result from func.
-*/
-FX_EXPORT int fx_removefrom_blacklist_by_uri(const char* uri, EventListener func, void *args);
 
 /** @} end of generic_fetion_buddy_opt */
 
