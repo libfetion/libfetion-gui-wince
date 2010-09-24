@@ -21,7 +21,9 @@ BOOL CFxDatabase::Init(LPCTSTR szFile)
 	{
 		CppSQLite3DB db;
 		db.open(m_szFile);
+#ifdef BUDDY_INFO_TABLE
 		CheckBuddyInfoTable(&db);
+#endif
 		CheckMsgLogTable(db);
 		//db.close();
 	}
@@ -35,7 +37,7 @@ BOOL CFxDatabase::Init(LPCTSTR szFile)
 
 BOOL CFxDatabase::CheckBuddyInfoTable(CppSQLite3DB *pdb)
 {
-#if 0
+#ifdef BUDDY_INFO_TABLE
 	try
 	{
 		if(!pdb->tableExists(_T("BuddyInfo")))
@@ -75,7 +77,7 @@ BOOL CFxDatabase::CheckMsgLogTable(CppSQLite3DB &db)
 
 BOOL CFxDatabase::UpdateBuddyInfo(BUDDYINFODB * pBuddyInfo)
 {
-
+#ifdef BUDDY_INFO_TABLE
 	try
 	{
 		CppSQLite3DB db;
@@ -104,11 +106,13 @@ BOOL CFxDatabase::UpdateBuddyInfo(BUDDYINFODB * pBuddyInfo)
 		TRACE(e.errorMessage());
 		return FALSE;
 	}
+#endif
 	return TRUE;
 }
 
 BOOL CFxDatabase::ReadBuddyInfo(BUDDYINFODB * pBuddyInfo)
 {
+#ifdef BUDDY_INFO_TABLE
 	if(NULL == pBuddyInfo)
 	{
 		return FALSE;
@@ -172,11 +176,13 @@ BOOL CFxDatabase::ReadBuddyInfo(BUDDYINFODB * pBuddyInfo)
 		TRACE(e.errorMessage());
 		return FALSE;
 	}
+#endif
 	return TRUE;
 }
 
 BOOL CFxDatabase::ReadBuddyInfoBegin()
 {
+#ifdef BUDDY_INFO_TABLE
 	if(NULL == m_pdbReadBuddyInfo)
 	{
 		m_pdbReadBuddyInfo = new CppSQLite3DB;
@@ -205,6 +211,7 @@ BOOL CFxDatabase::ReadBuddyInfoBegin()
 			return FALSE;
 		}
 	}
+#endif
 	return TRUE;
 }
 
