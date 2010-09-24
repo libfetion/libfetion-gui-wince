@@ -81,7 +81,6 @@ private:
 private:
 		CTreeCtrl *treeWidget;
 		HTREEITEM QunItem;
-		BOOL have_zero_group; 
 		CBitmap pBitmap[I_END]; 
 		CImageList m_imagelist;
 public:

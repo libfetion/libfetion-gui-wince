@@ -18,10 +18,12 @@
 extern CFxDatabase * g_pFxDB;
 #endif
 
+#define NoNameGroupID	-2
+#define StrangerGroupID	-3
+
 BuddyOpt::BuddyOpt(CTreeCtrl * widget)
 {
 	QunItem = NULL;
-	have_zero_group = false;
 	markedCount = 0;
 	treeWidget = widget;
 	init_icon();
@@ -326,26 +328,33 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account)
 		return;
 
 	int	group_no = fx_get_account_group_id(account) ;
+	if(group_no < 0)
+	{
+		group_no = NoNameGroupID;
+		if(fx_is_InChatlist_by_account(account))
+		{
+			group_no = StrangerGroupID;
+		}
+	}
 	HTREEITEM groupItem = findGroupItemByID(group_no);
 	if(!groupItem)
 	{
-		group_no = 0;
-	}
-	if(group_no <= 0)
-	{
-		group_no = 0;
-		if( !have_zero_group)
+		CString strGroupName;
+		if(StrangerGroupID == group_no)
 		{
-			CString str = _T("未分组");
-			Group_Info *groupinfo = new Group_Info;
-			groupinfo->groupName = str;
-			groupinfo->groupID = group_no;
-			groupinfo->online_no = 0;
-			HTREEITEM item = treeWidget->InsertItem(str, I_QUN, I_QUN);
-			treeWidget->SetItemData(item,(DWORD)groupinfo); 
-			treeWidget->SortChildren(TVI_ROOT);
-			have_zero_group = true;
+			strGroupName = _T("陌生人");
 		}
+		else
+		{
+			strGroupName = _T("未分组");
+		}
+		Group_Info *groupinfo = new Group_Info;
+		groupinfo->groupName = strGroupName;
+		groupinfo->groupID = group_no;
+		groupinfo->online_no = 0;
+		HTREEITEM item = treeWidget->InsertItem(strGroupName, I_QUN, I_QUN);
+		treeWidget->SetItemData(item,(DWORD)groupinfo); 
+		treeWidget->SortChildren(TVI_ROOT);
 	}
 
 	BOOL bFromDB = FALSE;
@@ -1015,10 +1024,9 @@ void BuddyOpt::updateGroupInfo(HTREEITEM hGroupItem, bool bAnyway)
 
 		if(!group_info)
 			return;
-		if(0 == group_info->groupID)
+		if(group_info->groupID < 0)
 		{
 			treeWidget->DeleteItem(hGroupItem);
-			have_zero_group = FALSE;
 		}
 	}
 }
