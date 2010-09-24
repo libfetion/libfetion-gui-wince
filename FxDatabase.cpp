@@ -35,6 +35,7 @@ BOOL CFxDatabase::Init(LPCTSTR szFile)
 
 BOOL CFxDatabase::CheckBuddyInfoTable(CppSQLite3DB *pdb)
 {
+#if 0
 	try
 	{
 		if(!pdb->tableExists(_T("BuddyInfo")))
@@ -49,6 +50,7 @@ BOOL CFxDatabase::CheckBuddyInfoTable(CppSQLite3DB *pdb)
 		TRACE(e.errorMessage());
 		return FALSE;
 	}
+#endif
 	return TRUE;
 }
 

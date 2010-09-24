@@ -14,7 +14,9 @@
 #include "Resourceppc.h"
 #endif
 
+#if 0
 extern CFxDatabase * g_pFxDB;
+#endif
 
 BuddyOpt::BuddyOpt(CTreeCtrl * widget)
 {
@@ -32,7 +34,9 @@ BuddyOpt::~BuddyOpt()
 
 void BuddyOpt::addItemToTree()
 {
+#if 0
 	g_pFxDB->ReadBuddyInfoBegin();
+#endif
 #if DEBUG_GUI
 	addGroupToTree();
 #else
@@ -40,7 +44,9 @@ void BuddyOpt::addItemToTree()
 	addAccountToTree();
 	addQunToTree();
 #endif
+#if 0
 	g_pFxDB->ReadBuddyInfoEnd();
+#endif
 }
 
 void BuddyOpt::freeAllGroupdata()
@@ -343,6 +349,7 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account)
 	}
 
 	BOOL bFromDB = FALSE;
+#if 0
 	BUDDYINFODB BuddyInfo;
 	BuddyInfo.lID = account->id;
 	g_pFxDB->ReadBuddyInfo(&BuddyInfo);
@@ -356,6 +363,7 @@ void BuddyOpt::addAccountToGroup(const Fetion_Account *account)
 		fx_set_buddy_impresa_ex(account->id, ConvertUtf16ToUtf8(BuddyInfo.strImpresa));
 		bFromDB = TRUE;
 	}
+#endif
 
 	char *showname = fx_get_account_show_name_with_state(account, TRUE, TRUE);
 	CString show_name = ConvertUtf8ToUtf16(showname);
@@ -556,6 +564,7 @@ void BuddyOpt::updateAccountInfo(long account_id)
 		return;
 
 	BUDDYINFODB BuddyInfo;
+#if 0
 	BuddyInfo.lID = account->id;
 	BuddyInfo.strLocalName =  ConvertUtf8ToUtf16(account->local_name);
 	if(account->personal)
@@ -568,13 +577,16 @@ void BuddyOpt::updateAccountInfo(long account_id)
 		BuddyInfo.strNickName = _T("");
 		BuddyInfo.strImpresa = _T("");
 	}
+#endif
 	if((!ac_info->bFromDB) || ChangeBuddyInfo(&ac_info->BuddyInfo, &BuddyInfo))
 	{
 		ac_info->bFromDB = TRUE;
+#if 0
 		if(!g_pFxDB->UpdateBuddyInfo(&BuddyInfo))
 		{
 			//假如写失败
 		}
+#endif
 	}
 	ac_info->accountName = show_name;
 
