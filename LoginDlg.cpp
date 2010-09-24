@@ -388,7 +388,10 @@ void  My_EventListener (int message, WPARAM wParam, LPARAM lParam, void* args)
 		return;
 	
 	CLoginDlg *loginDlg = (CLoginDlg *)args;
-	::SendMessage(loginDlg->m_hWnd, message + WM_USER, wParam, lParam);
+	if(loginDlg->m_bIsLoging)
+	{
+		::SendMessage(loginDlg->m_hWnd, message + WM_USER, wParam, lParam);
+	}
 }
 
 BOOL CLoginDlg::handleFx_Login_Event(int message, WPARAM wParam, LPARAM lParam)
@@ -601,7 +604,6 @@ void CLoginDlg::OnLoginCancel()
 {
     if(m_bIsLoging)
 	{
-		Sleep(500);
         /* 最近的库里增加了取消登录的函数，所以我们可以在这里调用它*/
 	    m_bIsLoging = FALSE;
 		this->m_login_state = _T("取消登录中...");
