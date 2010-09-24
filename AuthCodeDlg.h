@@ -4,7 +4,7 @@
 
 // CAuthCodeDlg ¶Ô»°¿ò
 
-#define WM_NEED_AUTH_CODE WM_USER+0x201
+#define WM_USER_NEED_AUTH_CODE WM_USER+0x201
 
 class CAuthCodeDlg : public CDialog
 {
