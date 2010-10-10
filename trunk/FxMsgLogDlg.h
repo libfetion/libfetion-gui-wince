@@ -48,4 +48,5 @@ public:
 	afx_msg void OnDeleteAllMsglog();
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	afx_msg void OnEditMsgLogCopy();
+	afx_msg void OnExportAllMsglog();
 };

@@ -5,6 +5,7 @@
 #include "WMLF.h"
 #include "FxMsgLogDlg.h"
 #include "FxDatabase.h"
+#include "FxMainWin.h"
 
 extern CFxDatabase * g_pFxDB;
 
@@ -23,7 +24,7 @@ CFxMsgLogDlg::CFxMsgLogDlg(long lAccountID, CString strName, CWnd* pParent /*=NU
 	, m_dwReadCount(0)
 	, m_dwCount(0)
 {
-
+	m_pParentWnd = pParent;
 }
 
 CFxMsgLogDlg::~CFxMsgLogDlg()
@@ -53,6 +54,7 @@ BEGIN_MESSAGE_MAP(CFxMsgLogDlg, CDialog)
 	ON_COMMAND(IDM_DELETE_ALL_MSGLOG, &CFxMsgLogDlg::OnDeleteAllMsglog)
 	ON_WM_CONTEXTMENU()
 	ON_COMMAND(IDM_COPY1, &CFxMsgLogDlg::OnEditMsgLogCopy)
+	ON_COMMAND(IDM_EXPORT_ALL_MSGLOG, &CFxMsgLogDlg::OnExportAllMsglog)
 END_MESSAGE_MAP()
 
 
@@ -301,4 +303,73 @@ void CFxMsgLogDlg::OnEditMsgLogCopy()
 {
 	// TODO: 在此添加命令处理程序代码
 	m_EditMsgLog.Copy();
+}
+
+void CFxMsgLogDlg::OnExportAllMsglog()
+{
+	// TODO: 在此添加命令处理程序代码
+    CString strMessage;
+	CString strPathName;
+	strPathName = ((FxMainWin*)((CFxMsgDlgView*)m_pParentWnd)->m_pParentWnd)->m_strStartupPath
+		+ _T("\\Users\\")
+		+ ((FxMainWin*)((CFxMsgDlgView*)m_pParentWnd)->m_pParentWnd)->m_strAccountID
+		+ _T("\\log")
+		+ ((FxMainWin*)((CFxMsgDlgView*)m_pParentWnd)->m_pParentWnd)->m_strAccountID;
+	if(fx_is_pc_user_by_id(m_lAccountID))
+	{
+		strPathName.Format(_T("%s_%u.txt"), strPathName, m_lAccountID);
+	}
+	else
+	{
+		char* original = fx_get_original_ID(m_lAccountID);
+		strPathName.Format(_T("%s_%s.txt"), strPathName,  ConvertUtf8ToUtf16(original));
+		free(original);
+	}
+    strMessage.Format(_T("该操作将导出与此好友的所有聊天记录到文件 %s 中，原有文件会被覆盖掉，请确认？"), strPathName);
+    if(MessageBox(strMessage, _T("LibFetion"), MB_OKCANCEL | MB_ICONQUESTION) == IDCANCEL)
+	{
+		return;
+	}
+
+	m_dwCount = g_pFxDB->GetMsgLogCount(m_lAccountID);
+
+	MSGLOGFROMDB MsgLogFromDB;
+	MsgLogFromDB.lID = m_lAccountID;
+	MsgLogFromDB.dwFirst = 1;
+	MsgLogFromDB.dwCount = m_dwCount;
+
+	g_pFxDB->ReadMsgLog(&MsgLogFromDB);
+	MsgLogFromDB.strMsg;
+
+	HANDLE hFile = CreateFile(strPathName, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	if(INVALID_HANDLE_VALUE == hFile)
+	{
+		CString strText = _T("创建文件失败。");
+		MessageBox(strText, _T("LibFetion"), MB_OK | MB_ICONWARNING);
+	}
+	else
+	{
+		DWORD dwWrite = 0;
+		CString strHead;
+		strHead.Format(_T("LibFetion聊天记录导出文件，共%u条记录。\r\n\r\n"), MsgLogFromDB.dwCount);
+		CStringA strAMsg = ConvertUtf16ToUtf8(strHead + MsgLogFromDB.strMsg);
+		if(!WriteFile(hFile, strAMsg.GetBuffer(), strAMsg.GetLength(), &dwWrite, NULL))
+		{
+			DWORD dwError = GetLastError();
+			CloseHandle(hFile);
+
+			CString strText;
+			strText.Format(_T("写文件失败，错误代码%u。"), dwError);
+			MessageBox(strText, _T("LibFetion"), MB_OK | MB_ICONWARNING);
+		}
+		else
+		{
+			CloseHandle(hFile);
+
+			CString strText = _T("导出聊天记录成功。");
+			MessageBox(strText, _T("LibFetion"), MB_OK | MB_ICONINFORMATION);
+		}
+	}
+
+	return;
 }
