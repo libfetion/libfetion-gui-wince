@@ -192,7 +192,6 @@ BOOL FxMainWin::handleFx_Sys_Event(int message, WPARAM wParam, LPARAM lParam)
 	case FX_LOGIN_UNKOWN_ERROR :   
 	case FX_LOGIN_UNKOWN_USR:
 	case FX_LOGIN_GP_FAIL:
-		fx_disable_emit_receive_msg();
 		relogin_fetion();
 		break;
 	case FX_LOGIN_OK :
@@ -888,6 +887,7 @@ BOOL FxMainWin::showMsgDlg(long lAccountID)
 
 bool FxMainWin::hand_SystemNetErr(int errcode)
 {
+	fx_disable_emit_receive_msg();
 	this->m_isLoginOK = FALSE;
 	m_pFxMsgDlgView->LoginOK(m_isLoginOK);
 	GetDlgItem(IDC_NET_STATE)->ShowWindow(SW_SHOW);

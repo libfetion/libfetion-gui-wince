@@ -139,7 +139,7 @@ END
 
 IDR_MENU_ABOUT MENU 
 BEGIN
-    MENUITEM "确定   ",                       IDOK
+    MENUITEM "确定",                          IDOK
 END
 
 IDR_MSG_POP_MENU MENU 
