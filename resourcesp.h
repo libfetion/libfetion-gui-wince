@@ -238,13 +238,14 @@
 #define IDM_MYSELF_INFO                 32891
 #define IDM_BD_READDBUDDY               32892
 #define IDM_MAIN_FONT_SETTING           32893
+#define IDM_EXPORT_ALL_MSGLOG           32894
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        190
-#define _APS_NEXT_COMMAND_VALUE         32894
+#define _APS_NEXT_COMMAND_VALUE         32895
 #define _APS_NEXT_CONTROL_VALUE         1137
 #define _APS_NEXT_SYMED_VALUE           104
 #endif

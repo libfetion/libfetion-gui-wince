@@ -410,7 +410,7 @@ void CBuddyInfoDlg::updateAccountInfo()
 	if(fx_is_pc_user_by_id(m_lAccountID))
 	{
 		//飞信用户
-		m_strAccountID.Format(_T("%d"), m_lAccountID);
+		m_strAccountID.Format(_T("%u"), m_lAccountID);
 		if (m_account->personal)
 		{
 			m_strMobileNo = ConvertUtf8ToUtf16(m_account->personal->mobile_no);

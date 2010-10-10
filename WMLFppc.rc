@@ -165,6 +165,7 @@ BEGIN
         MENUITEM "下一页",                         IDC_NEXT_PAGE
         MENUITEM "尾页",                          IDC_TAIL_PAGE
         MENUITEM SEPARATOR
+        MENUITEM "导出所有记录",                      IDM_EXPORT_ALL_MSGLOG
         MENUITEM "删除所有记录",                      IDM_DELETE_ALL_MSGLOG
     END
 END
