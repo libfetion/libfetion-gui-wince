@@ -34,7 +34,7 @@ int GetHttpsWebData(CString Url, CString *web_data, CString *cookie_data)
 	}
 
 	CHttpFile* pFile = pServer->OpenRequest(CHttpConnection::HTTP_VERB_GET, strObject,
-										NULL, 1, NULL, NULL,	INTERNET_FLAG_SECURE);
+										NULL, session.GetContext(), NULL, _T("HTTP/1.1"), INTERNET_FLAG_SECURE);
 	if (!pFile)
 	{
 		pServer->Close();
