@@ -296,21 +296,25 @@ void CMyselfInfoDlg::OnSize(UINT nType, int cx, int cy)
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_MI_BIRTHDAY);
     ::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue, FALSE);
 
-	iY += iHValue + iMargin;
+	//iY += iHValue + iMargin;
 	//
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_MI_LB_LUNAR_ANIMAL);
-    ::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
+    //::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
+	::ShowWindow(hwndctl,  FALSE);
 
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_MI_LUNAR_ANIMAL);
-    ::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue, FALSE);
+    //::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue, FALSE);
+    ::ShowWindow(hwndctl,  FALSE);
 
-	iY += iHValue + iMargin;
+	//iY += iHValue + iMargin;
 	//
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_MI_LB_HOROSCOPE);
-    ::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
+    //::MoveWindow(hwndctl,  iX, iY, iWLabel, iHLabel, FALSE);
+    ::ShowWindow(hwndctl,  FALSE);
 
     hwndctl = ::GetDlgItem(this->m_hWnd, IDC_MI_HOROSCOPE);
-    ::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue, FALSE);
+    //::MoveWindow(hwndctl,  iXValue, iY, iWValue, iHValue, FALSE);
+    ::ShowWindow(hwndctl,  FALSE);
 
 	iY += iHValue + iMargin;
 	//
